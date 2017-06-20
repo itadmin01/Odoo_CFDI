@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_invoice_inherit_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="info_cdfi" string="Info CDFI">
+                            <group cols="4">
+                                <group string="Detalles de Pago">
+                                	<field name="tipo_comprobante"/>
+                                	<field name="tipo_formato"/>
+                                	<field name="forma_pago"/>
+                                	<field name="condicione_pago"/>
+                                	<field name="methodo_pago"/>
+                                	<field name="num_cta_pago"/>
+                                </group>
+                                <group  string="Detalles de Factura">
+                                	<field name="xml_invoice_link"/>
+                                	<field name="estado_factura"/>
+                                </group>
+                            </group>
+                    </page>
+                </xpath>
+                <field name="payment_term_id" position="after">
+                	<field name="factura_cfdi"/>
+                </field>  
+                <button name="action_invoice_sent" position="replace">
+                	<button name="action_invoice_sent" type="object" string="Send by Email" attrs="{'invisible':['|',('sent','=',True), 
+                	('state', 'not in', ('open', 'paid'))]}" class="oe_highlight" groups="base.group_user"/>
+                
+                </button>     
+                       
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		
+
+		<record id="view_create_invoice_total_button" model="ir.ui.view">
+			<field name="name">Crear Factura</field>
+			<field name="model">create.invoice.total.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Create Invoice Total">
+
+					<p>
+						Create the invoice total.
+					</p>
+
+					<footer>
+						<button name="action_create_invoice_total" string="Create" type="object"
+							class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		
+
+		
+        <!-- wizard action on pos.order -->
+        <act_window id="invoice_total_wizard_action"
+            name="Crear Factura Total"
+            src_model="pos.order"
+            res_model="create.invoice.total.wizard"
+            view_type="form" view_mode="form"
+            key2="client_action_multi" target="new"/>
+	</data>
+</openerp>
