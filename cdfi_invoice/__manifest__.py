@@ -5,12 +5,12 @@
 ##############################################################################
 
 {
-    'name': 'CDFI Invoice',
+    'name': 'Ventas Factura Electronica Mexico CFDI',
     'version': '9.0',
-    'description': ''' CDFI Mexican Invoice.
+    'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 2017)
     ''',
     'category': 'Sales, Accounting',
-    'author': 'Esousy',
+    'author': 'IT Admin',
     'website': '',
     'depends': [
         'base',
@@ -26,4 +26,7 @@
     ],
     'application': False,
     'installable': True,
+    'price': 0.00,
+    'currency': 'USD',
+    'license': 'OPL-1',	
 }

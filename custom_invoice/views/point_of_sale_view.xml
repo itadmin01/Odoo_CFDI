@@ -21,6 +21,36 @@
                 </field>
             </field>
         </record>
+        
+      <record id="view_pos_order_filter_inherit" model="ir.ui.view">
+            <field name="name">pos.order.list.select.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="priority">5</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="session_id" position="after">
+                    <field string="Metodo de Pago" name="statement_ids" filter_domain="[('statement_ids.journal_id.name','ilike',self)]"/>
+                </field>
+                <xpath expr="//group[last()]" position="inside">
+                    <filter string="Metodo de Pago" domain="[]" context="{'group_by':'main_journal_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+      <record id="view_report_pos_order_search_inherit" model="ir.ui.view">
+            <field name="name">report.pos.order.search.inherit</field>
+            <field name="model">report.pos.order</field>
+            <field name="priority">5</field>
+            <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search"/>
+            <field name="arch" type="xml">
+                <field name="product_categ_id" position="after">
+                    <field string="Metodo de Pago" name="payment_method_id"/>
+                </field>
+                <xpath expr="//group[last()]" position="inside">
+                    <filter string="Metodo de Pago" domain="[]" context="{'group_by':'payment_method_id'}"/>
+                </xpath>
+            </field>
+        </record>
       
   </data>
 </openerp>
