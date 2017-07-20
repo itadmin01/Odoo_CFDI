@@ -4,19 +4,18 @@
 
 		
 
-		<record id="view_create_invoice_total_button" model="ir.ui.view">
-			<field name="name">Crear Factura Global</field>
-			<field name="model">create.invoice.total.wizard</field>
+		<record id="view_create_invoice_session_button" model="ir.ui.view">
+			<field name="name">Crear Factura Session</field>
+			<field name="model">create.invoice.session.wizard</field>
 			<field name="arch" type="xml">
-				<form string="Create Invoice Global">
+				<form string="Create Invoice Session">
 					<group cols="4" string="Filtro">
                         <group>
-                        	<field name="date_from"/>
-                        	<field name="pos_config_id"/>
+                        	<field name="session_id"/>
+                        	<field name="journal_id"/>
                         </group>
                         <group>
-                        	<field name="date_to"/>
-                        	<field name="journal_id"/>
+                        	<field name="amount_max"/>
                         </group>
                     </group>
                    	<group cols="4" string="Detall">
@@ -34,9 +33,9 @@
                     </group>
 
 					<footer>
-						<button name="action_create_invoice_total" string="Create" type="object"
+						<button name="action_create_invoice_session" string="Create" type="object"
 							class="oe_highlight"  attrs="{'invisible':[('order_num', '=', 0)]}"/>
-						<button name="action_validate_invoice_total" string="Validate" type="object"
+						<button name="action_validate_invoice_session" string="Validate" type="object"
 							class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
@@ -46,24 +45,17 @@
 		</record>
         
         <!-- wizard action on pos.order -->
-        <act_window id="invoice_total_wizard_action"
-            name="Crear Factura Global"
+        <act_window id="invoice_session_wizard_action"
+            name="Crear Factura Session"
             src_model="pos.order"
-            res_model="create.invoice.total.wizard"
+            res_model="create.invoice.session.wizard"
             view_type="form" view_mode="form" target="new"/>
 
     <menuitem
-        id="invoice_create_all_menu"
-        parent="point_of_sale.menu_point_root"
-        name="Crear Facturas"
-        sequence="99"
-        groups="point_of_sale.group_pos_manager"/>
-
-    <menuitem
-        id="invoice_total_wizard_menu"
+        id="invoice_session_wizard_menu"
         parent="invoice_create_all_menu"
-        action="invoice_total_wizard_action"
-        sequence="5"
+        action="invoice_session_wizard_action"
+        sequence="20"
         groups="point_of_sale.group_pos_manager"/>
 	</data>
 </openerp>

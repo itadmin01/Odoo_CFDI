@@ -7,10 +7,19 @@
 			<field name="model">create.invoice.wizard</field>
 			<field name="arch" type="xml">
 				<form string="Create Invoice">
-
-					<p>
-						Create the invoice.
-					</p>
+                    <group cols="4">
+                        <group>
+                        	<field name="partner_id"/>
+                        </group>
+                        <group>
+                        	<field name="invoice_format"/>
+                        	<field name="product_id" attrs="{'invisible':[('invoice_format', '!=', 'one')], 'required':[('invoice_format', '=', 'one')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                    	<field name="order_num"/>
+                    	<field name="total"/>
+                    </group>
 
 					<footer>
 						<button name="action_create_invoices" string="Create" type="object"

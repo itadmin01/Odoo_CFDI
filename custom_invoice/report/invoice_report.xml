@@ -79,7 +79,6 @@
 								</t>
 							</div>
 							<div>
-								Colonia
 								<span t-field="o.company_id.partner_id.colonia"/>,
 								C.P.
 								<span t-field="o.company_id.partner_id.zip" />
@@ -138,7 +137,6 @@
 							</t>
 						</div>
 						<div class="col-xs-10">
-							Colonia
 							<span t-field="o.partner_id.colonia"/>,
 							C.P.
 							<span t-field="o.partner_id.zip" />

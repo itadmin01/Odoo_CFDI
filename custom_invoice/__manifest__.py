@@ -26,6 +26,7 @@
         #'views/sale.xml',
         'wizard/create_invoice_wizard.xml',
         'wizard/create_invoice_total_wizard.xml',
+        'wizard/create_invoice_session_wizard.xml',
         'report/invoice_report.xml',
     ],
     'qweb': [
