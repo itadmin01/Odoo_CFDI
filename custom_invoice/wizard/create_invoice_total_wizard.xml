@@ -17,9 +17,10 @@
                         <group>
                         	<field name="date_to"/>
                         	<field name="journal_id"/>
+                        	<field name="amount_max"/>
                         </group>
                     </group>
-                   	<group cols="4" string="Detall">
+                   	<group cols="4" string="Detalles">
                        <group>
                         	<field name="partner_id"/>
                         </group>

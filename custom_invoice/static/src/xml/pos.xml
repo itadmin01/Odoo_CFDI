@@ -14,26 +14,11 @@
                 <input class='detail client-address-street' name='street2'
 	t-att-value='partner.street2' placeholder='No. Exterior'></input>
             </div>
-            <div class='client-detail'>
-                <span class='label'>No. Interior</span>
-                <input class='detail client-address-street' name='numero_interior'
-	t-att-value='partner.numero_interior' placeholder='No. Interior'></input>
-            </div>
-            <div class='client-detail'>
-                <span class='label'>Colonia</span>
-                <input class='detail client-address-street' name='colonia'
-	t-att-value='partner.colonia' placeholder='Colonia'></input>
-            </div>
                     <div class='client-detail'>
                         <span class='label'>City</span>
                         <input class='detail client-address-city'
 	name='city' t-att-value='partner.city' placeholder='City'></input>
                     </div>
-                    <div class='client-detail'>
-                <span class='label'>Municipio</span>
-                <input class='detail client-address-street' name='municipio'
-	t-att-value='partner.municipio' placeholder='municipio'></input>
-            </div>
             <div class='client-detail'>
                 <span class='label'>Estado</span>
                         <select class='detail client-address-country'
