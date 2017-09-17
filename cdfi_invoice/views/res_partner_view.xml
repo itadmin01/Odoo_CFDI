@@ -7,12 +7,6 @@
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
-			<!--	<field name="street2" position="replace">
-					<div class="address_format">
-						<field name="street2" placeholder="Número Exterior" style="width: 50%;"
-							attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" />
-					</div>
-				</field> -->
 				<field name="website" position="after">
 					<field name="rfc" />
 				</field>

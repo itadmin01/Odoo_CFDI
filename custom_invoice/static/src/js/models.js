@@ -79,4 +79,49 @@ models.PosModel = models.PosModel.extend({
     },
 
 });
+
+var _super_order = models.Order.prototype;
+
+models.Order = models.Order.extend({
+    initialize: function(attr, options) {
+    	_super_order.initialize.call(this,attr,options);
+        this.forma_pago = this.forma_pago || undefined;
+        this.methodo_pago = this.methodo_pago || undefined;
+        this.uso_cfdi = this.uso_cfdi || undefined;
+    },
+    set_forma_pago: function(forma_pago){
+        this.forma_pago = forma_pago;
+        this.trigger('change',this);
+    },
+    get_forma_pago: function(){
+        return this.forma_pago;
+    },
+    set_methodo_pago: function(methodo_pago){
+        this.methodo_pago = methodo_pago;
+        this.trigger('change',this);
+    },
+    get_methodo_pago: function(){
+        return this.methodo_pago;
+    },
+    set_uso_cfdi: function(uso_cfdi){
+        this.uso_cfdi = uso_cfdi;
+        this.trigger('change',this);
+    },
+    get_uso_cfdio: function(){
+        return this.uso_cfdi;
+    },
+    export_as_JSON: function(){
+        var json = _super_order.export_as_JSON.call(this);
+        json.forma_pago = this.forma_pago;
+        json.methodo_pago = this.methodo_pago;
+        json.uso_cfdi = this.uso_cfdi;
+        return json;
+    },
+    init_from_JSON: function(json){
+    	_super_order.init_from_JSON.apply(this,arguments);
+        this.forma_pago = json.forma_pago;
+        this.methodo_pago = json.methodo_pago;
+        this.uso_cfdi = json.uso_cfdi;
+    },
+});
 });

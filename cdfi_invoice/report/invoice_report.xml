@@ -142,7 +142,6 @@
 						</div>
 						<div class="col-xs-10" >
 								<span t-field="o.partner_id.name" />
-						
 						  <t t-if="o.factura_cfdi">
 						     <div>
 						    	<span t-field="o.partner_id.rfc" />
@@ -163,7 +162,6 @@
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
-								<!--<th>Código</th> -->
 								<th class="text-right">Cantidad</th>
 								<th class="text-right">Unidad</th>
 								<th width="50%">Descripción</th>
@@ -191,9 +189,6 @@
 								<td>
 									<span t-field="l.product_id.clave_producto" />
 								</td>
-								<!--<td>
-									<span t-field="l.product_id.default_code" />
-								</td> -->
 								<td class="text-right">
 									<span t-field="l.quantity" />
 								</td>
