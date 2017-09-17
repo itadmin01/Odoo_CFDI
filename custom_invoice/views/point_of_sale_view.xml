@@ -8,19 +8,6 @@
               <script type="text/javascript" src="/custom_invoice/static/src/js/models.js"></script>
           </xpath>
       </template> 
-      
-      <record id="view_pos_config_form_inherit" model="ir.ui.view">
-            <field name="name">pos.config.form.view.inherit</field>
-            <field name="model">pos.config</field>
-            <field name="priority">5</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
-            <field name="arch" type="xml">
-                <field name="fiscal_position_ids" position="after">
-                    <field name="default_customer" />
-                    <field name="product_total" />
-                </field>
-            </field>
-        </record>
         
       <record id="view_pos_order_filter_inherit" model="ir.ui.view">
             <field name="name">pos.order.list.select.inherit</field>
