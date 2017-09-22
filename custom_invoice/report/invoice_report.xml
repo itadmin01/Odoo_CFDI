@@ -97,6 +97,9 @@
 								<div>
 								<span t-field="o.rfc_emisor" />
 								</div>
+								<div>
+									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
+								</div>
 								</t>
 						</div>
 						<div class="col-xs-4 pull-right">
