@@ -165,8 +165,8 @@
 								<th class="text-right">Unidad</th>
 								<th width="50%">Descripción</th>
 								<th class="text-right">Precio Unitario</th>
-								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Importe</th>
+								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Impuesto</th>
 								<th class="text-right">Tipo Factor</th>
 								<th class="text-right">Tasa Cuota</th>
@@ -199,17 +199,17 @@
 								</td>
 								
 								<td class="text-right">
-									<span t-esc="o.currency_id.round(l.price_subtotal / l.quantity)"
+									<span t-field="l.price_unit"
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+								</td>
+								<td class="text-right">
+									<span t-esc="l.price_unit*l.quantity"
+										t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
 								</td>
 								<td class="text-right">
 									<span t-if="display_discount" t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td> 
-								<td class="text-right">
-									<span t-field="l.price_subtotal"
-										t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
-								</td>
 								<td colspan="4">
 								<table width="100%">
 								<tr t-foreach="l.invoice_line_tax_ids" t-as="tax">
