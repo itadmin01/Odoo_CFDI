@@ -56,14 +56,12 @@
 			<div class="col-xs-6">
                     <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Atención y dirección de envío:</strong>
                     <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Atención:</strong>
-                    <div t-field="doc.partner_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": False}'/>
+                    <div t-field="doc.partner_invoice_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
                     <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
             </div>
 			<div t-if="doc.partner_shipping_id != doc.partner_invoice_id" class="col-xs-5 col-xs-offset-1">
                         <strong>Dirección de envío:</strong>
-                        <div t-field="doc.partner_shipping_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": False}'/>
+                        <<div t-field="doc.partner_shipping_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
                         <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
             </div>
 
