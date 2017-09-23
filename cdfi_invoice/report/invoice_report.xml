@@ -116,26 +116,22 @@
 							<div>
 							<t t-if="o.factura_cfdi">
 								<strong>Fecha: </strong>
+								<span t-esc="str(o.invoice_datetime).replace('T', ' ')"/> 
 							</t>
 							<t t-if="not o.factura_cfdi">
 								<strong>Fecha de venta: </strong>
+								<span t-field="o.date_invoice" />
 							</t>
-							</div>
-							<div >
-								<t t-if="not o.factura_cfdi">
-									<span t-field="o.date_invoice" />
-								</t>
-								<t t-if="o.factura_cfdi">
-									<span t-esc="str(o.invoice_datetime).replace('T', ' ')"/> 
-								</t>
 							</div>
 							<div>
 								<strong>Lugar de expedición: </strong>
 								<span t-field="o.company_id.partner_id.zip"/>
 							</div>
 							<div>
-								<strong>Tipo de comprobante: </strong>
-								<span t-field="o.tipo_comprobante" />
+								<t t-if="o.factura_cfdi">
+									<strong>Tipo de comprobante: </strong>
+									<span t-field="o.tipo_comprobante" />
+								</t>
 							</div>
 						</div>
 					</div>
@@ -169,7 +165,7 @@
 								<th class="text-right">Unidad</th>
 								<th width="50%">Descripción</th>
 								<th class="text-right">Precio Unitario</th>
-								<th class="text-right">Descuento</th>
+								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Importe</th>
 								<th class="text-right">Impuesto</th>
 								<th class="text-right">Tipo Factor</th>
@@ -207,7 +203,7 @@
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td>
 								<td class="text-right">
-									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
+									<span t-if="display_discount" t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td> 
 								<td class="text-right">

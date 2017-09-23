@@ -32,11 +32,6 @@
                 </div>
                 <div class="col-xs-4 pull-right">
                     <div t-if="doc.date_order">
-	                    <strong t-if="doc.state not in ['draft','sent']">Venta #:</strong>
-	                    <strong t-if="doc.state in ['draft','sent']">Presupuesto #:</strong>
-	                    <p t-field="doc.name"/>
-	                </div>
-                    <div t-if="doc.date_order">
 	                    <strong t-if="doc.state not in ['draft','sent']">Fecha de venta:</strong>
 	                    <strong t-if="doc.state in ['draft','sent']">Fecha de presupuesto:</strong>
 	                    <p t-field="doc.date_order"/>
@@ -51,35 +46,26 @@
 	                </div>
                 </div>
             </div>
-            <div class="row mt32 mb32" style="padding-top: 10px;">
-				<div class="col-xs-10" >
-					<strong>Atención</strong>
-				</div>
-				<div class="col-xs-10" >
-						<span t-field="doc.partner_id.name" />
-				</div>
-				<div class="col-xs-10">
-					<span t-field="doc.partner_id.street" />
-					<span t-field="doc.partner_id.street2" />
-				</div>
-				<div class="col-xs-10">
-					<t t-if="doc.partner_id.city">
-						<span t-field="doc.partner_id.city"/>,
-					</t>
-						   
-					<t t-if="doc.partner_id.state_id">
-						<span t-field="doc.partner_id.state_id"/>,
-					</t>
-					<span t-field="doc.partner_id.country_id" />
-					<span t-field="doc.partner_id.zip" />
-					<t t-if="doc.partner_id.rfc">
-						<div>
-						<span t-field="doc.partner_id.rfc" />
-						</div>
-					</t>
-				</div>
-						
-			</div>
+			<h2>
+			   <div t-if="doc.date_order">
+	                    <span t-if="doc.state not in ['draft','sent']">Venta #:</span>
+	                    <span t-if="doc.state in ['draft','sent']">Presupuesto #:</span>
+	                    <span t-field="doc.name"/>
+	           </div>
+			</h2>
+			<div class="col-xs-6">
+                    <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Atención y dirección de envío:</strong>
+                    <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Atención:</strong>
+                    <div t-field="doc.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": False}'/>
+                    <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
+            </div>
+			<div t-if="doc.partner_shipping_id != doc.partner_invoice_id" class="col-xs-5 col-xs-offset-1">
+                        <strong>Dirección de envío:</strong>
+                        <div t-field="doc.partner_shipping_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": False}'/>
+                        <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
+            </div>
 
             <!-- Is there a discount on at least one line? -->
             <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
@@ -94,7 +80,7 @@
                             <th class="text-right">Precio Unitario</th>
                             <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">Desc.(%)</th>
                             <th class="text-right">Impuestos</th>
-                            <th class="text-right" groups="sale.group_show_price_subtotal">Precio</th>
+                            <th class="text-right" groups="sale.group_show_price_subtotal">Importe</th>
                             <th class="text-right price_tax_included" groups="sale.group_show_price_total">Precio total</th>
                         </tr>
                    </thead>
@@ -187,11 +173,11 @@
                         </tr>
                     </table>
                 </div>
-				<div class="col-xs-8">
+<!--				<div class="col-xs-8">
 					<div style="color: black;">
 						<strong><span t-esc="doc._get_amount_2_text(doc.amount_total)" /></strong>
 					</div>
-				</div>
+				</div> -->
             </div>
 
             <p t-field="doc.note" />
