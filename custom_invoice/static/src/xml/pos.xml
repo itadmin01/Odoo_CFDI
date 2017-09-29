@@ -92,38 +92,20 @@
             <div class="popup">
                 <p class="title">Detalles de Pago</p>
                     <div>
-                        <span class='label'>Form de pago</span>
+                        <span class='label'>Forma de pago</span>
                         <select class='js_forma_pago' name='forma_pago'>
                             <option value=''>None</option>
                             <option value='01' selected="true">01 - Efectivo</option>
                             <option value='02'>02 - Cheque nominativo</option>
                             <option value='03'>03 - Transferencia electrónica de fondos</option>
                             <option value='04'>04 - Tarjeta de Crédito</option>
-                            <option value='05'>05 - Monedero electrónico</option>
-                            <option value='06'>06 - Dinero electrónico</option>
-                            <option value='08'>08 - Vales de despensa</option>
-                            <option value='12'>12 - Dación en pago</option>
-                            <option value='13'>13 - Pago por subrogación</option>
-                            <option value='14'>14 - Pago por consignación</option>
-                            <option value='15'>15 - Condonación</option>
-                            <option value='17'>17 - Compensación</option>
-                            <option value='23'>23 - Novación</option>
-                            <option value='24'>24 - Confusión</option>
-                            <option value='25'>25 - Remisión de deuda</option>
-                            <option value='26'>26 - Prescripción o caducidad</option>
-                            <option value='27'>27 - A satisfacción del acreedor</option>
                             <option value='28'>28 - Tarjeta de débito</option>
-                            <option value='29'>29 - Tarjeta de servicios</option>
-                            <option value='30'>30 - Aplicación de anticipos</option>
-                            <option value='99'>Por definir</option>
                         </select>
                     </div>
                     <div>
                         <span class='label'>Metodo de pago</span>
                         <select class='js_methodo_pago' name='methodo_pago'>
-                            <option value=''>None</option>
                             <option value='PUE' selected="true">Pago en una sola exhibición</option>
-                            <option value='PPD'>Pago en parcialidades o diferido</option>
                         </select>
                     </div>
                     <div>
@@ -150,7 +132,7 @@
                     </div>
                 <div class="footer">
                     <div class="button confirm">
-                        Confirm 
+                        Confirmar
                     </div>
                     <div class="button cancel">
                         Cancel 
