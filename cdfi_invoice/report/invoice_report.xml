@@ -206,8 +206,8 @@
 									<span t-esc="l.price_unit*l.quantity"
 										t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
 								</td>
-								<td class="text-right">
-									<span t-if="display_discount" t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
+								<td t-if="display_discount" class="text-right" >
+									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td> 
 								<td colspan="4">
