@@ -137,6 +137,55 @@ screens.PaymentScreenWidget.include({
             this.gui.show_screen('receipt');
         }
     },
+    render_pago: function() {
+        var self = this;
+        var pago = $(QWeb.render('CDFIDetailPopupWidget', { widget:this }));
+        pago.on('click','confirm',function(){
+            alert('Confirm');
+        });
+        return pago;
+    },
+    click_invoice: function(){
+    	var self = this;
+
+
+        //var pago = $(QWeb.render('CDFIDetailPopupWidget', { widget:this }));
+        //this.$('.detalles_pago').html(QWeb.render('CDFIDetailPopupWidget'));
+        
+        var order = this.pos.get_order();
+        order.set_to_invoice(!order.is_to_invoice());
+        if (order.is_to_invoice()) {
+        	var pago = self.render_pago();
+        	pago.appendTo(this.$('.detalles_pago'));
+            this.$('.confirm').click(function(){
+            	var forma_pago = $( ".js_forma_pago").val();
+                	order.set_forma_pago(forma_pago);
+                	
+                	var methodo_pago = $( ".js_methodo_pago").val();
+                	order.set_methodo_pago(methodo_pago);
+
+                	var uso_cfdi = $( ".js_uso_cfdi").val();
+                	order.set_uso_cfdi(uso_cfdi);
+
+                pago.hide();
+            });
+            this.$('.cancel').click(function(){
+            	pago.hide();
+            });
+            this.$('.js_invoice').addClass('highlight');
+        } else {
+            this.$('.js_invoice').removeClass('highlight');
+        }
+    },
+	renderElement: function() {
+        var self = this;
+        this._super();
+
+        this.$('.js_representative').change(function(){
+        	var representative_id = $( ".js_representative").val();
+        	self.select_representative(representative_id);
+        });
+	},
 });
 
 screens.ClientListScreenWidget.include({

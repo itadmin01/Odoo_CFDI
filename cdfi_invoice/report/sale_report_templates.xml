@@ -1,7 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+        <record id="itadmin_sales_paperformat" model="report.paperformat">
+            <field name="name">CDFI Letter</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+        </record>
+		
+	<template id="itadmin_sale_external_layout">
+			<!-- Multicompany -->
+			<t t-if="not o and doc">
+				<t t-set="o" t-value="doc" />
+			</t>
+			<t t-if="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id"></t>
+			</t>
+			<t t-if="not o or not 'company_id' in o">
+				<t t-set="company" t-value="res_company"></t>
+			</t>
+
+			<t t-call="cdfi_invoice.itadmin_sale_external_layout_footer" />
+			<t t-raw="0" />
+			<t t-call="cdfi_invoice.itadmin_sale_external_layout_header" />
+	</template>
+	
+	<template id="itadmin_sale_external_layout_footer">
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+        </div>
+    </div>      
+	</template>
+
+		<template id="itadmin_sale_external_layout_header">
+			<div class="header">
+				<div class="row">
+					<div class="col-xs-9 text-left" style="margin-top:20px;"
+						t-field="company.rml_header1" />
+				</div>
+				<div class="row zero_min_height">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"></div>
+					</div>
+				</div>
+			</div>
+		</template>
+		
 <template id="report_saleorder_document">
-    <t t-call="cdfi_invoice.cfdi_external_layout">
+    <t t-call="cdfi_invoice.itadmin_sale_external_layout">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
         <div class="page">
             <div class="oe_structure"/>
@@ -56,12 +126,12 @@
 			<div class="col-xs-6">
                     <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Atención y dirección de envío:</strong>
                     <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Atención:</strong>
-                    <div t-field="doc.partner_invoice_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
+                   <div t-field="doc.partner_invoice_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
                     <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
             </div>
 			<div t-if="doc.partner_shipping_id != doc.partner_invoice_id" class="col-xs-5 col-xs-offset-1">
                         <strong>Dirección de envío:</strong>
-                        <div t-field="doc.partner_shipping_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
+                       <div t-field="doc.partner_shipping_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true, &quot;phone_icons&quot;: true}"/>
                         <p t-if="doc.partner_id.rfc"><span t-field="doc.partner_id.rfc"/></p>
             </div>
 
@@ -180,6 +250,6 @@
     </t>
 </template>
 <record id="sale.report_sale_order" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
+            <field name="paperformat_id" ref="cdfi_invoice.itadmin_sales_paperformat"/>
         </record>
 </odoo>

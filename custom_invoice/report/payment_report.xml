@@ -239,10 +239,10 @@
 									<strong>Moneda</strong>
 								</td>
 								<td >
-									<span t-field="o.currency_id.name" />
+									<span t-field="o.monedap" />
 								</td>
 								<td>
-									<strong>Impo. Saldo Insulto</strong>
+									<strong>Imp. Saldo Insulto</strong>
 								</td>
 								<td >
 									<span t-field="o.saldo_restante" />
@@ -253,11 +253,11 @@
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-								<t t-if="o.currency_id.name == 'MXN'" >
+								<t t-if="o.monedap == 'MXN'" >
 									1
 								</t>
-								<t t-if="not o.currency_id.name == 'MXN'" >
-									<span t-field="o.tipocambio" />
+								<t t-if="not o.monedap == 'MXN'" >
+									<span t-field="o.tipocambiop" />
 								</t>
 								</td>
 								<td>
@@ -272,16 +272,11 @@
 								</td>
 								<td >
 								</td>
-								<td>
+								<td t-if="not o.moneda == o.monedap">
 									<strong>Tipo de cambio</strong>
 								</td>
-								<td >
-								<t t-if="o.moneda == 'MXN'" >
-									1
-								</t>
-								<t t-if="not o.moneda == 'MXN'" >
+								<td t-if="not o.moneda == o.monedap">
 									<span t-field="o.tipocambio" />
-								</t>
 								</td >
 							</tr>
 						</table>
