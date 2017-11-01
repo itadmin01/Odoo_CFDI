@@ -207,7 +207,7 @@
 									<span t-esc="l.price_unit*l.quantity"
 										t-esc-options='{"widget": "monetary", "display_currency": "l.invoice_id.currency_id"}' />
 								</td>
-								<td class="text-right">
+								<td t-if="display_discount" class="text-right">
 									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity" 
 									      t-esc-options='{"widget": "monetary", "display_currency": "l.invoice_id.currency_id"}' />
 								</td> 
