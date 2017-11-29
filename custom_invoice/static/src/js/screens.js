@@ -22,6 +22,10 @@ screens.PaymentScreenWidget.include({
     // and complete the sale process
     validate_order: function(force_validation) {
         var self = this;
+        if(this.pos.config.enable_order_note) {
+            var currentOrder = this.pos.get_order();
+            currentOrder.set_order_note($('#order_note').val());
+        }
 
         var order = this.pos.get_order();
 
