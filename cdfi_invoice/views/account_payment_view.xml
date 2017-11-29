@@ -35,7 +35,7 @@
 		                                	<field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                </group>
 		                                <group>
-		                                	<field name="numero_operacion" attrs="{'invisible':[('forma_pago','=','01')]}"/>
+		                                	<field name="numero_operacion" />
 		                                	<field name="banco_receptor" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                	<field name="cuenta_beneficiario" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                	<field name="rfc_banco_receptor" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
