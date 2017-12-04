@@ -326,7 +326,7 @@
 		</template>
 
 		<template id="report_payment">
-			<t t-call="report.html_container">
+			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
 					<t t-call="cdfi_invoice.report_payment_document" t-lang="o.partner_id.lang" />
 				</t>
@@ -340,11 +340,8 @@
         		menu="False"
 				report_type="qweb-pdf" 
 				name="cdfi_invoice.report_payment" 
-				file="cdfi_invoice.report_payment" />
-		
-		<record id="cdfi_invoice.report_payments" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
-        </record>
+				file="cdfi_invoice.report_payment" 
+				paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
 	</data>
 </odoo>

@@ -66,7 +66,7 @@
             <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <button name="post" position="after">
+                    <button name="action_validate_invoice_payment" position="after">
                     	<button string='Validar y Generar Complemento' name="validate_complete_payment" type="object" class="btn-primary"/>
                     </button>
                 </data>

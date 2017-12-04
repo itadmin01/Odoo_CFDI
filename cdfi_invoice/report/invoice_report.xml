@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
 
         <record id="paperformat_a4_landscape" model="report.paperformat">
             <field name="name">CDFI Letter</field>
@@ -17,6 +16,7 @@
             <field name="header_spacing">15</field>
             <field name="dpi">90</field>
         </record>
+		
 		<template id="cfdi_external_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
@@ -28,47 +28,44 @@
 			<t t-if="not o or not 'company_id' in o">
 				<t t-set="company" t-value="res_company"></t>
 			</t>
-
-			<t t-call="cdfi_invoice.cfdi_external_layout_header" />
-			<t t-raw="0" />
-			<t t-call="cdfi_invoice.external_layout_footer" />
-		</template>
-		<template id="external_layout_footer">
-    <div class="footer">
-        <div class="text-center" style="border-top: 1px solid black;">
-            <ul t-if="not company.custom_footer" class="list-inline">
-                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
-
-                <li t-if="company.fax and company.phone">&amp;bull;</li>
-                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
-
-                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
-                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
-
-                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
-                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
-            </ul>
-
-            <t t-if="company.custom_footer">
-                <span t-raw="company.rml_footer"/>
-            </t>
-        </div>
-    </div>      
-</template>
-
-		<template id="cfdi_external_layout_header">
-			<div class="header">
-				<div class="row">
-					<div class="col-xs-9 text-left" style="margin-top:20px;"
-						t-field="company.rml_header1" />
-				</div>
-				<div class="row zero_min_height">
-					<div class="col-xs-12">
-						<div style="border-bottom: 1px solid black;"></div>
-					</div>
+        <div class="header">
+			<div class="row">
+				<div class="col-xs-9 text-left" style="margin-top:20px;"
+					t-field="company.report_header" />
+			</div>
+			<div class="row zero_min_height">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
 				</div>
 			</div>
-		</template>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4">
+	                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+	
+	                <li t-if="company.email">&amp;bull;</li>
+	                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+	
+	                <li t-if="company.website">&amp;bull;</li>
+	                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+                </ul>
+
+                <div name="financial_infos">
+                    <span t-field="company.report_footer"/>
+                </div>
+
+                <div class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
 
 		<template id="report_invoice_document">
 			<t t-call="cdfi_invoice.cfdi_external_layout">
@@ -428,7 +425,7 @@
 		</template>
 
 		<template id="account.report_invoice">
-			<t t-call="report.html_container">
+			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
 					<t t-call="cdfi_invoice.report_invoice_document" t-lang="o.partner_id.lang" />
 				</t>
@@ -437,11 +434,7 @@
 
 
 		<report id="account.account_invoices" model="account.invoice" string="Custom Invoices"
-			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice" />
-		
-		<record id="account.account_invoices" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
-        </record>
+			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice" 
+			paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
-	</data>
 </odoo>
