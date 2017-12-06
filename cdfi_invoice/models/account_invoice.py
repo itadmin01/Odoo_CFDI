@@ -283,8 +283,8 @@ class AccountInvoice(models.Model):
         archivo_key =base64.b64encode(archivo_key_file)
         request_params.update({
                 'certificados': {
-                      'archivo_cer': archivo_cer,
-                      'archivo_key': archivo_key,
+                      'archivo_cer': archivo_cer.decode("utf-8"),
+                      'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
                 }})
         return request_params
@@ -314,7 +314,7 @@ class AccountInvoice(models.Model):
                     xml_file_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice)
+                    xml_file.write(xml_invoice.decode("utf-8"))
                     xml_file.close()
                     invoice._set_data_from_xml(xml_invoice)
                     
@@ -405,7 +405,7 @@ class AccountInvoice(models.Model):
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
             
             values = invoice.to_json()
-            print(json.dumps(values, indent=4, sort_keys=True))
+            # print(json.dumps(values, indent=4, sort_keys=True))
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
@@ -425,7 +425,7 @@ class AccountInvoice(models.Model):
                 xml_file_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
                 xml_file = open(xml_file_link, 'w')
                 xml_invoice = base64.b64decode(json_response['factura_xml'])
-                xml_file.write(xml_invoice)
+                xml_file.write(xml_invoice.decode("utf-8"))
                 xml_file.close()
                 invoice._set_data_from_xml(xml_invoice)
             invoice.write({'estado_factura': estado_factura,
@@ -456,8 +456,8 @@ class AccountInvoice(models.Model):
                           'serie_factura': invoice.company_id.serie_factura,
                           'modo_prueba': invoice.company_id.modo_prueba,
                             'certificados': {
-                                  'archivo_cer': archivo_cer,
-                                  'archivo_key': archivo_key,
+                                  'archivo_cer': archivo_cer.decode("utf-8"),
+                                  'archivo_key': archivo_key.decode("utf-8"),
                                   'contrasena': invoice.company_id.contrasena,
                             }
                           }
@@ -477,7 +477,7 @@ class AccountInvoice(models.Model):
                     xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice)
+                    xml_file.write(xml_invoice.decode("utf-8"))
                     xml_file.close()
                     file_name = invoice.number.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(

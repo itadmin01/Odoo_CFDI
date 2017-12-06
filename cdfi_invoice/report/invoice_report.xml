@@ -74,7 +74,7 @@
 					<div class="row"  >
 					
 					<div class="col-xs-2">
-						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
+						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
 							style="max-height: 130px;" />
 					</div>
 						<div class="col-xs-5" >
@@ -383,7 +383,7 @@
 					</div>
 					<div class="row" style="page-break-inside: avoid">
 						<div class="col-xs-1">
-						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % o.qrcode_image"
+						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"
 								style="height: 190;width: 190;padding-left:10px;" />
 						</div>
 						<div class="col-xs-9 pull-right" style="font-size:12px;">

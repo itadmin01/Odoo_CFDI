@@ -219,8 +219,8 @@ class AccountPayment(models.Model):
                       'confirmacion': self.confirmacion,					  
                 },				
                 'certificados': {
-                      'archivo_cer': archivo_cer,
-                      'archivo_key': archivo_key,
+                      'archivo_cer': archivo_cer.decode("utf-8"),
+                      'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
                 }
             }
@@ -281,8 +281,8 @@ class AccountPayment(models.Model):
                       'confirmacion': self.confirmacion,					  
                 },				
                 'certificados': {
-                      'archivo_cer': archivo_cer,
-                      'archivo_key': archivo_key,
+                      'archivo_cer': archivo_cer.decode("utf-8"),
+                      'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
                 }		
             }
@@ -311,7 +311,7 @@ class AccountPayment(models.Model):
                 xml_file_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
                 xml_file = open(xml_file_link, 'w')
                 xml_payment = base64.b64decode(json_response['pago_xml'])
-                xml_file.write(xml_payment)
+                xml_file.write(xml_payment.decode("utf-8"))
                 xml_file.close()
                 p._set_data_from_xml(xml_payment)
                     
