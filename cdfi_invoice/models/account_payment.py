@@ -325,8 +325,8 @@ class AccountPayment(models.Model):
                                                 'res_id': p.id,
                                                 'type': 'binary'
                                             })	
-                Template = self.env['mail.template']
-                report_data = Template.env['report'].get_pdf([self.id], 'cdfi_invoice.report_payment')
+                report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
+                report_data = report.render_qweb_pdf([p.id])[0]
                 pdf_file_name = p.name.replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
                                             {
