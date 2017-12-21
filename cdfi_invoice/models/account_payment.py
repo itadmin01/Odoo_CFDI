@@ -250,7 +250,7 @@ class AccountPayment(models.Model):
                       'claveprodserv': '84111506',
                       'calveunidad': 'ACT',
                       'cantidad': 1,
-                      'descripcion': 'Anticipo del bien o servicio',
+                      'descripcion': 'Pago',
                 },
                 'payment': {
                       'moneda': self.currency_id.name,
