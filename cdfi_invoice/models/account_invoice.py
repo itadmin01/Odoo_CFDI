@@ -22,7 +22,7 @@ class AccountInvoice(models.Model):
     tipo_comprobante = fields.Selection(
         selection=[('I', 'Ingreso'), 
                    ('E', 'Egreso'),
-                    ('T', 'Traslado'),],
+                   ('T', 'Traslado'),],
         string=_('Tipo de comprobante'),
     )
     forma_pago = fields.Selection(
@@ -49,7 +49,7 @@ class AccountInvoice(models.Model):
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
-    methodo_pago = fields.Selection(
+    metodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
 				   ('PPD', _('Pago en parcialidades o diferido')),],
         string=_('Método de pago'), 
@@ -108,18 +108,18 @@ class AccountInvoice(models.Model):
                    ('615', _('Régimen de los ingresos por obtención de premios')),],
         string=_('Régimen Fiscal'), 
     )
-    numero_cetificado = fields.Char(string=_('Numero de cetificado'))
-    cetificaso_sat = fields.Char(string=_('Cetificao SAT'))
+    numero_certificado = fields.Char(string=_('Numero de certificado'))
+    certificado_sat = fields.Char(string=_('Cetificao SAT'))
     folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True)
     fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'))
-    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'))
-    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'))
-    selo_sat = fields.Char(string=_('Selo del SAT'))
+    cadena_original = fields.Char(string=_('Cadena Original del Complemento digital de SAT'))
+    sello_digital_cdfi = fields.Char(string=_('Sello Digital del CDFI'))
+    sello_sat = fields.Char(string=_('Sello del SAT'))
     moneda = fields.Char(string=_('Moneda'))
     tipocambio = fields.Char(string=_('TipoCambio'))
     folio = fields.Char(string=_('Folio'))
     version = fields.Char(string=_('Version'))
-    number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
+    numero_folio = fields.Char(string=_('Folio'), compute='_get_numero_folio')
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
                                  size=256, 
                                  help='Amount of the invoice in letter')
@@ -145,9 +145,9 @@ class AccountInvoice(models.Model):
 	
     @api.depends('number')
     @api.one
-    def _get_number_folio(self):
+    def _get_numero_folio(self):
         if self.number:
-            self.number_folio = self.number.replace('INV','').replace('/','')
+            self.numero_folio = self.number.replace('INV','').replace('/','')
             
     @api.depends('amount_total', 'currency_id')
     @api.one
@@ -183,7 +183,7 @@ class AccountInvoice(models.Model):
                       'moneda': self.currency_id.name,
                       'tipocambio': self.currency_id.rate,
                       'forma_pago': self.forma_pago,
-                      'methodo_pago': self.methodo_pago,
+                      'metodo_pago': self.metodo_pago,
                       'subtotal': self.amount_untaxed,
                       'total': self.amount_total,
                       'folio': self.number.replace('INV','').replace('/',''),
@@ -351,7 +351,7 @@ class AccountInvoice(models.Model):
         
         self.rfc_emisor = Emisor.attrib['Rfc']
         self.name_emisor = Emisor.attrib['Nombre']
-        self.methodo_pago = xml_data.attrib['MetodoPago']
+        self.metodo_pago = xml_data.attrib['MetodoPago']
         self.forma_pago = _(xml_data.attrib['FormaPago'])
         #  self.condicione_pago = xml_data.attrib['condicionesDePago']
         #self.num_cta_pago = xml_data.get('NumCtaPago', '')
@@ -359,18 +359,18 @@ class AccountInvoice(models.Model):
         self.tipo_comprobante = xml_data.attrib['TipoDeComprobante']
         self.moneda = xml_data.attrib['Moneda']
         self.regimen_fiscal = Emisor.attrib['RegimenFiscal'] #checar este!!
-        self.numero_cetificado = xml_data.attrib['NoCertificado']
-        self.cetificaso_sat = TimbreFiscalDigital.attrib['NoCertificadoSAT']
+        self.numero_certificado = xml_data.attrib['NoCertificado']
+        self.certificado_sat = TimbreFiscalDigital.attrib['NoCertificadoSAT']
         self.fecha_certificacion = TimbreFiscalDigital.attrib['FechaTimbrado']
-        self.selo_digital_cdfi = TimbreFiscalDigital.attrib['SelloCFD']
-        self.selo_sat = TimbreFiscalDigital.attrib['SelloSAT']
+        self.sello_digital_cdfi = TimbreFiscalDigital.attrib['SelloCFD']
+        self.sello_sat = TimbreFiscalDigital.attrib['SelloSAT']
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
         self.folio = xml_data.attrib['Folio']
         self.serie_emisor = xml_data.attrib['Serie']
         self.invoice_datetime = xml_data.attrib['Fecha']
         self.version = TimbreFiscalDigital.attrib['Version']
-        self.cadena_origenal = '||%s|%s|%s|%s|%s||' % (self.version, self.folio_fiscal, self.fecha_certificacion, 
-                                                         self.selo_digital_cdfi, self.cetificaso_sat)
+        self.cadena_original = '||%s|%s|%s|%s|%s||' % (self.version, self.folio_fiscal, self.fecha_certificacion, 
+                                                         self.sello_digital_cdfi, self.certificado_sat)
         
         options = {'width': 275 * mm, 'height': 275 * mm}
         amount_str = str(self.amount_total).split('.')
@@ -531,6 +531,7 @@ class MailTemplate(models.Model):
                                         base64.b64encode(cancel_xml_file)))
                     results[res_id]['attachments'] = attachments
         return results
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
     
