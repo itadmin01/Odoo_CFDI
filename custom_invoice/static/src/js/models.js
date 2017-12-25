@@ -11,7 +11,22 @@ var Model = require('web.DataModel');
 
 var QWeb = core.qweb;
 var _t = core._t;
+var _super_posmodel = models.PosModel.prototype;
 
+models.PosModel = models.PosModel.extend({
+    initialize: function (session, attributes) {
+        // New code
+        var partner_model = _.find(this.models, function(model){
+            return model.model === 'res.partner';
+        });
+        partner_model.fields.push('rfc');
+		partner_model.fields.push('street2');
+		//partner_model.fields.push('state_id.name');
+
+        // Inheritance
+        return _super_posmodel.initialize.call(this, session, attributes);
+    },
+});
 // At POS Startup, load the states, and add them to the pos model
 models.load_models({
     model: 'res.country.state',
@@ -20,9 +35,7 @@ models.load_models({
     loaded: function(self,states){
         self.states = states;
     },
-
-});
-    
+	});
 
 models.PosModel = models.PosModel.extend({
 	push_and_invoice_order: function(order){

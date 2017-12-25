@@ -5,24 +5,20 @@
             <div class='client-details-box clearfix'>
                 <div class='client-details-left'>
                     <div class='client-detail'>
-                        <span class='label'>Street</span>
-                        <input class='detail client-address-street'
-	name='street' t-att-value='partner.street' placeholder='Street'></input>
+                        <span class='label'>Dirección</span>
+                        <input class='detail client-address-street' name='street' t-att-value='partner.street' placeholder='Calle Numero'></input>
                     </div>
                     <div class='client-detail'>
-                <span class='label'>No. Exterior</span>
-                <input class='detail client-address-street' name='street2'
-	t-att-value='partner.street2' placeholder='No. Exterior'></input>
+                <span class='label'>Dirección 2</span>
+                <input class='detail client-address-street' name='street2' t-att-value='partner.street2' placeholder='Colonia'></input>
             </div>
                     <div class='client-detail'>
-                        <span class='label'>City</span>
-                        <input class='detail client-address-city'
-	name='city' t-att-value='partner.city' placeholder='City'></input>
+                        <span class='label'>Ciudad</span>
+                        <input class='detail client-address-city' name='city' t-att-value='partner.city' placeholder='City'></input>
                     </div>
-            <div class='client-detail'>
-                <span class='label'>Estado</span>
-                        <select class='detail client-address-country'
-	name='state_id'>
+             <!--<div class='client-detail'>
+               <span class='label'>Estado</span>
+                        <select class='detail client-address-country' name='state_id'>
                             <option value=''>None</option>
                             <t t-foreach='widget.pos.states' t-as='state'>
                                 <option t-att-value='state.id'> 
@@ -30,20 +26,17 @@
                                 </option>
                             </t>
                         </select>
-            </div>
+            </div> -->
                     <div class='client-detail'>
-                        <span class='label'>Postcode</span>
-                        <input class='detail client-address-zip'
-	name='zip' t-att-value='partner.zip' placeholder='ZIP'></input>
+                        <span class='label'>CP</span>
+                        <input class='detail client-address-zip' name='zip' t-att-value='partner.zip' placeholder='CP'></input>
                     </div>
                     <div class='client-detail'>
-                        <span class='label'>Country</span>
-                        <select class='detail client-address-country'
-	name='country_id'>
+                        <span class='label'>País</span>
+                        <select class='detail client-address-country' name='country_id'>
                             <option value=''>None</option>
                             <t t-foreach='widget.pos.countries' t-as='country'>
-                                <option t-att-value='country.id'
-	t-att-selected="partner.country_id ? ((country.id === partner.country_id[0]) ? true : undefined) : undefined"> 
+                                <option t-att-value='country.id' t-att-selected="partner.country_id ? ((country.id === partner.country_id[0]) ? true : undefined) : undefined"> 
                                     <t t-esc='country.name' />
                                 </option>
                             </t>
@@ -53,28 +46,23 @@
                 <div class='client-details-right'>
                     <div class='client-detail'>
                         <span class='label'>Email</span>
-                        <input class='detail client-email' name='email'
-	type='email' t-att-value='partner.email || ""'></input>
+                        <input class='detail client-email' name='email' type='email' t-att-value='partner.email || ""'></input>
                     </div>
                     <div class='client-detail'>
-                        <span class='label'>Phone</span>
-                        <input class='detail client-phone' name='phone'
-	type='tel' t-att-value='partner.phone || ""'></input>
+                        <span class='label'>Teléfono</span>
+                        <input class='detail client-phone' name='phone' type='tel' t-att-value='partner.phone || ""'></input>
                     </div>
                     <div class='client-detail'>
-                        <span class='label'>Barcode</span>
-                        <input class='detail barcode' name='barcode'
-	t-att-value='partner.barcode || ""'></input>
+                        <span class='label'>Código de barras</span>
+                        <input class='detail barcode' name='barcode' t-att-value='partner.barcode || ""'></input>
                     </div>
                     <div class='client-detail'>
                         <span class='label'>Tax ID</span>
-                        <input class='detail vat' name='vat'
-	t-att-value='partner.vat || ""'></input>
+                        <input class='detail vat' name='vat' t-att-value='partner.vat || ""'></input>
                     </div>
                     <div class='client-detail'>
                 <span class='label'>RFC</span>
-                <input class='detail client-address-street' name='rfc'
-	t-att-value='partner.rfc' placeholder='RFC'></input>
+                <input class='detail rfc' name='rfc' t-att-value='partner.rfc' placeholder='RFC'></input>
             </div>
                 </div>
                 </div>
@@ -111,9 +99,9 @@
                     <div>
                         <span class='label'>Uso CFDI (Cliente)</span>
                         <select class='js_uso_cfdi' name='uso_cfdi'>
+						   <option value='G03'>Gastos en general</option>
                            <option value='G01'>Adquisición de mercancías</option>
 		                   <option value='G02'>Devoluciones, descuentos o bonificaciones</option>
-		                   <option value='G03'>Gastos en general</option>
 		                   <option value='I01'>Construcciones</option>
 		                   <option value='I02'>Mobiliario y equipo de oficina por inversiones</option>
 		                   <option value='I03'>Equipo de transporte</option>
@@ -135,7 +123,7 @@
                         Confirmar
                     </div>
                     <div class="button cancel">
-                        Cancel 
+                        Cancelar
                     </div>
                 </div>
             </div>
