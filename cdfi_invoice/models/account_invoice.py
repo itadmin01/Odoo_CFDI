@@ -143,6 +143,31 @@ class AccountInvoice(models.Model):
     discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))	
     amount = fields.Float(string='Amount', digits=dp.get_precision('Product Price'))
 	
+         
+    @api.model
+    def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
+        values = super(AccountInvoice, self)._prepare_refund(invoice, date_invoice=date_invoice, 
+                                                           date=date, description=description, journal_id=journal_id)
+        if invoice.estado_factura == 'factura_correcta':
+            values['uuid_relacionado'] = invoice.folio_fiscal
+            values['methodo_pago'] = invoice.methodo_pago
+            values['forma_pago'] = invoice.forma_pago
+            values['tipo_comprobante'] = 'E'
+            values['uso_cfdi'] = 'G02'
+            values['tipo_relacion'] = '01'
+        return values
+
+
+    @api.one
+    @api.returns('self', lambda value: value.id)
+    def copy(self, default=None):
+        default = dict(default or {})
+        if self.estado_factura == 'factura_correcta':
+            default['estado_factura'] = 'factura_no_generada'
+            default['folio_fiscal'] = ''
+            
+        return super(AccountInvoice, self).copy(default=default)
+    
     @api.depends('number')
     @api.one
     def _get_number_folio(self):
@@ -275,12 +300,10 @@ class AccountInvoice(models.Model):
         # request_params.update({'taxes': taxes})
         if not self.company_id.archivo_cer:
             raise UserError(_('Archivo .cer path is missing.'))
-        archivo_cer_file = open(self.company_id.archivo_cer, 'rb').read()
         if not self.company_id.archivo_key:
             raise UserError(_('Archivo .key path is missing.'))
-        archivo_key_file = open(self.company_id.archivo_key, 'rb').read()
-        archivo_cer =base64.b64encode(archivo_cer_file)
-        archivo_key =base64.b64encode(archivo_key_file)
+        archivo_cer = base64.b64encode(self.company_id.archivo_cer)
+        archivo_key = base64.b64encode(self.company_id.archivo_key)
         request_params.update({
                 'certificados': {
                       'archivo_cer': archivo_cer.decode("utf-8"),
@@ -443,12 +466,10 @@ class AccountInvoice(models.Model):
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
                 if not invoice.company_id.archivo_cer:
                     raise UserError(_('Falta la ruta del archivo .cer'))
-                archivo_cer_file = open(invoice.company_id.archivo_cer, 'rb').read()
                 if not invoice.company_id.archivo_key:
                     raise UserError(_('Falta la ruta del archivo .key'))
-                archivo_key_file = open(invoice.company_id.archivo_key, 'rb').read()
-                archivo_cer =base64.b64encode(archivo_cer_file)
-                archivo_key =base64.b64encode(archivo_key_file)
+                archivo_cer = base64.b64encode(self.company_id.archivo_cer)
+                archivo_key = base64.b64encode(self.company_id.archivo_key)
                 values = {
                           'rfc': invoice.company_id.rfc,
                           'api_key': invoice.company_id.proveedor_timbrado,
@@ -491,8 +512,6 @@ class AccountInvoice(models.Model):
                                                 })
                 invoice.write({'estado_factura': json_response['estado_factura']})
                     
-        
- 
  
 class MailTemplate(models.Model):
     "Templates for sending email"

@@ -54,6 +54,7 @@ class AccountPayment(models.Model):
                                             ('BNM840515VB1', 'BANCO NACIONAL DE MEXICO'),
                                             ('BNE820901682', 'BANCO NACIONAL DE EJERCITO FUERZA AEREA Y ARMADA'),
                                             ('BRM940216EQ6', 'BANCO REGIONAL DE MONTERREY'),
+                                            ('IFO9409288P6', 'INTERCAM BANCO'),                                           
                                             ('BAI0205236Y8', 'BANCO AZTECA'),],
                                 string=_('Banco emisor'),
                             )
@@ -78,12 +79,12 @@ class AccountPayment(models.Model):
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
     confirmacion = fields.Char(string=_('Confirmación'))
     folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True)
-    numero_cetificado = fields.Char(string=_('Numero de cetificado'))
-    cetificaso_sat = fields.Char(string=_('Cetificao SAT'))
+    numero_cetificado = fields.Char(string=_('Numero de certificado'))
+    cetificaso_sat = fields.Char(string=_('Cetificado SAT'))
     fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'))
-    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'))
-    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'))
-    selo_sat = fields.Char(string=_('Selo del SAT'))
+    cadena_origenal = fields.Char(string=_('Cadena Original del Complemento digital de SAT'))
+    selo_digital_cdfi = fields.Char(string=_('Sello Digital del CDFI'))
+    selo_sat = fields.Char(string=_('Sello del SAT'))
     moneda = fields.Char(string=_('Moneda'))
     monedap = fields.Char(string=_('Moneda'))
     tipocambio = fields.Char(string=_('TipoCambio'))
@@ -155,15 +156,27 @@ class AccountPayment(models.Model):
     def to_json(self):
         if not self.company_id.archivo_cer:
             raise UserError(_('Archivo .cer path is missing.'))
-        archivo_cer_file = open(self.company_id.archivo_cer, 'rb').read()
         if not self.company_id.archivo_key:
             raise UserError(_('Archivo .key path is missing.'))
-        archivo_key_file = open(self.company_id.archivo_key, 'rb').read()
+        archivo_cer = base64.b64encode(self.company_id.archivo_cer)
+        archivo_key = base64.b64encode(self.company_id.archivo_key)
         if self.invoice_ids:		
-            invoice = self.invoice_ids[0]
-            archivo_cer =base64.b64encode(archivo_cer_file)
-            archivo_key =base64.b64encode(archivo_key_file)
-            self.tipocambio = invoice.tipocambio
+            invoice = self.invoice_ids[0] #quitar
+            #archivo_cer =base64.b64encode(archivo_cer_file) #quitar
+            #archivo_key =base64.b64encode(archivo_key_file) #quitar
+            self.tipocambio = invoice.tipocambio  #quitar
+            #docto_relacionados = []
+            #for invoice in self.invoice_ids:
+            #    docto_relacionados.append({
+            #          'moneda': invoice.moneda,
+            #          'tipodecambio': invoice.tipocambio,
+            #          'iddocumento': invoice.folio_fiscal,
+            #          'no_de_pago': self.no_de_pago,
+            #          'saldo_pendiente': self.saldo_pendiente,
+            #          'monto_pagar': self.monto_pagar,
+            #          'saldo_restante': self.saldo_restante,
+            #    })
+            
             request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -202,7 +215,7 @@ class AccountPayment(models.Model):
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
                       'fecha_pago': self.fecha_pago,
-                      'monto_factura': invoice.amount_total
+                      'monto_factura':  invoice.amount_total #sum(invoice.amount_total for invoice in self.invoice_ids) #agregar
                 },
                 'docto_relacionado': {
                       'moneda': invoice.moneda,
@@ -225,8 +238,6 @@ class AccountPayment(models.Model):
                 }
             }
         else:
-            archivo_cer =base64.b64encode(archivo_cer_file)
-            archivo_key =base64.b64encode(archivo_key_file)
             request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,

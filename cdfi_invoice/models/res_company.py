@@ -42,8 +42,8 @@ class ResCompany(models.Model):
                    ('615', _('Régimen de los ingresos por obtención de premios')),],
         string=_('Régimen Fiscal'), 
     )
-    archivo_cer = fields.Char(string=_('Archivo .cer'))
-    archivo_key = fields.Char(string=_('Archivo .key'))
+    archivo_cer = fields.Binary(string=_('Archivo .cer'))
+    archivo_key = fields.Binary(string=_('Archivo .key'))
     contrasena = fields.Char(string=_('Contraseña'))
     nombre_fiscal = fields.Char(string=_('Razón social'))
     serie_complemento = fields.Char(string=_('Serie complemento de pago'))
