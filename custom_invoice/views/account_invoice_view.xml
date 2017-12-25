@@ -49,8 +49,7 @@
                 	<button name="action_cfdi_generate" type="object" string="Generar CFDI" 
                 			attrs="{'invisible':['|',('factura_cfdi','=',True), ('state','not in',('open', 'paid'))]}"
                 			class="oe_highlight" groups="base.group_user"/>
-                	<button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':[('factura_cfdi','=',False)]}"
-                			class="oe_highlight" groups="base.group_user"/>
+                	<button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':['|',('factura_cfdi','=',False), ('estado_factura','=','factura_cancelada')]}" class="oe_highlight" groups="base.group_user"/>
                 </button>     
             </field>
         </record>
