@@ -302,8 +302,8 @@ class AccountInvoice(models.Model):
             raise UserError(_('Archivo .cer path is missing.'))
         if not self.company_id.archivo_key:
             raise UserError(_('Archivo .key path is missing.'))
-        archivo_cer = base64.b64encode(self.company_id.archivo_cer)
-        archivo_key = base64.b64encode(self.company_id.archivo_key)
+        archivo_cer = self.company_id.archivo_cer
+        archivo_key = self.company_id.archivo_key
         request_params.update({
                 'certificados': {
                       'archivo_cer': archivo_cer.decode("utf-8"),
@@ -468,8 +468,8 @@ class AccountInvoice(models.Model):
                     raise UserError(_('Falta la ruta del archivo .cer'))
                 if not invoice.company_id.archivo_key:
                     raise UserError(_('Falta la ruta del archivo .key'))
-                archivo_cer = base64.b64encode(self.company_id.archivo_cer)
-                archivo_key = base64.b64encode(self.company_id.archivo_key)
+                archivo_cer = self.company_id.archivo_cer
+                archivo_key = self.company_id.archivo_key
                 values = {
                           'rfc': invoice.company_id.rfc,
                           'api_key': invoice.company_id.proveedor_timbrado,

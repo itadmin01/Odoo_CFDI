@@ -158,8 +158,8 @@ class AccountPayment(models.Model):
             raise UserError(_('Archivo .cer path is missing.'))
         if not self.company_id.archivo_key:
             raise UserError(_('Archivo .key path is missing.'))
-        archivo_cer = base64.b64encode(self.company_id.archivo_cer)
-        archivo_key = base64.b64encode(self.company_id.archivo_key)
+        archivo_cer = self.company_id.archivo_cer
+        archivo_key = self.company_id.archivo_key
         if self.invoice_ids:		
             invoice = self.invoice_ids[0] #quitar
             #archivo_cer =base64.b64encode(archivo_cer_file) #quitar
