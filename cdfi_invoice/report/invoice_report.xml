@@ -260,7 +260,7 @@
 								<t t-if="positive_tax_amount > 0">
 									<tr>
 										<td>
-											<span>Total impuestos trasladatos</span>
+											<span>Total impuestos trasladados</span>
 										</td>
 										<td class="text-right">
 											<span t-esc="positive_tax_amount" 
