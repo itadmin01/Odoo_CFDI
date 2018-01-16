@@ -16,6 +16,7 @@ UM_CLAVO_MAP = {
                 'Metro lineal': 'LM',
                 'M2': 'MTK',
                 'M3': 'MTQ',
+                'Pie': 'FOT',
                 'Unidad de servicio': 'E48',
                 'Tarifa': 'A9',
                 'Dia': 'DAY',
@@ -25,7 +26,9 @@ UM_CLAVO_MAP = {
                 'Comida': 'Q3',
                 'Habitacion': 'ROM',
                 'Paquete': 'XPK',
+                'Pallet': 'XPX',	
                 'Mutuamente definido': 'ZZ',
+                'Uno': 'C62',	
                 'Kit': 'KT',
                 }
     
@@ -45,6 +48,7 @@ class ProductTemplate(models.Model):
                    ('Metro lineal', 'Metro lineal'),
                    ('M2', 'M2'),
                    ('M3', 'M3'),
+                   ('Pie', 'Pie'),
                    ('Unidad de servicio', 'Unidad de servicio'),
                    ('Tarifa', 'Tarifa'),
                    ('Dia', 'Dia'),
@@ -53,8 +57,10 @@ class ProductTemplate(models.Model):
                    ('Actividad', 'Actividad'),
                    ('Comida', 'Comida'),				   
                    ('Habitacion', 'Habitacion'),
-                   ('Paquete', 'Paquete'),
+                   ('Pallet', 'Pallet'),
+                   ('Paquete', 'Paquete'),	
                    ('Mutuamente definido', 'Mutuamente definido'),
+                   ('Uno', 'Uno'),		
                    ('Kit', 'Kit'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')

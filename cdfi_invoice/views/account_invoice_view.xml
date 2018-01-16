@@ -28,10 +28,11 @@
                                 <group  string="Detalles de Factura">
                                 	<field name="tipo_comprobante"/>
                                 	<field name="folio_fiscal"/>
-									<field name="confirmacion"/>
+        				<field name="confirmacion"/>
                                 	<field name="estado_factura"/>
+                                	<field name="fecha_factura"/>
                                 </group>
-								<group  string="CFDI Relacionados">
+					<group  string="CFDI Relacionados">
                                 	<field name="tipo_relacion"/>
                                 	<field name="uuid_relacionado"/>
                                 </group>

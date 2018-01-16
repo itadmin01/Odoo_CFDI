@@ -125,6 +125,7 @@ class AccountInvoice(models.Model):
                                  help='Amount of the invoice in letter')
     qr_value = fields.Char(string=_('QR Code Value'))
     invoice_datetime = fields.Char(string=_('11/12/17 12:34:12'))
+    fecha_factura = fields.Datetime(string=_('Fecha Factura'), readonly=True)
     rfc_emisor = fields.Char(string=_('RFC'))
     name_emisor = fields.Char(string=_('Name'))
     serie_emisor = fields.Char(string=_('A'))
@@ -213,6 +214,7 @@ class AccountInvoice(models.Model):
                       'total': self.amount_total,
                       'folio': self.number.replace('INV','').replace('/',''),
                       'serie_factura': self.company_id.serie_factura,
+                      'fecha_factura': self.fecha_factura,
                 },
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
@@ -267,6 +269,8 @@ class AccountInvoice(models.Model):
                 product_taxes.update({'tax_lines': tax_items})
             
             self.discount = line.price_unit * line.quantity - line.price_subtotal
+            if self.discount < 0:
+                 self.discount = 0
             self.amount = line.price_unit*line.quantity
             invoice_lines.append({
                       'quantity': line.quantity,
@@ -317,6 +321,7 @@ class AccountInvoice(models.Model):
         # after validate, send invoice data to external system via http post
         for invoice in self:
             if invoice.factura_cfdi:
+                self.fecha_factura= datetime.datetime.now()
                 values = invoice.to_json()
                 if self.company_id.proveedor_timbrado == 'multifactura':
                      url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
@@ -422,6 +427,7 @@ class AccountInvoice(models.Model):
     def action_cfdi_generate(self):
         # after validate, send invoice data to external system via http post
         for invoice in self:
+            self.fecha_factura= datetime.datetime.now()
             if invoice.estado_factura == 'factura_correcta':
                 raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if invoice.estado_factura == 'factura_cancelada':
@@ -473,6 +479,7 @@ class AccountInvoice(models.Model):
                 values = {
                           'rfc': invoice.company_id.rfc,
                           'api_key': invoice.company_id.proveedor_timbrado,
+			  'uuid': self.folio_fiscal,
                           'folio': self.folio,
                           'serie_factura': invoice.company_id.serie_factura,
                           'modo_prueba': invoice.company_id.modo_prueba,
