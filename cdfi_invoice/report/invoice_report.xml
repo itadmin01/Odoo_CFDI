@@ -220,7 +220,7 @@
 									<span t-esc="abs(tax.amount / 100)" />
 								</td>
 								<td class="text-right"  width="25%">
-									<span t-esc="abs((tax.amount / 100) * o.currency_id.round(l.price_unit * l.quantity))" 
+									<span t-esc="abs((tax.amount / 100) * o.currency_id.round((l.price_unit - l.price_unit *((l.discount or 0.0) / 100.0))* l.quantity))" 
 									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td>
 								</tr>
