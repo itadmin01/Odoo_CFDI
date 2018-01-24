@@ -38,28 +38,9 @@ class AccountPayment(models.Model):
     monto_pagar = fields.Float("Monto a pagar", compute='_compute_monto_pagar')
     saldo_restante = fields.Float("Saldo restante", readonly=True)
     fecha_pago = fields.Datetime("Fecha de pago")
-    banco_emisor = fields.Selection(
-                                selection=[ ('BBA940707IE1', 'BANCO DEL BAJIO'),
-                                            ('BII931004P61', 'BANCO INBURSA'),
-                                            ('BIN931011519', 'BANCO INTERACCIONES'),
-                                            ('BMN930209927', 'BANCO MERCANTIL DEL NORTE'),
-                                            ('BMI9704113PA', 'BANCO MONEX'),
-                                            ('BMI061005NY5', 'BANCO MULTIVA'),
-                                            ('BAF950102JP5', 'BANCA AFIRME'),
-                                            ('BBA830831LJ2', 'BBVA BANCOMER'),
-                                            ('HMI950125KG8', 'HSBC'),
-                                            ('IBA950503GTA', 'IXE BANCO'),
-                                            ('SIN9412025I4', 'SCOTIABANK INVERLAT'),
-                                            ('BSM970519DU8', 'BANCO SANTANDER'),
-                                            ('BNM840515VB1', 'BANCO NACIONAL DE MEXICO'),
-                                            ('BNE820901682', 'BANCO NACIONAL DE EJERCITO FUERZA AEREA Y ARMADA'),
-                                            ('BRM940216EQ6', 'BANCO REGIONAL DE MONTERREY'),
-                                            ('IFO9409288P6', 'INTERCAM BANCO'),                                           
-                                            ('BAI0205236Y8', 'BANCO AZTECA'),],
-                                string=_('Banco emisor'),
-                            )
-    cuenta_emisor = fields.Char("Cuenta del emisor")
-    rfc_banco_emisor = fields.Char(_("RFC banco emisor"), compute='_compute_rfc_banco_emisor')
+    cuenta_emisor = fields.Many2one('res.partner.bank', string=_('Cuenta del emisor'))
+    banco_emisor = fields.Char("Banco del emisor", related='cuenta_emisor.bank_name', readonly=True)
+    rfc_banco_emisor = fields.Char(_("RFC banco emisor"), related='cuenta_emisor.bank_bic', readonly=True)
     numero_operacion = fields.Char(_("Número de operación"))
     banco_receptor = fields.Char(_("Banco receptor"), compute='_compute_banco_receptor')
     cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
@@ -117,9 +98,6 @@ class AccountPayment(models.Model):
             res.no_de_pago = len(res.invoice_ids[0].payment_ids)
             res.saldo_pendiente = res.invoice_ids[0].residual
             res.saldo_restante = res.saldo_pendiente - res.monto_pagar
-        if res.partner_id:
-            res.banco_emisor = res.partner_id.banco_emisor
-            res.cuenta_emisor = res.partner_id.cuenta_emisor
         return res
             
     @api.one
@@ -127,12 +105,6 @@ class AccountPayment(models.Model):
     def _compute_monto_pagar(self):
         if self.amount:
             self.monto_pagar = self.amount
-            
-    @api.one
-    @api.depends('banco_emisor')
-    def _compute_rfc_banco_emisor(self):
-        if self.banco_emisor:
-            self.rfc_banco_emisor = self.banco_emisor
             
     @api.one
     @api.depends('journal_id')
@@ -209,13 +181,13 @@ class AccountPayment(models.Model):
                       'forma_pago': self.forma_pago,
                       'numero_operacion': self.numero_operacion,
                       'banco_emisor': self.banco_emisor,
-                      'cuenta_emisor': self.cuenta_emisor,
+                      'cuenta_emisor': self.cuenta_emisor and self.cuenta_emisor.acc_number or '',
                       'rfc_banco_emisor': self.rfc_banco_emisor,
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
                       'fecha_pago': self.fecha_pago,
-                      'monto_factura':  invoice.amount_total #sum(invoice.amount_total for invoice in self.invoice_ids) #agregar
+                      'monto_factura':  self.amount #invoice.amount_total #sum(invoice.amount_total for invoice in self.invoice_ids) #agregar
                 },
                 'docto_relacionado': {
                       'moneda': invoice.moneda,
@@ -269,7 +241,7 @@ class AccountPayment(models.Model):
                       'forma_pago': self.forma_pago,
                       'numero_operacion': self.numero_operacion,
                       'banco_emisor': self.banco_emisor,
-                      'cuenta_emisor': self.cuenta_emisor,
+                      'cuenta_emisor': self.cuenta_emisor and self.cuenta_emisor.acc_number or '',
                       'rfc_banco_emisor': self.rfc_banco_emisor,
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,

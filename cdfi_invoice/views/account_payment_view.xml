@@ -30,8 +30,8 @@
 		                            <group cols="4">
 		                                <group>
 		                                	<field name="fecha_pago"/>
-		                                	<field name="banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-		                                	<field name="cuenta_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
+		                                	<field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
+		                                	<field name="banco_emisor"   attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                	<field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                </group>
 		                                <group>

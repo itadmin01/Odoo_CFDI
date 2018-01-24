@@ -156,6 +156,7 @@ class AccountInvoice(models.Model):
             values['tipo_comprobante'] = 'E'
             values['uso_cfdi'] = 'G02'
             values['tipo_relacion'] = '01'
+            values['fecha_factura'] = ''
         return values
 
 
@@ -166,6 +167,7 @@ class AccountInvoice(models.Model):
         if self.estado_factura == 'factura_correcta':
             default['estado_factura'] = 'factura_no_generada'
             default['folio_fiscal'] = ''
+            default['fecha_factura'] = ''
             
         return super(AccountInvoice, self).copy(default=default)
     
