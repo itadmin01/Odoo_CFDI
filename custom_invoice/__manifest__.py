@@ -7,7 +7,7 @@
 {
     'name': 'Punto de Venta Factura Electronica Mexico CFDI',
     'version': '9.0',
-    'description': ''' Punto de Venta Factura Electronica Mexico (CFDI 2017).
+    'description': ''' Punto de Venta Factura Electronica Mexico (CFDI 3.3).
     ''',
     'category': 'Sales, Point Of Sale, Accounting',
     'author': 'IT Admin',
@@ -33,7 +33,8 @@
         'report/payment_report.xml',
         'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
-    ],
+        'data/factura_global.xml',
+	],
     'qweb': [
         'static/src/xml/pos.xml',
     ],
