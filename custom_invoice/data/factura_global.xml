@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+        <record id="producto_cfdi" model="product.product">
+          <field name="available_in_pos">False</field>
+          <field name="list_price">0.00</field>
+          <field name="name">Venta</field>
+          <field name="uom_id" ref="product.product_uom_unit" />
+          <field name="uom_po_id" ref="product.product_uom_unit" />
+          <field name="unidad_medida">Actividad</field>	
+		  <field name="clave_producto">01010101</field>
+			<field name="purchase_ok">0</field>
+        </record>
+		
+	     <record id="cliente_cfdi" model="res.partner">
+          <field name="name">Factura global CFDI 33</field>
+          <field name="rfc">XAXX010101000</field>
+          <field name="customer">1</field>			
+          <field name="supplier">0</field>	
+	    </record>
+		
+</openerp>
