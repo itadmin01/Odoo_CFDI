@@ -55,6 +55,12 @@
                         </group>
                 </page>
             </xpath>
+				<field name="tax_ids_after_fiscal_position" position="attributes">
+            		<attribute name="invisible">1</attribute>
+            	</field>
+            	<field name="tax_ids" position="replace">
+            		<field name="tax_ids" readonly="0"  widget="many2many_tags"/>
+            	</field>
             </field>
         </record>
       
