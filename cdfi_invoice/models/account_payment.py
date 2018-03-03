@@ -395,34 +395,25 @@ class AccountPayment(models.Model):
     @api.multi
     def send_payment(self):
         self.ensure_one()
-        if not self.payment_mail_ids:
-            self.payment_mail_ids.sudo().create({'payment_id': self.ids[0]})
-        ir_model_data = self.env['ir.model.data']
-        try:
-            template_id = ir_model_data.get_object_reference('cdfi_invoice', 'email_template_payment')[1]
-        except ValueError:
-            template_id = False
-        try:
-            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
-        except ValueError:
-            compose_form_id = False
+        template = self.env.ref('cdfi_invoice.email_template_payment', False)
+        compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
             
         ctx = dict()
         ctx.update({
-            'default_model': 'account.payment.mail',
-            'default_res_id': self.payment_mail_ids[0].id,
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
+            'default_model': 'account.payment',
+            'default_res_id': self.id,
+            'default_use_template': bool(template),
+            'default_template_id': template.id,
             'default_composition_mode': 'comment',
         })
-                    
         return {
+            'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'mail.compose.message',
-            'views': [(compose_form_id, 'form')],
-            'view_id': compose_form_id,
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
             'target': 'new',
             'context': ctx,
         }

@@ -323,11 +323,13 @@ class AccountInvoice(models.Model):
         # after validate, send invoice data to external system via http post
         for invoice in self:
             if invoice.factura_cfdi:
-                self.fecha_factura= datetime.datetime.now()
+                if invoice.fecha_factura == False:
+                   invoice.fecha_factura= datetime.datetime.now()
+                   invoice.write({'fecha_factura': invoice.fecha_factura})				
                 values = invoice.to_json()
-                if self.company_id.proveedor_timbrado == 'multifactura':
+                if invoice.company_id.proveedor_timbrado == 'multifactura':
                      url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
-                elif self.company_id.proveedor_timbrado == 'gecoerp':
+                elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                      url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -429,7 +431,9 @@ class AccountInvoice(models.Model):
     def action_cfdi_generate(self):
         # after validate, send invoice data to external system via http post
         for invoice in self:
-            self.fecha_factura= datetime.datetime.now()
+            if invoice.fecha_factura == False:
+                invoice.fecha_factura= datetime.datetime.now()
+                invoice.write({'fecha_factura': invoice.fecha_factura})
             if invoice.estado_factura == 'factura_correcta':
                 raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if invoice.estado_factura == 'factura_cancelada':
@@ -437,9 +441,9 @@ class AccountInvoice(models.Model):
             
             values = invoice.to_json()
             # print(json.dumps(values, indent=4, sort_keys=True))
-            if self.company_id.proveedor_timbrado == 'multifactura':
+            if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
-            elif self.company_id.proveedor_timbrado == 'gecoerp':
+            elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
@@ -504,12 +508,18 @@ class AccountInvoice(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
-                    xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
+                    if invoice.number:
+                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
+                    else:
+                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'						
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice.decode("utf-8"))
+                    xml_file.write(xml_invoice)
                     xml_file.close()
-                    file_name = invoice.number.replace('/', '_') + '.xml'
+                    if invoice.number:
+                        file_name = invoice.number.replace('/', '_') + '.xml'
+                    else:
+                        file_name = self.folio_fiscal + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -551,12 +561,17 @@ class MailTemplate(models.Model):
                         attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', 
                                             base64.b64encode(xml_file)))
                     else:
-                        cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
+                        if invoice.number:
+                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
+                        else:							
+                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'							
                         with open(cancel_file_link, 'rb') as cf:
                             cancel_xml_file = cf.read()
-                            attachments = []							
-                            attachments.append(('CDFI_CANCEL_' + invoice.number.replace('/', '_') + '.xml', 
-                                        base64.b64encode(cancel_xml_file)))
+                            attachments = []	
+                            if invoice.number:
+                               attachments.append(('CDFI_CANCEL_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
+                            else:
+                               attachments.append(('CDFI_CANCEL_' + self.folio_fiscal + '.xml', base64.b64encode(cancel_xml_file)))								
                     results[res_id]['attachments'] = attachments
         return results
 
