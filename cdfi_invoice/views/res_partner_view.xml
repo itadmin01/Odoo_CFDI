@@ -7,18 +7,12 @@
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
-
 				<field name="website" position="after">
 					<field name="rfc" />
 				</field>
-                <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
-                            <group cols="4">
-	                            <group string="Datos de Pago">
-	                            	<field name="banco_emisor"/>
-	                            	<field name="cuenta_emisor" />
-	                            	<field name="rfc_banco_emisor"/>
-	                            </group>
+	            <xpath expr="//notebook" position="inside">
+	                <page name="info_cdfi" string="CFDI 3.3">
+	                        <group cols="4">
 	                            <group string="Detalles extranjero">
 	                            	<field name="residencia_fiscal"/>
 	                            	<field name="registro_tributario"/>

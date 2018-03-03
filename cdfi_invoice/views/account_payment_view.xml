@@ -12,7 +12,6 @@
                 		<button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Send by Email" type="object"/>
                 	</button>
                     <xpath expr="//notebook" position="inside">
-                    	<field name="estado_pago" invisible="1"/>
 		                    <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('state','!=','posted')]}">
 		                            <group cols="4">
 		                                <group string="Datos del comprobante">
@@ -30,8 +29,8 @@
 		                            <group cols="4">
 		                                <group>
 		                                	<field name="fecha_pago"/>
-		                                	<field name="banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-		                                	<field name="cuenta_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
+		                                	<field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
+		                                	<field name="banco_emisor"   attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                	<field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/>
 		                                </group>
 		                                <group>
