@@ -189,6 +189,10 @@ class AccountInvoice(models.Model):
     
     @api.model
     def to_json(self):
+        if self.partner_id.name == 'Factura global CFDI 33':
+           nombre = ''
+        else:
+           nombre = self.partner_id.name
         request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -274,10 +278,14 @@ class AccountInvoice(models.Model):
             if self.discount < 0:
                  self.discount = 0
             self.amount = line.price_unit*line.quantity
+            if self.partner_id.name == 'Factura global CFDI 33':
+                 codigo = line.name.replace('Venta','').replace('[','').replace(']','').replace('-','').replace(' ','')
+            else:
+                 codigo = line.product_id.code
             invoice_lines.append({
                       'quantity': line.quantity,
                       'unidad_medida': line.product_id.unidad_medida,
-                      'product': line.product_id.code,
+                      'product': codigo,
                       'price_unit': line.price_unit,
                       'amount': self.amount,
                       'description': line.name,
@@ -364,6 +372,44 @@ class AccountInvoice(models.Model):
                                'xml_invoice_link': xml_file_link})
         result = super(AccountInvoice, self).invoice_validate()
         return result
+    
+    @api.multi
+    def generate_cfdi_invoice(self):
+        # after validate, send invoice data to external system via http post
+        for invoice in self:
+            if estado_factura == 'factura_correcta':
+                raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+            if estado_factura == 'factura_cancelada':
+                raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
+            
+            values = invoice.to_json()
+            if self.company_id.proveedor_timbrado == 'multifactura':
+                url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
+            elif self.company_id.proveedor_timbrado == 'gecoerp':
+                 url = '%s' % ('http://itadmin.gecoerp.com/invoice?handler=OdooHandler33')
+            #url = '%s' % (invoice.company_id.http_factura, '/invoice?handler=OdooHandler33')
+            response = requests.post(url , 
+                                     auth=None,verify=False, data=json.dumps(values), 
+                                     headers={"Content-type": "application/json"})
+
+            #print 'Response: ', response.status_code
+            json_response = response.json()
+            xml_file_link = False
+            estado_factura = json_response['estado_factura']
+            if estado_factura == 'problemas_factura':
+                raise UserError(_(json_response['problemas_message']))
+            # Receive and stroe XML invoice
+            if json_response.get('factura_xml'):
+                xml_file_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                xml_file = open(xml_file_link, 'w')
+                xml_invoice = base64.b64decode(json_response['factura_xml'])
+                xml_file.write(xml_invoice)
+                xml_file.close()
+                invoice._set_data_from_xml(xml_invoice)
+            invoice.write({'estado_factura': estado_factura,
+                           'xml_invoice_link': xml_file_link,
+                           'factura_cfdi': True})
+        return True
     
     @api.one
     def _set_data_from_xml(self, xml_invoice):
@@ -531,6 +577,18 @@ class AccountInvoice(models.Model):
                                                 })
                 invoice.write({'estado_factura': json_response['estado_factura']})
                     
+        
+ 
+    @api.multi
+    def force_invoice_send(self):
+        for inv in self:
+            email_act = inv.action_invoice_sent()
+            if email_act and email_act.get('context'):
+                email_ctx = email_act['context']
+                email_ctx.update(default_email_from=inv.company_id.email)
+                inv.with_context(email_ctx).message_post_with_template(email_ctx.get('default_template_id'))
+        return True
+ 
  
 class MailTemplate(models.Model):
     "Templates for sending email"
