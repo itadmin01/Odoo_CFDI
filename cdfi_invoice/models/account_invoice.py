@@ -237,35 +237,30 @@ class AccountInvoice(models.Model):
             if line.quantity < 0:
                 continue
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            amounts = line.invoice_line_tax_ids.compute_all(price, line.currency_id, line.quantity, product=line.product_id,
-                                                         partner=line.invoice_id.partner_id)
-        
+            amounts = line.invoice_line_tax_ids.compute_all(price, line.currency_id, line.quantity, product=line.product_id, partner=line.invoice_id.partner_id)
             price_exclude_tax = amounts['total_excluded']
             price_include_tax = amounts['total_included']
             if line.invoice_id:
                 price_exclude_tax = line.invoice_id.currency_id.round(price_exclude_tax)
                 price_include_tax = line.invoice_id.currency_id.round(price_include_tax)
-            amount_untaxed += (line.price_unit * line.quantity)
             amount_total += price_include_tax
-            
             taxes = amounts['taxes']
             tax_items = []
+            amount_wo_tax = line.price_unit * line.quantity
             product_taxes = {'numerodeimpuestos': len(taxes)}
             for tax in taxes:
                 tax_id = self.env['account.tax'].browse(tax['id'])
-                tax_items.append({
-                          'name': tax_id.tax_group_id.name,
-                          'percentage': tax_id.amount,
-                          'amount': tax['amount'],
-                          'impuesto': tax_id.impuesto,
-                          'tipo_factor': tax_id.tipo_factor,
-                    })
-                val = {
-                    'invoice_id': line.invoice_id.id,
-                    'name': tax_id.tax_group_id.name,
-                    'tax_id': tax['id'],
-                    'amount': tax['amount'],
-                }
+                if tax_id.price_include or tax_id.amount_type == 'division':
+                    amount_wo_tax -= tax['amount']
+                tax_items.append({'name': tax_id.tax_group_id.name,
+                 'percentage': tax_id.amount,
+                 'amount': tax['amount'],
+                 'impuesto': tax_id.impuesto,
+                 'tipo_factor': tax_id.tipo_factor})
+                val = {'invoice_id': line.invoice_id.id,
+                 'name': tax_id.tax_group_id.name,
+                 'tax_id': tax['id'],
+                 'amount': tax['amount']}
                 key = tax['id']
                 if key not in tax_grouped:
                     tax_grouped[key] = val
@@ -273,29 +268,31 @@ class AccountInvoice(models.Model):
                     tax_grouped[key]['amount'] += val['amount']
             if tax_items:
                 product_taxes.update({'tax_lines': tax_items})
-            
-            self.discount = line.price_unit * line.quantity - line.price_subtotal
-            if self.discount < 0:
-                 self.discount = 0
-            self.amount = line.price_unit*line.quantity
-            if self.partner_id.name == 'Factura global CFDI 33':
-                 codigo = line.name.replace('Venta','').replace('[','').replace(']','').replace('-','').replace(' ','')
-            else:
-                 codigo = line.product_id.code
-            invoice_lines.append({
-                      'quantity': line.quantity,
-                      'unidad_medida': line.product_id.unidad_medida,
-                      'product': codigo,
-                      'price_unit': line.price_unit,
-                      'amount': self.amount,
-                      'description': line.name,
-                      'clave_producto': line.product_id.clave_producto,
-                      'clave_unidad': line.product_id.clave_unidad,
-                      'taxes': product_taxes,
-                      'descuento': self.discount
-                })
-            
-        request_params['invoice'].update({'subtotal': amount_untaxed, 'total': amount_total})
+
+            p_unit = amount_wo_tax / line.quantity  #added
+            this_amount = p_unit * line.quantity
+            amount_untaxed += this_amount
+
+            desc = p_unit * line.quantity - line.price_subtotal
+            if desc < 0:
+                desc = 0
+            self.discount += desc
+
+            self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
+            invoice_lines.append({'quantity': line.quantity,
+             'unidad_medida': line.product_id.unidad_medida,
+             'product': line.product_id.code,
+#             'price_unit': line.price_unit - self.discount / line.quantity,
+             'price_unit': round(p_unit,2),
+             'amount': round(this_amount,2),
+             'description': line.name,
+             'clave_producto': line.product_id.clave_producto,
+             'clave_unidad': line.product_id.clave_unidad,
+             'taxes': product_taxes,
+             'descuento': desc})
+
+#        amount_untaxed = amount_total - amount_untaxed
+        request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -311,7 +308,6 @@ class AccountInvoice(models.Model):
         taxes = {'numerodeimpuestos': tax_count}
         if tax_lines:
             taxes.update({'tax_lines': tax_lines})
-        # request_params.update({'taxes': taxes})
         if not self.company_id.archivo_cer:
             raise UserError(_('Archivo .cer path is missing.'))
         if not self.company_id.archivo_key:
