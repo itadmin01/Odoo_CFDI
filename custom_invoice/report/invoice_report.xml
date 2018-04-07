@@ -410,17 +410,17 @@
 							</div>
 						</div>
 					</div>
-					<t t-if="o.comment">
-					<div class="row">
-					<strong>Observaciones: </strong><span t-field="o.comment" />
-					</div>
-                    </t>
 					<p>
 						<center>
 							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI
 							</strong>
 						</center>
 					</p>
+					</t>
+					<t t-if="o.comment">
+					<div class="row">
+					<strong>Observaciones: </strong><span t-field="o.comment" />
+					</div>
 					</t>
 				</div>
 			</t>
