@@ -59,6 +59,8 @@ class SaleOrder(models.Model):
                    ('I03', _('Equipo de transporte')),
                    ('I04', _('Equipo de cómputo y accesorios')),
                    ('I05', _('Dados, troqueles, moldes, matrices y herramental')),
+                   ('I06', _('Comunicacion telefónica')),
+                   ('I07', _('Comunicación Satelital')),
                    ('I08', _('Otra maquinaria y equipo')),
                    ('D01', _('Honorarios médicos, dentales y gastos hospitalarios')),
                    ('D02', _('Gastos médicos por incapacidad o discapacidad')),
