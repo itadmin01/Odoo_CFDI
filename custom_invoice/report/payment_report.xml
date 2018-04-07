@@ -340,7 +340,8 @@
         		menu="False"
 				report_type="qweb-pdf" 
 				name="custom_invoice.report_payment" 
-				file="custom_invoice.report_payment" />
+				file="custom_invoice.report_payment" 
+				print_report_name = "((object.name or '').replace('/','')+'.pdf')"/>
 		
 		<record id="custom_invoice.report_payments" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_invoice.paperformat_a4_landscape"/>
