@@ -437,7 +437,7 @@
 
 
 		<report id="account.account_invoices" model="account.invoice" string="Custom Invoices"
-			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice"  print_report_name = "((object.number or '').replace('/','')+'.pdf')"/>
+			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice" />
 		
 		<record id="account.account_invoices" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
