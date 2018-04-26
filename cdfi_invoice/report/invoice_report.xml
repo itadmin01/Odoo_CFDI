@@ -182,6 +182,7 @@
 								<t t-set="price_include_tax" t-value="l.invoice_id.currency_id.round(price_include_tax)"/>
 								<t t-set="amount_untaxed" t-value="amount_untaxed + price_exclude_tax"/>
 								<t t-set="amount_total" t-value="amount_total + price_include_tax"/>
+								<t t-set="taxes" t-value="amounts['taxes']"/>
 								<td>
 									<span t-field="l.product_id.clave_producto" />
 								</td>
@@ -210,19 +211,23 @@
 								<td colspan="4">
 								<table width="100%">
 								<tr t-foreach="l.invoice_line_tax_ids" t-as="tax">
-								<td class="text-right" width="25%">
-									<span t-field="tax.impuesto" />
-								</td>
-								<td class="text-right"  width="25%">
-									<span t-field="tax.tipo_factor" />
-								</td>
-								<td class="text-right"  width="25%">
-									<span t-esc="abs(tax.amount / 100)" />
-								</td>
-								<td class="text-right"  width="25%">
-									<span t-esc="abs((tax.amount / 100) * o.currency_id.round((l.price_unit - l.price_unit *((l.discount or 0.0) / 100.0))* l.quantity))" 
-									      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-								</td>
+								<t t-foreach="taxes" t-as="m">
+								 <t t-if="m['id'] == tax.id">
+									<td class="text-right" width="25%">
+										<span t-field="tax.impuesto" />
+									</td>
+									<td class="text-right"  width="25%">
+										<span t-field="tax.tipo_factor" />
+									</td>
+									<td class="text-right"  width="25%">
+										<span t-esc="abs(tax.amount / 100)" /> 
+									</td>
+									<td class="text-right"  width="25%">
+										<span t-esc="abs(m['amount'])" 
+										      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+									</td>
+									</t>
+									</t>
 								</tr>
 								</table>
 								</td>
