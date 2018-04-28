@@ -67,6 +67,11 @@
 						<div style="border-bottom: 1px solid black;"></div>
 					</div>
 				</div>
+				<t t-if="o.estado_factura == 'factura_cancelada'">
+			   <div style="position:absolute;opacity:0.25;z-index:1000;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:150%;">
+                      <p style="font-size:140px;">CANCELADO</p>
+               </div>
+			</t>
 			</div>
 		</template>
 
