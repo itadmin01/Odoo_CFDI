@@ -384,7 +384,7 @@ class AccountInvoice(models.Model):
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 url = '%s' % ('http://itadmin.gecoerp.com/invoice?handler=OdooHandler33')
+                 url = '%s' % ('https://itadmin.gecoerp.com/invoice?handler=OdooHandler33')
             #url = '%s' % (invoice.company_id.http_factura, '/invoice?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
