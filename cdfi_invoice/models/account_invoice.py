@@ -558,7 +558,7 @@ class AccountInvoice(models.Model):
                         xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'						
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice)
+                    xml_file.write(xml_invoice.decode("utf-8"))
                     xml_file.close()
                     if invoice.number:
                         file_name = invoice.number.replace('/', '_') + '.xml'
