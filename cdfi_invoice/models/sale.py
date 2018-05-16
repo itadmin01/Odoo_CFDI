@@ -47,7 +47,7 @@ class SaleOrder(models.Model):
     #num_cta_pago = fields.Char(string=_('Núm. Cta. Pago'))
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
-		           ('PPD', _('Pago en parcialidades o diferido')),],
+                   ('PPD', _('Pago en parcialidades o diferido')),],
         string=_('Método de pago'), 
     )
     uso_cfdi = fields.Selection(
@@ -72,7 +72,37 @@ class SaleOrder(models.Model):
                    ('P01', _('Por definir')),],
         string=_('Uso CFDI (cliente)'),
     )
-     
+	
+    @api.multi
+    @api.onchange('partner_id')
+    def _get_uso_cfdi(self):
+      if self.partner_id:
+         values = {
+            'uso_cfdi': self.partner_id.uso_cfdi
+         }
+         self.update(values)
+
+    @api.multi
+    @api.onchange('payment_term_id')
+    def _get_metodo_pago(self):
+      if self.payment_term_id:
+         if self.payment_term_id.methodo_pago == 'PPD':
+             values = {
+                 'methodo_pago': self.payment_term_id.methodo_pago,
+                 'forma_pago': '99'
+             }
+         else:
+             values = {
+                 'methodo_pago': self.payment_term_id.methodo_pago,
+                 'forma_pago': False
+             }
+      else:
+         values = {
+             'methodo_pago': False,
+             'forma_pago': False
+         }
+      self.update(values)
+
     @api.depends('amount_total', 'currency_id')
     @api.one
     def _get_amount_to_text(self):

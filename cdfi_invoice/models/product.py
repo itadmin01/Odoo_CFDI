@@ -28,7 +28,10 @@ UM_CLAVO_MAP = {
                 'Paquete': 'XPK',
                 'Pallet': 'XPX',	
                 'Mutuamente definido': 'ZZ',
+                'Medida metrica de rollo': 'RK',
                 'Uno': 'C62',	
+                'Vehiculo': 'XVN',
+                'Par': 'PR',
                 'Kit': 'KT',
                 }
     
@@ -60,7 +63,10 @@ class ProductTemplate(models.Model):
                    ('Pallet', 'Pallet'),
                    ('Paquete', 'Paquete'),	
                    ('Mutuamente definido', 'Mutuamente definido'),
-                   ('Uno', 'Uno'),		
+                   ('Medida metrica de rollo', 'Medida metrica de rollo'),
+                   ('Uno', 'Uno'),
+                   ('Vehiculo', 'Vehiculo'),
+                   ('Par', 'Par'),
                    ('Kit', 'Kit'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')

@@ -142,12 +142,6 @@
 								</tr>
 							</table>
 						</div>
-					<!--	<div class="col-xs-8">
-							<div style="color: black;">
-							<t t-set="amount" t-value="o.amount"/>
-								<strong><span t-esc="o._get_amount_2_text(amount)" /></strong>
-							</div>
-						</div> -->
 					</div>	
 					<t t-if="o.tipo_relacion">
 					  <div class="row">
@@ -163,35 +157,54 @@
 					  </div>
 					</t>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Documentos Relacionados</strong></center>
+					<table class=	"borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+						<thead>
+							<tr>
+								<th>No. pago</th>
+								<th>Documento relacionado</th>
+								<th>Moneda</th>
+								<th>T/C</th>
+								<th>Método de pago</th> 
+								<th>Saldo pendiente</th>
+								<th>Monto pagado</th>
+								<th>Saldo restante</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.get_docto_relacionados(o)" t-as="row" style="page-break-inside: avoid">
+		                        <td>
+		                            <span t-esc="row.get('no_de_pago')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('iddocumento')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('moneda')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('tipodecambio')"/>
+		                        </td>
+								<td>
+		                            <span t-field="o.methodo_pago" />
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('monto_pagar')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_restante')"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					<div><br/></div>
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Detalles del documento</strong></center>
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
-							<tr>
-								<td>
-									<strong>Detalles del pago</strong>
-								</td>
-								<td >
-									
-								</td>
-								<td>
-									<strong>Documento relacionado</strong>
-								</td>
-								<td >
-									
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Método de pago</strong>
-								</td>
-								<td >
-									<span t-field="o.methodo_pago" />
-								</td>
-								<td>
-									<strong>Id Documento</strong>
-								</td>
-								<td >
-									<span t-field="o.iddocumento" />
-								</td>
-							</tr>
 							<tr>
 								<td>
 									<strong>Forma de pago</strong>
@@ -200,38 +213,24 @@
 									<span t-field="o.forma_pago" />
 								</td>
 								<td>
-									<strong>Num. Parcialidad</strong>
-								</td>
-								<td >
-									<span t-field="o.no_de_pago" />
-								</td>
-							</tr>
-							<tr>
-							   <td>
-									<strong>Número de operación</strong>
-								</td>
-								<td >
-									<span t-field="o.numero_operacion" />
-								</td>
-								<td>
-									<strong>Importe saldo anterior</strong>
-								</td>
-								<td >
-									<span t-field="o.saldo_pendiente" />
-								</td>
-							</tr>
-							<tr>
-								<td>
 									<strong>Fecha de pago</strong>
 								</td>
 								<td >
 									<span t-field="o.fecha_pago" />
 								</td>
+							</tr>
+							<tr>
 								<td>
-									<strong>Imp. Pago</strong>
+									<strong>Importe de Pago</strong>
 								</td>
 								<td >
-									<span t-field="o.monto_pagar" />
+									<span t-esc="o.monto_pagar" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+								</td>
+							   <td>
+									<strong>Número de operación</strong>
+								</td>
+								<td >
+									<span t-field="o.numero_operacion" />
 								</td>
 							</tr>
 							<tr>
@@ -242,42 +241,11 @@
 									<span t-field="o.monedap" />
 								</td>
 								<td>
-									<strong>Imp. Saldo Insulto</strong>
-								</td>
-								<td >
-									<span t-field="o.saldo_restante" />
-								</td>
-							</tr>
-							<tr>
-								<td>
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-								<t t-if="o.monedap == 'MXN'" >
-									1
-								</t>
-								<t t-if="not o.monedap == 'MXN'" >
 									<span t-field="o.tipocambiop" />
-								</t>
 								</td>
-								<td>
-									<strong>Moneda</strong>
-								</td>
-								<td >
-									<span t-field="o.moneda" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-								</td>
-								<td >
-								</td>
-								<td t-if="not o.moneda == o.monedap">
-									<strong>Tipo de cambio</strong>
-								</td>
-								<td t-if="not o.moneda == o.monedap">
-									<span t-field="o.tipocambio" />
-								</td >
 							</tr>
 						</table>
 					</div>

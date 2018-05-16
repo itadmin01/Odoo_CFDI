@@ -187,7 +187,36 @@ class AccountInvoice(models.Model):
     @api.model
     def _get_amount_2_text(self, amount_total):
         return amount_to_text_es_MX.get_amount_to_text(self, amount_total, 'es_cheque', self.currency_id.name)
-            
+
+    @api.multi
+    @api.onchange('partner_id')
+    def _get_uso_cfdi(self):
+      if self.partner_id:
+         values = {
+            'uso_cfdi': self.partner_id.uso_cfdi
+         }
+         self.update(values)
+
+    @api.multi
+    @api.onchange('payment_term_id')
+    def _get_metodo_pago(self):
+      if self.payment_term_id:
+         if self.payment_term_id.methodo_pago == 'PPD':
+             values = {
+                 'methodo_pago': self.payment_term_id.methodo_pago,
+                 'forma_pago': '99'
+             }
+         else:
+             values = {
+                 'methodo_pago': self.payment_term_id.methodo_pago,
+                 'forma_pago': False
+             }
+      else:
+         values = {
+             'methodo_pago': False,
+             'forma_pago': False
+         }
+      self.update(values)
     
     @api.model
     def to_json(self):
@@ -281,20 +310,45 @@ class AccountInvoice(models.Model):
             self.discount += desc
 
             self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
-            invoice_lines.append({'quantity': line.quantity,
-             'unidad_medida': line.product_id.unidad_medida,
-             'product': line.product_id.code,
-#             'price_unit': line.price_unit - self.discount / line.quantity,
-             'price_unit': round(p_unit,2),
-             'amount': round(this_amount,2),
-             'description': line.name,
-             'clave_producto': line.product_id.clave_producto,
-             'clave_unidad': line.product_id.clave_unidad,
-             'taxes': product_taxes,
-             'descuento': desc})
+            if self.tipo_comprobante == 'E':
+             invoice_lines.append({'quantity': line.quantity,
+              'unidad_medida': line.product_id.unidad_medida,
+              'product': line.product_id.code,
+              'price_unit': round(p_unit,2),
+              'amount': round(this_amount,2),
+              'description': line.name,
+              'clave_producto': '84111506',
+              'clave_unidad': 'ACT',
+              'taxes': product_taxes,
+              'descuento': desc})
+            elif self.tipo_comprobante == 'T':
+             invoice_lines.append({'quantity': line.quantity,
+              'unidad_medida': line.product_id.unidad_medida,
+              'product': line.product_id.code,
+              'price_unit': round(p_unit,2),
+              'amount': round(this_amount,2),
+              'description': line.name,
+              'clave_producto': line.product_id.clave_producto,
+              'clave_unidad': line.product_id.clave_unidad})
+              #'taxes': '',
+              #'descuento': '0.00'
+            else:
+             invoice_lines.append({'quantity': line.quantity,
+              'unidad_medida': line.product_id.unidad_medida,
+              'product': line.product_id.code,
+              'price_unit': round(p_unit,2),
+              'amount': round(this_amount,2),
+              'description': line.name,
+              'clave_producto': line.product_id.clave_producto,
+              'clave_unidad': line.product_id.clave_unidad,
+              'taxes': product_taxes,
+              'descuento': desc})
 
 #        amount_untaxed = amount_total - amount_untaxed
-        request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
+        if self.tipo_comprobante == 'T':
+           request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
+        else:
+           request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -379,13 +433,12 @@ class AccountInvoice(models.Model):
                 raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if estado_factura == 'factura_cancelada':
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
-            
+            self.fecha_factura= datetime.datetime.now()
             values = invoice.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 url = '%s' % ('https://itadmin.gecoerp.com/invoice?handler=OdooHandler33')
-            #url = '%s' % (invoice.company_id.http_factura, '/invoice?handler=OdooHandler33')
+                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
@@ -401,14 +454,13 @@ class AccountInvoice(models.Model):
                 xml_file_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
                 xml_file = open(xml_file_link, 'w')
                 xml_invoice = base64.b64decode(json_response['factura_xml'])
-                xml_file.write(xml_invoice)
+                xml_file.write(xml_invoice.decode("utf-8"))
                 xml_file.close()
                 invoice._set_data_from_xml(xml_invoice)
             invoice.write({'estado_factura': estado_factura,
                            'xml_invoice_link': xml_file_link,
                            'factura_cfdi': True})
         return True
-    
     @api.one
     def _set_data_from_xml(self, xml_invoice):
         if not xml_invoice:
@@ -488,7 +540,7 @@ class AccountInvoice(models.Model):
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
-                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')  
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})

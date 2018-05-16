@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
-#                 @author Esousy
+#                 @author IT Admin
 #
 ##############################################################################
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '1.0',
+    'version': '2.0',
     'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 2017)
     ''',
-    'category': 'Sales, Accounting',
+    'category': 'Accounting',
     'author': 'IT Admin',
     'website': '',
     'depends': [
         'base',
-        'sale','account'
+        'sale','account','account_accountant'
     ],
     'data': [
         'views/res_partner_view.xml',
@@ -23,6 +23,7 @@
         'views/account_invoice_view.xml',
         'views/account_payment_view.xml',
         'views/account_tax_view.xml',
+        'views/account_payment_term_view.xml',
         'views/sale_view.xml',
         'report/invoice_report.xml',
         'report/payment_report.xml',

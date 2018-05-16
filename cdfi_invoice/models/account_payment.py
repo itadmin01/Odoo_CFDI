@@ -66,9 +66,9 @@ class AccountPayment(models.Model):
     cadena_origenal = fields.Char(string=_('Cadena Original del Complemento digital de SAT'))
     selo_digital_cdfi = fields.Char(string=_('Sello Digital del CDFI'))
     selo_sat = fields.Char(string=_('Sello del SAT'))
-    moneda = fields.Char(string=_('Moneda'))
+ #   moneda = fields.Char(string=_('Moneda'))
     monedap = fields.Char(string=_('Moneda'))
-    tipocambio = fields.Char(string=_('TipoCambio'))
+#    tipocambio = fields.Char(string=_('TipoCambio'))
     tipocambiop = fields.Char(string=_('TipoCambio'))
     folio = fields.Char(string=_('Folio'))
     version = fields.Char(string=_('Version'))
@@ -84,20 +84,46 @@ class AccountPayment(models.Model):
     payment_mail_ids = fields.One2many('account.payment.mail', 'payment_id', string='Payment Mails')
     iddocumento = fields.Char(string=_('iddocumento'))
     fecha_emision = fields.Char(string=_('Fecha y Hora Certificación'))
-	
+    docto_relacionados = fields.Text("Docto relacionados",default='[]')
+    
     @api.depends('name')
     @api.one
     def _get_number_folio(self):
         if self.number:
             self.number_folio = self.name.replace('CUST.IN','').replace('/','')
-    
+
+    @api.model
+    def get_docto_relacionados(self,payment):
+        try:
+            data = json.loads(payment.docto_relacionados)
+        except Exception:
+            data = []    
+        return data
+
     @api.model
     def create(self, vals):
         res = super(AccountPayment, self).create(vals)
         if res.invoice_ids:
-            res.no_de_pago = len(res.invoice_ids[0].payment_ids)
-            res.saldo_pendiente = res.invoice_ids[0].residual
-            res.saldo_restante = res.saldo_pendiente - res.monto_pagar
+            docto_relacionados = []
+            monto_pagado = round(res.monto_pagar,2)
+            for invoice in res.invoice_ids:
+                if monto_pagado > invoice.residual:
+                   monto_pagar = round(invoice.residual,2)
+                   monto_pagado -= round(invoice.residual,2)
+                else:
+                   monto_pagar = round(monto_pagado,2)
+                docto_relacionados.append({
+                      'moneda': invoice.moneda,
+                      'tipodecambio': invoice.tipocambio,
+                      'iddocumento': invoice.folio_fiscal,
+                      'no_de_pago': len(invoice.payment_ids),
+                      'saldo_pendiente': round(invoice.residual,2),
+                      'monto_pagar': monto_pagar,
+                      'saldo_restante': round((invoice.residual - monto_pagar),2),
+                })
+            saldo_pendiente = sum(inv.residual for inv in res.invoice_ids)
+            res.write({'docto_relacionados': json.dumps(docto_relacionados), 'no_de_pago':sum(len(inv.payment_ids) for inv in res.invoice_ids),
+                       'saldo_pendiente': saldo_pendiente, 'saldo_restante':saldo_pendiente - res.monto_pagar})
         return res
             
     @api.one
@@ -132,23 +158,14 @@ class AccountPayment(models.Model):
             raise UserError(_('Archivo .key path is missing.'))
         archivo_cer = self.company_id.archivo_cer
         archivo_key = self.company_id.archivo_key
-        if self.invoice_ids:		
-            invoice = self.invoice_ids[0] #quitar
-            #archivo_cer =base64.b64encode(archivo_cer_file) #quitar
-            #archivo_key =base64.b64encode(archivo_key_file) #quitar
-            self.tipocambio = invoice.tipocambio  #quitar
-            #docto_relacionados = []
-            #for invoice in self.invoice_ids:
-            #    docto_relacionados.append({
-            #          'moneda': invoice.moneda,
-            #          'tipodecambio': invoice.tipocambio,
-            #          'iddocumento': invoice.folio_fiscal,
-            #          'no_de_pago': self.no_de_pago,
-            #          'saldo_pendiente': self.saldo_pendiente,
-            #          'monto_pagar': self.monto_pagar,
-            #          'saldo_restante': self.saldo_restante,
-            #    })
-            
+        self.monedap = self.currency_id.name
+        if self.currency_id.name == 'MXN':
+           self.tipocambiop = '1'
+        else:
+           self.tipocambiop = self.currency_id.rate
+        self.methodo_pago  = 'PPD'
+		
+        if self.invoice_ids:		            
             request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -187,17 +204,10 @@ class AccountPayment(models.Model):
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
                       'fecha_pago': self.fecha_pago,
-                      'monto_factura':  self.amount #invoice.amount_total #sum(invoice.amount_total for invoice in self.invoice_ids) #agregar
+                      'monto_factura':  self.amount
                 },
-                'docto_relacionado': {
-                      'moneda': invoice.moneda,
-                      'tipodecambio': invoice.tipocambio,
-                      'iddocumento': invoice.folio_fiscal,
-                      'no_de_pago': self.no_de_pago,
-                      'saldo_pendiente': self.saldo_pendiente,
-                      'monto_pagar': self.monto_pagar,
-                      'saldo_restante': self.saldo_restante,
-                },
+
+                'docto_relacionado': json.loads(self.docto_relacionados),
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
                       'uuid_relacionado': self.uuid_relacionado,
@@ -249,7 +259,7 @@ class AccountPayment(models.Model):
                       'fecha_pago': self.fecha_pago,
                       'monto_factura': self.amount,
                 },
-                'docto_relacionado': {
+                'docto_relacionado': [{
                       'moneda': 'false',
                       'tipodecambio': 'false',
                       'iddocumento': 'false',
@@ -257,7 +267,7 @@ class AccountPayment(models.Model):
                       'saldo_pendiente': 'false',
                       'monto_pagar': 'false',
                       'saldo_restante': 'false',
-                },				
+                }],
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
                       'uuid_relacionado': self.uuid_relacionado,
@@ -278,7 +288,7 @@ class AccountPayment(models.Model):
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/payment?handler=OdooHandler33')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                url = '%s' % ('https://itadmin.gecoerp.com/payment/?handler=OdooHandler33')
+                url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
@@ -357,15 +367,15 @@ class AccountPayment(models.Model):
         DoctoRelacionado = Pago.find('pago10:DoctoRelacionado', NSMAP)
         self.rfc_emisor = Emisor.attrib['Rfc']
         self.name_emisor = Emisor.attrib['Nombre']
-        if self.invoice_ids:
-           self.methodo_pago = DoctoRelacionado.attrib['MetodoDePagoDR']
-           self.moneda = DoctoRelacionado.attrib['MonedaDR']
-           self.monedap = Pago.attrib['MonedaP']
-           if self.monedap != 'MXN':		   
-               self.tipocambiop = Pago.attrib['TipoCambioP']	   
-           if self.moneda != self.monedap:
-                 self.tipocambio = DoctoRelacionado.attrib['TipoCambioDR']
-           self.iddocumento = DoctoRelacionado.attrib['IdDocumento']
+#        if self.invoice_ids:
+#           self.methodo_pago = DoctoRelacionado.attrib['MetodoDePagoDR']
+#           self.moneda = DoctoRelacionado.attrib['MonedaDR']
+#           self.monedap = Pago.attrib['MonedaP']
+#           if self.monedap != 'MXN':		   
+#               self.tipocambiop = Pago.attrib['TipoCambioP']	   
+#           if self.moneda != self.monedap:
+#                 self.tipocambio = DoctoRelacionado.attrib['TipoCambioDR']
+#           self.iddocumento = DoctoRelacionado.attrib['IdDocumento']
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.fecha_emision = xml_data.attrib['Fecha']
         self.cetificaso_sat = TimbreFiscalDigital.attrib['NoCertificadoSAT']
@@ -466,3 +476,38 @@ class MailTemplate(models.Model):
                         attachments.append((fn, base64.b64encode(data)))
                         results[res_id]['attachments'] = attachments
         return results
+
+class AccountPayment(models.Model):
+    "Terminos de pago"
+    _inherit = "account.payment.term"
+	
+    methodo_pago = fields.Selection(
+        selection=[('PUE', _('Pago en una sola exhibición')),
+                   ('PPD', _('Pago en parcialidades o diferido')),],
+        string=_('Método de pago'), 
+    )
+
+    forma_pago = fields.Selection(
+        selection=[('01', '01 - Efectivo'), 
+                   ('02', '02 - Cheque nominativo'), 
+                   ('03', '03 - Transferencia electrónica de fondos'),
+                   ('04', '04 - Tarjeta de Crédito'), 
+                   ('05', '05 - Monedero electrónico'),
+                   ('06', '06 - Dinero electrónico'), 
+                   ('08', '08 - Vales de despensa'), 
+                   ('12', '12 - Dación en pago'), 
+                   ('13', '13 - Pago por subrogación'), 
+                   ('14', '14 - Pago por consignación'), 
+                   ('15', '15 - Condonación'), 
+                   ('17', '17 - Compensación'), 
+                   ('23', '23 - Novación'), 
+                   ('24', '24 - Confusión'), 
+                   ('25', '25 - Remisión de deuda'), 
+                   ('26', '26 - Prescripción o caducidad'), 
+                   ('27', '27 - A satisfacción del acreedor'), 
+                   ('28', '28 - Tarjeta de débito'), 
+                   ('29', '29 - Tarjeta de servicios'), 
+                   ('30', '30 - Aplicación de anticipos'), 
+                   ('99', '99 - Por definir'),],
+        string=_('Forma de pago'),
+    )
