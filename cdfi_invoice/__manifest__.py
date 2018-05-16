@@ -14,7 +14,7 @@
     'website': '',
     'depends': [
         'base',
-        'sale','account','account_accountant'
+        'sale','account','account_invoicing'
     ],
     'data': [
         'views/res_partner_view.xml',
