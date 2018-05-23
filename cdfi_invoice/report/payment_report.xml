@@ -2,8 +2,58 @@
 <odoo>
 	<data>
 
+        <template id="cfdi_payment_layout">
+			<!-- Multicompany -->
+			<t t-if="not o and doc">
+				<t t-set="o" t-value="doc" />
+			</t>
+			<t t-if="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id"></t>
+			</t>
+			<t t-if="not o or not 'company_id' in o">
+				<t t-set="company" t-value="res_company"></t>
+			</t>
+        <div class="header">
+			<div class="row">
+				<div class="col-xs-9 text-left" style="margin-top:20px;"
+					t-field="company.report_header" />
+			</div>
+			<div class="row zero_min_height">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-raw="0" />
+        </div>
+
+        <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4">
+	                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+	
+	                <li t-if="company.email">&amp;bull;</li>
+	                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+	
+	                <li t-if="company.website">&amp;bull;</li>
+	                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+                </ul>
+
+                <div name="financial_infos">
+                    <span t-field="company.report_footer"/>
+                </div>
+
+                <div class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
 		<template id="report_payment_document">
-			<t t-call="cdfi_invoice.cfdi_external_layout">
+			<t t-call="cdfi_invoice.cfdi_payment_layout">
 				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
 				<div class="page" style="padding-top: 10px;">
 					<div class="row"  >
