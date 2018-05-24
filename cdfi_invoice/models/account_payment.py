@@ -86,8 +86,8 @@ class AccountPayment(models.Model):
     fecha_emision = fields.Char(string=_('Fecha y Hora Certificación'))
     docto_relacionados = fields.Text("Docto relacionados",default='[]')
     
-    @api.depends('name')
     @api.one
+    @api.depends('name')
     def _get_number_folio(self):
         if self.number:
             self.number_folio = self.name.replace('CUST.IN','').replace('/','')
@@ -141,8 +141,8 @@ class AccountPayment(models.Model):
         if self.journal_id:
             self.cuenta_beneficiario = self.journal_id.bank_acc_number
              
-    @api.depends('amount', 'currency_id')
     @api.one
+    @api.depends('amount', 'currency_id')
     def _get_amount_to_text(self):
         self.amount_to_text = amount_to_text_es_MX.get_amount_to_text(self, self.amount_total, 'es_cheque', self.currency_id.name)
         
@@ -477,7 +477,7 @@ class MailTemplate(models.Model):
                         results[res_id]['attachments'] = attachments
         return results
 
-class AccountPayment(models.Model):
+class AccountPaymentTerm(models.Model):
     "Terminos de pago"
     _inherit = "account.payment.term"
 	
