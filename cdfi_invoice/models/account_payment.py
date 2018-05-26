@@ -288,7 +288,11 @@ class AccountPayment(models.Model):
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/payment?handler=OdooHandler33')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
+                 if self.company_id.modo_prueba:
+                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
+                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
+                 else:
+                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})

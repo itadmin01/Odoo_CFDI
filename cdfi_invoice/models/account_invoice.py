@@ -390,6 +390,10 @@ class AccountInvoice(models.Model):
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
                      url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
                 elif invoice.company_id.proveedor_timbrado == 'gecoerp':
+                 if self.company_id.modo_prueba:
+                    # url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                 else:
                      url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -479,8 +483,8 @@ class AccountInvoice(models.Model):
         
         self.rfc_emisor = Emisor.attrib['Rfc']
         self.name_emisor = Emisor.attrib['Nombre']
-        self.methodo_pago = xml_data.attrib['MetodoPago']
-        self.forma_pago = _(xml_data.attrib['FormaPago'])
+        #self.methodo_pago = xml_data.attrib['MetodoPago']
+        #self.forma_pago = _(xml_data.attrib['FormaPago'])
         #  self.condicione_pago = xml_data.attrib['condicionesDePago']
         #self.num_cta_pago = xml_data.get('NumCtaPago', '')
         self.tipocambio = xml_data.attrib['TipoCambio']
@@ -540,7 +544,11 @@ class AccountInvoice(models.Model):
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
-                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')  
+                 if self.company_id.modo_prueba:
+                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                 else:
+                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
@@ -581,7 +589,7 @@ class AccountInvoice(models.Model):
                 values = {
                           'rfc': invoice.company_id.rfc,
                           'api_key': invoice.company_id.proveedor_timbrado,
-			  'uuid': self.folio_fiscal,
+                          'uuid': self.folio_fiscal,
                           'folio': self.folio,
                           'serie_factura': invoice.company_id.serie_factura,
                           'modo_prueba': invoice.company_id.modo_prueba,
@@ -592,9 +600,13 @@ class AccountInvoice(models.Model):
                             }
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
-                    url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
+                     url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
-                    url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                 if self.company_id.modo_prueba:
+                   #  url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
+                     url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                 else:
+                     url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
