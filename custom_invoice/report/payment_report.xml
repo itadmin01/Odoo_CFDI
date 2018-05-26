@@ -2,8 +2,61 @@
 <odoo>
 	<data>
 
+		<template id="cfdi_payment_layout">
+			<!-- Multicompany -->
+			<t t-if="not o and doc">
+				<t t-set="o" t-value="doc" />
+			</t>
+			<t t-if="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id"></t>
+			</t>
+			<t t-if="not o or not 'company_id' in o">
+				<t t-set="company" t-value="res_company"></t>
+			</t>
+
+			<t t-call="custom_invoice.cfdi_payment_layout_header" />
+			<t t-raw="0" />
+			<t t-call="custom_invoice.cfdi_payment_layout_footer" />
+		</template>
+		<template id="cfdi_payment_layout_footer">
+          <div class="footer">
+           <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+          </div>
+        </div>      
+       </template>
+
+		<template id="cfdi_payment_layout_header">
+			<div class="header">
+				<div class="row">
+					<div class="col-xs-9 text-left" style="margin-top:20px;"
+						t-field="company.rml_header1" />
+				</div>
+				<div class="row zero_min_height">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"></div>
+					</div>
+				</div>
+			</div>
+		</template>
+		
 		<template id="report_payment_document">
-			<t t-call="custom_invoice.cfdi_external_layout">
+			<t t-call="custom_invoice.cfdi_payment_layout">
 				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
 				<div class="page" style="padding-top: 10px;">
 					<div class="row"  >
@@ -142,12 +195,6 @@
 								</tr>
 							</table>
 						</div>
-					<!--	<div class="col-xs-8">
-							<div style="color: black;">
-							<t t-set="amount" t-value="o.amount"/>
-								<strong><span t-esc="o._get_amount_2_text(amount)" /></strong>
-							</div>
-						</div> -->
 					</div>	
 					<t t-if="o.tipo_relacion">
 					  <div class="row">
@@ -163,35 +210,54 @@
 					  </div>
 					</t>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Documentos Relacionados</strong></center>
+					<table class=	"borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+						<thead>
+							<tr>
+								<th>No. pago</th>
+								<th>Documento relacionado</th>
+								<th>Moneda</th>
+								<th>T/C</th>
+								<th>Método de pago</th> 
+								<th>Saldo pendiente</th>
+								<th>Monto pagado</th>
+								<th>Saldo restante</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.get_docto_relacionados(o)" t-as="row" style="page-break-inside: avoid">
+		                        <td>
+		                            <span t-esc="row.get('no_de_pago')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('iddocumento')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('moneda')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('tipodecambio')"/>
+		                        </td>
+								<td>
+		                            <span t-field="o.methodo_pago" />
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('monto_pagar')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_restante')"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					<div><br/></div>
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Detalles del documento</strong></center>
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
-							<tr>
-								<td>
-									<strong>Detalles del pago</strong>
-								</td>
-								<td >
-									
-								</td>
-								<td>
-									<strong>Documento relacionado</strong>
-								</td>
-								<td >
-									
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Método de pago</strong>
-								</td>
-								<td >
-									<span t-field="o.methodo_pago" />
-								</td>
-								<td>
-									<strong>Id Documento</strong>
-								</td>
-								<td >
-									<span t-field="o.iddocumento" />
-								</td>
-							</tr>
 							<tr>
 								<td>
 									<strong>Forma de pago</strong>
@@ -200,38 +266,24 @@
 									<span t-field="o.forma_pago" />
 								</td>
 								<td>
-									<strong>Num. Parcialidad</strong>
-								</td>
-								<td >
-									<span t-field="o.no_de_pago" />
-								</td>
-							</tr>
-							<tr>
-							   <td>
-									<strong>Número de operación</strong>
-								</td>
-								<td >
-									<span t-field="o.numero_operacion" />
-								</td>
-								<td>
-									<strong>Importe saldo anterior</strong>
-								</td>
-								<td >
-									<span t-field="o.saldo_pendiente" />
-								</td>
-							</tr>
-							<tr>
-								<td>
 									<strong>Fecha de pago</strong>
 								</td>
 								<td >
 									<span t-field="o.fecha_pago" />
 								</td>
+							</tr>
+							<tr>
 								<td>
-									<strong>Imp. Pago</strong>
+									<strong>Importe de Pago</strong>
 								</td>
 								<td >
-									<span t-field="o.monto_pagar" />
+									<span t-esc="o.monto_pagar" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+								</td>
+							   <td>
+									<strong>Número de operación</strong>
+								</td>
+								<td >
+									<span t-field="o.numero_operacion" />
 								</td>
 							</tr>
 							<tr>
@@ -242,42 +294,11 @@
 									<span t-field="o.monedap" />
 								</td>
 								<td>
-									<strong>Imp. Saldo Insulto</strong>
-								</td>
-								<td >
-									<span t-field="o.saldo_restante" />
-								</td>
-							</tr>
-							<tr>
-								<td>
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-								<t t-if="o.monedap == 'MXN'" >
-									1
-								</t>
-								<t t-if="not o.monedap == 'MXN'" >
 									<span t-field="o.tipocambiop" />
-								</t>
 								</td>
-								<td>
-									<strong>Moneda</strong>
-								</td>
-								<td >
-									<span t-field="o.moneda" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-								</td>
-								<td >
-								</td>
-								<td t-if="not o.moneda == o.monedap">
-									<strong>Tipo de cambio</strong>
-								</td>
-								<td t-if="not o.moneda == o.monedap">
-									<span t-field="o.tipocambio" />
-								</td >
 							</tr>
 						</table>
 					</div>
@@ -340,7 +361,7 @@
         		menu="False"
 				report_type="qweb-pdf" 
 				name="custom_invoice.report_payment" 
-				file="custom_invoice.report_payment" />
+				file="custom_invoice.report_payment"/>
 		
 		<record id="custom_invoice.report_payments" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_invoice.paperformat_a4_landscape"/>

@@ -67,6 +67,11 @@
 						<div style="border-bottom: 1px solid black;"></div>
 					</div>
 				</div>
+				<t t-if="o.estado_factura == 'factura_cancelada'">
+					   <div style="position:absolute;opacity:0.25;z-index:1000;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:150%;">
+                           <p style="font-size:140px;">CANCELADO</p>
+                       </div>
+			     </t>
 			</div>
 		</template>
 
@@ -141,14 +146,13 @@
 						</div>
 						<div class="col-xs-10" >
 								<span t-field="o.partner_id.name" />
-						
 						  <t t-if="o.factura_cfdi">
 						     <div>
 						    	<span t-field="o.partner_id.rfc" />
 						     </div>
 							 <div>
 						    	Uso CFDI: <span t-field="o.uso_cfdi" />
-							</div>
+						     </div>
 						   </t>	
 						</div>						
 					</div>
@@ -163,7 +167,6 @@
 							<tr>
 								<th>Clave Producto</th>
 								<th class="text-right">Cantidad</th>
-										 
 								<th class="text-right">Unidad</th>
 								<th width="50%">Descripción</th>
 								<th class="text-right">Precio Unitario</th>
