@@ -5,7 +5,7 @@
 		<field name="model">sale.order</field>
 		<field name="inherit_id" ref="sale.view_order_form" />
 		<field name="arch" type="xml">
-			 <xpath expr="//notebook" position="inside">
+            <xpath expr="//notebook" position="inside">
                 <page name="info_cdfi" string="CFDI 3.3">
                         <group cols="4">
                             <group string="Detalles de Pago">

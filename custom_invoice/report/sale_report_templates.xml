@@ -69,7 +69,7 @@
 				</div>
 			</div>
 		</template>
-		
+
 <template id="report_saleorder_document">
     <t t-call="custom_invoice.itadmin_sale_external_layout">
         <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
@@ -122,7 +122,7 @@
 	                    <span t-if="doc.state in ['draft','sent']">Presupuesto #:</span>
 	                    <span t-field="doc.name"/>
 	           </div>
-			</h2>  
+			</h2>   
 			<div class="col-xs-6">
                     <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Atención y dirección de envío:</strong>
                     <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Atención:</strong>
@@ -221,7 +221,7 @@
                         </tr>
                     </table>
                 </div>
-			<!--	<div class="col-xs-8">
+<!--				<div class="col-xs-8">
 					<div style="color: black;">
 						<strong><span t-esc="doc._get_amount_2_text(doc.amount_total)" /></strong>
 					</div>

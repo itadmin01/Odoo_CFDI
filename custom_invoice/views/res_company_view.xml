@@ -12,14 +12,14 @@
 	                <page name="info_cdfi" string="CFDI 3.3">
 	                        <group cols="4"  string="Configuración">
 	                            <group>
-									<field name="nombre_fiscal"/>  
+									<field name="nombre_fiscal"/>
 			                        <field name="rfc"/>
 			                        <field name="serie_factura"/>
 									<field name="serie_complemento"/>
 			                        <field name="regimen_fiscal"/>
 	                            </group>
 	                            <group>
-								    <field name="proveedor_timbrado"/>
+									<field name="proveedor_timbrado"/>
 			                     <!--   <field name="http_factura"/> -->
 			                        <field name="factura_dir"/>
 			                        <field name="modo_prueba"/>
