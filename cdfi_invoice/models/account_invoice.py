@@ -385,7 +385,11 @@ class AccountInvoice(models.Model):
             if invoice.factura_cfdi:
                 if invoice.fecha_factura == False:
                    invoice.fecha_factura= datetime.datetime.now()
-                   invoice.write({'fecha_factura': invoice.fecha_factura})				
+                   invoice.write({'fecha_factura': invoice.fecha_factura})
+                if invoice.estado_factura == 'factura_correcta':
+                    raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+                if invoice.estado_factura == 'factura_cancelada':
+                    raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
                 values = invoice.to_json()
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
                      url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
