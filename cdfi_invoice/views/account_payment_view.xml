@@ -17,7 +17,7 @@
 		                                <group string="Datos del comprobante">
 		                                	<field name="forma_pago"/>
 		                                	<field name="tipo_comprobante"/>
-		                                	<field name="no_de_pago"/>
+		                                <!--	<field name="no_de_pago"/>-->
 		                                </group>
 		                                <group  string="Monto">
 		                                	<field name="saldo_pendiente"/>

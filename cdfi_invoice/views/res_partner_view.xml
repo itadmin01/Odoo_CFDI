@@ -13,13 +13,16 @@
 	            <xpath expr="//notebook" position="inside">
 	                <page name="info_cdfi" string="CFDI 3.3">
 	                        <group cols="4">
+	                            <group string="Preferencias de factura">
+	                            	<field name="uso_cfdi"/>
+	                            </group>
 	                            <group string="Detalles extranjero">
 	                            	<field name="residencia_fiscal"/>
 	                            	<field name="registro_tributario"/>
 	                            </group>
 	                        </group>
-                    </page>
-                </xpath>
+	                </page>
+	            </xpath>
 			</field>
 		</record>
 	</data>
