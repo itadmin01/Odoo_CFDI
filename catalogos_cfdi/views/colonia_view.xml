@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id='catalogos_colonias_tree'>
+      <field name='name'>catalogos.colonias.tree</field>
+      <field name='model'>catalogos.colonias</field>
+      <field name='arch' type='xml'>
+        <tree>
+          <field name='c_colonia'/>
+          <field name='descripcion'/>
+          <field name='c_codigopostal'/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_colonias_form">
+      <field name="name">catalogos.colonias.form</field>
+      <field name="model">catalogos.colonias</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name='c_colonia'/>
+          <field name='descripcion'/>
+          <field name='c_codigopostal'/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_colonias" model="ir.actions.act_window">
+        <field name="name">Catálogo de colonias</field>
+        <field name="res_model">catalogos.colonias</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_colonias" name="Colonias" parent="catalogos_menu_principal" action="action_catalogos_colonias"/>
+	</data>
+</odoo>

@@ -1,0 +1,49 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id='catalogos_paises_tree'>
+      <field name='name'>catalogos.paises.tree</field>
+      <field name='model'>catalogos.paises</field>
+      <field name='arch' type='xml'>
+        <tree>
+          <field name='c_pais'/>
+          <field name='descripcion'/>
+          <field name='formato_cp'/>
+          <field name='formato_rit'/>
+          <field name='validacion_rit'/>
+          <field name='agrupacion'/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_paises_form">
+      <field name="name">catalogos.paises.form</field>
+      <field name="model">catalogos.paises</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+               <field name='c_pais'/>
+               <field name='descripcion'/>
+               <field name='formato_cp'/>
+               <field name='formato_rit'/>
+               <field name='validacion_rit'/>
+               <field name='agrupacion'/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_paises" model="ir.actions.act_window">
+        <field name="name">Catálogo de países.</field>
+        <field name="res_model">catalogos.paises</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_principal" name="Catalogos CFDI" parent="account.menu_finance_configuration"/>
+      <menuitem id="catalogos_menu_paises" name="Paises" parent="catalogos_menu_principal" action="action_catalogos_paises"/>
+	</data>
+</odoo>

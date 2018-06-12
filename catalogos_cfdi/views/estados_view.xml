@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id='catalogos_estados_tree'>
+      <field name='name'>catalogos.estados.tree</field>
+      <field name='model'>catalogos.estados</field>
+      <field name='arch' type='xml'>
+        <tree>
+          <field name='c_estado'/>
+          <field name='c_pais'/>
+          <field name='descripcion'/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_estados_form">
+      <field name="name">catalogos.estados.form</field>
+      <field name="model">catalogos.estados</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name='c_estado'/>
+          <field name='c_pais'/>
+          <field name='descripcion'/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_estados" model="ir.actions.act_window">
+        <field name="name">Catálogo de estados</field>
+        <field name="res_model">catalogos.estados</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_estados" name="Estados" parent="catalogos_menu_principal" action="action_catalogos_estados"/>
+	</data>
+</odoo>
