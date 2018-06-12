@@ -1,0 +1,96 @@
+id,c_estado,c_pais,descripcion
+catalogos_estados1,AGU,MEX,Aguascalientes
+catalogos_estados2,BCN,MEX,Baja California
+catalogos_estados3,BCS,MEX,Baja California Sur
+catalogos_estados4,CAM,MEX,Campeche
+catalogos_estados5,CHP,MEX,Chiapas
+catalogos_estados6,CHH,MEX,Chihuahua
+catalogos_estados7,COA,MEX,Coahuila
+catalogos_estados8,COL,MEX,Colima
+catalogos_estados9,DIF,MEX,Ciudad de México
+catalogos_estados10,DUR,MEX,Durango
+catalogos_estados11,GUA,MEX,Guanajuato
+catalogos_estados12,GRO,MEX,Guerrero
+catalogos_estados13,HID,MEX,Hidalgo
+catalogos_estados14,JAL,MEX,Jalisco
+catalogos_estados15,MEX,MEX,Estado de México
+catalogos_estados16,MIC,MEX,Michoacán
+catalogos_estados17,MOR,MEX,Morelos
+catalogos_estados18,NAY,MEX,Nayarit
+catalogos_estados19,NLE,MEX,Nuevo León
+catalogos_estados20,OAX,MEX,Oaxaca
+catalogos_estados21,PUE,MEX,Puebla
+catalogos_estados22,QUE,MEX,Querétaro
+catalogos_estados23,ROO,MEX,Quintana Roo
+catalogos_estados24,SLP,MEX,San Luis Potosí
+catalogos_estados25,SIN,MEX,Sinaloa
+catalogos_estados26,SON,MEX,Sonora
+catalogos_estados27,TAB,MEX,Tabasco
+catalogos_estados28,TAM,MEX,Tamaulipas
+catalogos_estados29,TLA,MEX,Tlaxcala
+catalogos_estados30,VER,MEX,Veracruz
+catalogos_estados31,YUC,MEX,Yucatán
+catalogos_estados32,ZAC,MEX,Zacatecas
+catalogos_estados33,AL,USA,Alabama
+catalogos_estados34,AK,USA,Alaska
+catalogos_estados35,AZ,USA,Arizona
+catalogos_estados36,AR,USA,Arkansas
+catalogos_estados37,CA,USA,California
+catalogos_estados38,NC,USA,Carolina del Norte
+catalogos_estados39,SC,USA,Carolina del Sur
+catalogos_estados40,CO,USA,Colorado
+catalogos_estados41,CT,USA,Connecticut
+catalogos_estados42,ND,USA,Dakota del Norte
+catalogos_estados43,SD,USA,Dakota del Sur
+catalogos_estados44,DE,USA,Delaware
+catalogos_estados45,FL,USA,Florida
+catalogos_estados46,GA,USA,Georgia
+catalogos_estados47,HI,USA,Hawái
+catalogos_estados48,ID,USA,Idaho
+catalogos_estados49,IL,USA,Illinois
+catalogos_estados50,IN,USA,Indiana
+catalogos_estados51,IA,USA,Iowa
+catalogos_estados52,KS,USA,Kansas
+catalogos_estados53,KY,USA,Kentucky
+catalogos_estados54,LA,USA,Luisiana
+catalogos_estados55,ME,USA,Maine
+catalogos_estados56,MD,USA,Maryland
+catalogos_estados57,MA,USA,Massachusetts
+catalogos_estados58,MI,USA,Míchigan
+catalogos_estados59,MN,USA,Minnesota
+catalogos_estados60,MS,USA,Misisipi
+catalogos_estados61,MO,USA,Misuri
+catalogos_estados62,MT,USA,Montana
+catalogos_estados63,NE,USA,Nebraska
+catalogos_estados64,NV,USA,Nevada
+catalogos_estados65,NJ,USA,Nueva Jersey
+catalogos_estados66,NY,USA,Nueva York
+catalogos_estados67,NH,USA,Nuevo Hampshire
+catalogos_estados68,NM,USA,Nuevo México
+catalogos_estados69,OH,USA,Ohio
+catalogos_estados70,OK,USA,Oklahoma
+catalogos_estados71,OR,USA,Oregón
+catalogos_estados72,PA,USA,Pensilvania
+catalogos_estados73,RI,USA,Rhode Island
+catalogos_estados74,TN,USA,Tennessee
+catalogos_estados75,TX,USA,Texas
+catalogos_estados76,UT,USA,Utah
+catalogos_estados77,VT,USA,Vermont
+catalogos_estados78,VA,USA,Virginia
+catalogos_estados79,WV,USA,Virginia Occidental
+catalogos_estados80,WA,USA,Washington
+catalogos_estados81,WI,USA,Wisconsin
+catalogos_estados82,WY,USA,Wyoming
+catalogos_estados83,ON,CAN,Ontario 
+catalogos_estados84,QC,CAN, Quebec 
+catalogos_estados85,NS,CAN, Nueva Escocia
+catalogos_estados86,NB,CAN,Nuevo Brunswick 
+catalogos_estados87,MB,CAN, Manitoba
+catalogos_estados88,BC,CAN, Columbia Británica
+catalogos_estados89,PE,CAN, Isla del Príncipe Eduardo
+catalogos_estados90,SK,CAN, Saskatchewan
+catalogos_estados91,AB,CAN, Alberta
+catalogos_estados92,NL,CAN, Terranova y Labrador
+catalogos_estados93,NT,CAN, Territorios del Noroeste
+catalogos_estados94,YT,CAN, Yukón
+catalogos_estados95,UN,CAN, Nunavut
