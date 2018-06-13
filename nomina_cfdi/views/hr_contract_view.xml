@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <record id="hr_contract_view_form_nomina_cfdi" model="ir.ui.view">
+        <field name="name">hr.contract.nomina</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+				<field name="working_hours" position="after">
+					<field name="periodicidad_pago" />
+					<field name="riesgo_puesto" />
+				</field>
+			    <field name="wage" position="after">
+			    	<field name="tablas_cfdi_id" />
+					<field name="sueldo_diario" />
+					<field name="sueldo_hora" />
+					<field name="sueldo_diario_integrado" />
+				</field>
+        </field>
+    </record>
+</odoo>

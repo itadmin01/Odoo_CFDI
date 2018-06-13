@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+		<template id="cfdi_payroll_layout">
+			<!-- Multicompany -->
+			<t t-if="not o and doc">
+				<t t-set="o" t-value="doc" />
+			</t>
+			<t t-if="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id"></t>
+			</t>
+			<t t-if="not o or not 'company_id' in o">
+				<t t-set="company" t-value="res_company"></t>
+			</t>
+
+			<t t-call="nomina_cfdi.cfdi_payroll_layout_header" />
+			<t t-raw="0" />
+			<t t-call="nomina_cfdi.cfdi_payroll_layout_footer" />
+		</template>
+		<template id="cfdi_payroll_layout_footer">
+          <div class="footer">
+           <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+          </div>
+        </div>      
+       </template>
+
+		<template id="cfdi_payroll_layout_header">
+			<div class="header">
+				<div class="row">
+					<div class="col-xs-9 text-left" style="margin-top:20px;"
+						t-field="company.rml_header1" />
+				</div>
+				<div class="row zero_min_height">
+					<div class="col-xs-12">
+						<div style="border-bottom: 1px solid black;"></div>
+					</div>
+				</div>
+			</div>
+		</template>	
+	
+<template id="report_payslip_document">
+    <t t-call="nomina_cfdi.cfdi_payroll_layout">
+       <t t-set="o" t-value="o.with_context({'lang':'es_MX'})" />
+                <div class="page" style="padding-top: 10px;">
+	  			 <div class="row"  >
+					<div class="col-xs-2">
+						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
+							style="max-height: 130px;" />
+					</div>
+						<div class="col-xs-5" >
+							<div >
+								<strong>Emisor</strong>
+							</div>
+							<div>
+								<span t-field="o.company_id.nombre_fiscal" />
+								
+							</div>
+								<div>
+								<span t-field="o.rfc_emisor" />
+								</div>
+								<div>
+								<strong>Registro Patronal</strong>: <span t-field="o.company_id.registro_patronal" />
+								</div>
+						</div>
+						<div class="col-xs-4 pull-right">
+							<div>
+								<strong>Folio:</strong>
+								<strong><span t-if="not o.company_id.serie_complemento=='false'" t-field="o.company_id.serie_complemento" /></strong>
+								<span t-field="o.folio" />
+							</div>
+							<div>
+								<strong>Fecha emisión: </strong>
+								<span t-field="o.invoice_datetime" />
+							</div>
+							<div>
+								<strong>Lugar de expedición: </strong>
+								<span t-field="o.company_id.partner_id.zip"/>
+							</div>
+							<div>
+								<strong>Tipo de comprobante: </strong>
+								<span t-field="o.tipo_comprobante" />
+							</div>
+					  </div>
+					</div>
+			<h2>Recibo de nómina</h2>	
+			<div class="row">
+					<div  class="col-xs-5">
+						<div >
+							<strong>Receptor</strong>
+						</div>
+						    <div >
+								Nombre: <span t-field="o.employee_id.name" />
+						     </div>
+							<div >
+								Puesto: <span t-field="o.employee_id.job_id" />
+						     </div>
+							<div >
+								Depto: <span t-field="o.employee_id.department_id.name" />
+						     </div>
+						    <div>
+						    	RFC: <span t-field="o.employee_id.rfc" />
+						     </div>
+							 <div>
+						    	CURP: <span t-field="o.employee_id.curp" />
+						     </div>
+					</div>	
+			
+					<div class="col-xs-7">
+							<div >
+							   <strong>Datos de la nómina</strong>
+						    </div>
+							<div>
+									<strong>Periodicidad de pago</strong>: <span t-field="o.contract_id.periodicidad_pago" />
+							</div>
+							<div>
+									<strong>Seguro social</strong>: <span t-field="o.employee_id.segurosocial" />
+							</div>
+							<div>
+									<strong>Salario integrado</strong>: <span t-field="o.contract_id.sueldo_diario_integrado" /> diario
+							</div>
+							<div>
+									<strong>Jornada</strong>: <span t-field="o.employee_id.jornada" />
+							</div>
+							<div>
+									<strong>Fecha de ingreso</strong>: <span t-field="o.contract_id.date_start" />
+							</div>
+					</div>					
+			 </div>
+                <div class="row" style="padding-top: 10px;">
+					<div  class="col-xs-6">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Percepciones</th>
+                                <th>Total</th>
+								<th>Días</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.category_id.code in ['BASIC','ALW', 'ALW2', 'ALW3'])" t-as="line">
+							  <t t-if= "line.total > 0">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-right"> <span t-esc="line.total"
+                                          t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/></td>
+								 <td>
+									<t t-if= "line.code == '101'">
+										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='WORK100')" />
+										<t t-if="len(worked_days)>0">
+											<span t-esc="worked_days[0].number_of_days"/>	
+										</t>
+							    	</t>
+									<t t-if= "line.code == '103'">
+										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C103')" />
+										<t t-if="len(worked_days)>0">
+											<span t-esc="worked_days[0].number_of_days"/>	
+										</t>
+							    	</t>
+									<t t-if= "line.code == '150'">
+										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C150')" />
+										<t t-if="len(worked_days)>0">
+											<span t-esc="worked_days[0].number_of_days"/>	
+										</t>
+							    	</t> 
+					            </td>
+							  </t>
+                            </tr>
+                        </tbody>
+                    </table>
+					</div>
+					<div  class="col-xs-5">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Retenciones</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.category_id.code in ['DED'])" t-as="line">
+							<t t-if= "line.total > 0">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-right"><span t-esc="line.total"
+                                          t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/></td>
+							</t>
+                          </tr>
+                        </tbody>
+                    </table>
+					</div>
+				</div>
+				<table>
+						<colgroup>
+							<col width='70%' />
+							<col width='30%' />
+						</colgroup>
+					<tr>
+						<td>
+					Recibí de esta empresa la cantidad que señala este recibo de pago, estando conforme con las
+                    percepciones y las retenciones descritas, por lo que certifico que no se me adeuda cantidad alguna
+                    por ningún concepto. <br/> <br/>
+							<center>__________________________</center>
+                    <center><p><strong>Firma del empleado</strong></p></center>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td>
+										Total de percepciones:
+									</td>
+									<td class="text-right">
+										<span t-esc="o.subtotal" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/>
+									</td>
+								</tr>	
+								<tr>
+									<td>
+										Total de retenciones:
+									</td>
+									<td class="text-right">
+										<span t-esc="o.descuento" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}' />
+									</td>
+								</tr>
+								<tr class="border-black">
+									<td>
+										Pago:
+									</td>
+									<td class="text-right">
+										<span t-esc="o.total_nomina" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+					<div class="row" style="page-break-inside: avoid">
+						<div class="col-xs-1">
+						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % o.qrcode_image"
+								style="height: 190;width: 190;padding-left:10px;" />
+						</div>
+						<div class="col-xs-9 pull-right" style="font-size:12px;">
+							<div >
+								<strong>Cadena Original del Complemento digital del SAT</strong>
+							</div>
+							<div style="font-size:9px;">
+								<span t-field="o.cadena_origenal" />
+							</div>
+							<div >
+								<strong>Sello Digital del CFDI</strong>
+							</div>
+							<div style="font-size:9px;">
+								<span t-field="o.selo_digital_cdfi" />
+							</div>
+							<div >
+								<strong>Sello del SAT</strong>
+							</div>
+							<div style="font-size:9px;">
+								<span t-field="o.selo_sat" />
+							</div>
+						</div>
+					</div>
+					<p>
+						<center>
+							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI</strong>
+						</center>
+					</p>
+                </div>
+    </t>
+</template>
+	
+			<template id="report_payslip">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="nomina_cfdi.report_payslip_document" t-lang="es_MX" />
+				</t>
+			</t>
+		</template>
+
+
+		<report id="report_payslips" 
+				model="hr.payslip" 
+				string="Imprimir Nomina" 
+				report_type="qweb-pdf" 
+				name="nomina_cfdi.report_payslip" 
+				file="nomina_cfdi.report_payslip"/>
+		
+		<record id="nomina_cfdi.report_payslips" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
+        </record>
+
+	</data>
+</openerp>

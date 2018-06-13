@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_complementos_1,catalogo_municipio,catalogos_cfdi.model_catalogos_municipio,base.group_user,1,1,1,1
+access_complementos_2,catalogo_localidad,catalogos_cfdi.model_catalogos_localidades,base.group_user,1,1,1,1
+access_complementos_3,catalogo_estados,catalogos_cfdi.model_catalogos_estados,base.group_user,1,1,1,1
+access_complementos_4,catalogo_paises,catalogos_cfdi.model_catalogos_paises,base.group_user,1,1,1,1
+access_complementos_5,catalogo_colonias,catalogos_cfdi.model_catalogos_colonias,base.group_user,1,1,1,1
+access_complementos_6,catalogo_clave_prodserv,catalogos_cfdi.model_catalogos_claveprodserv,base.group_user,1,1,1,1
+access_complementos_7,catalogo_unidadmedida_aduana,catalogos_cfdi.model_catalogos_unidadmedidaaduana,base.group_user,1,1,1,1
+access_complementos_8,catalogo_clave_unidad,catalogos_cfdi.model_catalogos_clave_unidad,base.group_user,1,1,1,1
+access_complementos_9,catalogo_fraccionarancelaria,catalogos_cfdi.model_catalogos_fraccionarancelaria,base.group_user,1,1,1,1
+access_complementos_10,catalogo_banco,catalogos_cfdi.model_catalogos_banco,base.group_user,1,1,1,1
