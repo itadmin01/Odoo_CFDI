@@ -191,36 +191,136 @@ class HrPayslip(models.Model):
 
     @api.model
     def to_json(self):
-        payslip_total = 0
+        #payslip_total = 0
         payslip_total_TOP = 0
-        payslip_total_TPER = 0
+      #  payslip_total_TPER = 0
         payslip_total_TDED = 0
         payslip_total_PERG = 0
         payslip_total_PERE = 0	
 		
-        payslip_line = self.env['hr.payslip.line'].search([('code','=','NET'),('slip_id','=',self.id)],limit=1)
-        payslip_line_TOP = self.env['hr.payslip.line'].search([('code','=','TOP'),('slip_id','=',self.id)],limit=1)
-        payslip_line_TPER = self.env['hr.payslip.line'].search([('code','=','TPER'),('slip_id','=',self.id)],limit=1)
-        payslip_line_TDED = self.env['hr.payslip.line'].search([('code','=','TDED'),('slip_id','=',self.id)],limit=1)
-        payslip_line_PERG = self.env['hr.payslip.line'].search([('code','=','TPERG'),('slip_id','=',self.id)],limit=1)
-        payslip_line_PERE = self.env['hr.payslip.line'].search([('code','=','TPERE'),('slip_id','=',self.id)],limit=1)
-        if payslip_line:
-            payslip_total = round(payslip_line.total,2)
-            payslip_total_TOP = round(payslip_line_TOP.total,2)
-            payslip_total_TPER = round(payslip_line_TPER.total,2)
-            payslip_total_TDED = round(payslip_line_TDED.total,2)
-            payslip_total_PERG = round(payslip_line_PERG.total,2)
-            payslip_total_PERE = round(payslip_line_PERE.total,2)
+       # payslip_line = self.env['hr.payslip.line'].search([('code','=','NET'),('slip_id','=',self.id)],limit=1)
+       # payslip_line_TOP = self.env['hr.payslip.line'].search([('code','=','TOP'),('slip_id','=',self.id)],limit=1)
+       # payslip_line_TPER = self.env['hr.payslip.line'].search([('code','=','TPER'),('slip_id','=',self.id)],limit=1)
+    #    payslip_line_TDED = self.env['hr.payslip.line'].search([('code','=','TDED'),('slip_id','=',self.id)],limit=1)
+      #  payslip_line_PERG = self.env['hr.payslip.line'].search([('code','=','TPERG'),('slip_id','=',self.id)],limit=1)
+      #  payslip_line_PERE = self.env['hr.payslip.line'].search([('code','=','TPERE'),('slip_id','=',self.id)],limit=1)
+       # if payslip_line_TOP:
+        #    payslip_total = round(payslip_line.total,2)
+        #    payslip_total_TOP = round(payslip_line_TOP.total,2)
+        #    payslip_total_TPER = round(payslip_line_TPER.total,2)
+     #       payslip_total_TDED = round(payslip_line_TDED.total,2)
+      #      payslip_total_PERG = round(payslip_line_PERG.total,2)
+      #      payslip_total_PERE = round(payslip_line_PERE.total,2)
 
         if self.contract_id.date_end:
                antiguedad = int((datetime.datetime.strptime(self.contract_id.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
         else:
                antiguedad = int((datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
-        self.total_nomina = payslip_total_TPER + payslip_total_TOP - payslip_total_TDED
-        self.subtotal = payslip_total_TPER + payslip_total_TOP
-        self.descuento = payslip_total_TDED
+        
+        #request_params = []
+		
+#**********  Percepciones ************
+        total_percepciones_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','101'),('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
+        percepciones_grabadas_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','101'),('slip_id','=',self.id)])
+        lineas_de_percepcion = []
+        tipo_percepcion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_percepcion').selection)
+        if percepciones_grabadas_lines:
+            for line in percepciones_grabadas_lines:
+              payslip_total_PERG += round(line.total,2)
+              lineas_de_percepcion.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                'Clave': line.code,
+                'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
+                'ImporteGravado': line.total,
+                'ImporteExento': '0'})
+			
+        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        lineas_de_percepcion_exentas = []
+        if percepciones_excentas_lines:
+            for line in percepciones_excentas_lines:
+              payslip_total_PERE += round(line.total,2)
+              lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                'Clave': line.code,
+                'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
+                'ImporteGravado': '0',
+                'ImporteExento': line.total})
+				
+        percepcion = {
+			   'Totalpercepcion': {
+                        'TotalGravado': payslip_total_PERG,
+                        'TotalExento': payslip_total_PERE,
+                        'TotalSueldos': payslip_total_PERG + payslip_total_PERE,
+               },
+        }
+		
+        percepcion.update({'lineas_de_percepcion_grabadas': lineas_de_percepcion, 'no_per_grabadas': len(percepciones_grabadas_lines)})
+        percepcion.update({'lineas_de_percepcion_excentas': lineas_de_percepcion_exentas, 'no_per_excentas': len(percepciones_excentas_lines)})
+        request_params = {'percepciones': percepcion}
 
-        request_params = { 
+#****** OTROS PAGOS ******
+        otrospagos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
+        tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
+        lineas_de_otros = []
+        if otrospagos_lines:
+            for line in otrospagos_lines:
+              if line.code == '201' and line.total > 0:
+                line2 = self.contract_id.env['tablas.subsidio.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('lim_inf','<=',self.contract_id.wage)],order='lim_inf desc',limit=1)
+                subsidio_empleo = 0
+                payslip_total_TOP += round(line.total,2)
+                if line2:
+                   subsidio_empleo = (line2.s_mensual)/2
+                lineas_de_otros.append({'TipoPercepcion': line.salary_rule_id.tipo_otro_pago,
+                    'Clave': line.code,
+                    'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
+                    'ImporteGravado': '0',
+                    'ImporteExento': line.total,
+                    'SubsidioCausado': subsidio_empleo})
+              else:
+                  payslip_total_TOP += round(line.total,2)
+                  lineas_de_otros.append({'TipoPercepcion': line.salary_rule_id.tipo_otro_pago,
+                        'Clave': line.code,
+                        'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
+                        'ImporteGravado': '0',
+                        'ImporteExento': line.total})
+					
+        otrospagos = {
+            'otrospagos': {
+                    'Totalotrospagos': payslip_total_TOP,
+            },
+        }
+        otrospagos.update({'otros_pagos': lineas_de_otros, 'no_otros_pagos': len(otrospagos_lines)})
+        request_params.update({'otros_pagos': otrospagos})
+   		
+#********** DEDUCCIONES *********
+        total_imp_ret = 0
+        suma_deducciones = 0
+        self.deducciones_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        ded_impuestos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('code','=','301'),('slip_id','=',self.id)],limit=1)
+        tipo_deduccion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_deduccion').selection)
+        if ded_impuestos_lines:
+           total_imp_ret = round(ded_impuestos_lines.total,2)
+        lineas_deduccion = []
+        if self.deducciones_lines:
+            for line in self.deducciones_lines:
+              lineas_deduccion.append({'TipoDeduccion': line.salary_rule_id.tipo_deduccion,
+                'Clave': line.code,
+                'Concepto': tipo_deduccion_dict.get(line.salary_rule_id.tipo_deduccion),
+                'Importe': round(line.total,2)})
+              payslip_total_TDED += round(line.total,2)
+			
+        deduccion = {
+            'TotalDeduccion': {
+                    'TotalOtrasDeducciones': payslip_total_TDED - total_imp_ret,
+                    'TotalImpuestosRetenidos': total_imp_ret,
+            },
+        }
+        deduccion.update({'lineas_de_deduccion': lineas_deduccion, 'no_deuducciones': len(self.deducciones_lines)})
+        request_params.update({'deducciones': deduccion})
+
+        self.total_nomina = payslip_total_PERG + payslip_total_PERE + payslip_total_TOP - payslip_total_TDED
+        self.subtotal =  payslip_total_PERG + payslip_total_PERE + payslip_total_TOP
+        self.descuento = payslip_total_TDED
+		
+        request_params.update({
                 'factura': {
                       'serie': self.company_id.serie_nomina,
                       'folio': self.number_folio,
@@ -232,9 +332,9 @@ class HrPayslip(models.Model):
                       'fecha_factura': self.fecha_factura,
                       'LugarExpedicion': self.company_id.zip,
                       'RegimenFiscal': self.company_id.regimen_fiscal,
-                      'subtotal': self.subtotal, #payslip_total_TPER + payslip_total_TOP, # payslip_total, #checar
-                      'descuento': self.descuento, #payslip_total_TDED, # #checar
-                      'total': self.total_nomina, #payslip_total_TPER + payslip_total_TOP - payslip_total_TDED,
+                      'subtotal': self.subtotal,
+                      'descuento': self.descuento,
+                      'total': self.total_nomina,
                 },
                 'emisor': {
                       'rfc': self.company_id.rfc,
@@ -253,9 +353,9 @@ class HrPayslip(models.Model):
                       'ClaveUnidad': 'ACT',
                       'ClaveProdServ': '84111505',
                       'descripcion': 'Pago de nómina',
-                      'valorunitario': payslip_total_TPER + payslip_total_TOP,
-                      'importe':  payslip_total_TPER + payslip_total_TOP,
-                      'descuento': payslip_total_TDED,
+                      'valorunitario': self.subtotal,
+                      'importe':  self.subtotal,
+                      'descuento': self.descuento,
                 },
                 'nomina12': {
                       'TipoNomina': self.tipo_nomina,
@@ -263,8 +363,8 @@ class HrPayslip(models.Model):
                       'FechaInicialPago': self.date_from,
                       'FechaFinalPago': self.date_to,
                       'NumDiasPagados': (datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.date_from, "%Y-%m-%d") + timedelta(days=1)).days,
-                      'TotalPercepciones': payslip_total_TPER,
-                      'TotalDeducciones': payslip_total_TDED,
+                      'TotalPercepciones': payslip_total_PERG + payslip_total_PERE,
+                      'TotalDeducciones': self.descuento,
                       'TotalOtrosPagos': payslip_total_TOP,
                 },
                 'nomina12Emisor': {
@@ -289,102 +389,7 @@ class HrPayslip(models.Model):
                       'SalarioBaseCotApor': self.contract_id.sueldo_diario_integrado,
                       'SalarioDiarioIntegrado': self.contract_id.sueldo_diario_integrado,
                 },
-        }
-                
-#              
-#        Percepciones
-
-        percepcion = {
-			   'Totalpercepcion': {
-                        'TotalGravado': payslip_total_PERG,
-                        'TotalExento': payslip_total_PERE,
-                        'TotalSueldos': payslip_total_TPER,
-               },
-        }
-
-        total_percepciones_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','101'),('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
-        percepciones_grabadas_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','101'),('slip_id','=',self.id)])
-        lineas_de_percepcion = []
-        tipo_percepcion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_percepcion').selection)
-        if percepciones_grabadas_lines:
-            for line in percepciones_grabadas_lines:
-              lineas_de_percepcion.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
-                'Clave': line.code,
-                'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
-                'ImporteGravado': line.total,
-                'ImporteExento': '0'})
-			
-        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
-        lineas_de_percepcion_exentas = []
-        if percepciones_excentas_lines:
-            for line in percepciones_excentas_lines:
-              lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
-                'Clave': line.code,
-                'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
-                'ImporteGravado': '0',
-                'ImporteExento': line.total})
-
-        percepcion.update({'lineas_de_percepcion_grabadas': lineas_de_percepcion, 'no_per_grabadas': len(percepciones_grabadas_lines)})
-        percepcion.update({'lineas_de_percepcion_excentas': lineas_de_percepcion_exentas, 'no_per_excentas': len(percepciones_excentas_lines)})
-        request_params.update({'percepciones': percepcion})
-
-#****** OTROS PAGOS ******
-
-        otrospagos = {
-            'otrospagos': {
-                    'Totalotrospagos': payslip_total_TOP,
-            },
-        }
-        otrospagos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
-        tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
-        lineas_de_otros = []
-        if otrospagos_lines:
-            for line in otrospagos_lines:
-              if line.code == '201' and line.total > 0:
-                line2 = self.contract_id.env['tablas.subsidio.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('lim_inf','<=',self.contract_id.wage)],order='lim_inf desc',limit=1)
-                subsidio_empleo = 0
-                if line2:
-                   subsidio_empleo = (line2.s_mensual)/2
-                lineas_de_otros.append({'TipoPercepcion': line.salary_rule_id.tipo_otro_pago,
-                    'Clave': line.code,
-                    'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
-                    'ImporteGravado': '0',
-                    'ImporteExento': line.total,
-                    'SubsidioCausado': subsidio_empleo})
-              else:
-                  lineas_de_otros.append({'TipoPercepcion': line.salary_rule_id.tipo_otro_pago,
-                        'Clave': line.code,
-                        'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
-                        'ImporteGravado': '0',
-                        'ImporteExento': line.total})
-        otrospagos.update({'otros_pagos': lineas_de_otros, 'no_otros_pagos': len(otrospagos_lines)})
-        request_params.update({'otros_pagos': otrospagos})
-   		
-#********** DEDUCCIONES *********
-        total_imp_ret = 0
-        suma_deducciones = 0
-        self.deducciones_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
-        ded_impuestos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('code','=','301'),('slip_id','=',self.id)],limit=1)
-        tipo_deduccion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_deduccion').selection)
-        if ded_impuestos_lines:
-           total_imp_ret = round(ded_impuestos_lines.total,2)
-        lineas_deduccion = []
-        if self.deducciones_lines:
-            for line in self.deducciones_lines:
-              lineas_deduccion.append({'TipoDeduccion': line.salary_rule_id.tipo_deduccion,
-                'Clave': line.code,
-                'Concepto': tipo_deduccion_dict.get(line.salary_rule_id.tipo_deduccion),
-                'Importe': round(line.total,2)})
-              suma_deducciones += round(line.total,2)
-			
-        deduccion = {
-            'TotalDeduccion': {
-                    'TotalOtrasDeducciones': round(suma_deducciones - total_imp_ret,2),
-                    'TotalImpuestosRetenidos': total_imp_ret,
-            },
-        }
-        deduccion.update({'lineas_de_deduccion': lineas_deduccion, 'no_deuducciones': len(self.deducciones_lines)})
-        request_params.update({'deducciones': deduccion})
+		})
 
 #****** CERTIFICADOS *******
         if not self.company_id.archivo_cer:
