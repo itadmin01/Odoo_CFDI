@@ -170,7 +170,7 @@ class AccountInvoice(models.Model):
             default['estado_factura'] = 'factura_no_generada'
             default['folio_fiscal'] = ''
             default['fecha_factura'] = None
-            
+            default['factura_cfdi'] = False
         return super(AccountInvoice, self).copy(default=default)
     
     @api.depends('number')
@@ -191,32 +191,32 @@ class AccountInvoice(models.Model):
     @api.multi
     @api.onchange('partner_id')
     def _get_uso_cfdi(self):
-      if self.partner_id:
-         values = {
-            'uso_cfdi': self.partner_id.uso_cfdi
-         }
-         self.update(values)
+        if self.partner_id:
+            values = {
+                'uso_cfdi': self.partner_id.uso_cfdi
+                }
+            self.update(values)
 
     @api.multi
     @api.onchange('payment_term_id')
     def _get_metodo_pago(self):
-      if self.payment_term_id:
-         if self.payment_term_id.methodo_pago == 'PPD':
-             values = {
+        if self.payment_term_id:
+            if self.payment_term_id.methodo_pago == 'PPD':
+                values = {
                  'methodo_pago': self.payment_term_id.methodo_pago,
                  'forma_pago': '99'
-             }
-         else:
-             values = {
-                 'methodo_pago': self.payment_term_id.methodo_pago,
-                 'forma_pago': False
-             }
-      else:
-         values = {
-             'methodo_pago': False,
-             'forma_pago': False
-         }
-      self.update(values)
+                }
+            else:
+                values = {
+                    'methodo_pago': self.payment_term_id.methodo_pago,
+                    'forma_pago': False
+                    }
+        else:
+            values = {
+                'methodo_pago': False,
+                'forma_pago': False
+                }
+        self.update(values)
     
     @api.model
     def to_json(self):
@@ -311,44 +311,44 @@ class AccountInvoice(models.Model):
 
             self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
             if self.tipo_comprobante == 'E':
-             invoice_lines.append({'quantity': line.quantity,
-              'unidad_medida': line.product_id.unidad_medida,
-              'product': line.product_id.code,
-              'price_unit': round(p_unit,2),
-              'amount': round(this_amount,2),
-              'description': line.name,
-              'clave_producto': '84111506',
-              'clave_unidad': 'ACT',
-              'taxes': product_taxes,
-              'descuento': desc})
+                invoice_lines.append({'quantity': line.quantity,
+                                      'unidad_medida': line.product_id.unidad_medida,
+                                      'product': line.product_id.code,
+                                      'price_unit': round(p_unit,2),
+                                      'amount': round(this_amount,2),
+                                      'description': line.name,
+                                      'clave_producto': '84111506',
+                                      'clave_unidad': 'ACT',
+                                      'taxes': product_taxes,
+                                      'descuento': desc})
             elif self.tipo_comprobante == 'T':
-             invoice_lines.append({'quantity': line.quantity,
-              'unidad_medida': line.product_id.unidad_medida,
-              'product': line.product_id.code,
-              'price_unit': round(p_unit,2),
-              'amount': round(this_amount,2),
-              'description': line.name,
-              'clave_producto': line.product_id.clave_producto,
-              'clave_unidad': line.product_id.clave_unidad})
-              #'taxes': '',
-              #'descuento': '0.00'
+                invoice_lines.append({'quantity': line.quantity,
+                                      'unidad_medida': line.product_id.unidad_medida,
+                                      'product': line.product_id.code,
+                                      'price_unit': round(p_unit,2),
+                                      'amount': round(this_amount,2),
+                                      'description': line.name,
+                                      'clave_producto': line.product_id.clave_producto,
+                                      'clave_unidad': line.product_id.clave_unidad})
+                #'taxes': '',
+                #'descuento': '0.00'
             else:
-             invoice_lines.append({'quantity': line.quantity,
-              'unidad_medida': line.product_id.unidad_medida,
-              'product': line.product_id.code,
-              'price_unit': round(p_unit,2),
-              'amount': round(this_amount,2),
-              'description': line.name,
-              'clave_producto': line.product_id.clave_producto,
-              'clave_unidad': line.product_id.clave_unidad,
-              'taxes': product_taxes,
-              'descuento': desc})
+                invoice_lines.append({'quantity': line.quantity,
+                                      'unidad_medida': line.product_id.unidad_medida,
+                                      'product': line.product_id.code,
+                                      'price_unit': round(p_unit,2),
+                                      'amount': round(this_amount,2),
+                                      'description': line.name,
+                                      'clave_producto': line.product_id.clave_producto,
+                                      'clave_unidad': line.product_id.clave_unidad,
+                                      'taxes': product_taxes,
+                                      'descuento': desc})
 
 #        amount_untaxed = amount_total - amount_untaxed
         if self.tipo_comprobante == 'T':
-           request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
+            request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-           request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
+            request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -384,21 +384,22 @@ class AccountInvoice(models.Model):
         for invoice in self:
             if invoice.factura_cfdi:
                 if invoice.fecha_factura == False:
-                   invoice.fecha_factura= datetime.datetime.now()
-                   invoice.write({'fecha_factura': invoice.fecha_factura})
+                    invoice.fecha_factura= datetime.datetime.now()
+                    invoice.write({'fecha_factura': invoice.fecha_factura})
                 if invoice.estado_factura == 'factura_correcta':
                     raise UserError(_('Error para timbrar factura, Factura ya generada.'))
                 if invoice.estado_factura == 'factura_cancelada':
                     raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
                 values = invoice.to_json()
+                url=''
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
-                     url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
+                    url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
                 elif invoice.company_id.proveedor_timbrado == 'gecoerp':
-                 if self.company_id.modo_prueba:
-                    # url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
-                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-                 else:
-                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                    if self.company_id.modo_prueba:
+                        #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                        url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                    else:
+                        url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
@@ -548,11 +549,11 @@ class AccountInvoice(models.Model):
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
-                 if self.company_id.modo_prueba:
-                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
-                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-                 else:
-                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                if self.company_id.modo_prueba:
+                    #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                    url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                else:
+                    url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
@@ -579,7 +580,7 @@ class AccountInvoice(models.Model):
     
     @api.multi
     def action_cfdi_cancel(self):
-         for invoice in self:
+        for invoice in self:
             if invoice.factura_cfdi:
                 if invoice.estado_factura == 'factura_cancelada':
                     pass
@@ -604,13 +605,13 @@ class AccountInvoice(models.Model):
                             }
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
-                     url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
+                    url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 if self.company_id.modo_prueba:
-                   #  url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
-                     url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
-                 else:
-                     url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                    if self.company_id.modo_prueba:
+                         #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
+                        url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                    else:
+                        url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
@@ -623,15 +624,15 @@ class AccountInvoice(models.Model):
                     if invoice.number:
                         xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
                     else:
-                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'						
+                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.folio_fiscal + '.xml'						
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice.decode("utf-8"))
+                    xml_file.write(xml_invoice)
                     xml_file.close()
                     if invoice.number:
                         file_name = invoice.number.replace('/', '_') + '.xml'
                     else:
-                        file_name = self.folio_fiscal + '.xml'
+                        file_name = invoice.folio_fiscal + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -688,14 +689,14 @@ class MailTemplate(models.Model):
                         if invoice.number:
                             cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
                         else:							
-                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'							
+                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.folio_fiscal + '.xml'							
                         with open(cancel_file_link, 'rb') as cf:
                             cancel_xml_file = cf.read()
                             attachments = []	
                             if invoice.number:
-                               attachments.append(('CDFI_CANCEL_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
+                                attachments.append(('CDFI_CANCEL_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
                             else:
-                               attachments.append(('CDFI_CANCEL_' + self.folio_fiscal + '.xml', base64.b64encode(cancel_xml_file)))								
+                                attachments.append(('CDFI_CANCEL_' + invoice.folio_fiscal + '.xml', base64.b64encode(cancel_xml_file)))								
                     results[res_id]['attachments'] = attachments
         return results
 
