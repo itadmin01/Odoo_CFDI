@@ -455,7 +455,7 @@ class HrPayslip(models.Model):
                                                 'res_id': payslip.id,
                                                 'type': 'binary'
                                             })	
-                report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payslip')
+                report = self.env['ir.actions.report']._get_report_from_name('nomina_cfdi.report_payslip')
                 report_data = report.render_qweb_pdf([payslip.id])[0]
                 pdf_file_name = payslip.name.replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
