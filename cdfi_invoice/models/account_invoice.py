@@ -145,7 +145,6 @@ class AccountInvoice(models.Model):
     confirmacion = fields.Char(string=_('Confirmación'))
     discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))	
     amount = fields.Float(string='Amount', digits=dp.get_precision('Product Price'))
-	
          
     @api.model
     def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
@@ -393,7 +392,7 @@ class AccountInvoice(models.Model):
                 values = invoice.to_json()
                 url=''
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
-                    url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
+                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
                 elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
                         #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
@@ -445,7 +444,7 @@ class AccountInvoice(models.Model):
             self.fecha_factura= datetime.datetime.now()
             values = invoice.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
-                url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
+                url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
             response = requests.post(url , 
@@ -547,7 +546,7 @@ class AccountInvoice(models.Model):
             values = invoice.to_json()
             # print(json.dumps(values, indent=4, sort_keys=True))
             if invoice.company_id.proveedor_timbrado == 'multifactura':
-                url = '%s' % ('http://itadmin.ngrok.io/invoice?handler=OdooHandler33')
+                url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
@@ -605,7 +604,7 @@ class AccountInvoice(models.Model):
                             }
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
-                    url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
+                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
                          #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')

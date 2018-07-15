@@ -108,10 +108,10 @@ class AccountPayment(models.Model):
             monto_pagado = round(res.monto_pagar,2)
             for invoice in res.invoice_ids:
                 if monto_pagado > invoice.residual:
-                   monto_pagar = round(invoice.residual,2)
-                   monto_pagado -= round(invoice.residual,2)
+                    monto_pagar = round(invoice.residual,2)
+                    monto_pagado -= round(invoice.residual,2)
                 else:
-                   monto_pagar = round(monto_pagado,2)
+                    monto_pagar = round(monto_pagado,2)
                 docto_relacionados.append({
                       'moneda': invoice.moneda,
                       'tipodecambio': invoice.tipocambio,
@@ -160,11 +160,11 @@ class AccountPayment(models.Model):
         archivo_key = self.company_id.archivo_key
         self.monedap = self.currency_id.name
         if self.currency_id.name == 'MXN':
-           self.tipocambiop = '1'
+            self.tipocambiop = '1'
         else:
-           self.tipocambiop = self.currency_id.rate
+            self.tipocambiop = self.currency_id.rate
         self.methodo_pago  = 'PPD'
-		
+
         if self.invoice_ids:		            
             request_params = { 
                 'company': {
@@ -286,7 +286,7 @@ class AccountPayment(models.Model):
         for p in self:
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
-                url = '%s' % ('http://itadmin.ngrok.io/payment?handler=OdooHandler33')
+                url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
                  if self.company_id.modo_prueba:
                      #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
@@ -334,7 +334,7 @@ class AccountPayment(models.Model):
                                                 'res_id': p.id,
                                                 'type': 'binary'
                                             })
-        	
+
             p.write({'estado_pago': estado_pago,
                     'xml_payment_link': xml_file_link})
             
