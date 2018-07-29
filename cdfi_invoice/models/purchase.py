@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api,_
-from odoo.exceptions import UserError
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -92,25 +91,32 @@ class PurchaseOrder(models.Model):
         string=_('Tipo relación'),
     )
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
+    
+    @api.multi
+    def action_view_invoice(self):
+        res = super(PurchaseOrder,self).action_view_invoice()
+        if res:
+            if res.get('context')==None:
+                res['context']={}
+            res['context'].update({
+                'default_factura_cfdi' : self.factura_cfdi,
+                'default_tipo_comprobante' : self.tipo_comprobante,
+                'default_forma_pago' : self.forma_pago,
+                'default_methodo_pago' : self.methodo_pago,
+                'default_uso_cfdi' : self.uso_cfdi,
+                'default_estado_factura' : self.estado_factura,
+                'default_numero_cetificado' : self.numero_cetificado,
+                'default_folio_fiscal' : self.folio_fiscal,
+                'default_fecha_certificacion' : self.fecha_certificacion,
+                'default_selo_digital_cdfi' : self.selo_digital_cdfi,
+                'default_selo_sat' : self.selo_sat,
+                'default_moneda' : self.moneda,
+                'default_tipocambio' : self.tipocambio,
+                'default_tipo_relacion' : self.tipo_relacion,
+                'default_uuid_relacionado' : self.uuid_relacionado 
+                })
+            
+        return res
 
-#class AccountInvoice(models.Model):
-#    _inherit = 'account.invoice'
-
-#    @api.multi
-#    def _prepare_invoice_line_from_po_line(self):
-#        data = super(AccountInvoice, self)._prepare_invoice_line_from_po_line()
-#        data.update({'forma_pago': self.forma_pago,
-#                    'methodo_pago': self.methodo_pago,
-#                    'uso_cfdi': self.uso_cfdi,
-#                    'estado_factura': self.estado_factura,
-#                    'tipo_comprobante': self.tipo_comprobante,
-#                    'folio_fiscal': self.folio_fiscal,
-#                    'tipocambio': self.tipocambio,
-#                    'numero_cetificado': self.numero_cetificado,
-#                    'fecha_certificacion': self.fecha_certificacion,
-#                    'selo_digital_cdfi': self.selo_digital_cdfi,
-#                    'selo_sat': self.selo_sat,	
-#                    })
-#        return data
 	
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            			

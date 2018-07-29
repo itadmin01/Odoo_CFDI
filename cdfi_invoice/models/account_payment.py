@@ -3,15 +3,12 @@
 import base64
 import json
 import requests
-import datetime
 from lxml import etree
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from dateutil.relativedelta import relativedelta
 from . import amount_to_text_es_MX
-from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
+from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
-
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -288,11 +285,11 @@ class AccountPayment(models.Model):
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 if self.company_id.modo_prueba:
-                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
-                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
-                 else:
-                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
+                if self.company_id.modo_prueba:
+                    #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
+                    url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
+                else:
+                    url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
             response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
@@ -484,7 +481,7 @@ class MailTemplate(models.Model):
 class AccountPaymentTerm(models.Model):
     "Terminos de pago"
     _inherit = "account.payment.term"
-	
+
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],

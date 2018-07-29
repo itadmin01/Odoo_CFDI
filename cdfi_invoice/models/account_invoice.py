@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import base64
 import json
 import requests
@@ -165,7 +164,7 @@ class AccountInvoice(models.Model):
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = dict(default or {})
-        if self.estado_factura == 'factura_correcta':
+        if self.estado_factura == 'factura_correcta' or self.estado_factura == 'factura_cancelada':
             default['estado_factura'] = 'factura_no_generada'
             default['folio_fiscal'] = ''
             default['fecha_factura'] = None
@@ -299,11 +298,11 @@ class AccountInvoice(models.Model):
             if tax_items:
                 product_taxes.update({'tax_lines': tax_items})
 
-            p_unit = amount_wo_tax / line.quantity  #added
-            this_amount = p_unit * line.quantity
+            p_unit = round(amount_wo_tax / line.quantity,2)
+            this_amount = round(p_unit * line.quantity,2)
             amount_untaxed += this_amount
 
-            desc = p_unit * line.quantity - line.price_subtotal
+            desc = this_amount - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
             if desc < 0:
                 desc = 0
             self.discount += desc
@@ -313,8 +312,8 @@ class AccountInvoice(models.Model):
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': round(p_unit,2),
-                                      'amount': round(this_amount,2),
+                                      'price_unit': p_unit,
+                                      'amount': this_amount,
                                       'description': line.name,
                                       'clave_producto': '84111506',
                                       'clave_unidad': 'ACT',
@@ -329,14 +328,12 @@ class AccountInvoice(models.Model):
                                       'description': line.name,
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad})
-                #'taxes': '',
-                #'descuento': '0.00'
             else:
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': round(p_unit,2),
-                                      'amount': round(this_amount,2),
+                                      'price_unit': p_unit,
+                                      'amount': this_amount,
                                       'description': line.name,
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad,
@@ -347,7 +344,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': round(amount_untaxed,2),'total': round(amount_total,2)})
+            request_params['invoice'].update({'subtotal': amount_untaxed,'total': round(amount_total,2)})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []

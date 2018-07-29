@@ -1,15 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
-from lxml import etree
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
-from odoo.tools import float_is_zero
-from odoo.tools.misc import formatLang
-
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-
 import odoo.addons.decimal_precision as dp
 from  . import amount_to_text_es_MX
 
@@ -18,8 +9,7 @@ from  . import amount_to_text_es_MX
 #----------------------------------------------------------
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    
-    
+      
     forma_pago = fields.Selection(
         selection=[('01', '01 - Efectivo'), 
                    ('02', '02 - Cheque nominativo'), 
@@ -72,36 +62,36 @@ class SaleOrder(models.Model):
                    ('P01', _('Por definir')),],
         string=_('Uso CFDI (cliente)'),
     )
-	
+
     @api.multi
     @api.onchange('partner_id')
     def _get_uso_cfdi(self):
-      if self.partner_id:
-         values = {
-            'uso_cfdi': self.partner_id.uso_cfdi
-         }
-         self.update(values)
+        if self.partner_id:
+            values = {
+                'uso_cfdi': self.partner_id.uso_cfdi
+                }
+            self.update(values)
 
     @api.multi
     @api.onchange('payment_term_id')
     def _get_metodo_pago(self):
-      if self.payment_term_id:
-         if self.payment_term_id.methodo_pago == 'PPD':
-             values = {
+        if self.payment_term_id:
+            if self.payment_term_id.methodo_pago == 'PPD':
+                values = {
                  'methodo_pago': self.payment_term_id.methodo_pago,
                  'forma_pago': '99'
              }
-         else:
-             values = {
+            else:
+                values = {
                  'methodo_pago': self.payment_term_id.methodo_pago,
                  'forma_pago': False
              }
-      else:
-         values = {
-             'methodo_pago': False,
-             'forma_pago': False
-         }
-      self.update(values)
+        else:
+            values = {
+                'methodo_pago': False,
+                'forma_pago': False
+                }
+        self.update(values)
 
     @api.depends('amount_total', 'currency_id')
     @api.one

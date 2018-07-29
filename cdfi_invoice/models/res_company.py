@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from odoo import fields, models, api,_
+import base64
+import json
+import requests
+from odoo import fields, models,api, _
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -45,4 +47,64 @@ class ResCompany(models.Model):
     contrasena = fields.Char(string=_('Contraseña'))
     nombre_fiscal = fields.Char(string=_('Razón social'))
     serie_complemento = fields.Char(string=_('Serie complemento de pago'))
-    telefono_sms = fields.Char(string=_('Teléfono celular'))
+    telefono_sms = fields.Char(string=_('Teléfono celular'))  
+    saldo_timbres =  fields.Float(string=_('Saldo de timbres'), readonly=True)
+    saldo_alarma =  fields.Float(string=_('Alarma timbres'), default=0)
+    correo_alarma =  fields.Char(string=_('Correo de alarma'))
+    
+    @api.model
+    def get_saldo_by_cron(self):
+        companies = self.search([('proveedor_timbrado','!=',False)])
+        for company in companies:
+            company.get_saldo()
+            if company.saldo_timbres < company.saldo_alarma and company.correo_alarma:
+                email_template = self.env.ref("cdfi_invoice.email_template_alarma_de_saldo",False)
+                if not email_template:return
+                emails = company.correo_alarma.split(",")
+                for email in emails:
+                    email = email.strip()
+                    if email:
+                        email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
+        return True    
+    
+    def get_saldo(self):
+        values = {
+                 'rfc': self.rfc,
+                 'api_key': self.proveedor_timbrado,
+                 'modo_prueba': self.modo_prueba,
+                 }
+        url=''
+        if self.proveedor_timbrado == 'multifactura':
+            url = '%s' % ('http://facturacion.itadmin.com.mx/api/saldo')
+        elif self.proveedor_timbrado == 'gecoerp':
+            if self.modo_prueba:
+                #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            else:
+                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+        if not url:
+            return
+        try:
+            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            json_response = response.json()
+        except Exception as e:
+            print(e)
+            json_response = {}
+    
+        if not json_response:
+            return
+        
+        estado_factura = json_response['estado_saldo']
+        if estado_factura == 'problemas_saldo':
+            raise UserError(_(json_response['problemas_message']))
+        if json_response.get('saldo'):
+            xml_saldo = base64.b64decode(json_response['saldo'])
+        values2 = {
+                    'saldo_timbres': xml_saldo
+                  }
+        self.update(values2)
+
+    @api.multi
+    def button_dummy(self):
+        self.get_saldo()
+        return True
