@@ -31,6 +31,7 @@
         'report/payment_report.xml',
         'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
+        'data/cron.xml',
     ],
     'application': False,
     'installable': True,

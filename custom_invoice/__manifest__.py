@@ -37,6 +37,7 @@
         'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
         'data/factura_global.xml',
+        'data/cron.xml',
 	],
     'qweb': [
         'static/src/xml/pos.xml',

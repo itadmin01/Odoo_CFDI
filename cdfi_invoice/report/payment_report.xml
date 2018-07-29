@@ -358,7 +358,6 @@
 		<report id="report_payments" 
 				model="account.payment" 
 				string="Complemento de Pago" 
-        		menu="False"
 				report_type="qweb-pdf" 
 				name="cdfi_invoice.report_payment" 
 				file="cdfi_invoice.report_payment"/>
