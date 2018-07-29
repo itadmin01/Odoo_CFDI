@@ -13,9 +13,8 @@
     'author': 'IT Admin',
     'website': '',
     'depends': [
-        'base',
         'point_of_sale',
-        'sale','account','account_accountant', 'purchase'
+        'sale','account_accountant', 'purchase'
     ],
     'data': [
         'views/res_partner_view.xml',
@@ -37,6 +36,7 @@
         'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
         'data/factura_global.xml',
+        'data/cron.xml',
     ],
     'qweb': [
         'static/src/xml/pos.xml',
