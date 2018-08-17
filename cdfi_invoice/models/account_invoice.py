@@ -499,7 +499,8 @@ class AccountInvoice(models.Model):
         self.selo_sat = TimbreFiscalDigital.attrib['SelloSAT']
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
         self.folio = xml_data.attrib['Folio']
-        self.serie_emisor = xml_data.attrib['Serie']
+        if self.company_id.serie_factura:
+           self.serie_emisor = xml_data.attrib['Serie']
         self.invoice_datetime = xml_data.attrib['Fecha']
         self.version = TimbreFiscalDigital.attrib['Version']
         self.cadena_origenal = '||%s|%s|%s|%s|%s||' % (self.version, self.folio_fiscal, self.fecha_certificacion, 
