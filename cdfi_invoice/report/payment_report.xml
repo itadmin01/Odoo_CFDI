@@ -210,115 +210,96 @@
 					  </div>
 					</t>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
-			            <table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;"> 
-						  <tr>
-		                      <td> 
-                                 <strong>Detalles del pago</strong> 
-                              </td> 
-                              <td> 
-                              </td> 
-				              <td> 
-                                   <strong>Documento relacionado</strong> 
-                              </td> 
-                              <td > 
-                              </td> 
-                          </tr> 
-                          <tr> 
-				               <td> 
-                                   <strong>Método de pago</strong> 
-                               </td> 
-                               <td > 
-                                    <span t-field="o.methodo_pago" /> 
-                               </td> 
-				               <td> 
-                                   <strong>Id Documento</strong> 
-                               </td> 
-                               <td > 
-                                    <span t-field="o.iddocumento" /> 
-                               </td> 
-			  			</tr>
-			  			<tr>
+						<center><strong>Documentos Relacionados</strong></center>
+					<table class=	"borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+						<thead>
+							<tr>
+								<th>No. pago</th>
+								<th>Documento relacionado</th>
+								<th>Moneda</th>
+								<th>T/C</th>
+								<th>Método de pago</th> 
+								<th>Saldo pendiente</th>
+								<th>Monto pagado</th>
+								<th>Saldo restante</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.get_docto_relacionados2(o)" t-as="row" style="page-break-inside: avoid">
+		                        <td>
+		                            <span t-esc="row.get('no_de_pago')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('iddocumento')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('moneda')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('tipodecambio')"/>
+		                        </td>
+								<td>
+		                            <span t-field="o.methodo_pago" />
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('monto_pagar')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+		                        <td>
+		                            <span t-esc="row.get('saldo_restante')"  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+		                        </td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					<div><br/></div>
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Detalles del documento</strong></center>
+						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+							<tr>
 								<td>
 									<strong>Forma de pago</strong>
 								</td>
 								<td >
 									<span t-field="o.forma_pago" />
 								</td>
-							    <td > 
-			   	                  <strong>Num. Parcialidad</strong> 
-                                </td> 
-                                 <td > 
-                                    <span t-field="o.no_de_pago" /> 
-                                 </td> 
-                        </tr> 
-                        <tr> 
-                                 <td> 
-                                    <strong>Número de operación</strong> 
-                                 </td> 
-                                  <td > 
-                                       <span t-field="o.numero_operacion" /> 
-                                  </td> 
-                                  <td> 
-                                       <strong>Importe saldo anterior</strong> 
-                                  </td> 
-                                  <td > 
-                                       <span t-field="o.saldo_pendiente" /> 
-                                  </td> 
-                        </tr> 
-                        <tr> 
 								<td>
 									<strong>Fecha de pago</strong>
 								</td>
 								<td >
 									<span t-field="o.fecha_pago" />
 								</td>
-					            <td> 
-                                     <strong>Imp. Pago</strong> 
-                                </td> 
-                                <td > 
-                                     <span t-field="o.monto_pagar" /> 
-                                 </td> 
-						</tr>
-						  <tr>
+							</tr>
+							<tr>
 								<td>
-									<strong>Moneda pago</strong>
+									<strong>Importe de Pago</strong>
 								</td>
 								<td >
-                                     <span t-field="o.monedap" /> 
+									<span t-esc="o.monto_pagar" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 								</td>
 							   <td>
-                                     <strong>Impo. Saldo Insulto</strong> 
+									<strong>Número de operación</strong>
 								</td>
 								<td >
-                                      <span t-field="o.saldo_restante" /> 
+									<span t-field="o.numero_operacion" />
 								</td>
-						</tr>
-						<tr>
-								<td> 
-                                    <strong>Tipo de cambio pago</strong> 
-                                </td> 
-                                <td > 
-                                    <span t-field="o.tipocambiop" /> 
-                                </td> 
+							</tr>
+							<tr>
 								<td>
 									<strong>Moneda</strong>
 								</td>
 								<td >
-									<span t-field="o.moneda" />
+									<span t-field="o.monedap" />
 								</td>
-					    </tr> 
-                         <tr> 
-                               <td> 
-                                </td> 
-                               <td > 
-						       </td>
 								<td>
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<span t-field="o.tipocambio" /> 
-                                </td > 
-					      </tr>
+									<span t-field="o.tipocambiop" />
+								</td>
+							</tr>
 						</table>
 					</div>
 					<div class="row" style="page-break-inside: avoid">
@@ -377,10 +358,9 @@
 		<report id="report_payments" 
 				model="account.voucher" 
 				string="Complemento de Pago" 
-        		menu="False"
 				report_type="qweb-pdf" 
 				name="cdfi_invoice.report_payment" 
-				file="cdfi_invoice.report_payment" />
+				file="cdfi_invoice.report_payment"/>
 		
 		<record id="cdfi_invoice.report_payments" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
