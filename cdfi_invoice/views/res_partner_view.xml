@@ -7,8 +7,8 @@
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
-                 <field name="vat" position="replace">
-                 </field>
+                <!-- <field name="vat" position="replace">
+                 </field> -->
                  <field name="website" position="after">
                      <field name="rfc" />
                  </field>
