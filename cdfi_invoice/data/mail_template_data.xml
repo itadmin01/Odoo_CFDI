@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
     <data noupdate="0">
 
         <!--Email template -->
@@ -14,11 +14,11 @@
             <field name="report_name">${object.name.replace('/', '_') + '.pdf'}</field>
             <field name="lang">${object.partner_id.lang}</field>
             <field name="body_html"><![CDATA[
-<p>Dear ${object.partner_id.name}
+<p>Hola, ${object.partner_id.name}
 
 
-<p>You can reply to this email if you have any questions.</p>
-<p>Thank you,</p>
+<p>Anexo encontrará su complemento de pago.</p>
+<p>Saludos.</p>
 
 <p style="color:#eeeeee;">
 % if object.company_id and object.company_id.signature:
@@ -44,4 +44,4 @@ El saldo de timbres es menor al monto seleccionado. Por favor contacte a su prov
 ]]></field>
         </record>
     </data>
-</odoo>
+</openerp>

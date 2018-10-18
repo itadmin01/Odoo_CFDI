@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-
 		<template id="cfdi_payment_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
