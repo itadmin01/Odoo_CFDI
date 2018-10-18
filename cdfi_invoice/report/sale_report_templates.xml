@@ -267,5 +267,14 @@
         </t>
     </t>
 </template>
+	
+<record id="sale.action_report_saleorder" model="ir.actions.report">
+    <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
+</record>
+      <!-- <record id="sale.report_sale_order" model="sale.order" string="Custom Sales Order"
+            report_type="qweb-pdf" name="sale.report_saleorder" file="cdfi_invoice.report_saleorder"
+			 paperformat="cdfi_invoice.paperformat_a4_landscape" /> -->
+
+	
 
 </odoo>

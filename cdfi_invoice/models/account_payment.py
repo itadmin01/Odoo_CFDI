@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 from . import amount_to_text_es_MX
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
+from datetime import datetime, timedelta
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -23,14 +24,14 @@ class AccountPayment(models.Model):
                             )
     tipo_comprobante = fields.Selection(
                                 selection=[ ('P', 'Pago'),],
-                                string=_('Tipo de comprobante'),
+                                string=_('Tipo de comprobante'), default='P',
                             )
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],
         string=_('Método de pago'), 
     )
-    no_de_pago = fields.Integer("No. de pago", readonly=True)
+#    no_de_pago = fields.Integer("No. de pago", readonly=True)
     saldo_pendiente = fields.Float("Saldo pendiente", readonly=True)
     monto_pagar = fields.Float("Monto a pagar", compute='_compute_monto_pagar')
     saldo_restante = fields.Float("Saldo restante", readonly=True)
@@ -43,10 +44,10 @@ class AccountPayment(models.Model):
     cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
     rfc_banco_receptor = fields.Char(_("RFC banco receptor"), compute='_compute_banco_receptor')
     estado_pago = fields.Selection(
-        selection=[('pago_no_enviado', 'Pago no enviado'), 
-                   ('pago_correcto', 'Pago correcto'), 
-                   ('problemas_pago', 'Problemas con el pago'), ],
-        string=_('Estado de pago'),
+        selection=[('pago_no_enviado', 'REP no generado'), ('pago_correcto', 'REP correcto'), 
+                   ('problemas_factura', 'Problemas con el pago'), ('solicitud_cancelar', 'Cancelación en proceso'),
+                   ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'REP cancelado'), ],
+        string=_('Estado CFDI'),
         default='pago_no_enviado',
         readonly=True
     )
@@ -82,6 +83,10 @@ class AccountPayment(models.Model):
     iddocumento = fields.Char(string=_('iddocumento'))
     fecha_emision = fields.Char(string=_('Fecha y Hora Certificación'))
     docto_relacionados = fields.Text("Docto relacionados",default='[]')
+    cep_sello = fields.Char(string=_('cep_sello'))
+    cep_numeroCertificado = fields.Char(string=_('cep_numeroCertificado'))
+    cep_cadenaCDA = fields.Char(string=_('cep_cadenaCDA'))
+    cep_claveSPEI = fields.Char(string=_('cep_claveSPEI'))
     
     @api.one
     @api.depends('name')
@@ -96,33 +101,99 @@ class AccountPayment(models.Model):
         except Exception:
             data = []    
         return data
+    
+    @api.multi
+    def importar_incluir_cep(self):
+        ctx = {'default_payment_id':self.id}
+        return {
+            'name': _('Importar factura de compra'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('cdfi_invoice.view_import_xml_payment_in_payment_form_view').id,
+            'res_model': 'import.account.payment.from.xml',
+            'context': ctx,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }
+        
+    @api.onchange('journal_id')
+    def _onchange_journal(self):
+        if self.journal_id:
+            self.currency_id = self.journal_id.currency_id or self.company_id.currency_id
+            # Set default payment method (we consider the first to be the default one)
+            payment_methods = self.payment_type == 'inbound' and self.journal_id.inbound_payment_method_ids or self.journal_id.outbound_payment_method_ids
+            self.payment_method_id = payment_methods and payment_methods[0] or False
+            # Set payment method domain (restrict to methods enabled for the journal and to selected payment type)
+            payment_type = self.payment_type in ('outbound', 'transfer') and 'outbound' or 'inbound'
+            self.forma_pago = self.journal_id.forma_pago
+            return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
+        return {}
+    
+    @api.onchange('payment_date')
+    def _onchange_payment_date(self):
+        if self.payment_date:
+            self.fecha_pago = self.payment_date+' 12:00:00'
+
+    @api.multi
+    def add_resitual_amounts(self):
+        if self.invoice_ids:
+            for invoice in self.invoice_ids:
+                data = json.loads(self.docto_relacionados) or []
+                for line in data:
+                    if invoice.folio_fiscal == line.get('iddocumento',False):
+                        #if self.currency_id.name != invoice.moneda:
+                        #   if invoice.moneda == 'MXN':
+                        #      monto_restante = round(invoice.residual/(1/self.currency_id.rate),2)
+                        #   else:
+                        #      monto_restante = round(invoice.residual*float(invoice.tipocambio),2)
+                        #else:
+                        monto_restante = invoice.residual
+                        monto_pagar_docto = float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['saldo_restante'] = monto_restante
+                        self.write({'docto_relacionados': json.dumps(data)})
 
     @api.model
     def create(self, vals):
         res = super(AccountPayment, self).create(vals)
         if res.invoice_ids:
             docto_relacionados = []
-            monto_pagado = round(res.monto_pagar,2)
+            monto_pagado_asignar = round(res.monto_pagar,2)
             for invoice in res.invoice_ids:
-                if monto_pagado > invoice.residual:
-                    monto_pagar = round(invoice.residual,2)
-                    monto_pagado -= round(invoice.residual,2)
-                else:
-                    monto_pagar = round(monto_pagado,2)
-                docto_relacionados.append({
-                      'moneda': invoice.moneda,
-                      'tipodecambio': invoice.tipocambio,
-                      'iddocumento': invoice.folio_fiscal,
-                      'no_de_pago': len(invoice.payment_ids),
-                      'saldo_pendiente': round(invoice.residual,2),
-                      'monto_pagar': monto_pagar,
-                      'saldo_restante': round((invoice.residual - monto_pagar),2),
-                })
-            saldo_pendiente = sum(inv.residual for inv in res.invoice_ids)
-            res.write({'docto_relacionados': json.dumps(docto_relacionados), 'no_de_pago':sum(len(inv.payment_ids) for inv in res.invoice_ids),
-                       'saldo_pendiente': saldo_pendiente, 'saldo_restante':saldo_pendiente - res.monto_pagar})
+                if invoice.factura_cfdi:
+                    #revisa la cantidad que se va a pagar en el docuemnto
+                    if res.currency_id.name != invoice.moneda:
+                        if res.currency_id.name == 'MXN':
+                        #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
+                            tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                        else:
+                        #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.rate)
+                    else:
+                        #saldo_pendiente = round(invoice.residual,2)
+                        tipocambiop = invoice.tipocambio
+                    docto_relacionados.append({
+                          'moneda': invoice.moneda,
+                          'tipodecambio': tipocambiop,
+                          'iddocumento': invoice.folio_fiscal,
+                          'no_de_pago': len(invoice.payment_ids.filtered(lambda x: x.state!='cancelled')), 
+                          'saldo_pendiente': round(invoice.residual,2),
+                          'monto_pagar': 0,
+                          'saldo_restante': 0,
+                    })
+            saldo_pendiente_total = sum(inv.residual for inv in res.invoice_ids)
+            res.write({'docto_relacionados': json.dumps(docto_relacionados),
+                       'saldo_pendiente': saldo_pendiente_total, 'saldo_restante':saldo_pendiente_total - monto_pagado_asignar})
         return res
-            
+    @api.multi
+    def post(self):
+        res = super(AccountPayment, self).post()
+        for rec in self:
+            rec.add_resitual_amounts()
+            rec._onchange_payment_date()
+            rec._onchange_journal()
+        return res
+
     @api.one
     @api.depends('amount')
     def _compute_monto_pagar(self):
@@ -161,6 +232,8 @@ class AccountPayment(models.Model):
         else:
             self.tipocambiop = self.currency_id.rate
         self.methodo_pago  = 'PPD'
+        correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 
+        correccion_hora -= timedelta(hours=5)
 
         if self.invoice_ids:		            
             request_params = { 
@@ -190,8 +263,8 @@ class AccountPayment(models.Model):
                       'descripcion': 'Pago',
                 },
                 'payment': {
-                      'moneda': self.currency_id.name,
-                      'tipocambio': self.currency_id.rate,
+                      'moneda': self.monedap,
+                      'tipocambio': self.tipocambiop,
                       'forma_pago': self.forma_pago,
                       'numero_operacion': self.numero_operacion,
                       'banco_emisor': self.banco_emisor,
@@ -200,7 +273,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': self.fecha_pago,
+                      'fecha_pago': correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
                       'monto_factura':  self.amount
                 },
 
@@ -243,8 +316,8 @@ class AccountPayment(models.Model):
                       'descripcion': 'Pago',
                 },
                 'payment': {
-                      'moneda': self.currency_id.name,
-                      'tipocambio': self.currency_id.rate,
+                      'moneda': self.monedap,
+                      'tipocambio': self.tipocambiop,
                       'forma_pago': self.forma_pago,
                       'numero_operacion': self.numero_operacion,
                       'banco_emisor': self.banco_emisor,
@@ -253,7 +326,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': self.fecha_pago,
+                      'fecha_pago': correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
                       'monto_factura': self.amount,
                 },
                 'docto_relacionado': [{
@@ -334,6 +407,7 @@ class AccountPayment(models.Model):
 
             p.write({'estado_pago': estado_pago,
                     'xml_payment_link': xml_file_link})
+            p.message_post(body="CFDI emitido")
             
     @api.multi
     def validate_complete_payment(self):
@@ -428,6 +502,75 @@ class AccountPayment(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    @api.multi
+    def action_cfdi_cancel(self):
+        for p in self:
+            #if invoice.factura_cfdi:
+                if p.estado_pago == 'factura_cancelada':
+                    pass
+                    # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
+                if not p.company_id.archivo_cer:
+                    raise UserError(_('Falta la ruta del archivo .cer'))
+                if not p.company_id.archivo_key:
+                    raise UserError(_('Falta la ruta del archivo .key'))
+                archivo_cer = p.company_id.archivo_cer.decode("utf-8")
+                archivo_key = p.company_id.archivo_key.decode("utf-8")
+                values = {
+                          'rfc': p.company_id.rfc,
+                          'api_key': p.company_id.proveedor_timbrado,
+                          'uuid': p.folio_fiscal,
+                          'folio': p.folio,
+                          'serie_factura': p.company_id.serie_complemento,
+                          'modo_prueba': p.company_id.modo_prueba,
+                            'certificados': {
+                                  'archivo_cer': archivo_cer,
+                                  'archivo_key': archivo_key,
+                                  'contrasena': p.company_id.contrasena,
+                            }
+                          }
+                if p.company_id.proveedor_timbrado == 'multifactura':
+                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
+                elif p.company_id.proveedor_timbrado == 'gecoerp':
+                    if p.company_id.modo_prueba:
+                         #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
+                        url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                    else:
+                        url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                response = requests.post(url , 
+                                         auth=None,verify=False, data=json.dumps(values), 
+                                         headers={"Content-type": "application/json"})
+
+                json_response = response.json()
+                
+                if json_response['estado_factura'] == 'problemas_factura':
+                    raise UserError(_(json_response['problemas_message']))
+                elif json_response.get('factura_xml', False):
+                    if p.name:
+                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.name.replace('/', '_') + '.xml'
+                    else:
+                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'						
+                    xml_file = open(xml_file_link, 'w')
+                    xml_invoice = base64.b64decode(json_response['factura_xml'])
+                    xml_file.write(xml_invoice.decode("utf-8"))
+                    xml_file.close()
+                    if p.name:
+                        file_name = p.name.replace('/', '_') + '.xml'
+                    else:
+                        file_name = p.folio + '.xml'
+                    self.env['ir.attachment'].sudo().create(
+                                                {
+                                                    'name': file_name,
+                                                    'datas': json_response['factura_xml'],
+                                                    'datas_fname': file_name,
+                                                    'res_model': self._name,
+                                                    'res_id': p.id,
+                                                    'type': 'binary'
+                                                })
+                p.write({'estado_pago': json_response['estado_factura']})
+                p.message_post(body="CFDI Cancelado")
+
+
 
 class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"

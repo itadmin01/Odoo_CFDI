@@ -28,5 +28,8 @@ class ResPartner(models.Model):
                    ('D08', _('Gastos de transportación escolar obligatoria')),
                    ('D10', _('Pagos por servicios educativos (colegiaturas)')),
                    ('P01', _('Por definir')),],
-        string=_('Uso CFDI'),
+        string=_('Uso CFDI (cliente)'),
     )
+    _sql_constraints = [
+        ('rfc_must_be_unique', 'UNIQUE(rfc)', 'A RFC must be unique!'),
+    ]
