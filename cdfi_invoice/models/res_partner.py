@@ -30,6 +30,3 @@ class ResPartner(models.Model):
                    ('P01', _('Por definir')),],
         string=_('Uso CFDI (cliente)'),
     )
-    _sql_constraints = [
-        ('rfc_must_be_unique', 'UNIQUE(rfc)', 'A RFC must be unique!'),
-    ]
