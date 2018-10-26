@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_view_inherit_form_cfdi" model="ir.ui.view">
+        <field name="name">account.journal.inherit.form.view.cfdi</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <field name="bank_id" position="after">
+            	<field name="forma_pago" />
+            </field>    
+        </field>
+    </record>
+</odoo>
