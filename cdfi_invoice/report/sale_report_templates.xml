@@ -136,7 +136,7 @@
             <!-- Is there a discount on at least one line? -->
             <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
 
-            <t t-foreach="doc.order_lines_layouted()" t-as="page">
+            <!--<t t-foreach="doc.order_lines_layouted()" t-as="page">-->
                 <table class="table table-condensed">
                     <thead>
                         <tr>
@@ -209,7 +209,7 @@
                 <t t-if="page_index &lt; page_size - 1" groups="sale.group_sale_layout">
                     <p style="page-break-before:always;"> </p>
                 </t>
-            </t>
+           <!-- </t>-->
 
             <div class="row" name="total">
                 <div class="col-xs-4 pull-right">
@@ -221,7 +221,7 @@
                                     t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
                             </td>
                         </tr>
-                        <t t-foreach="doc._get_tax_amount_by_group()" t-as="amount_by_group">
+                        <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                             <tr>
                                 <td><span t-esc="amount_by_group[0] or 'Taxes'"/></td>
                                 <td class="text-right">
