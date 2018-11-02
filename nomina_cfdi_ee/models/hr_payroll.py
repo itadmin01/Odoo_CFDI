@@ -486,7 +486,7 @@ class HrPayslip(models.Model):
                                                 'res_id': payslip.id,
                                                 'type': 'binary'
                                             })	
-                report = self.env['ir.actions.report']._get_report_from_name('nomina_cfdi.report_payslip')
+                report = self.env['ir.actions.report']._get_report_from_name('nomina_cfdi_ee.report_payslip')
                 report_data = report.render_qweb_pdf([payslip.id])[0]
                 pdf_file_name = payslip.name.replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
@@ -620,7 +620,7 @@ class HrPayslip(models.Model):
     @api.multi
     def send_nomina(self):
         self.ensure_one()
-        template = self.env.ref('nomina_cfdi.email_template_payroll', False)
+        template = self.env.ref('nomina_cfdi_ee.email_template_payroll', False)
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
             
         ctx = dict()
@@ -678,7 +678,7 @@ class MailTemplate(models.Model):
         for res_id, template in res_ids_to_templates.items():
             templates_to_res_ids.setdefault(template, []).append(res_id)
         
-        template_id = self.env.ref('nomina_cfdi.email_template_payroll')
+        template_id = self.env.ref('nomina_cfdi_ee.email_template_payroll')
         for template, template_res_ids in templates_to_res_ids.items():
             if template.id  == template_id.id:
                 for res_id in template_res_ids:
