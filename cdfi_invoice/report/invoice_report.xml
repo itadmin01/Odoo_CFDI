@@ -17,7 +17,8 @@
             <field name="dpi">90</field>
         </record>
 		
-		<template id="cfdi_external_layout">
+	<!--CFDI EXTERNAL LAYOUT-->
+	<template id="cfdi_external_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
 				<t t-set="o" t-value="doc" />
@@ -50,16 +51,17 @@
             <t t-raw="0" />
         </div>
 
+		<!--EMPIEZA EL FOOTER *ESTA BIEN*-->
         <div class="footer">
             <div class="text-center" style="border-top: 1px solid black;">
                 <ul class="list-inline mb4">
-	                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
+	                <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
 	
-	                <li t-if="company.email">&amp;bull;</li>
-	                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
+	                <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
+	                <li t-if="company.email" class="list-inline-item" >Correo Electrónico: <span t-field="company.email"/></li>
 	
-	                <li t-if="company.website">&amp;bull;</li>
-	                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+	                <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
+	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
 
                 <div name="financial_infos">
@@ -71,19 +73,29 @@
                 </div>
             </div>
         </div>
+		<!--TERMINA EL FOOTER-->
+
+
     </template>
 
-		<template id="report_invoice_document">
+	<!--TERMINA CFDI EXTERNAL LAYOUT-->
+
+		<template id="report_invoice_document" >
 			<t t-call="cdfi_invoice.cfdi_external_layout">
 				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
-				<div class="page" style="padding-top: 10px;">
-					<div class="row"  >
+				
+				<div class="page" style="padding-top: 10px; border-top: 1px solid black; font-size:20px;">
+					<div class="row">
 					
+					<!--INICIA LOGO DE LA EMPRESA-->
 					<div class="col-xs-2">
 						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
 							style="max-height: 130px;" />
 					</div>
-						<div class="col-xs-5" >
+					<!--TERMINA LOGO DE LA EMPRESA-->
+
+						<!--EMPIEZA DATOS DEL EMISOR-->
+						<div class="col-7" >
 							<div >
 								<strong>Emisor</strong>
 							</div>
@@ -105,14 +117,17 @@
 								</div>
 								</t>
 						</div>
-						<div class="col-xs-4 pull-right">
+						<!--TERMINA DATOS DEL EMISOR-->
+
+						<!--INFORMACIÓN GENERAL FACTURA-->
+						<div class="col-3">
 							<div>
-							<t t-if="o.factura_cfdi">
-								<strong>Folio:</strong>
-							</t>
-							<t t-if="not o.factura_cfdi">
-								<strong>Nota de venta:</strong>
-							</t>
+								<t t-if="o.factura_cfdi">
+									<strong>Folio:</strong>
+								</t>
+								<t t-if="not o.factura_cfdi">
+									<strong>Nota de venta:</strong>
+								</t>
 								<strong><span t-if="not o.serie_emisor=='false'" t-field="o.serie_emisor" /></strong>
 								<span t-field="o.number_folio" />
 							</div>
@@ -137,22 +152,21 @@
 								</t>
 							</div>
 						</div>
+						<!--TERMINA INFORMACIÓN GENERAL DE FACTURA-->
 					</div>
+					
 					<div class="row mt32 mb32" style="padding-top: 10px;">
 						<div class="col-xs-10" >
-							<strong>Receptor</strong>
-						</div>
-						<div class="col-xs-10" >
-								<span t-field="o.partner_id.name" />
-						  <t t-if="o.factura_cfdi">
-						     <div>
+							<strong>Receptor <br/> </strong>
+							<span t-field="o.partner_id.name" />
+						<t t-if="o.factura_cfdi">
 						    	<span t-field="o.partner_id.rfc" />
-						     </div>
-							 <div>
+							<div>
 						    	Uso CFDI: <span t-field="o.uso_cfdi" />
-						     </div>
-						   </t>	
+						    </div>
+						</t>	
 						</div>						
+												
 					</div>
 
 					<!-- Is there a discount on at least one line? -->
@@ -242,86 +256,90 @@
 						</tbody>
 					</table>
 
+				<!--INICIO DE TABLA SUBTOTAL Y TOTAL -->
 					<div class="row">
-						<div class="col-xs-5 pull-right">
-							<table class="table table-condensed">
-								<tr class="border-black">
-									<td>
-										<strong>Subtotal</strong>
-									</td>
-									<td class="text-right">
-										<span t-esc="amount_untaxed"
-											t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
-									</td>
-								</tr>
-								<t t-set="positive_tax_amount" t-value="0.0"/>
-								<t t-set="negative_tax_amount" t-value="0.0"/>
-								<t t-foreach="o.tax_line_ids" t-as="line">
-										<t t-if="line.tax_id.amount > 0">
-											<t t-set="positive_tax_amount" t-value="positive_tax_amount + line.amount"/>
-										</t>
-										<t t-if="not line.tax_id.amount > 0">
-											<t t-set="negative_tax_amount" t-value="negative_tax_amount + line.amount"/>
-										</t>
-								</t>
-								<t t-if="positive_tax_amount > 0">
-									<tr>
+							<div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+								<table class="table table-sm">
+									<tr class="border-black">
 										<td>
-											<span>Total impuestos trasladados</span>
+											<strong>Subtotal</strong>
 										</td>
 										<td class="text-right">
-											<span t-esc="positive_tax_amount" 
-											t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+											<span t-esc="amount_untaxed"
+												t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
 										</td>
 									</tr>
-								</t>
-								<t t-if="abs(negative_tax_amount) > 0">
-									<tr>
+									
+									<t t-set="positive_tax_amount" t-value="0.0"/>
+									<t t-set="negative_tax_amount" t-value="0.0"/>
+									<t t-foreach="o.tax_line_ids" t-as="line">
+											<t t-if="line.tax_id.amount > 0">
+												<t t-set="positive_tax_amount" t-value="positive_tax_amount + line.amount"/>
+											</t>
+											<t t-if="not line.tax_id.amount > 0">
+												<t t-set="negative_tax_amount" t-value="negative_tax_amount + line.amount"/>
+											</t>
+									</t>
+									<t t-if="positive_tax_amount > 0">
+										<tr>
+											<td>
+												<span>Total impuestos trasladados</span>
+											</td>
+											<td class="text-right">
+												<span t-esc="positive_tax_amount" 
+												t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+											</td>
+										</tr>
+									</t>
+									<t t-if="abs(negative_tax_amount) > 0">
+										<tr>
+											<td>
+												<span>Total impuestos retenidos</span>
+											</td>
+											<td class="text-right">
+												<span t-esc="abs(negative_tax_amount)" 
+												t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+											</td>
+										</tr>
+									</t>
+									<tr class="border-black">
 										<td>
-											<span>Total impuestos retenidos</span>
-										</td>
-										<td class="text-right">
-											<span t-esc="abs(negative_tax_amount)" 
-											t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-										</td>
-									</tr>
-								</t>
-							</table>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-5 pull-right">
-							<table class="table table-condensed">
-								<tr class="border-black">
-									<td>
 										<strong>Total</strong>
-									</td>
-									<td class="text-right">
-										<span t-esc="amount_total"
+										</td>
+										<td class="text-right">
+											<span t-esc="amount_total"
 											t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="col-xs-7">
-							<div style="color: black;">
-								<strong><span t-esc="o._get_amount_2_text(amount_total)" /></strong>
+										</td>
+									</tr>
+								</table>
 							</div>
-						</div>
-					</div>	
-					<t t-if="o.tipo_relacion">
-					  <div class="row">
+							
+					</div>
+					<div class="col-xs-5 text-left">
+								<div style="color: black;">
+									<strong><span t-esc="o._get_amount_2_text(amount_total)" /></strong>
+								</div>
+							</div>	
+			
+					
+				<!--FIN DE TABLA DE SUBTOTAL Y TOTAL -->
+
+
+				<!--TABLA DE INFORMACIÓN CENTRAL-->
+				<t t-if="o.tipo_relacion">
+					<div class="row">
 					    <div>
 					        <strong>CFDI Relacionado </strong>
 					    </div>
-					    <div>
+						<div>
 					        Tipo de Relación: <span t-field="o.tipo_relacion" />
 					    </div>
 					    <div>
 					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
 					    </div>
-					  </div>
-					</t>
+					</div>
+				</t>
+				<!--INICIA TABLA-->
 				<t t-if="o.factura_cfdi">
 					<div class="row" style="border:solid 2px black;font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
@@ -392,39 +410,62 @@
 							</tr>
 						</table>
 					</div>
-					<div class="row" style="page-break-inside: avoid">
-						<div class="col-xs-1">
-						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"
-								style="height: 190px;width: 190px;padding-left:10px;" />
+				</t>
+
+				<!--TERMINA TABLA DE INFORMACIÓN CENTRAL-->
+			
+				<!--INICIAN ELEMENTOS DEL SAT-->
+				<div class="row" style="page-break-inside: avoid">
+						<!--INICIA CODIGOQR-->
+						<div class="col-xs-5">
+							<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"
+							style="height: 190px;width: 190px;padding-left:10px;" />
 						</div>
-						<div class="col-xs-9 pull-right" style="font-size:12px;">
-							<div >
-								<strong>Cadena Original del Complemento digital del SAT</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.cadena_origenal" />
-							</div>
-							<div >
-								<strong>Sello Digital del CFDI</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.selo_digital_cdfi" />
-							</div>
-							<div >
-								<strong>Sello del SAT</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.selo_sat" />
-							</div>
+						<!--TERMINA CODIGO QR-->
+					<div class="col-xs-7" style="font-size:13px;">
+						<!--CADENA ORIGINAL>  -->
+						<div >
+							<strong>Cadena Original del Complemento digital del SAT</strong>
+								<span t-field="o.cadena_origenal" style="word-break:break-word;" /> 
 						</div>
+						<div >
+							<strong>Cadena Original del Complemento digital del SAT</strong>
+								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" /> 
+						</div>
+						<div >
+							<strong>Cadena Original del Complemento digital del SAT</strong>
+								<span t-field="o.selo_sat" style="word-break:break-word;" /> 
+						</div>
+						<!--SELLO DIGITAL CFDI> 
+						<div >
+							<strong>Sello digital del cfdi</strong>
+							<p style="font-size:9px;word-break:break-word;"  >
+								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" /> 
+							</p>
+						</div>   -->
+
+						<!--SELLO DIGITAL SAT> 
+						<div >
+							<strong>Sello del SAT</strong>
+							<p style="font-size:9px;word-break:break-word;"  >
+								<span t-field="o.selo_sat" style="word-break:break-word;" /> 
+							</p>
+						</div> -->
+
+						
 					</div>
+				</div>
+				<!--TERMINAN ELEMENTOS DEL SAT-->
+
+
+					<!--DOCUMENTO LEGAL-->
 					<p>
 						<center>
 							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI
 							</strong>
 						</center>
 					</p>
-					</t>
+					
 					<t t-if="o.comment">
 					<div class="row">
 					<strong>Observaciones: </strong><span t-field="o.comment" />
