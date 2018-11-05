@@ -14,7 +14,7 @@
                 		<field name="payment_id" invisible="1"/>
                 	</group>
                 	<footer>
-                        <button name="import_xml_file_button" string="Import" type="object" class="oe_highlight"/> 
+                        <button name="import_xml_file_button" string="Importar" type="object" class="oe_highlight"/> 
                         <button string="Cancelar" class="oe_highlight" special="cancel" />
                     </footer>
                </form>

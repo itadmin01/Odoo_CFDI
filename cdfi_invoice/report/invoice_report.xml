@@ -84,19 +84,19 @@
 			<t t-call="cdfi_invoice.cfdi_external_layout">
 				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
 				
-				<div class="page" style="padding-top: 10px; border-top: 1px solid black; font-size:20px;">
+				<div class="page" style="padding-top: 10px; border-top: 1px solid black; font-size:18px;">
 					<div class="row">
 					
 					<!--INICIA LOGO DE LA EMPRESA-->
-					<div class="col-xs-2">
-						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
+						<div class="col-xs-2">
+							<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
 							style="max-height: 130px;" />
-					</div>
+						</div>
 					<!--TERMINA LOGO DE LA EMPRESA-->
 
 						<!--EMPIEZA DATOS DEL EMISOR-->
-						<div class="col-7" >
-							<div >
+						<div class="col-6" >
+							<div>
 								<strong>Emisor</strong>
 							</div>
 							<div>
@@ -120,7 +120,7 @@
 						<!--TERMINA DATOS DEL EMISOR-->
 
 						<!--INFORMACIÓN GENERAL FACTURA-->
-						<div class="col-3">
+						<div class="col-4">
 							<div>
 								<t t-if="o.factura_cfdi">
 									<strong>Folio:</strong>
@@ -159,12 +159,14 @@
 						<div class="col-xs-10" >
 							<strong>Receptor <br/> </strong>
 							<span t-field="o.partner_id.name" />
-						<t t-if="o.factura_cfdi">
-						    	<span t-field="o.partner_id.rfc" />
-							<div>
-						    	Uso CFDI: <span t-field="o.uso_cfdi" />
-						    </div>
-						</t>	
+						    <t t-if="o.factura_cfdi">
+						    	 <div>
+								    <span t-field="o.partner_id.rfc" />
+								</div>
+							     <div>
+						    	    Uso CFDI: <span t-field="o.uso_cfdi" />
+						         </div>
+						    </t>	
 						</div>						
 												
 					</div>
@@ -174,7 +176,7 @@
 					<t t-set="amount_total" t-value="0.0"/>
 					<t t-set="amount_untaxed" t-value="0.0"/>
 
-					<table class="table">
+					<table class="table" font-size="16px;">
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
@@ -340,8 +342,8 @@
 					</div>
 				</t>
 				<!--INICIA TABLA-->
-				<t t-if="o.factura_cfdi">
-					<div class="row" style="border:solid 2px black;font-size:12px;">
+				<t t-if="o.factura_cfdi" style="font-size:18px;">
+					<div class="row" style="border:solid 2px black;font-size:18px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 							<tr>
 								<td>
@@ -422,37 +424,20 @@
 							style="height: 190px;width: 190px;padding-left:10px;" />
 						</div>
 						<!--TERMINA CODIGO QR-->
-					<div class="col-xs-7" style="font-size:13px;">
+					<div class="col-xs-7" style="font-size:15px;">
 						<!--CADENA ORIGINAL>  -->
 						<div >
 							<strong>Cadena Original del Complemento digital del SAT</strong>
 								<span t-field="o.cadena_origenal" style="word-break:break-word;" /> 
 						</div>
 						<div >
-							<strong>Cadena Original del Complemento digital del SAT</strong>
+							<strong>Sello digital del CFDI</strong>
 								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" /> 
 						</div>
-						<div >
-							<strong>Cadena Original del Complemento digital del SAT</strong>
-								<span t-field="o.selo_sat" style="word-break:break-word;" /> 
-						</div>
-						<!--SELLO DIGITAL CFDI> 
-						<div >
-							<strong>Sello digital del cfdi</strong>
-							<p style="font-size:9px;word-break:break-word;"  >
-								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" /> 
-							</p>
-						</div>   -->
-
-						<!--SELLO DIGITAL SAT> 
 						<div >
 							<strong>Sello del SAT</strong>
-							<p style="font-size:9px;word-break:break-word;"  >
 								<span t-field="o.selo_sat" style="word-break:break-word;" /> 
-							</p>
-						</div> -->
-
-						
+						</div>						
 					</div>
 				</div>
 				<!--TERMINAN ELEMENTOS DEL SAT-->

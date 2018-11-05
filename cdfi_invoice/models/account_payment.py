@@ -44,11 +44,10 @@ class AccountPayment(models.Model):
     cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
     rfc_banco_receptor = fields.Char(_("RFC banco receptor"), compute='_compute_banco_receptor')
     estado_pago = fields.Selection(
-        selection=[('pago_no_enviado', 'Pago no enviado'), 
-                   ('pago_correcto', 'Pago correcto'), 
-                   ('problemas_factura', 'Problemas con el pago'),
-                   ('factura_cancelada', 'Pago cancelado'), ],
-        string=_('Estado de pago'),
+        selection=[('pago_no_enviado', 'REP no generado'), ('pago_correcto', 'REP correcto'), 
+                   ('problemas_factura', 'Problemas con el pago'), ('solicitud_cancelar', 'Cancelación en proceso'),
+                   ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'REP cancelado'), ],
+        string=_('Estado CFDI'),
         default='pago_no_enviado',
         readonly=True
     )
@@ -169,7 +168,7 @@ class AccountPayment(models.Model):
                             tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
                         else:
                         #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
-                            tipocambiop = round(float(invoice.tipocambio)/float(res.currency_id.rate), 2) #1/res.currency_id.rate #round(1/float(invoice.tipocambio),2)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.rate)
                     else:
                         #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
@@ -177,7 +176,7 @@ class AccountPayment(models.Model):
                           'moneda': invoice.moneda,
                           'tipodecambio': tipocambiop,
                           'iddocumento': invoice.folio_fiscal,
-                          'no_de_pago': len(invoice.payment_ids),
+                          'no_de_pago': len(invoice.payment_ids.filtered(lambda x: x.state!='cancelled')), 
                           'saldo_pendiente': round(invoice.residual,2),
                           'monto_pagar': 0,
                           'saldo_restante': 0,
@@ -408,6 +407,7 @@ class AccountPayment(models.Model):
 
             p.write({'estado_pago': estado_pago,
                     'xml_payment_link': xml_file_link})
+            p.message_post(body="CFDI emitido")
             
     @api.multi
     def validate_complete_payment(self):
@@ -514,8 +514,8 @@ class AccountPayment(models.Model):
                     raise UserError(_('Falta la ruta del archivo .cer'))
                 if not p.company_id.archivo_key:
                     raise UserError(_('Falta la ruta del archivo .key'))
-                archivo_cer = p.company_id.archivo_cer
-                archivo_key = p.company_id.archivo_key
+                archivo_cer = p.company_id.archivo_cer.decode("utf-8")
+                archivo_key = p.company_id.archivo_key.decode("utf-8")
                 values = {
                           'rfc': p.company_id.rfc,
                           'api_key': p.company_id.proveedor_timbrado,
@@ -541,7 +541,6 @@ class AccountPayment(models.Model):
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
 
-               # print 'Response: ', response.status_code
                 json_response = response.json()
                 
                 if json_response['estado_factura'] == 'problemas_factura':
@@ -550,7 +549,7 @@ class AccountPayment(models.Model):
                     if p.name:
                         xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.name.replace('/', '_') + '.xml'
                     else:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio_fiscal + '.xml'						
+                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'						
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
                     xml_file.write(xml_invoice.decode("utf-8"))
@@ -558,7 +557,7 @@ class AccountPayment(models.Model):
                     if p.name:
                         file_name = p.name.replace('/', '_') + '.xml'
                     else:
-                        file_name = p.folio_fiscal + '.xml'
+                        file_name = p.folio + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -569,6 +568,8 @@ class AccountPayment(models.Model):
                                                     'type': 'binary'
                                                 })
                 p.write({'estado_pago': json_response['estado_factura']})
+                p.message_post(body="CFDI Cancelado")
+
 
 
 class AccountPaymentMail(models.Model):

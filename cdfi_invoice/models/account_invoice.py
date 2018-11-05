@@ -12,11 +12,8 @@ from odoo.tools import float_is_zero, float_compare
 from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
-#from datetime import datetime, timedelta
 
-import logging
-_logger = logging.getLogger(__name__)
-
+        
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
@@ -81,7 +78,8 @@ class AccountInvoice(models.Model):
     xml_invoice_link = fields.Char(string=_('XML Invoice Link'))
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
-                   ('problemas_factura', 'Problemas con la factura'), ('factura_cancelada', 'Factura cancelada'), ],
+                   ('problemas_factura', 'Problemas con la factura'), ('solicitud_cancelar', 'Cancelación en proceso'),
+                   ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'Factura cancelada'), ],
         string=_('Estado de factura'),
         default='factura_no_generada',
         readonly=True
@@ -301,16 +299,16 @@ class AccountInvoice(models.Model):
             if tax_items:
                 product_taxes.update({'tax_lines': tax_items})
 
-            p_unit = round(amount_wo_tax / line.quantity,2)
-            this_amount = round(p_unit * line.quantity,2)
+            p_unit = float(amount_wo_tax) / float(line.quantity)
+            this_amount = p_unit * line.quantity
             amount_untaxed += this_amount
 
             desc = this_amount - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
-            if desc < 0:
+            if desc < 0.01:
                 desc = 0
             self.discount += desc
 
-            self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
+            #self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
@@ -326,8 +324,8 @@ class AccountInvoice(models.Model):
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': round(p_unit,2),
-                                      'amount': round(this_amount,2),
+                                      'price_unit': p_unit,
+                                      'amount': this_amount,
                                       'description': line.name[:1000],
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad})
@@ -347,7 +345,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': amount_untaxed,'total': round(amount_total,2)})
+            request_params['invoice'].update({'subtotal': amount_untaxed,'total': amount_total})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -430,6 +428,7 @@ class AccountInvoice(models.Model):
                                                 })
                 invoice.write({'estado_factura': estado_factura,
                                'xml_invoice_link': xml_file_link})
+                invoice.message_post(body="CFDI emitido")
         result = super(AccountInvoice, self).invoice_validate()
         return result
     
@@ -468,6 +467,7 @@ class AccountInvoice(models.Model):
             invoice.write({'estado_factura': estado_factura,
                            'xml_invoice_link': xml_file_link,
                            'factura_cfdi': True})
+            invoice.message_post(body="CFDI emitido")
         return True
     @api.one
     def _set_data_from_xml(self, xml_invoice):
@@ -559,7 +559,6 @@ class AccountInvoice(models.Model):
                                      headers={"Content-type": "application/json"})
 
             #print 'Response: ', response.status_code
-            _logger.info('something ... %s', response.text)
             json_response = response.json()
             xml_file_link = False
             estado_factura = json_response['estado_factura']
@@ -617,7 +616,7 @@ class AccountInvoice(models.Model):
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
-    
+
                 json_response = response.json()
                 
                 if json_response['estado_factura'] == 'problemas_factura':
@@ -626,7 +625,7 @@ class AccountInvoice(models.Model):
                     if invoice.number:
                         xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
                     else:
-                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.folio_fiscal + '.xml'						
+                        xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.move_name.replace('/', '_') + '.xml'
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
                     xml_file.write(xml_invoice.decode("utf-8"))
@@ -634,7 +633,7 @@ class AccountInvoice(models.Model):
                     if invoice.number:
                         file_name = invoice.number.replace('/', '_') + '.xml'
                     else:
-                        file_name = invoice.folio_fiscal + '.xml'
+                        file_name = invoice.move_name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -657,7 +656,46 @@ class AccountInvoice(models.Model):
                 email_ctx.update(default_email_from=inv.company_id.email)
                 inv.with_context(email_ctx).message_post_with_template(email_ctx.get('default_template_id'))
         return True
- 
+
+    @api.model
+    def check_cancel_status_by_cron(self):
+        values = {
+                 'rfc': self.company_id.rfc,
+                 'api_key': self.company_id.proveedor_timbrado,
+                 'modo_prueba': self.company_id.modo_prueba,
+                 }
+        url=''
+        if self.company_id.proveedor_timbrado == 'multifactura':
+            url = '%s' % ('http://facturacion.itadmin.com.mx/api/saldo') #consulta_cancelar
+        elif self.company_id.proveedor_timbrado == 'gecoerp':
+            if self.company_id.modo_prueba:
+                #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
+                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            else:
+                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+        if not url:
+            return
+        try:
+            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            json_response = response.json()
+        except Exception as e:
+            print(e)
+            json_response = {}
+    
+        if not json_response:
+            return
+        
+        estado_factura = json_response['estado_saldo']
+        if estado_factura == 'problemas_saldo':
+            raise UserError(_(json_response['problemas_message']))
+       # if json_response.get('saldo'):
+       #     xml_saldo = base64.b64decode(json_response['saldo'])
+       # values2 = {
+       #             'saldo_timbres': xml_saldo
+       #           }
+       # self.update(values2)
+        return True
+
  
 class MailTemplate(models.Model):
     "Templates for sending email"
@@ -685,20 +723,20 @@ class MailTemplate(models.Model):
                     if invoice.estado_factura == 'factura_correcta':   
                         xml_file = open(invoice.xml_invoice_link, 'rb').read()
                         attachments = results[res_id]['attachments'] or []
-                        attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', 
+                        attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', 
                                             base64.b64encode(xml_file)))
                     else:
                         if invoice.number:
                             cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
                         else:							
-                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.folio_fiscal + '.xml'							
+                            cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.move_name.replace('/', '_') + '.xml'
                         with open(cancel_file_link, 'rb') as cf:
                             cancel_xml_file = cf.read()
                             attachments = []	
                             if invoice.number:
                                 attachments.append(('CDFI_CANCEL_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
                             else:
-                                attachments.append(('CDFI_CANCEL_' + invoice.folio_fiscal + '.xml', base64.b64encode(cancel_xml_file)))								
+                                attachments.append(('CDFI_CANCEL_' + invoice.move_name.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))								
                     results[res_id]['attachments'] = attachments
         return results
 

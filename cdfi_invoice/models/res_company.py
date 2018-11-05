@@ -66,7 +66,7 @@ class ResCompany(models.Model):
                     email = email.strip()
                     if email:
                         email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
-        return True    
+        return True
     
     def get_saldo(self):
         values = {

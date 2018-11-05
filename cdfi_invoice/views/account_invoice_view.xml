@@ -42,9 +42,9 @@
                 <field name="payment_term_id" position="after">
                 	<field name="factura_cfdi" invisible="1"/>
                 </field>        
-                <button name="action_invoice_sent" position="replace">
-                	<button name="action_invoice_sent" type="object" string="Enviar por correo electrónico" attrs="{'invisible':[('state', '=', 'draft')]}" groups="base.group_user"/>
-                </button>     
+                <button name="action_invoice_sent" position="before">
+                	<button name="action_invoice_sent" type="object" string="Enviar por correo-e" attrs="{'invisible':[('state', 'not in', ('cancel'))]}" groups="base.group_user"/>
+                </button>    
                 <button name="action_invoice_draft" position="before">
                 	<button name="action_cfdi_generate" type="object" string="Generar CFDI" 
                 			attrs="{'invisible':['|',('factura_cfdi','=',True), ('state','not in',('open', 'paid'))]}"
