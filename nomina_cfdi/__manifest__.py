@@ -27,5 +27,6 @@
         'data/res.bank.csv',
     ],
     'installable': True,
-    'application': False
+    'application': False,
+    'license': 'AGPL-3',
 }
