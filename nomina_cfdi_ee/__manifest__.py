@@ -27,5 +27,6 @@
         'data/res.bank.csv',
     ],
     'installable': True,
-    'application': False
+    'application': False,
+    'license': 'OPL-1',
 }
