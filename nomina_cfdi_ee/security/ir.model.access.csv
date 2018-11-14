@@ -1,2 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_tablas_cfdi,tablas_cfdi,nomina_cfdi_ee.model_tablas_cfdi,base.group_user,1,1,1,1
+access_tablas_cfdi2,tablas_cfdi2,nomina_cfdi_ee.model_tablas_general_line,base.group_user,1,1,1,1
+access_tablas_cfdi3,tablas_cfdi3,nomina_cfdi_ee.model_tablas_subsidio_line,base.group_user,1,1,1,1
+access_tablas_cfdi4,tablas_cfdi4,nomina_cfdi_ee.model_tablas_subsidio2_line,base.group_user,1,1,1,1
+access_tablas_cfdi5,tablas_cfdi5,nomina_cfdi_ee.model_tablas_subsidioacreditable_line,base.group_user,1,1,1,1
+access_tablas_cfdi6,tablas_cfdi6,nomina_cfdi_ee.model_tablas_antiguedades_line,base.group_user,1,1,1,1

@@ -117,7 +117,7 @@ class HrPayslip(models.Model):
         readonly=True
     )	
     imss_dias = fields.Float('Días a cotizar en la nómina',default='15') 
-    imss_mes = fields.Float('Días a cotizar en el mes',default='30.4')
+    imss_mes = fields.Float('Dias Periodo Mensual para IMSS',default='30.4')
     xml_nomina_link = fields.Char(string=_('XML link'), readonly=True)
     nomina_cfdi = fields.Boolean('Nomina CFDI')
     qrcode_image = fields.Binary("QRCode")
@@ -145,6 +145,8 @@ class HrPayslip(models.Model):
     subsidio_periodo = fields.Float('subsidio_periodo')
     isr_periodo = fields.Float('isr_periodo')
     retencion_subsidio_pagado = fields.Float('retencion_subsidio_pagado')
+    importe_imss = fields.Float('importe_imss')
+    importe_isr = fields.Float('importe_isr')
 
     forma_pago = fields.Selection(
         selection=[('99', '99 - Por definir'),],
@@ -283,7 +285,7 @@ class HrPayslip(models.Model):
 #********** DEDUCCIONES *********
         total_imp_ret = 0
         suma_deducciones = 0
-        importe_isr = 0
+        self.importe_isr = 0
         self.isr_periodo = 0
         no_deuducciones = 0 #len(self.deducciones_lines)
         self.deducciones_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
@@ -306,19 +308,19 @@ class HrPayslip(models.Model):
                  payslip_total_TDED += round(line.total,2)
 
              #todas las deducciones imss
-            importe_imss = 0
+            self.importe_imss = 0
             for line in self.deducciones_lines:
               if line.salary_rule_id.tipo_deduccion == '001':
                  #_logger.info('linea imss ...')
-                 importe_imss += round(line.total,2)
+                 self.importe_imss += round(line.total,2)
 
-            if importe_imss > 0:
+            if self.importe_imss > 0:
               no_deuducciones += 1
               lineas_deduccion.append({'TipoDeduccion': '001',
                   'Clave': '302',
                   'Concepto': 'Seguridad social',
-                  'Importe': round(importe_imss,2)})
-              payslip_total_TDED += round(importe_imss,2)
+                  'Importe': round(self.importe_imss,2)})
+              payslip_total_TDED += round(self.importe_imss,2)
 
             #todas las deducciones isr
             for line in self.deducciones_lines:
@@ -326,16 +328,16 @@ class HrPayslip(models.Model):
                   self.isr_periodo = line.total 
               if line.salary_rule_id.tipo_deduccion == '002':
                  #_logger.info('linea ISR ...')
-                 importe_isr += round(line.total,2)
+                 self.importe_isr += round(line.total,2)
 
-            if importe_isr > 0:
+            if self.importe_isr > 0:
               no_deuducciones += 1
               lineas_deduccion.append({'TipoDeduccion': '002',
                   'Clave': '301',
                   'Concepto': 'ISR',
-                  'Importe': round(importe_isr,2)})
-              payslip_total_TDED += round(importe_isr,2)
-            total_imp_ret = round(importe_isr,2)
+                  'Importe': round(self.importe_isr,2)})
+              payslip_total_TDED += round(self.importe_isr,2)
+            total_imp_ret = round(self.importe_isr,2)
 
         deduccion = {
             'TotalDeduccion': {

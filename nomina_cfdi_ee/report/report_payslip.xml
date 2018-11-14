@@ -172,19 +172,19 @@
                                 <td class="text-right"> <span t-esc="line.total"
                                           t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
 								 <td>
-									<t t-if= "line.code == '101'">
+									<t t-if= "line.code == '101'"><!-- días trabajados -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='WORK100')" />
 										<t t-if="len(worked_days)>0">
 											<span t-esc="worked_days[0].number_of_days"/>	
 										</t>
 							    	</t>
-									<t t-if= "line.code == '103'">
+									<t t-if= "line.code == '103'"> <!-- vacaciones -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C103')" />
 										<t t-if="len(worked_days)>0">
 											<span t-esc="worked_days[0].number_of_days"/>	
 										</t>
 							    	</t>
-									<t t-if= "line.code == '150'">
+									<t t-if= "line.code == '150'"> <!-- prima dominical -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C150')" />
 										<t t-if="len(worked_days)>0">
 											<span t-esc="worked_days[0].number_of_days"/>	
@@ -196,7 +196,7 @@
                         </tbody>
                     </table>
 					</div>
-					<div  class="col-xs-5">
+                    <div  class="col-xs-5">
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -206,15 +206,29 @@
                         </thead>
                         <tbody>
                           <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.category_id.code in ['DED'])" t-as="line">
-							<t t-if= "line.total > 0">
+                            <t t-if= "line.total > 0 and line.salary_rule_id.tipo_deduccion != '002' and line.salary_rule_id.tipo_deduccion != '001' ">
                                 <td><span t-field="line.name"/></td>
                                 <td class="text-right"><span t-esc="line.total"
                                           t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
-							</t>
+                            </t>
                           </tr>
+                            <t t-if= "o.importe_imss > 0 ">
+                                <tr>
+                                    <td>IMSS</td>
+                                    <td class="text-right"><span t-esc="o.importe_imss"
+                                          t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                </tr>
+                            </t>
+                            <t t-if= "o.importe_isr > 0 ">
+                                <tr>
+                                    <td>ISR</td>
+                                    <td class="text-right"><span t-esc="o.importe_isr"
+                                          t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                </tr>
+                            </t>
                         </tbody>
                     </table>
-					</div>
+                    </div>
 				</div>
 				<table>
 						<colgroup>
