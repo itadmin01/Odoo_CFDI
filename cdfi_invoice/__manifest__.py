@@ -6,7 +6,7 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '2.0',
+    'version': '10.2',
     'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 3.3)
     ''',
     'category': 'Accounting',
@@ -39,4 +39,5 @@
     'installable': True,
     'price': 0.00,
     'currency': 'USD',
+    'license': 'OPL-1',	
 }
