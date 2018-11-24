@@ -23,11 +23,11 @@
 			                     <!--   <field name="http_factura"/> -->
 			                        <field name="factura_dir"/>
 			                        <field name="modo_prueba"/>
-									<field name="telefono_sms"/>
+									<!--<field name="telefono_sms"/>
 									<label for="id"/>
 									<p class="text-muted">
 									   Sistema automático de notificaciones del servicio de timbrado.
-									</p>
+									</p>-->
 								</group>
 	                        </group>
 	                        <group cols="4"  string="Certificado Digital">
