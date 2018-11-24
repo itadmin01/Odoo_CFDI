@@ -32,6 +32,9 @@ UM_CLAVO_MAP = {
                 'Uno': 'C62',	
                 'Vehiculo': 'XVN',
                 'Par': 'PR',
+                'Cubeta': 'XBJ',
+                'Rollo': 'XRO',
+                'Docena': 'DZN',
                 'Kit': 'KT',
                 'Tableros de pie': 'BFT',
                 }
@@ -68,6 +71,9 @@ class ProductTemplate(models.Model):
                    ('Uno', 'Uno'),
                    ('Vehiculo', 'Vehiculo'),
                    ('Par', 'Par'),
+                   ('Cubeta', 'Cubeta'),
+                   ('Rollo', 'Rollo'),
+                   ('Docena', 'Docena'),
                    ('Kit', 'Kit'),
                    ('Tableros de pie', 'Tableros de pie'),
                    ]

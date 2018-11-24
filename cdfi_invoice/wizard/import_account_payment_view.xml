@@ -7,7 +7,7 @@
             <field name="model">import.account.payment.from.xml</field>
             <field name="priority">100</field>
             <field name="arch" type="xml">
-                <form string="Importar facturas de compras">
+                <form string="Importar CEP">
                 	<group>
                 		<field name="import_file" required="1" filename="file_name"/>
                 		<field name="file_name" invisible="1"/>

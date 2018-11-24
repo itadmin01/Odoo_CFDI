@@ -12,8 +12,9 @@ from odoo.tools import float_is_zero, float_compare
 from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
+import logging
+_logger = logging.getLogger(__name__)
 
-        
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
@@ -78,8 +79,7 @@ class AccountInvoice(models.Model):
     xml_invoice_link = fields.Char(string=_('XML Invoice Link'))
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
-                   ('problemas_factura', 'Problemas con la factura'), ('solicitud_cancelar', 'Cancelación en proceso'),
-                   ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'Factura cancelada'), ],
+                   ('solicitud_cancelar', 'Cancelación en proceso'),('factura_cancelada', 'Factura cancelada'), ],
         string=_('Estado de factura'),
         default='factura_no_generada',
         readonly=True
@@ -345,7 +345,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': amount_untaxed,'total': amount_total})
+            request_params['invoice'].update({'subtotal': self.amount_untaxed,'total': self.amount_total})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -401,7 +401,7 @@ class AccountInvoice(models.Model):
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
     
-                #print 'Response: ', response.status_code
+                #_logger.info('something ... %s', response.text)
                 json_response = response.json()
                 xml_file_link = False
                 estado_factura = json_response['estado_factura']
@@ -545,7 +545,6 @@ class AccountInvoice(models.Model):
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
             
             values = invoice.to_json()
-            # print(json.dumps(values, indent=4, sort_keys=True))
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
@@ -616,11 +615,16 @@ class AccountInvoice(models.Model):
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
-
+                _logger.info('something ... %s', response.text)
                 json_response = response.json()
-                
+
+                log_msg = ''
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
+                elif json_response['estado_factura'] == 'solicitud_cancelar':
+                    #invoice.write({'estado_factura': json_response['estado_factura']})
+                    log_msg = "Se solicitó cancelación de CFDI"
+                    #raise Warning(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
                     if invoice.number:
                         xml_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
@@ -643,9 +647,10 @@ class AccountInvoice(models.Model):
                                                     'res_id': invoice.id,
                                                     'type': 'binary'
                                                 })
+                    log_msg = "CFDI Cancelado"
                 invoice.write({'estado_factura': json_response['estado_factura']})
-            invoice.message_post(body="CFDI cancelado")        
-        
+                invoice.message_post(body=log_msg)
+ 
  
     @api.multi
     def force_invoice_send(self):
@@ -659,41 +664,52 @@ class AccountInvoice(models.Model):
 
     @api.model
     def check_cancel_status_by_cron(self):
-        values = {
-                 'rfc': self.company_id.rfc,
-                 'api_key': self.company_id.proveedor_timbrado,
-                 'modo_prueba': self.company_id.modo_prueba,
+        domain = [('type', '=', 'out_invoice'),('estado_factura', '=', 'solicitud_cancelar')]
+        invoices = self.search(domain, order = 'id')
+        for invoice in invoices:
+            _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
+            values = {
+                 'rfc': invoice.company_id.rfc,
+                 'api_key': invoice.company_id.proveedor_timbrado,
+                 'modo_prueba': invoice.company_id.modo_prueba,
+                 'uuid': invoice.folio_fiscal,
                  }
-        url=''
-        if self.company_id.proveedor_timbrado == 'multifactura':
-            url = '%s' % ('http://facturacion.itadmin.com.mx/api/saldo') #consulta_cancelar
-        elif self.company_id.proveedor_timbrado == 'gecoerp':
-            if self.company_id.modo_prueba:
-                #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
-                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            url=''
+            #_logger.info('esta logeando ...')
+            if invoice.company_id.proveedor_timbrado == 'multifactura':
+               url = '%s' % ('http://ec2-52-37-49-131.us-west-2.compute.amazonaws.com/api/consulta-cacelar')
+            elif invoice.company_id.proveedor_timbrado == 'gecoerp':
+               if invoice.company_id.modo_prueba:
+                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+               else:
+                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            if not url:
+               return
+            try:
+               response = requests.post(url, 
+                                         auth=None,verify=False, data=json.dumps(values), 
+                                         headers={"Content-type": "application/json"})
+               #_logger.info('info enviada ...')
+               json_response = response.json()
+               #_logger.info('something ... %s', response.text)
+            except Exception as e:
+               _logger.info('log de la exception ... %s', response.text)
+               json_response = {}
+            if not json_response:
+               return
+            estado_factura = json_response['estado_consulta']
+            if estado_factura == 'problemas_consulta':
+                _logger.info('Error en la consulta %s', json_response['problemas_message'])
+            elif estado_factura == 'consulta_correcta':
+                if json_response['factura_xml'] == 'Cancelado':
+                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+                    invoice.action_cfdi_cancel()
+                elif json_response['factura_xml'] == 'Vigente':
+                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
             else:
-                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-        if not url:
-            return
-        try:
-            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
-            json_response = response.json()
-        except Exception as e:
-            print(e)
-            json_response = {}
-    
-        if not json_response:
-            return
-        
-        estado_factura = json_response['estado_saldo']
-        if estado_factura == 'problemas_saldo':
-            raise UserError(_(json_response['problemas_message']))
-       # if json_response.get('saldo'):
-       #     xml_saldo = base64.b64decode(json_response['saldo'])
-       # values2 = {
-       #             'saldo_timbres': xml_saldo
-       #           }
-       # self.update(values2)
+                _logger.info('Error... %s', response.text)
         return True
 
  
