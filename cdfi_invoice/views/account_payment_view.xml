@@ -8,16 +8,14 @@
             <field name="arch" type="xml">
                 <data>
                 	<button name="proforma_voucher" position="after">
-                        <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),
-                                                                  ]}" string="Genera REP" type="object"/>
+                        <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','=',('pago_correcto', 'factura_cancelada')),]}" string="Genera REP" type="object"/>
                         <button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Enviar por correo-e" type="object"/>
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),
                                                          ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
                         <button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':['|',
                                                          ('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" class="oe_highlight" groups="base.group_user"/>
                 	</button>  <!-- ('factura_cfdi','=',False), -->
-                    <xpath expr="//sheet" position="inside">
-                    	<notebook >
+                    <xpath expr="//notebook" position="inside">
                             <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('state','!=','posted')]}">
                                     <group cols="4">
                                         <group string="Datos del comprobante">
@@ -66,7 +64,6 @@
                                         </group>
                                     </group>
                              </page>
-                       </notebook>
                     </xpath>
                 </data>
             </field>
