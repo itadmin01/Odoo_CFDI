@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <record id="hr_contract_view_form_nomina_cfdi" model="ir.ui.view">
+        <field name="name">hr.contract.nomina</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//notebook" position="inside">
+	        <page name="info_cdfi" string="CFDI 3.3">
+	          <group cols="4"  string="Configuración">
+					<field name="periodicidad_pago" />
+					<field name="riesgo_puesto" />
+			    	<field name="tablas_cfdi_id" />
+					<field name="sueldo_diario" />
+					<field name="sueldo_hora" />
+					<field name="sueldo_diario_integrado" />
+	          </group>
+                        <group cols="4">
+                            <group string="Percepciones adicionales">
+                                <field name="bono_productividad"/>
+                                <field name="bono_asistencia"/>
+                                <field name="bono_puntualidad"/>
+                                <field name="prevision_social"/>
+                            </group>
+                            <group string="Deducciones adicionales">
+                                <field name="infonavit_fijo"/>
+                                <field name="infonavit_vsm"/>
+                                <field name="infonavit_porc"/>
+                                <field name="anticipo_sueldo"/>
+                                <field name="deduc_gral"/>
+                                <field name="prestamo_fonacot"/>
+                                <field name="pago_de_serv"/>
+                                <field name="pens_alim"/>
+                                <field name="prest_financ"/>
+                            </group>
+                        </group>
+	        </page>
+	      </xpath>
+        </field>
+    </record>
+</odoo>
