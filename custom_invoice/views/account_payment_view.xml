@@ -14,7 +14,7 @@
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),
                                                          ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
                         <button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':['|',
-                                                         ('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" class="oe_highlight" groups="base.group_user"/>
+                                                         ('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" class="oe_highlight" groups="base.group_user" confirm="¿Esta seguro que quiere cancelar la factura?"/>
                 	</button>  <!-- ('factura_cfdi','=',False), -->
                     <xpath expr="//sheet" position="inside">
                     	<notebook >

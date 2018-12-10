@@ -15,6 +15,66 @@ var _t = core._t;
 
 var round_pr = utils.round_precision;
 
+screens.ReceiptScreenWidget.include({
+    render_receipt: function() {
+        var self = this;
+        var order = this.pos.get_order();
+        
+        var order_lines = order.get_orderlines();
+        var receipt_language = order.receipt_language;
+        
+        if(order.is_to_invoice()){
+        	var product_ids = [];
+        	
+        	this.get_invoice_data = new Model('pos.order').call('get_invoice_information',[order.get_name()]).then(function(res){
+        		
+                $('.pos-receipt-container').html(QWeb.render('PosTicketCFDI',{
+                    widget:self,
+                    order: order,
+                    receipt: order.export_for_printing(),
+                    orderlines: order.get_orderlines(),
+                    paymentlines: order.get_paymentlines(),
+                    methodo_pago : res.methodo_pago,
+                    regimen_fiscal : res.regimen_fiscal,
+                    forma_pago : res.forma_pago,
+                    numero_cetificado : res.numero_cetificado,
+                    moneda : res.moneda,
+                    cetificaso_sat : res.cetificaso_sat,
+                    tipocambio : res.tipocambio,
+                    folio_fiscal : res.folio_fiscal,
+                    fecha_certificacion : res.fecha_certificacion,
+                    cadena_origenal : res.cadena_origenal,
+                    selo_digital_cdfi : res.selo_digital_cdfi,
+                    selo_sat : res.selo_sat,
+                    invoice_id : res.invoice_id,
+                }));
+                
+            },function(err,event){
+                event.preventDefault();
+                self.gui.show_popup('error',{
+                    'title': _t('Error'),
+                    'body': _t('Your Internet connection is probably down.'),
+                });
+            });
+        }
+        else{
+        	this._super();
+        }
+        
+    },
+    print_web: function(){
+    	var self = this;
+    	if (this.get_invoice_data){
+    		$.when(this.get_invoice_data).always(function() {
+    			window.print();
+    	        self.pos.get_order()._printed = true;
+        	});
+    	}
+    	else{
+    		this._super();
+    	}
+    },
+});
 screens.PaymentScreenWidget.include({
 
 

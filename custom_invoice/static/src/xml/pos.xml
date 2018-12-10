@@ -1,5 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
+    <t t-name="PosTicketCFDI">
+        <div class="pos-sale-ticket">
+            
+            <div class="pos-center-align"><t t-esc="moment().format('L LT')"/> <t t-esc="order.name"/></div>
+            <br />
+            <t t-esc="widget.pos.company.name"/><br />
+            Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
+            User: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
+            Shop: <t t-esc="widget.pos.shop.name"/><br />
+            <br />
+            <t t-if="receipt.header">
+                <div style='text-align:center'>
+                    <t t-esc="receipt.header" />
+                </div>
+                <br />
+            </t>
+            <table class='receipt-orderlines'>
+                <colgroup>
+                    <col width='50%' />
+                    <col width='25%' />
+                    <col width='25%' />
+                </colgroup>
+                <tr t-foreach="orderlines" t-as="orderline">
+                    <td>
+                        <t t-esc="orderline.get_product().display_name"/>
+                         <t t-if="orderline.get_discount() > 0">
+                            <div class="pos-disc-font">
+                                With a <t t-esc="orderline.get_discount()"/>% discount
+                            </div>
+                        </t>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="orderline.get_quantity_str_with_unit()"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(orderline.get_display_price())"/>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class='receipt-total'>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+                    </td>
+                </tr>
+                <t t-foreach="order.get_tax_details()" t-as="taxdetail">
+                    <tr>
+                        <td><t t-esc="taxdetail.name" /></td>
+                        <td class="pos-right-align">
+                            <t t-esc="widget.format_currency(taxdetail.amount)" />
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                    <td>Discount:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_total_discount())"/>
+                    </td>
+                </tr>
+                <tr class="emph">
+                    <td>Total:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class='receipt-paymentlines'>
+                <t t-foreach="paymentlines" t-as="line">
+                  <tr>
+                      <td>
+                          <t t-esc="line.name"/>
+                      </td>
+                      <td class="pos-right-align">
+                          <t t-esc="widget.format_currency(line.get_amount())"/>
+                      </td>
+                  </tr>
+                </t>
+            </table>
+            <br />
+            <table class='receipt-change'>
+                <tr><td>Change:</td><td class="pos-right-align">
+                    <t t-esc="widget.format_currency(order.get_change())"/>
+                    </td></tr>
+            </table>
+            <br />
+            <table class='receipt-factura-cfdi'>
+                <tr>
+                	<td>
+						<strong>Método de pago</strong>
+					</td>
+					<td >
+						<span t-esc="methodo_pago" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Régimen fiscal</strong>
+					</td>
+					<td >
+						<span t-esc="regimen_fiscal" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Forma de pago</strong>
+					</td>
+					<td >
+						<span t-esc="forma_pago" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Número de certificado</strong>
+					</td>
+					<td >
+						<span t-esc="numero_cetificado" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Moneda</strong>
+					</td>
+					<td >
+						<span t-esc="moneda" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Certificado SAT</strong>
+					</td>
+					<td >
+						<span t-esc="cetificaso_sat" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Tipo de cambio</strong>
+					</td>
+					<td >
+						<span t-esc="tipocambio" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Folio fiscal</strong>
+					</td>
+					<td >
+						<span t-esc="folio_fiscal" />
+					</td>
+                </tr>
+                <tr>
+                	<td>
+						<strong>Fecha y hora de certificación</strong>
+					</td>
+					<td >
+						<span t-esc="fecha_certificacion" />
+					</td>
+                </tr>
+            </table>
+            <br />
+            <div>
+                <img t-attf-src='/web/image/account.invoice/#{invoice_id}/qrcode_image/190x190' style="width:100%"/>
+            </div>
+            <div style="font-size:12px;">
+				<strong>Cadena Original del Complemento digital del SAT</strong>
+			</div>
+			<br />
+			<div style="font-size:9px;">
+				<span t-esc="cadena_origenal" />
+			</div>
+			<br />
+			<div style="font-size:12px;">
+				<strong>Sello Digital del CFDI</strong>
+			</div>
+			<br />
+			<div style="font-size:9px;">
+				<span t-esc="selo_digital_cdfi" />
+			</div>
+			<br />
+			<div style="font-size:12px;">
+				<strong>Sello del SAT</strong>
+			</div>
+			<br />
+			<div style="font-size:9px;">
+				<span t-esc="selo_sat" />
+			</div>
+            <t t-if="receipt.footer">
+                <br />
+                <div style='text-align:center'>
+                    <t t-esc="receipt.footer" />
+                </div>
+            </t>
+        </div>
+    </t>
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-details-box" t-operation="replace">
             <div class='client-details-box clearfix'>
