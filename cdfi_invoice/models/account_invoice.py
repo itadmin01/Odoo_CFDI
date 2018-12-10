@@ -677,7 +677,7 @@ class AccountInvoice(models.Model):
             url=''
             #_logger.info('esta logeando ...')
             if invoice.company_id.proveedor_timbrado == 'multifactura':
-               url = '%s' % ('http://ec2-52-37-49-131.us-west-2.compute.amazonaws.com/api/consulta-cacelar')
+               url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                if invoice.company_id.modo_prueba:
                   url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
