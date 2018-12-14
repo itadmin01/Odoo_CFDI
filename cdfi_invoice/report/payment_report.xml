@@ -34,10 +34,10 @@
             <div class="text-center" style="border-top: 1px solid black;">
                 <ul class="list-inline mb4">
 	                <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
-	
+
 	                <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
 	                <li t-if="company.email" class="list-inline-item">Correo Electrónico: <span t-field="company.email"/></li>
-	
+
 	                <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
 	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
@@ -58,18 +58,18 @@
 				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
 				<div class="page" style="padding-top: 10px; font-size=15px;">
 					<div class="row"  >
-					
-					<div class="col-xs-2">
+
+					<div class="col-4">
 						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-							style="max-height: 130px;" />
+							style="max-height: 130px; max-width: 350px;" />
 					</div>
-						<div class="col-6" >
+						<div class="col-4" >
 							<div >
 								<strong>Emisor</strong>
 							</div>
 							<div>
 								<span t-field="o.company_id.nombre_fiscal" />
-								
+
 							</div>
 								<div>
 								<span t-field="o.rfc_emisor" />
@@ -78,7 +78,7 @@
 								<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
 								</div>
 						</div>
-						<div class="col-5">
+						<div class="col-4">
 							<div>
 								<strong>Folio:</strong>
 								<strong><span t-if="not o.company_id.serie_complemento=='false'" t-field="o.company_id.serie_complemento" /></strong>
@@ -105,14 +105,14 @@
 						</div>
 						<div >
 								<span t-field="o.partner_id.name" />
-						
+
 						     <div>
 						    	<span t-field="o.partner_id.rfc" />
 						     </div>
 							 <div>
 						    	Uso CFDI: P01
 						     </div>
-						</div>	
+						</div>
 					</div>
 					<div class="col-6">
 							<div>
@@ -127,7 +127,7 @@
 							<div>
 									<strong>Fecha y hora de certificación</strong>: <span t-field="o.fecha_certificacion" />
 							</div>
-					</div>					
+					</div>
 					</div>
 
 					<table class="table" font-size="15px;">
@@ -155,7 +155,7 @@
 								<td>
 									Pago
 								</td>
-								
+
 								<td class="text-right">
 									$0.00
 								</td>
@@ -216,7 +216,7 @@
 								<th>Documento relacionado</th>
 								<th>Moneda</th>
 								<th>T/C</th>
-								<th>Método de pago</th> 
+								<th>Método de pago</th>
 								<th>Saldo pendiente</th>
 								<th>Monto pagado</th>
 								<th>Saldo restante</th>
@@ -314,15 +314,15 @@
 						<div class="col-xs-7" style="font-size:13px;">
 							<div >
 								<strong>Cadena Original del Complemento digital del SAT</strong>
-								<span t-field="o.cadena_origenal" style="word-break:break-word;" /> 
+								<span t-field="o.cadena_origenal" style="word-break:break-word;" />
 							</div>
 							<div>
 								<strong>Sello Digital del CFDI</strong>
-								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" /> 
+								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" />
 							</div>
 							<div>
 								<strong>Sello del SAT</strong>
-								<span t-field="o.selo_sat" style="word-break:break-word;" /> 
+								<span t-field="o.selo_sat" style="word-break:break-word;" />
 							</div>
 						</div>
 					</div>
@@ -347,12 +347,12 @@
 		</template>
 
 
-		<report id="report_payments" 
-				model="account.payment" 
-				string="Complemento de Pago" 
+		<report id="report_payments"
+				model="account.payment"
+				string="Complemento de Pago"
         		menu="True"
-				report_type="qweb-pdf" 
-				name="cdfi_invoice.report_payment" 
+				report_type="qweb-pdf"
+				name="cdfi_invoice.report_payment"
 				file="cdfi_invoice.report_payment"
 				paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 

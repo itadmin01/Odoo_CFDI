@@ -47,10 +47,10 @@
             <div class="text-center" style="border-top: 1px solid black;">
                 <ul class="list-inline mb4">
 	                <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
-	
+
 	                <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
 	                <li t-if="company.email" class="list-inline-item" >Correo Electrónico: <span t-field="company.email"/></li>
-	
+
 	                <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
 	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
@@ -73,15 +73,15 @@
         <div class="oe_structure" />
             <div class="row">
                 <!--EMPIEZA LOGO-->
-			   <div class="col-xs-2">
+			   <div class="col-4">
 					<img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"
-						style="max-height: 130px;" />
+						style="max-height: 130px; max-width: 300px;" />
 				</div>
                 <!--TERMINA LOGO-->
 
                 <!--INFORMACIÓN DE EMPRESA-->
-                <div class="col-6">
-                
+                <div class="col-4">
+
 					<div>
 						<span t-field="doc.company_id.partner_id.name" />
 					</div>
@@ -124,7 +124,7 @@
 	                    <span t-if="doc.state in ['draft','sent']">Presupuesto #:</span>
 	                    <span t-field="doc.name"/>
 	           </div>
-			</h2>   
+			</h2>
 
             <!--ATENCIÓN Y DIRECCIÓN DE ENVIO-->
 			<div class="col-4">
@@ -313,7 +313,7 @@
                 </div>
             </div>
 
-            <div class="oe_structure"/>  
+            <div class="oe_structure"/>
 		</div>
 	</t>
 </template>
@@ -326,7 +326,7 @@
         </t>
     </t>
 </template>
-	
+
 <record id="sale.action_report_saleorder" model="ir.actions.report">
     <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
 </record>
@@ -334,6 +334,6 @@
             report_type="qweb-pdf" name="sale.report_saleorder" file="cdfi_invoice.report_saleorder"
 			 paperformat="cdfi_invoice.paperformat_a4_landscape" /> -->
 
-	
+
 
 </odoo>
