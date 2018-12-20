@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-
-from odoo import fields, models, api,_
+import base64
+import json
+import requests
+from odoo import fields, models,api, _
+from odoo.exceptions import UserError
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -58,7 +61,7 @@ class ResCompany(models.Model):
         for company in companies:
             company.get_saldo()
             if company.saldo_timbres < company.saldo_alarma and company.correo_alarma:
-                email_template = self.env.ref("cdfi_invoice.email_template_alarma_de_saldo",False)
+                email_template = self.env.ref("nomina_cfdi_ee.email_template_alarma_de_saldo",False)
                 if not email_template:return
                 emails = company.correo_alarma.split(",")
                 for email in emails:

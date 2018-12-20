@@ -7,10 +7,10 @@
     Nomina CFDI Module
     ''',
     'author': 'IT Admin',
-    'version': '2.0',
+    'version': '11.3',
     'category': 'Employees',
     'depends': [
-        'base', 'hr', 'hr_payroll'
+        'hr_payroll'
     ],
     'data': [
         'data/sequence_data.xml',

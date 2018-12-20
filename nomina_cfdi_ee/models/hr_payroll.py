@@ -12,7 +12,7 @@ from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
 from reportlab.lib.units import mm
 import logging
 _logger = logging.getLogger(__name__)
-
+import os
 
 class HrSalaryRule(models.Model):
     #_inherit = ['hr.salary.rule','mail.thread']
@@ -147,6 +147,7 @@ class HrPayslip(models.Model):
     retencion_subsidio_pagado = fields.Float('retencion_subsidio_pagado')
     importe_imss = fields.Float('importe_imss')
     importe_isr = fields.Float('importe_isr')
+    periodicidad = fields.Float('periodicidad')
 
     forma_pago = fields.Selection(
         selection=[('99', '99 - Por definir'),],
@@ -179,7 +180,15 @@ class HrPayslip(models.Model):
                 'fecha_pago': self.date_to
                 }
             self.update(values)
-	
+    
+    @api.model
+    def create(self, vals):
+        if not vals.get('fecha_pago') and vals.get('date_to'):
+            vals.update({'fecha_pago': vals.get('date_to')})
+            
+        res = super(HrPayslip, self).create(vals)
+        return res
+    
     @api.depends('number')
     @api.one
     def _get_number_folio(self):
@@ -205,9 +214,9 @@ class HrPayslip(models.Model):
         payslip_total_PERE = 0	
 
         if self.contract_id.date_end:
-               antiguedad = int((datetime.datetime.strptime(self.contract_id.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
+            antiguedad = int((datetime.datetime.strptime(self.contract_id.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
         else:
-               antiguedad = int((datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
+            antiguedad = int((datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
 
 #**********  Percepciones ************
         total_percepciones_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','101'),('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
@@ -216,8 +225,8 @@ class HrPayslip(models.Model):
         tipo_percepcion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_percepcion').selection)
         if percepciones_grabadas_lines:
             for line in percepciones_grabadas_lines:
-              payslip_total_PERG += round(line.total,2)
-              lineas_de_percepcion.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                payslip_total_PERG += round(line.total,2)
+                lineas_de_percepcion.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
                 'Clave': line.code,
                 'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
                 'ImporteGravado': line.total,
@@ -227,8 +236,8 @@ class HrPayslip(models.Model):
         lineas_de_percepcion_exentas = []
         if percepciones_excentas_lines:
             for line in percepciones_excentas_lines:
-              payslip_total_PERE += round(line.total,2)
-              lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                payslip_total_PERE += round(line.total,2)
+                lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
                 'Clave': line.code,
                 'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
                 'ImporteGravado': '0',
@@ -252,24 +261,24 @@ class HrPayslip(models.Model):
         lineas_de_otros = []
         if otrospagos_lines:
             for line in otrospagos_lines:
-              _#logger.info('line total ...%s', line.total)
-              if line.code == '201' and line.total > 0:
-                line2 = self.contract_id.env['tablas.subsidio.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('lim_inf','<=',self.contract_id.wage)],order='lim_inf desc',limit=1)
-                self.subsidio_periodo = 0
-                #_logger.info('entro a este ..')
-                payslip_total_TOP += line.total
-                if line2:
-                   self.subsidio_periodo = (line2.s_mensual/self.imss_mes)*self.imss_dias
-                lineas_de_otros.append({'TipoOtrosPagos': line.salary_rule_id.tipo_otro_pago,
+                #_#logger.info('line total ...%s', line.total)
+                if line.code == '201' and line.total > 0:
+                    line2 = self.contract_id.env['tablas.subsidio.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('lim_inf','<=',self.contract_id.wage)],order='lim_inf desc',limit=1)
+                    self.subsidio_periodo = 0
+                    #_logger.info('entro a este ..')
+                    payslip_total_TOP += line.total
+                    if line2:
+                        self.subsidio_periodo = (line2.s_mensual/self.imss_mes)*self.imss_dias
+                    lineas_de_otros.append({'TipoOtrosPagos': line.salary_rule_id.tipo_otro_pago,
                     'Clave': line.code,
                     'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
                     'ImporteGravado': '0',
                     'ImporteExento': line.total,
                     'SubsidioCausado': self.subsidio_periodo})
-              else:
-                  payslip_total_TOP += line.total
-                  #_logger.info('entro al otro ..')
-                  lineas_de_otros.append({'TipoOtrosPagos': line.salary_rule_id.tipo_otro_pago,
+                else:
+                    payslip_total_TOP += line.total
+                    #_logger.info('entro al otro ..')
+                    lineas_de_otros.append({'TipoOtrosPagos': line.salary_rule_id.tipo_otro_pago,
                         'Clave': line.code,
                         'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
                         'ImporteGravado': '0',
@@ -296,47 +305,47 @@ class HrPayslip(models.Model):
         lineas_deduccion = []
         if self.deducciones_lines:
             _logger.info('entro duduciones ...')
-             #todas las deducciones excepto imss e isr
+            #todas las deducciones excepto imss e isr
             for line in self.deducciones_lines:
-              if line.salary_rule_id.tipo_deduccion != '001' and line.salary_rule_id.tipo_deduccion != '002':
-                 #_logger.info('linea  ...')
-                 no_deuducciones += 1
-                 lineas_deduccion.append({'TipoDeduccion': line.salary_rule_id.tipo_deduccion,
+                if line.salary_rule_id.tipo_deduccion != '001' and line.salary_rule_id.tipo_deduccion != '002':
+                    #_logger.info('linea  ...')
+                    no_deuducciones += 1
+                    lineas_deduccion.append({'TipoDeduccion': line.salary_rule_id.tipo_deduccion,
                    'Clave': line.code,
                    'Concepto': tipo_deduccion_dict.get(line.salary_rule_id.tipo_deduccion),
                    'Importe': round(line.total,2)})
-                 payslip_total_TDED += round(line.total,2)
+                    payslip_total_TDED += round(line.total,2)
 
-             #todas las deducciones imss
+            #todas las deducciones imss
             self.importe_imss = 0
             for line in self.deducciones_lines:
-              if line.salary_rule_id.tipo_deduccion == '001':
-                 #_logger.info('linea imss ...')
-                 self.importe_imss += round(line.total,2)
+                if line.salary_rule_id.tipo_deduccion == '001':
+                    #_logger.info('linea imss ...')
+                    self.importe_imss += round(line.total,2)
 
             if self.importe_imss > 0:
-              no_deuducciones += 1
-              lineas_deduccion.append({'TipoDeduccion': '001',
+                no_deuducciones += 1
+                lineas_deduccion.append({'TipoDeduccion': '001',
                   'Clave': '302',
                   'Concepto': 'Seguridad social',
                   'Importe': round(self.importe_imss,2)})
-              payslip_total_TDED += round(self.importe_imss,2)
+                payslip_total_TDED += round(self.importe_imss,2)
 
             #todas las deducciones isr
             for line in self.deducciones_lines:
-              if line.salary_rule_id.tipo_deduccion == '002' and line.salary_rule_id.code == 'ISR':
-                  self.isr_periodo = line.total 
-              if line.salary_rule_id.tipo_deduccion == '002':
-                 #_logger.info('linea ISR ...')
-                 self.importe_isr += round(line.total,2)
+                if line.salary_rule_id.tipo_deduccion == '002' and line.salary_rule_id.code == 'ISR':
+                    self.isr_periodo = line.total 
+                if line.salary_rule_id.tipo_deduccion == '002':
+                    #_logger.info('linea ISR ...')
+                    self.importe_isr += round(line.total,2)
 
             if self.importe_isr > 0:
-              no_deuducciones += 1
-              lineas_deduccion.append({'TipoDeduccion': '002',
+                no_deuducciones += 1
+                lineas_deduccion.append({'TipoDeduccion': '002',
                   'Clave': '301',
                   'Concepto': 'ISR',
                   'Importe': round(self.importe_isr,2)})
-              payslip_total_TDED += round(self.importe_isr,2)
+                payslip_total_TDED += round(self.importe_isr,2)
             total_imp_ret = round(self.importe_isr,2)
 
         deduccion = {
@@ -352,6 +361,11 @@ class HrPayslip(models.Model):
         self.total_nomina = payslip_total_PERG + payslip_total_PERE + payslip_total_TOP - payslip_total_TDED
         self.subtotal =  payslip_total_PERG + payslip_total_PERE + payslip_total_TOP
         self.descuento = payslip_total_TDED
+
+        if self.tipo_nomina == 'O':
+            self.periodicdad = self.contract_id.periodicidad_pago
+        else:
+            self.periodicdad = '99'
 
         request_params.update({
                 'factura': {
@@ -408,7 +422,7 @@ class HrPayslip(models.Model):
                       'ClaveEntFed': self.employee_id.estado.code,
                       'Curp': self.employee_id.curp,
                       'NumEmpleado': self.employee_id.no_empleado,
-                      'PeriodicidadPago': self.contract_id.periodicidad_pago,
+                      'PeriodicidadPago': self.periodicdad, #self.contract_id.periodicidad_pago,
                       'TipoContrato': self.employee_id.contrato,
                       'TipoRegimen': self.employee_id.regimen,
                       'Antiguedad': 'P' + str(antiguedad) + 'W',
@@ -439,7 +453,6 @@ class HrPayslip(models.Model):
                 }})
         return request_params
 
-			
     @api.multi
     def action_cfdi_nomina_generate(self):
         for payslip in self:
@@ -450,9 +463,9 @@ class HrPayslip(models.Model):
                 raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if payslip.estado_factura == 'factura_cancelada':
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
-            
+
             values = payslip.to_json()
-          #  print json.dumps(values, indent=4, sort_keys=True)
+            #  print json.dumps(values, indent=4, sort_keys=True)
             if payslip.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/nomina')
             elif payslip.company_id.proveedor_timbrado == 'gecoerp':
@@ -524,7 +537,7 @@ class HrPayslip(models.Model):
         self.rfc_emisor = Emisor.attrib['Rfc']
         self.name_emisor = Emisor.attrib['Nombre']
         self.tipocambio = xml_data.attrib['TipoCambio']
-      #  self.tipo_comprobante = xml_data.attrib['TipoDeComprobante']
+        #  self.tipo_comprobante = xml_data.attrib['TipoDeComprobante']
         self.moneda = xml_data.attrib['Moneda']
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.cetificaso_sat = TimbreFiscalDigital.attrib['NoCertificadoSAT']
@@ -554,7 +567,7 @@ class HrPayslip(models.Model):
 
     @api.multi
     def action_cfdi_cancel(self):
-         for payslip in self:
+        for payslip in self:
             if payslip.nomina_cfdi:
                 if payslip.estado_factura == 'factura_cancelada':
                     pass
@@ -579,20 +592,21 @@ class HrPayslip(models.Model):
                             }
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
-                     url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
+                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 if self.company_id.modo_prueba:
-                     url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
-                     #url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
-                 else:
-                     url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                    if self.company_id.modo_prueba:
+                        url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
+                        #url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                    else:
+                        url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
     
                 #print 'Response: ', response.status_code
                 json_response = response.json()
-                
+                #_logger.info('log de la exception ... %s', response.text)
+
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
@@ -645,6 +659,53 @@ class HrPayslip(models.Model):
             'context': ctx,
         }
 
+    @api.model
+    def fondo_ahorro(self):	
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        if deducciones_ahorro:
+            _logger.info('fondo ahorro deudccion...')
+            for line in deducciones_ahorro:
+                if line.salary_rule_id.code == 'DFA':
+                    self.employee_id.fondo_ahorro += line.total
+
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        if percepciones_ahorro:
+            _logger.info('fondo ahorro percepcion...')
+            for line in percepciones_ahorro:
+                if line.salary_rule_id.code == 'PFA':
+                    self.employee_id.fondo_ahorro -= line.total
+
+    @api.model
+    def devolucion_fondo_ahorro(self):	
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        if deducciones_ahorro:
+            _logger.info('Devolucion fondo ahorro deduccion...')
+            for line in deducciones_ahorro:
+                if line.salary_rule_id.code == 'DFA':
+                    self.employee_id.fondo_ahorro -= line.total
+
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        if percepciones_ahorro:
+            _logger.info('Devolucion fondo ahorro percepcion...')
+            for line in percepciones_ahorro:
+                if line.salary_rule_id.code == 'PFA':
+                    self.employee_id.fondo_ahorro += line.total
+
+    @api.multi
+    def action_payslip_done(self):
+        res = super(HrPayslip, self).action_payslip_done()
+        for rec in self:
+            rec.fondo_ahorro()
+        return res
+
+    @api.multi
+    def refund_sheet(self):
+        res = super(HrPayslip, self).refund_sheet()
+        for rec in self:
+            rec.devolucion_fondo_ahorro()
+        return res
+
+
 class HrPayslipMail(models.Model):
     _name = "hr.payslip.mail"
     _inherit = ['mail.thread']
@@ -693,3 +754,12 @@ class MailTemplate(models.Model):
                         attachments.append((fn, base64.b64encode(data)))
                         results[res_id]['attachments'] = attachments
         return results
+
+# class HrPayslipRun(models.Model):
+#     _inherit = 'hr.payslip.run'
+# 
+#     tipo_nomina = fields.Selection(
+#         selection=[('O', 'Nómina ordinaria'), 
+#                    ('E', 'Nómina extraordinaria'),],
+#         string=_('Tipo de nómina'), required=True, default='O'
+#     )
