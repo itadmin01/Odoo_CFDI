@@ -63,5 +63,9 @@ class Employee(models.Model):
                    ('99', '99 - Otra Jornada'),],
         string=_('Jornada'),
     )
-    estado = fields.Many2one('res.country.state','Lugar de nacimiento (estado)')
-
+    estado = fields.Many2one('res.country.state','Lugar donde labora (estado)')
+    fondo_ahorro  = fields.Float(string=_('Fondo de ahorro'), readonly=True)
+    dias_utilidad =  fields.Float(string=_('Dias para cálculo de Utilidad'))
+    sueldo_utilidad =  fields.Float(string=_('Sueldo para cálculo de Utilidad'))
+    fecha_utilidad_inicio = fields.Date(readonly=True)
+    fecha_utilidad_fin = fields.Date(readonly=True)

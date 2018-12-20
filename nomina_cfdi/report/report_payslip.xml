@@ -27,17 +27,17 @@
         <div class="article o_report_layout_standard">
             <t t-raw="0" />
         </div>
-
+        <!--EMPIEZA EL FOOTER-->
         <div class="footer">
             <div class="text-center" style="border-top: 1px solid black;">
                 <ul class="list-inline mb4">
-	                <li t-if="company.phone">Teléfono: <span t-field="company.phone"/></li>
-	
-	                <li t-if="company.email">&amp;bull;</li>
-	                <li t-if="company.email">Correo Electrónico: <span t-field="company.email"/></li>
-	
-	                <li t-if="company.website">&amp;bull;</li>
-	                <li t-if="company.website">Página web: <span t-field="company.website"/></li>
+	                <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
+
+	                <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
+	                <li t-if="company.email" class="list-inline-item">Correo Electrónico: <span t-field="company.email"/></li>
+
+	                <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
+	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
 
                 <div name="financial_infos">
@@ -49,24 +49,30 @@
                 </div>
             </div>
         </div>
+        <!--TERMINA EL FOOTER-->
     </template>
-	
+  <!--TERMINA CFDI EXTERNAL LAYOUT-->
+
 <template id="report_payslip_document">
     <t t-call="nomina_cfdi.cfdi_payroll_layout">
         <t t-set="o" t-value="o.with_context({'lang':'es_MX'})" />
             <div class="page" style="padding-top: 10px;">
-		       <div class="row"  >
-					<div class="col-xs-2">
-						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-							style="max-height: 130px;" />
-					</div>
-						<div class="col-xs-5" >
+		       <div class="row" font-size="18px;">
+
+          <!--INICIA LOGO DE LA EMPRESA-->
+					     <div class="col-2">
+						           <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
+							                  style="max-height: 130px;" />
+					     </div>
+          <!--TERMINA LOGO DE LA EMPRESA-->
+
+          <!--EMPIEZA DATOS DEL EMISOR-->
+						<div class="col-6" font-size="20px;">
 							<div >
 								<strong>Emisor</strong>
 							</div>
 							<div>
 								<span t-field="o.company_id.nombre_fiscal" />
-								
 							</div>
 								<div>
 								<span t-field="o.rfc_emisor" />
@@ -75,7 +81,11 @@
 								<strong>Registro Patronal</strong>: <span t-field="o.company_id.registro_patronal" />
 								</div>
 						</div>
-						<div class="col-xs-4 pull-right">
+
+            <!--TERMINA DATOS DEL EMISOR-->
+
+            <!--INFORMACIÓN GENERAL NOMINA-->
+						<div class="col-4" font-size="20px;">
 							<div>
 								<strong>Folio:</strong>
 								<strong><span t-if="not o.company_id.serie_nomina=='false'" t-field="o.company_id.serie_nomina" /></strong>
@@ -94,10 +104,12 @@
 								<span t-field="o.tipo_comprobante" />
 							</div>
 					  </div>
+            <!--TERMINA INFORMACIÓN GENERAL DE LA NOMINA-->
 					</div>
-			<h2>Recibo de nómina</h2>	
-			<div class="row">
-					<div  class="col-xs-5">
+			<h2>Recibo de nómina</h2>
+			<div class="row mt32 mb32" style="padding-top: 5px;font-size:18px;">
+        <!--PARTE DEL RECEPTOR-->
+					<div  class="col-5"  font-size="18px;">
 						<div >
 							<strong>Receptor</strong>
 						</div>
@@ -116,9 +128,11 @@
 							 <div>
 						    	CURP: <span t-field="o.employee_id.curp" />
 						     </div>
-					</div>	
-			
-					<div class="col-xs-7">
+					</div>
+          <!--TERMINA PARTE DEL RECEPTOR-->
+
+          <!--PARTE DATOS DE NOMINA-->
+					<div class="col-7" font-size="18px;">
 							<div >
 							   <strong>Datos de la nómina</strong>
 						    </div>
@@ -137,10 +151,11 @@
 							<div>
 									<strong>Fecha de ingreso</strong>: <span t-field="o.contract_id.date_start" />
 							</div>
-					</div>					
+					</div>
+          <!--TERMINA DATOS DE NOMINA-->
 			 </div>
-                <div class="row" style="padding-top: 10px;">
-					<div  class="col-xs-6">
+                <div class="row" style="padding-top: 10px;font-size:20px;" >
+					<div  class="col-6" font-size="18x;">
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -159,28 +174,28 @@
 									<t t-if= "line.code == '101'"><!-- días trabajados -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='WORK100')" />
 										<t t-if="len(worked_days)>0">
-											<span t-esc="worked_days[0].number_of_days"/>	
+											<span t-esc="worked_days[0].number_of_days"/>
 										</t>
 							    	</t>
 									<t t-if= "line.code == '103'"> <!-- vacaciones -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C103')" />
 										<t t-if="len(worked_days)>0">
-											<span t-esc="worked_days[0].number_of_days"/>	
+											<span t-esc="worked_days[0].number_of_days"/>
 										</t>
 							    	</t>
 									<t t-if= "line.code == '150'"> <!-- prima dominical -->
 										<t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C150')" />
 										<t t-if="len(worked_days)>0">
-											<span t-esc="worked_days[0].number_of_days"/>	
+											<span t-esc="worked_days[0].number_of_days"/>
 										</t>
-							    	</t> 
+							    	</t>
 					            </td>
 							  </t>
                             </tr>
                         </tbody>
                     </table>
 					</div>
-                    <div  class="col-xs-5">
+                    <div  class="col-6" font-size="20px;">
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -220,25 +235,25 @@
 							<col width='30%' />
 						</colgroup>
 					<tr>
-						<td>
+						<td font-size="20px;">
 					Recibí de esta empresa la cantidad que señala este recibo de pago, estando conforme con las
                     percepciones y las retenciones descritas, por lo que certifico que no se me adeuda cantidad alguna
                     por ningún concepto. <br/> <br/>
-							<center>__________________________</center>
-                    <center><p><strong>Firma del empleado</strong></p></center>
+							<center>______________________________</center>
+                    <center font-size="18px;"><p><strong>Firma del empleado</strong></p></center>
 						</td>
 						<td>
 							<table>
 								<tr>
-									<td>
+									<td font-size="20px;">
 										Total de percepciones:
 									</td>
 									<td class="text-right">
 										<span t-esc="o.subtotal" t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
 									</td>
-								</tr>	
+								</tr>
 								<tr>
-									<td>
+									<td font-size="20px;">
 										Total de retenciones:
 									</td>
 									<td class="text-right">
@@ -257,33 +272,33 @@
 						</td>
 					</tr>
 				</table>
-				
-					<div class="row" style="page-break-inside: avoid">
-						<div class="col-xs-1">
+
+				<div class="row" style="page-break-inside: avoid">
+            <!--INICIA CODIGO QR-->
+						<div class="col-xs-5">
 						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"
-								style="height: 190;width: 190;padding-left:10px;" />
+								style="height: 190px;width: 190px;padding-left:10px;" />
 						</div>
-						<div class="col-xs-9 pull-right" style="font-size:12px;">
-							<div >
-								<strong>Cadena Original del Complemento digital del SAT</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.cadena_origenal" />
-							</div>
-							<div >
-								<strong>Sello Digital del CFDI</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.selo_digital_cdfi" />
-							</div>
-							<div >
-								<strong>Sello del SAT</strong>
-							</div>
-							<div style="font-size:9px;">
-								<span t-field="o.selo_sat" />
-							</div>
-						</div>
-					</div>
+            <!--TERMINA CODIGO QR-->
+
+            <!--CADENA ORIGINAL>  -->
+          <div class="col-xs-7" style="font-size:15px;">
+            <div>
+              <strong>Cadena Original del Complemento digital del SAT</strong>
+                <span t-field="o.cadena_origenal" style="word-break:break-word;" />
+            </div>
+            <div >
+              <strong>Sello digital del CFDI</strong>
+                <span t-field="o.selo_digital_cdfi" style="word-break:break-word;" />
+            </div>
+            <div >
+              <strong>Sello del SAT</strong>
+                <span t-field="o.selo_sat" style="word-break:break-word;" />
+            </div>
+          </div>
+        </div>
+
+        <!--DOCUMENTO LEGAL-->
 					<p>
 						<center>
 							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI</strong>
@@ -292,7 +307,7 @@
                 </div>
     </t>
 </template>
-	
+
 			<template id="report_payslip">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
@@ -302,11 +317,11 @@
 		</template>
 
 
-		<report id="report_payslips" 
-				model="hr.payslip" 
-				string="Imprimir Nomina" 
-				report_type="qweb-pdf" 
-				name="nomina_cfdi.report_payslip" 
+		<report id="report_payslips"
+				model="hr.payslip"
+				string="Imprimir Nomina"
+				report_type="qweb-pdf"
+				name="nomina_cfdi.report_payslip"
 				file="nomina_cfdi.report_payslip"
                 paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 

@@ -147,6 +147,7 @@ class HrPayslip(models.Model):
     retencion_subsidio_pagado = fields.Float('retencion_subsidio_pagado')
     importe_imss = fields.Float('importe_imss')
     importe_isr = fields.Float('importe_isr')
+    periodicidad = fields.Float('periodicidad')
 
     forma_pago = fields.Selection(
         selection=[('99', '99 - Por definir'),],
@@ -179,7 +180,15 @@ class HrPayslip(models.Model):
                 'fecha_pago': self.date_to
                 }
             self.update(values)
-
+    
+    @api.model
+    def create(self, vals):
+        if not vals.get('fecha_pago') and vals.get('date_to'):
+            vals.update({'fecha_pago': vals.get('date_to')})
+            
+        res = super(HrPayslip, self).create(vals)
+        return res
+    
     @api.depends('number')
     @api.one
     def _get_number_folio(self):
@@ -414,7 +423,7 @@ class HrPayslip(models.Model):
                       'ClaveEntFed': self.employee_id.estado.code,
                       'Curp': self.employee_id.curp,
                       'NumEmpleado': self.employee_id.no_empleado,
-                      'PeriodicidadPago': self.contract_id.periodicidad_pago,
+                      'PeriodicidadPago': self.periodicdad, #self.contract_id.periodicidad_pago,
                       'TipoContrato': self.employee_id.contrato,
                       'TipoRegimen': self.employee_id.regimen,
                       'Antiguedad': 'P' + str(antiguedad) + 'W',
@@ -455,7 +464,7 @@ class HrPayslip(models.Model):
                 raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if payslip.estado_factura == 'factura_cancelada':
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
-            
+
             values = payslip.to_json()
             #  print json.dumps(values, indent=4, sort_keys=True)
             if payslip.company_id.proveedor_timbrado == 'multifactura':
@@ -584,7 +593,7 @@ class HrPayslip(models.Model):
                             }
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
-                    url = '%s' % ('http://itadmin.ngrok.io/refund?handler=OdooHandler33')
+                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
                         url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
@@ -597,7 +606,8 @@ class HrPayslip(models.Model):
     
                 #print 'Response: ', response.status_code
                 json_response = response.json()
-                
+                #_logger.info('log de la exception ... %s', response.text)
+
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
@@ -649,6 +659,53 @@ class HrPayslip(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    @api.model
+    def fondo_ahorro(self):	
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        if deducciones_ahorro:
+            _logger.info('fondo ahorro deudccion...')
+            for line in deducciones_ahorro:
+                if line.salary_rule_id.code == 'DFA':
+                    self.employee_id.fondo_ahorro += line.total
+
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        if percepciones_ahorro:
+            _logger.info('fondo ahorro percepcion...')
+            for line in percepciones_ahorro:
+                if line.salary_rule_id.code == 'PFA':
+                    self.employee_id.fondo_ahorro -= line.total
+
+    @api.model
+    def devolucion_fondo_ahorro(self):	
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        if deducciones_ahorro:
+            _logger.info('Devolucion fondo ahorro deduccion...')
+            for line in deducciones_ahorro:
+                if line.salary_rule_id.code == 'DFA':
+                    self.employee_id.fondo_ahorro -= line.total
+
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        if percepciones_ahorro:
+            _logger.info('Devolucion fondo ahorro percepcion...')
+            for line in percepciones_ahorro:
+                if line.salary_rule_id.code == 'PFA':
+                    self.employee_id.fondo_ahorro += line.total
+
+    @api.multi
+    def action_payslip_done(self):
+        res = super(HrPayslip, self).action_payslip_done()
+        for rec in self:
+            rec.fondo_ahorro()
+        return res
+
+    @api.multi
+    def refund_sheet(self):
+        res = super(HrPayslip, self).refund_sheet()
+        for rec in self:
+            rec.devolucion_fondo_ahorro()
+        return res
+
 
 class HrPayslipMail(models.Model):
     _name = "hr.payslip.mail"
