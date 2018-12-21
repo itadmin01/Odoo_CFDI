@@ -6,15 +6,20 @@
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
           <xpath expr="//notebook" position="inside">
-	        <page name="info_cdfi" string="CFDI 3.3">
-	          <group cols="4"  string="Configuración">
-					<field name="periodicidad_pago" />
-					<field name="riesgo_puesto" />
-			    	<field name="tablas_cfdi_id" />
-					<field name="sueldo_diario" />
-					<field name="sueldo_hora" />
-					<field name="sueldo_diario_integrado" />
-	          </group>
+            <page name="info_cdfi" string="CFDI 3.3">
+              <group cols="4"  string="Configuración">
+                 <group>
+                    <field name="periodicidad_pago" />
+                    <field name="riesgo_puesto" />
+                    <field name="tablas_cfdi_id" />
+                    <field name="sueldo_diario" />
+                    <field name="sueldo_hora" />
+                    <field name="sueldo_diario_integrado" />
+                 </group>
+                 <group>
+                    <field name="dias_aguinaldo" />
+                 </group>
+              </group>
                         <group cols="4">
                             <group string="Percepciones adicionales">
                                 <field name="bono_productividad"/>
@@ -32,10 +37,29 @@
                                 <field name="pago_de_serv"/>
                                 <field name="pens_alim"/>
                                 <field name="prest_financ"/>
+                                <field name="fondo_ahorro"/>
                             </group>
                         </group>
-	        </page>
-	      </xpath>
+            </page>
+            <page name="liquidaciones" string="Liquidaciones e Indemnizaciones">
+              <group cols="4">
+                 <group  string="Liquidaciones">
+                    <field name="indemnizacion" />
+                    <field name="antiguedad_anos" />
+                    <field name="dias_base" />
+                    <field name="dias_x_ano" />
+                    <field name="dias_totales" />
+                    <button name="button_dummy"
+                            string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
+                 </group>
+                 <group string="Días">
+                    <field name="dias_pendientes_pagar" />
+                    <field name="dias_vacaciones" />
+                 </group>
+              </group>
+            </page>
+
+          </xpath>
         </field>
     </record>
 </odoo>
