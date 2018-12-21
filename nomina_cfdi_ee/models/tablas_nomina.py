@@ -87,15 +87,41 @@ class TablasCFDI(models.Model):
     @api.depends('total_dias_trabajados', 'total_sueldo_percibido')
     def _factor_dias(self):
         if self.total_dias_trabajados > 0:
-           self.factor_dias = (self.importe_utilidades*(self.funcion_dias/100)) / self.total_dias_trabajados
+            self.factor_dias = (self.importe_utilidades*(self.funcion_dias/100)) / self.total_dias_trabajados
 
     @api.one
     @api.depends('total_dias_trabajados', 'total_sueldo_percibido')
     def _factor_sueldo(self):
         if self.total_sueldo_percibido > 0:
-           self.factor_sueldo = (self.importe_utilidades*(self.funcion_ingresos/100)) / self.total_sueldo_percibido
+            self.factor_sueldo = (self.importe_utilidades*(self.funcion_ingresos/100)) / self.total_sueldo_percibido
 
     def calcular_reparto_utilidades(self):
+        payslips = self.env['hr.payslip'].search([('date_from', '>=', self.fecha_inicio), ('date_to', '<=', self.fecha_fin),('tipo_nomina','=', 'O')])
+        work100_lines = payslips.mapped('worked_days_line_ids').filtered(lambda x:x.code=='WORK100')
+        net_lines = payslips.mapped('line_ids').filtered(lambda x:x.code=='NET')
+        
+        total_dias_trabajados, total_sueldo_percibido = 0.0, 0.0
+        
+        total_dias_by_employee = {}
+        total_sueldo_employee = {}
+        for line in work100_lines:
+            total_dias_trabajados += line.number_of_days
+            if line.payslip_id.employee_id not in total_dias_by_employee:
+                total_dias_by_employee.update({line.payslip_id.employee_id: 0.0})
+            total_dias_by_employee[line.payslip_id.employee_id] += line.number_of_days
+            
+        for line in net_lines:
+            total_sueldo_percibido += line.total
+            if line.slip_id.employee_id not in total_sueldo_employee:
+                total_sueldo_employee.update({line.slip_id.employee_id: 0.0})
+            total_sueldo_employee[line.slip_id.employee_id] += line.total
+        
+        employees = list(set(list(total_dias_by_employee.keys())  + list(total_sueldo_employee.keys())))
+        for employee in employees:
+            employee.write({'dias_utilidad' : total_dias_by_employee.get(employee, 0.0), 'sueldo_utilidad' : total_sueldo_employee.get(employee,0.0)})
+            
+        self.write({'total_dias_trabajados': total_dias_trabajados, 'total_sueldo_percibido':total_sueldo_percibido})
+        
         return True
 
     @api.multi
