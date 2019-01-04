@@ -148,6 +148,11 @@ class HrPayslip(models.Model):
     importe_imss = fields.Float('importe_imss')
     importe_isr = fields.Float('importe_isr')
     periodicidad = fields.Float('periodicidad')
+    #desglose imss
+    prestaciones  = fields.Float('prestaciones')
+    invalli_y_vida  = fields.Float('invalli_y_vida')
+    cesantia_y_vejez = fields.Float('cesantia_y_vejez')
+    pensio_y_benefi  = fields.Float('pensio_y_benefi')
 
     forma_pago = fields.Selection(
         selection=[('99', '99 - Por definir'),],
@@ -325,6 +330,7 @@ class HrPayslip(models.Model):
 
             if self.importe_imss > 0:
                 no_deuducciones += 1
+                self.calculo_imss()
                 lineas_deduccion.append({'TipoDeduccion': '001',
                   'Clave': '302',
                   'Concepto': 'Seguridad social',
@@ -705,6 +711,27 @@ class HrPayslip(models.Model):
             rec.devolucion_fondo_ahorro()
         return res
 
+    @api.model
+    def calculo_imss(self):
+	   #cuota del IMSS parte del Empleado
+       salario_cotizado = self.contract_id.sueldo_diario_integrado * self.imss_dias
+       uma3 =  self.contract_id.tablas_cfdi_id.uma * 3
+       # falta especie excedente
+
+       self.prestaciones = salario_cotizado * self.contract_id.tablas_cfdi_id.enf_mat_prestaciones_e/100
+       self.invalli_y_vida = salario_cotizado * self.contract_id.tablas_cfdi_id.inv_vida_e/100
+       self.cesantia_y_vejez = salario_cotizado * self.contract_id.tablas_cfdi_id.cesantia_vejez_e/100
+       self.pensio_y_benefi = salario_cotizado * self.contract_id.tablas_cfdi_id.enf_mat_gastos_med_e/100
+
+       #seguro_enfermedad_maternidad
+       excedente = self.contract_id.sueldo_diario_integrado - uma3
+       base_cotizacion = excedente * self.imss_mes
+       seg_enf_mat = base_cotizacion * self.contract_id.tablas_cfdi_id.enf_mat_excedente_e/100
+
+       if self.contract_id.sueldo_diario_integrado < uma3:
+         self.prestaciones = self.prestaciones + self.pensio_y_benefi
+       else:
+         self.prestaciones = self.prestaciones + self.pensio_y_benefi + abs(seg_enf_mat)
 
 class HrPayslipMail(models.Model):
     _name = "hr.payslip.mail"
@@ -755,11 +782,3 @@ class MailTemplate(models.Model):
                         results[res_id]['attachments'] = attachments
         return results
 
-# class HrPayslipRun(models.Model):
-#     _inherit = 'hr.payslip.run'
-# 
-#     tipo_nomina = fields.Selection(
-#         selection=[('O', 'Nómina ordinaria'), 
-#                    ('E', 'Nómina extraordinaria'),],
-#         string=_('Tipo de nómina'), required=True, default='O'
-#     )

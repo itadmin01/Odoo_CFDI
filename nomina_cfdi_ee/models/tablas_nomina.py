@@ -64,6 +64,33 @@ class TablasCFDI(models.Model):
     fecha_inicio = fields.Date('Fecha inicio')
     fecha_fin = fields.Date('Fecha fin')
 
+    ######## Variables del seguro ####################3
+    apotacion_infonavit = fields.Float(string=_('Aportación al Infonavit (%)'), default=5)
+    sbcm_general = fields.Float(string=_('General (UMA)'), default=25)
+    sbcm_inv_inf = fields.Float(string=_('Para invalidez e Infonavit (UMA)'), default=25)
+    rt_prom_vida_activa = fields.Float(string=_('Promedio de vida activa (años)'), default=28)
+    rt_prom_vida_fprima = fields.Float(string=_('Factor de prima'), default=2.3)
+    rt_prom_vida_pmin = fields.Float(string=_('Prima mínima (%)'), default=0.5)
+    rt_prom_vida_pmax = fields.Float(string=_('Prima máxima (%)'), default=15)
+    rt_prom_vida_varmax = fields.Float(string=_('Variación máxima de prima (%)'), default=1)
+    enf_mat_cuota_fija = fields.Float(string=_('Cuota fija (%)'), default=20.4)
+    enf_mat_excedente_p = fields.Float(string=_('Excedente de 3 UMA (%)'), default=1.10)
+    enf_mat_excedente_e = fields.Float(string=_('Excedente de 3 UMA (%)'), default=0.40)
+
+    enf_mat_prestaciones_p = fields.Float(string=_('Prestaciones en dinero (%)'), default=0.7)
+    enf_mat_prestaciones_e = fields.Float(string=_('Prestaciones en dinero (%)'), default=0.25)
+    enf_mat_gastos_med_p = fields.Float(string=_('Gastos médicos personales (%)'), default=1.5)
+    enf_mat_gastos_med_e = fields.Float(string=_('Gastos médicos personales (%)'), default=0.375)
+
+    inv_vida_p = fields.Float(string=_('Invalidez y vida (%)'), default=1.75)
+    inv_vida_e = fields.Float(string=_('Invalidez y vida (%)'), default=0.625)
+
+    cesantia_vejez_p = fields.Float(string=_('Cesantía y vejez (%)'), default=3.15)
+    cesantia_vejez_e = fields.Float(string=_('Cesantía y vejez (%)'), default=1.125)
+
+    retiro_p = fields.Float(string=_('Retiro (%)'), default=2)
+    guarderia_p = fields.Float(string=_('Guardería y prestaciones sociales (%)'), default=1)
+
     @api.one
     @api.constrains('name')
     def _check_name(self):
