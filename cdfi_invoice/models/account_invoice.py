@@ -345,7 +345,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': mount_untaxed,'total': self.amount_total})
+            request_params['invoice'].update({'subtotal': amount_untaxed,'total': self.amount_total})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
