@@ -5,3 +5,4 @@ access_tablas_cfdi3,tablas_cfdi3,nomina_cfdi.model_tablas_subsidio_line,base.gro
 access_tablas_cfdi4,tablas_cfdi4,nomina_cfdi.model_tablas_subsidio2_line,base.group_user,1,1,1,1
 access_tablas_cfdi5,tablas_cfdi5,nomina_cfdi.model_tablas_subsidioacreditable_line,base.group_user,1,1,1,1
 access_tablas_cfdi6,tablas_cfdi6,nomina_cfdi.model_tablas_antiguedades_line,base.group_user,1,1,1,1
+access_tablas_cfdi6,otras_entradas,nomina_cfdi.model_otras_entradas,base.group_user,1,1,1,1
