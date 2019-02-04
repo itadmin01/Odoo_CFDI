@@ -37,6 +37,7 @@ UM_CLAVO_MAP = {
                 'Docena': 'DZN',
                 'Kit': 'KT',
                 'Tableros de pie': 'BFT',
+                'No disponible': 'XNA',
                 }
     
 class ProductTemplate(models.Model):
@@ -76,6 +77,7 @@ class ProductTemplate(models.Model):
                    ('Docena', 'Docena'),
                    ('Kit', 'Kit'),
                    ('Tableros de pie', 'Tableros de pie'),
+                   ('No disponible', 'No disponible'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
