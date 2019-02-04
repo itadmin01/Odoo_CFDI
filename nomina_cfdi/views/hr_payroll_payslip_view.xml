@@ -54,7 +54,7 @@
             <field name="arch" type="xml">
                 <field name="credit_note" position="after">
                    <field name="tipo_nomina"/>
-                   <field name="estructura"/>
+                   <field name="estructura" attrs="{'invisible' : [('tipo_nomina','!=','E')]}"/>
                 </field>
                 <button name="draft_payslip_run" position="after">
                     <field name="all_payslip_generated" invisible="1" />

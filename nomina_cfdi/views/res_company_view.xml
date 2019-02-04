@@ -12,6 +12,7 @@
 	                            <group>
 									<field name="serie_nomina"/>
 			                        <field name="registro_patronal"/>
+                                    <field name="nomina_mail" /> <!-- domain="[('model','=','hr.contract')]" context="{'default_model': 'hr.contract'}" -->
 			                     <!--   <field name="rfc_patron"/> -->
 	                            </group>
 	                        </group>

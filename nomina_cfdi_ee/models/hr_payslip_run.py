@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
     
     all_payslip_generated = fields.Boolean("Payslip Generated",compute='_compute_payslip_cgdi_generated')
-    
+    tipo_nomina = fields.Selection(
+        selection=[('O', 'Nómina ordinaria'), ('E', 'Nómina extraordinaria'),], string=_('Tipo de nómina'), required=True, default='O')
+    estructura = fields.Many2one('hr.payroll.structure', string='Estructura')
+    tabla_otras_entradas = fields.One2many('otras.entradas', 'form_id')
+
     @api.one
     @api.depends('slip_ids.state','slip_ids.nomina_cfdi')
     def _compute_payslip_cgdi_generated(self):
@@ -54,3 +58,11 @@ class HrPayslipRun(models.Model):
                 cr.execute('ROLLBACK TO SAVEPOINT model_payslip_confirm_cfdi_save')
                 pass
         return
+
+class OtrasEntradas(models.Model):
+    _name = 'otras.entradas'
+
+    form_id = fields.Many2one('hr.payslip.run', required=True) 
+    monto = fields.Float('Monto') 
+    descripcion = fields.Char('Descripcion') 
+    codigo = fields.Char('Codigo')

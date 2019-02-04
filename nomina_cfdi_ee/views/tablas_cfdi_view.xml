@@ -1,91 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<record id="form_tablas_cfdi_view" model="ir.ui.view">
-	    <field name="name">tablas.cfdi.form</field>
-	    <field name="model">tablas.cfdi</field>
-	    <field name="arch" type="xml">
-		 <form string="Tablas CFDI">
-		  <notebook position="inside">
-			 <page name="tablas_cfdi" string="Tablas Nomina">
-	        	<group>
-	        		<field name="name"/>
-					<field name="tabla_antiguedades" string="Tabla de antigüedades y vacaciones">
+   <record id="form_tablas_cfdi_view" model="ir.ui.view">
+        <field name="name">tablas.cfdi.form</field>
+        <field name="model">tablas.cfdi</field>
+        <field name="arch" type="xml">
+        <form string="Tablas CFDI">
+             <field name="name"/>
+             <notebook position="inside">
+                <page name="tablas_cfdi" string="Tablas Nomina">
+                   <group>
+                        <field name="tabla_antiguedades" string="Tabla de antigüedades y vacaciones">
                             <tree editable="bottom">
-                            	<field name="antiguedad"/>
-                            	<field name="vacaciones"/>
-                            	<field name="prima_vac"/>
-                            	<field name="aguinaldo"/>
+                                <field name="antiguedad"/>
+                                <field name="vacaciones"/>
+                                <field name="prima_vac"/>
+                                <field name="aguinaldo"/>
                             </tree>
                         </field>
-				       <field name="tabla_LISR" string="ISR Mensual Art. 113 LISR">
+                        <field name="tabla_LISR" string="ISR Mensual Art. 113 LISR">
                             <tree editable="bottom">
-                            	<field name="lim_inf"/>
-                            	<field name="c_fija"/>
-                            	<field name="s_excedente"/>
+                                <field name="lim_inf"/>
+                                <field name="c_fija"/>
+                                <field name="s_excedente"/>
                             </tree>
                         </field>
-				        <field name="tabla_subem" string="Subem mensual/CAS Mensual">
+                        <field name="tabla_subem" string="Subem mensual/CAS Mensual">
                             <tree editable="bottom">
-                            	<field name="lim_inf"/>
-                            	<field name="s_mensual"/>
+                                <field name="lim_inf"/>
+                                <field name="s_mensual"/>
                             </tree>
                         </field>
-				        <field name="tabla_subsidio" string="Subsidio Mensual Art. 114 LISR">
+                        <field name="tabla_subsidio" string="Subsidio Mensual Art. 114 LISR">
                             <tree editable="bottom">
-                            	<field name="lim_inf"/>
-                            	<field name="c_fija"/>
-                            	<field name="s_imp_marginal"/>
+                                <field name="lim_inf"/>
+                                <field name="c_fija"/>
+                                <field name="s_imp_marginal"/>
                             </tree>
                         </field>
-				        <field name="tabla_subsidio_acreditable" string="Subsidio acreditable">
+                        <field name="tabla_subsidio_acreditable" string="Subsidio acreditable">
                             <tree editable="bottom">
-                            	<field name="ano"/>
-                            	<field name="s_mensual"/>
+                                <field name="ano"/>
+                                <field name="s_mensual"/>
                             </tree>
                         </field>
-	        	</group>
-			</page>
-            <page name="salario_uma" string="Salarios mínimos y UMA">
+                   </group>
+                </page>
+                <page name="salario_uma" string="Salarios mínimos y UMA">
                         <group cols="4">
                             <group string="Salarios mínimos y UMA">
-                            	<field name="uma"/>
-                            	<field name="salario_minimo"/>
+                                <field name="uma"/>
+                                <field name="salario_minimo"/>
                             </group>
                         </group>
              </page>
              <page name="imss_infonavit" string="Seguro social e Infonavit">
-                        <group cols="4">
-                            <group string="Ramas de seguro">
-
+                        <group cols="4" string="General">
+                            <group >
+                                <field name="apotacion_infonavit"/>
+                            </group>
+                            <group string="Salario base de cotización máximo">
+                                <field name="sbcm_general"/>
+                                <field name="sbcm_inv_inf"/>
+                            </group>
+                            <group string="Riesgo de trabajo">
+                                <field name="rt_prom_vida_activa"/>
+                                <field name="rt_prom_vida_fprima"/>
+                                <field name="rt_prom_vida_pmin"/>
+                                <field name="rt_prom_vida_pmax"/>
+                                <field name="rt_prom_vida_varmax"/>
+                            </group>
+                        </group>
+                        <group cols="4" string="Enfermedades y maternidad">
+                            <group string="Patrón">
+                                <field name="enf_mat_cuota_fija"/>
+                                <field name="enf_mat_excedente_p"/>
+                                <field name="enf_mat_prestaciones_p"/>
+                                <field name="enf_mat_gastos_med_p"/>
+                            </group>
+                            <group string="Asegurado">
+                                <field name="enf_mat_excedente_e"/>
+                                <field name="enf_mat_prestaciones_e"/>
+                                <field name="enf_mat_gastos_med_e"/>
+                            </group>
+                        </group>
+                        <group cols="4" string="Otras ramas">
+                            <group string="Patrón">
+                                <field name="inv_vida_p"/>
+                                <field name="cesantia_vejez_p"/>
+                                <field name="retiro_p"/>
+                                <field name="guarderia_p"/>
+                            </group>
+                            <group string="Asegurado">
+                                <field name="inv_vida_e"/>
+                                <field name="cesantia_vejez_e"/>
                             </group>
                         </group>
              </page>
-			</notebook>
-		 </form> 
-	    </field>
+             <page name="utilidades" string="Reparto de utilidades">
+                    <group string="Configuración" cols="4">
+                         <field name="importe_utilidades"/>
+                         <field name="dias_min_trabajados"/>
+                         <field name="funcion_ingresos"/>
+                         <field name="funcion_dias"/>
+                    </group>
+                    <group string="Cálculo" cols="4">
+                         <field name="fecha_inicio"/>
+                         <field name="fecha_fin"/>
+                         <field name="total_dias_trabajados"/>
+                         <field name="total_sueldo_percibido"/>
+                         <field name="factor_dias"/>
+                         <field name="factor_sueldo"/>
+                         <button name="button_dummy"
+                            string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
+                    </group>
+             </page>
+            </notebook>
+         </form> 
+       </field>
     </record>
-    
+
     <record id="tree_tablas_cfdi_view" model="ir.ui.view">
-	    <field name="name">tablas.cfdi.tree</field>
-	    <field name="model">tablas.cfdi</field>
-	    <field name="arch" type="xml">
-	        <tree string="Tablas CFDI">
-	        	<field name="name"/>
-	        </tree>
-	    </field>
+        <field name="name">tablas.cfdi.tree</field>
+        <field name="model">tablas.cfdi</field>
+        <field name="arch" type="xml">
+            <tree string="Tablas CFDI">
+               <field name="name"/>
+            </tree>
+        </field>
     </record>
-		
-	
+
     <record id="search_tablas_cfdi_view" model="ir.ui.view">
-	    <field name="name">tablas.cfdi.search.view</field>
-	    <field name="model">tablas.cfdi</field>
-	    <field name="arch" type="xml">
-	        <search string="Tablas Nomina SAT">
-	        	<field name="name" />
-	        </search>
-	    </field>
+        <field name="name">tablas.cfdi.search.view</field>
+        <field name="model">tablas.cfdi</field>
+        <field name="arch" type="xml">
+            <search string="Tablas Nomina SAT">
+               <field name="name" />
+            </search>
+        </field>
     </record>
-	
+
     <record id="action_tree_tablas_cfdi" model="ir.actions.act_window">
         <field name="name">Tablas CFDI</field>
         <field name="res_model">tablas.cfdi</field>
@@ -95,10 +148,7 @@
         <field name="search_view_id" ref="search_tablas_cfdi_view" />
         <field name="context">{}</field>
     </record>
-	
 
-	
-	
     <menuitem
           name="Tablas CFDI"
           parent="hr_payroll.menu_hr_payroll_configuration"
@@ -106,5 +156,5 @@
           action="action_tree_tablas_cfdi"
           sequence="20"
       />
-	
+
 </odoo>
