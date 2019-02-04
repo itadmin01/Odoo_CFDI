@@ -32,9 +32,10 @@ class Contract(models.Model):
                    ('99', 'No aplica'),],
         string=_('Riesgo del puesto'),
     )	
-    sueldo_diario = fields.Float('Sueldo diario') 
-    sueldo_hora = fields.Float('Sueldo por hora') 
-    sueldo_diario_integrado = fields.Float('Sueldo diario integrado') 
+    sueldo_diario = fields.Float('Sueldo diario')
+    sueldo_hora = fields.Float('Sueldo por hora')
+    sueldo_diario_integrado = fields.Float('Sueldo diario integrado')
+    sueldo_base_cotizacion = fields.Float('Sueldo base cotización')
     tablas_cfdi_id = fields.Many2one('tablas.cfdi','Tabla CFDI')
 
     bono_productividad = fields.Float('Bono productividad')
@@ -52,7 +53,7 @@ class Contract(models.Model):
     pens_alim = fields.Float('Pensión alimienticia')
     prest_financ = fields.Float('Prestamo financiero')
     prevision_social = fields.Float('Prevision Social')
-    fondo_ahorro  = fields.Float('Fondo de ahorro') 
+    fondo_ahorro  = fields.Float('Fondo de ahorro')
     dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
     antiguedad_anos = fields.Float('Años de antiguedad', readonly=True)
     dias_base = fields.Float('Días base', default='90')
