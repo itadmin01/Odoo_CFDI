@@ -15,6 +15,7 @@
                     <field name="sueldo_diario" />
                     <field name="sueldo_hora" />
                     <field name="sueldo_diario_integrado" />
+                    <field name="sueldo_base_cotizacion" />
                  </group>
                  <group>
                     <field name="dias_aguinaldo" />
