@@ -143,9 +143,13 @@ class AccountInvoice(models.Model):
     )
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
     confirmacion = fields.Char(string=_('Confirmación'))
-    discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))	
-    amount = fields.Float(string='Amount', digits=dp.get_precision('Product Price'))
-         
+    discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Product Price'))
+    monto = fields.Float(string='Amount', digits=dp.get_precision('Product Price'))
+    precio_unitario = fields.Float(string='Precio unitario', digits=dp.get_precision('Product Price'))
+    monto_impuesto = fields.Float(string='Monto impuesto', digits=dp.get_precision('Product Price'))
+    decimales = fields.Float(string='decimales')
+    desc = fields.Float(string='descuento', digits=dp.get_precision('Product Price'))
+
     @api.model
     def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
         values = super(AccountInvoice, self)._prepare_refund(invoice, date_invoice=date_invoice, 
@@ -223,6 +227,8 @@ class AccountInvoice(models.Model):
             nombre = ''
         else:
             nombre = self.partner_id.name
+        decimales = self.env['decimal.precision'].search([('name','=','Product Price')])
+        no_decimales = decimales.digits
         request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -251,6 +257,7 @@ class AccountInvoice(models.Model):
                       'folio': self.number.replace('INV','').replace('/',''),
                       'serie_factura': self.company_id.serie_factura,
                       'fecha_factura': self.fecha_factura,
+                      'decimales': no_decimales,
                 },
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
@@ -282,9 +289,10 @@ class AccountInvoice(models.Model):
                 tax_id = self.env['account.tax'].browse(tax['id'])
                 if tax_id.price_include or tax_id.amount_type == 'division':
                     amount_wo_tax -= tax['amount']
+                self.monto_impuesto = tax['amount']
                 tax_items.append({'name': tax_id.tax_group_id.name,
                  'percentage': tax_id.amount,
-                 'amount': tax['amount'],
+                 'amount': self.monto_impuesto, #tax['amount'],
                  'impuesto': tax_id.impuesto,
                  'tipo_factor': tax_id.tipo_factor})
                 val = {'invoice_id': line.invoice_id.id,
@@ -299,33 +307,34 @@ class AccountInvoice(models.Model):
             if tax_items:
                 product_taxes.update({'tax_lines': tax_items})
 
-            p_unit = float(amount_wo_tax) / float(line.quantity)
-            this_amount = p_unit * line.quantity
-            amount_untaxed += this_amount
+            self.precio_unitario = float(amount_wo_tax) / float(line.quantity)
+            self.monto = self.precio_unitario * line.quantity
+            amount_untaxed += self.monto
+            #_logger.info('revisar montos ... precio unitatio %s monto %s  subtotal', self.precio_unitario, self.monto, line.price_subtotal)
 
-            desc = this_amount - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
-            if desc < 0.01:
-                desc = 0
-            self.discount += desc
+            self.desc = self.monto - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
+            if self.desc < 0.01:
+                self.desc = 0
+            self.discount += self.desc
 
             #self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': p_unit,
-                                      'amount': this_amount,
+                                      'price_unit': self.precio_unitario,
+                                      'amount': self.monto,
                                       'description': line.name[:1000],
                                       'clave_producto': '84111506',
                                       'clave_unidad': 'ACT',
                                       'taxes': product_taxes,
-                                      'descuento': desc})
+                                      'descuento': self.desc,})
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': p_unit,
-                                      'amount': this_amount,
+                                      'price_unit': self.precio_unitario,
+                                      'amount': self.monto,
                                       'description': line.name[:1000],
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad})
@@ -333,19 +342,19 @@ class AccountInvoice(models.Model):
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': line.product_id.code,
-                                      'price_unit': p_unit,
-                                      'amount': this_amount,
+                                      'price_unit': self.precio_unitario,
+                                      'amount': self.monto,
                                       'description': line.name[:1000],
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad,
                                       'taxes': product_taxes,
-                                      'descuento': desc})
+                                      'descuento': self.desc})
 
-#        amount_untaxed = amount_total - amount_untaxed
+        self.discount = round(self.discount,2)
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': amount_untaxed,'total': self.amount_total})
+            request_params['invoice'].update({'subtotal': self.amount_untaxed+self.discount,'total': self.amount_total})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -450,7 +459,7 @@ class AccountInvoice(models.Model):
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
 
-            #print 'Response: ', response.status_code
+            #_logger.info('something ... %s', response.text)
             json_response = response.json()
             xml_file_link = False
             estado_factura = json_response['estado_factura']
@@ -557,7 +566,7 @@ class AccountInvoice(models.Model):
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
 
-            #print 'Response: ', response.status_code
+            #_logger.info('something ... %s', response.text)
             json_response = response.json()
             xml_file_link = False
             estado_factura = json_response['estado_factura']
@@ -674,17 +683,17 @@ class AccountInvoice(models.Model):
                  'modo_prueba': invoice.company_id.modo_prueba,
                  'uuid': invoice.folio_fiscal,
                  }
-            url=''
+#            url=''
             #_logger.info('esta logeando ...')
-            if invoice.company_id.proveedor_timbrado == 'multifactura':
-               url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
-            elif invoice.company_id.proveedor_timbrado == 'gecoerp':
-               if invoice.company_id.modo_prueba:
-                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-               else:
-                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-            if not url:
-               return
+#            if invoice.company_id.proveedor_timbrado == 'multifactura':
+            url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
+#            elif invoice.company_id.proveedor_timbrado == 'gecoerp':
+#               if invoice.company_id.modo_prueba:
+#                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+#               else:
+#                  url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+#            if not url:
+#               return
             try:
                response = requests.post(url, 
                                          auth=None,verify=False, data=json.dumps(values), 

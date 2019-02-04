@@ -176,6 +176,7 @@ class AccountPayment(models.Model):
                           'moneda': invoice.moneda,
                           'tipodecambio': tipocambiop,
                           'iddocumento': invoice.folio_fiscal,
+                          'folio_facura': invoice.number_folio,
                           'no_de_pago': len(invoice.payment_ids.filtered(lambda x: x.state!='cancelled')), 
                           'saldo_pendiente': round(invoice.residual,2),
                           'monto_pagar': 0,
@@ -234,6 +235,7 @@ class AccountPayment(models.Model):
         self.methodo_pago  = 'PPD'
         correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 
         correccion_hora -= timedelta(hours=5)
+        self.add_resitual_amounts()
 
         if self.invoice_ids:		            
             request_params = { 
