@@ -6,3 +6,5 @@ access_tablas_cfdi4,tablas_cfdi4,nomina_cfdi_ee.model_tablas_subsidio2_line,base
 access_tablas_cfdi5,tablas_cfdi5,nomina_cfdi_ee.model_tablas_subsidioacreditable_line,base.group_user,1,1,1,1
 access_tablas_cfdi6,tablas_cfdi6,nomina_cfdi_ee.model_tablas_antiguedades_line,base.group_user,1,1,1,1
 access_tablas_cfdi6,otras_entradas,nomina_cfdi_ee.model_otras_entradas,base.group_user,1,1,1,1
+access_tablas_antiguedades_line,access_tablas_antiguedades_line,model_tablas_antiguedades_line,base.group_user,1,1,1,1
+access_hr_payslip_mail,access_hr_payslip_mail,model_hr_payslip_mail,base.group_user,1,1,1,1

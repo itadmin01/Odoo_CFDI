@@ -58,7 +58,10 @@ class HrSalaryRule(models.Model):
                    ('047', 'Alimentación'), 
                    ('048', 'Habitación'), 
                    ('049', 'Premios por asistencia'), 
-                   ('050', 'Viáticos'),],
+                   ('050', 'Viáticos'),
+                   ('051', 'Pagos por gratificaciones, primas, compensaciones, recompensas u otros a extrabajadores derivados de jubilación en parcialidades'),
+                   ('052', 'Pagos que se realicen a extrabajadores que obtengan una jubilación en parcialidades derivados de la ejecución de resoluciones judicial o de un laudo'),
+                   ('053', 'Pagos que se realicen a extrabajadores que obtengan una jubilación en una sola exhibición derivados de la ejecución de resoluciones judicial o de un laudo'),],
         string=_('Tipo de percepción'),
     )
     tipo_deduccion = fields.Selection(
@@ -85,7 +88,12 @@ class HrSalaryRule(models.Model):
                    ('021', 'Cuotas obrero patronales'),
                    ('022', 'Impuestos Locales'),
                    ('023', 'Aportaciones voluntarias'),
-                   ('101', 'ISR Retenido de ejercicio anterior'),],
+                   ('101', 'ISR Retenido de ejercicio anterior'),
+                   ('102', 'Ajuste a pagos por gratificaciones, primas, compensaciones, recompensas u otros a extrabajadores derivados de jubilación en parcialidades, gravados'),
+                   ('103', 'Ajuste a pagos que se realicen a extrabajadores que obtengan una jubilación en parcialidades derivados de la ejecución de una resolución judicial o de un laudo gravados'),
+                   ('104', 'Ajuste a pagos que se realicen a extrabajadores que obtengan una jubilación en parcialidades derivados de la ejecución de una resolución judicial o de un laudo exentos'),
+                   ('105', 'Ajuste a pagos que se realicen a extrabajadores que obtengan una jubilación en una sola exhibición derivados de la ejecución de una resolución judicial o de un laudo gravados'),
+                   ('106', 'Ajuste a pagos que se realicen a extrabajadores que obtengan una jubilación en una sola exhibición derivados de la ejecución de una resolución judicial o de un laudo exentos'),],
         string=_('Tipo de deducción'),
     )
 
@@ -263,6 +271,8 @@ class HrPayslip(models.Model):
 #****** OTROS PAGOS ******
         otrospagos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
         tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
+        auxiliar_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Auxiliar'),('slip_id','=',self.id)])
+        #tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
         lineas_de_otros = []
         if otrospagos_lines:
             for line in otrospagos_lines:
@@ -272,8 +282,12 @@ class HrPayslip(models.Model):
                     self.subsidio_periodo = 0
                     #_logger.info('entro a este ..')
                     payslip_total_TOP += line.total
-                    if line2:
-                        self.subsidio_periodo = (line2.s_mensual/self.imss_mes)*self.imss_dias
+                    #if line2:
+                    #    self.subsidio_periodo = (line2.s_mensual/self.imss_mes)*self.imss_dias
+                    for aux in auxiliar_lines:
+                       if aux.code == 'SUB':
+                         self.subsidio_periodo = aux.total
+                    _logger.info('subsidio aplicado %s importe excento %s', self.subsidio_periodo, line.total)
                     lineas_de_otros.append({'TipoOtrosPagos': line.salary_rule_id.tipo_otro_pago,
                     'Clave': line.code,
                     'Concepto': tipo_otro_pago_dict.get(line.salary_rule_id.tipo_otro_pago),
@@ -309,7 +323,7 @@ class HrPayslip(models.Model):
         #   total_imp_ret = round(ded_impuestos_lines.total,2)
         lineas_deduccion = []
         if self.deducciones_lines:
-            _logger.info('entro duduciones ...')
+            #_logger.info('entro deduciones ...')
             #todas las deducciones excepto imss e isr
             for line in self.deducciones_lines:
                 if line.salary_rule_id.tipo_deduccion != '001' and line.salary_rule_id.tipo_deduccion != '002':
