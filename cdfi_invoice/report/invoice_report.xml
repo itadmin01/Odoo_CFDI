@@ -309,7 +309,7 @@
 										<strong>Total</strong>
 										</td>
 										<td class="text-right">
-											<span t-esc="amount_total"
+											<span t-esc="o.amount_total"
 											t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
 										</td>
 									</tr>
@@ -319,7 +319,7 @@
 					</div>
 					<div class="col-xs-5 text-left">
 								<div style="color: black;">
-									<strong><span t-esc="o._get_amount_2_text(amount_total)" /></strong>
+									<strong><span t-esc="o._get_amount_2_text(o.amount_total)" /></strong>
 								</div>
 							</div>
 
