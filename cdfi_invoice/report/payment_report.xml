@@ -216,6 +216,7 @@
 							<tr>
 								<th>No. pago</th>
 								<th>Documento relacionado</th>
+								<th>Folio factura</th>
 								<th>Moneda</th>
 								<th>T/C</th>
 								<th>Método de pago</th> 
@@ -231,6 +232,9 @@
 		                        </td>
 								<td>
 		                            <span t-esc="row.get('iddocumento')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('folio_facura')"/>
 		                        </td>
 								<td>
 		                            <span t-esc="row.get('moneda')"/>
@@ -327,14 +331,14 @@
 								<span t-field="o.selo_sat" />
 							</div>
 						</div>
-					</div>
+					</div><!--
 					<t t-if="o.communication">
 					<div class="row">
 					<strong>Observaciones:</strong> Complemento de pago de la factura 
 					<strong><span t-if="not o.company_id.serie_factura=='false'" t-field="o.company_id.serie_factura" /></strong>
 					<span t-esc="o.communication.replace('INV','').replace('/','')" />
 					</div>
-					</t>
+					</t>-->
 
 					<p>
 						<center>
