@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id='catalogos_clave_unidad_tree'>
+      <field name='name'>catalogos.clave_unidad.tree</field>
+      <field name='model'>catalogos.clave_unidad</field>
+      <field name='arch' type='xml'>
+        <tree>
+          <field name='c_claveunidad'/>
+          <field name='nombre'/>
+       </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_clave_unidad_form">
+      <field name="name">catalogos.clave_unidad.form</field>
+      <field name="model">catalogos.clave_unidad</field>
+      <field name="arch" type="xml">
+        <form string="nombre">
+          <header>
+          </header>
+          <sheet>
+            <group>
+                <field name='c_claveunidad'/>
+                <field name='nombre'/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_clave_unidad" model="ir.actions.act_window">
+        <field name="name">Unidades de medida </field>
+        <field name="res_model">catalogos.clave_unidad</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+	  <menuitem id="catalogos_c_ClaveUnidad_menu_aduanas" name="Unidades de medida" parent="catalogos_menu_principal" action="action_catalogos_clave_unidad"/>
+  </data>
+</odoo>

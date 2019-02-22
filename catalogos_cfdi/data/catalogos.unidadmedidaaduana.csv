@@ -1,0 +1,23 @@
+id,c_unidadmedidaaduana,descripcion
+catalogos_unidadmedidaaduana1,1,KILO  
+catalogos_unidadmedidaaduana2,2,GRAMO  
+catalogos_unidadmedidaaduana3,3,METRO LINEAL  
+catalogos_unidadmedidaaduana4,4,METRO CUADRADO  
+catalogos_unidadmedidaaduana5,5,METRO CUBICO  
+catalogos_unidadmedidaaduana6,6,PIEZA  
+catalogos_unidadmedidaaduana7,7,CABEZA  
+catalogos_unidadmedidaaduana8,8,LITRO  
+catalogos_unidadmedidaaduana9,9,PAR  
+catalogos_unidadmedidaaduana10,10,KILOWATT  
+catalogos_unidadmedidaaduana11,11,MILLAR  
+catalogos_unidadmedidaaduana12,12,JUEGO  
+catalogos_unidadmedidaaduana13,13,KILOWATT/HORA  
+catalogos_unidadmedidaaduana14,14,TONELADA
+catalogos_unidadmedidaaduana15,15,BARRIL  
+catalogos_unidadmedidaaduana16,16,GRAMO NETO  
+catalogos_unidadmedidaaduana17,17,DECENAS  
+catalogos_unidadmedidaaduana18,18,CIENTOS
+catalogos_unidadmedidaaduana19,19,DOCENAS  
+catalogos_unidadmedidaaduana20,20,CAJA  
+catalogos_unidadmedidaaduana21,21,BOTELLA
+catalogos_unidadmedidaaduana22,99,SERVICIOS
