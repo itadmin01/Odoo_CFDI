@@ -18,7 +18,7 @@
                     <field name="sueldo_base_cotizacion" />
                  </group>
                  <group>
-                    <field name="dias_aguinaldo" />
+                   <!-- <field name="dias_aguinaldo" />-->
                  </group>
               </group>
                         <group cols="4">

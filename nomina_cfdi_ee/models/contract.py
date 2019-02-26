@@ -54,7 +54,7 @@ class Contract(models.Model):
     prest_financ = fields.Float('Prestamo financiero')
     prevision_social = fields.Float('Prevision Social')
     fondo_ahorro  = fields.Float('Fondo de ahorro')
-    dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
+#    dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
     antiguedad_anos = fields.Float('Años de antiguedad', readonly=True)
     dias_base = fields.Float('Días base', default='90')
     dias_x_ano = fields.Float('Días por cada año trabajado', default='20')
@@ -80,11 +80,10 @@ class Contract(models.Model):
 
     def calcular_liquidacion(self):
         if self.date_end:
-            self.antiguedad_anos = int((datetime.datetime.strptime(self.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.date_start, "%Y-%m-%d") + timedelta(days=1)).days/365)
-        else:
-            #marcar error
-            self.antiguedad_anos = int((datetime.datetime.strptime(self.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.date_start, "%Y-%m-%d") + timedelta(days=1)).days/365)
-        self.dias_totales = self.antiguedad_anos * self.dias_x_ano + self.dias_base
+            diff_date = (self.date_end - self.date_start + timedelta(days=1)).days
+            years = diff_date /365.0
+            self.antiguedad_anos = int(years)
+            self.dias_totales = self.antiguedad_anos * self.dias_x_ano + self.dias_base
 
     @api.multi
     def button_dummy(self):
@@ -94,10 +93,9 @@ class Contract(models.Model):
     @api.model 
     def calculate_sueldo_diario_integrado(self): 
         if self.date_start: 
-            date_start = datetime.strptime(self.date_start, "%Y-%m-%d") 
-            today = datetime.today() 
-            diff_date = today - date_start 
-            years = diff_date.days /365.0
+            today = datetime.today().date()
+            diff_date = (today - self.date_start + timedelta(days=1)).days
+            years = diff_date /365.0
             #_logger.info('years ... %s', years)
             tablas_cfdi = self.tablas_cfdi_id 
             if not tablas_cfdi: 

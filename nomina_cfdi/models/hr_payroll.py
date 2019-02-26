@@ -448,6 +448,7 @@ class HrPayslip(models.Model):
                       'PeriodicidadPago': self.periodicdad, #self.contract_id.periodicidad_pago,
                       'TipoContrato': self.employee_id.contrato,
                       'TipoRegimen': self.employee_id.regimen,
+                      'TipoJornada': self.employee_id.jornada,
                       'Antiguedad': 'P' + str(antiguedad) + 'W',
                       'Banco': self.employee_id.banco.c_banco,
                       'CuentaBancaria': self.employee_id.no_cuenta,

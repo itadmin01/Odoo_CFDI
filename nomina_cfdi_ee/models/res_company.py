@@ -102,10 +102,9 @@ class ResCompany(models.Model):
     @api.model
     def calculate_sueldo_diario_integrado(self, contract):
         if contract.date_start:
-            date_start = datetime.strptime(contract.date_start, "%Y-%m-%d")
-            today = datetime.today()
-            diff_date = today - date_start
-            years = diff_date.days /365.0
+            today = datetime.today().date()
+            diff_date = (today - contract.date_start + timedelta(days=1)).days #today - date_start 
+            years = diff_date /365.0
             tablas_cfdi = contract.tablas_cfdi_id
             if not tablas_cfdi:
                 tablas_cfdi = self.env['tablas.cfdi'].search([],limit=1)
