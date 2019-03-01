@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import base64
 import json
 import requests
@@ -7,9 +8,9 @@ from lxml import etree
 
 from odoo import fields, models, api,_ 
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import UserError
-from odoo.tools import float_is_zero, float_compare
-from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
+from odoo.exceptions import UserError, Warning
+
+from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
 import logging
@@ -240,7 +241,7 @@ class AccountInvoice(models.Model):
                       'telefono_sms': self.company_id.telefono_sms,
                 },
                 'customer': {
-                      'name': self.partner_id.name,
+                      'name': nombre,
                       'rfc': self.partner_id.rfc,
                       'residencia_fiscal': self.partner_id.residencia_fiscal,
                       'registro_tributario': self.partner_id.registro_tributario,
@@ -406,9 +407,16 @@ class AccountInvoice(models.Model):
                         url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-                response = requests.post(url , 
+                try:
+                    response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
+                except Exception as e:
+                    error = str(e)
+                    if "Name or service not known" in error or "Failed to establish a new connection" in error:
+                        raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                    else:
+                        raise Warning(error)
     
                 #_logger.info('something ... %s', response.text)
                 json_response = response.json()
@@ -454,10 +462,17 @@ class AccountInvoice(models.Model):
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
-                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-            response = requests.post(url , 
-                                     auth=None,verify=False, data=json.dumps(values), 
-                                     headers={"Content-type": "application/json"})
+                url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            try:
+                response = requests.post(url , 
+                                         auth=None,verify=False, data=json.dumps(values), 
+                                         headers={"Content-type": "application/json"})
+            except Exception as e:
+                error = str(e)
+                if "Name or service not known" in error or "Failed to establish a new connection" in error:
+                    raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                else:
+                    raise Warning(error)
 
             #_logger.info('something ... %s', response.text)
             json_response = response.json()
@@ -562,10 +577,17 @@ class AccountInvoice(models.Model):
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
-            response = requests.post(url , 
-                                     auth=None,verify=False, data=json.dumps(values), 
-                                     headers={"Content-type": "application/json"})
-
+            try:
+                response = requests.post(url , 
+                                         auth=None,verify=False, data=json.dumps(values), 
+                                         headers={"Content-type": "application/json"})
+            except Exception as e:
+                error = str(e)
+                if "Name or service not known" in error or "Failed to establish a new connection" in error:
+                    raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                else:
+                    raise Warning(error)
+                
             #_logger.info('something ... %s', response.text)
             json_response = response.json()
             xml_file_link = False
@@ -621,9 +643,16 @@ class AccountInvoice(models.Model):
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
-                response = requests.post(url , 
+                try:
+                    response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
+                except Exception as e:
+                    error = str(e)
+                    if "Name or service not known" in error or "Failed to establish a new connection" in error:
+                        raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                    else:
+                       raise Warning(error)
                 _logger.info('something ... %s', response.text)
                 json_response = response.json()
 

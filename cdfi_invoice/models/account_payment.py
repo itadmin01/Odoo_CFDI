@@ -5,7 +5,7 @@ import json
 import requests
 from lxml import etree
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, Warning
 from . import amount_to_text_es_MX
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
@@ -233,6 +233,8 @@ class AccountPayment(models.Model):
         else:
             self.tipocambiop = self.currency_id.rate
         self.methodo_pago  = 'PPD'
+        if not self.fecha_pago:
+            raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
         #correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 
         #correccion_hora -= timedelta(hours=5)
         self.add_resitual_amounts()
@@ -365,9 +367,16 @@ class AccountPayment(models.Model):
                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
-            response = requests.post(url , 
+            try:
+                response = requests.post(url , 
                                      auth=None,verify=False, data=json.dumps(values), 
                                      headers={"Content-type": "application/json"})
+            except Exception as e:
+                error = str(e)
+                if "Name or service not known" in error or "Failed to establish a new connection" in error:
+                     raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                else:
+                     raise Warning(error)
 
             #print 'Response: ', response.status_code
             json_response = response.json()
