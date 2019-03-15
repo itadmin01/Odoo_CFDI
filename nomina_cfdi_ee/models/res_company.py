@@ -87,7 +87,7 @@ class ResCompany(models.Model):
                     #'reply_to': mailing.reply_to,
                     'email_to': company.nomina_mail,
                     'subject': '',
-                    'body_html': 'Esta semana cumpleaños ' +  contract.employee_id.name + ' en la empresa, se ajustó el sueldo diario integrado.',
+                    'body_html': 'Esta semana cumpleaños ' +  contract.employee_id.name + ' en la empresa, revisar ajuste en sueldo diario integrado.',
                     'notification': True,
                     #'mailing_id': mailing.id,
                     #'attachment_ids': [(4, attachment.id) for attachment in mailing.attachment_ids],
@@ -95,7 +95,7 @@ class ResCompany(models.Model):
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()
-                self.calculate_sueldo_diario_integrado(contract)
+                #self.calculate_sueldo_diario_integrado(contract)
                 #company.nomina_mail.send_mail(contract_id, force_send=True )
         return
     

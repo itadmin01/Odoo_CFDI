@@ -35,7 +35,7 @@ class Contract(models.Model):
     sueldo_diario = fields.Float('Sueldo diario')
     sueldo_hora = fields.Float('Sueldo por hora')
     sueldo_diario_integrado = fields.Float('Sueldo diario integrado')
-    sueldo_base_cotizacion = fields.Float('Sueldo base cotización')
+    sueldo_base_cotizacion = fields.Float('Sueldo base cotización (IMSS)')
     tablas_cfdi_id = fields.Many2one('tablas.cfdi','Tabla CFDI')
 
     bono_productividad = fields.Float('Bono productividad')
@@ -54,8 +54,8 @@ class Contract(models.Model):
     prest_financ = fields.Float('Prestamo financiero')
     prevision_social = fields.Float('Prevision Social')
     fondo_ahorro  = fields.Float('Fondo de ahorro')
-    dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
-    antiguedad_anos = fields.Float('Años de antiguedad', readonly=True)
+#    dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
+    antiguedad_anos = fields.Float('Años de antiguedad', compute='_compute_antiguedad_anos')
     dias_base = fields.Float('Días base', default='90')
     dias_x_ano = fields.Float('Días por cada año trabajado', default='20')
     dias_totales = fields.Float('Total de días', readonly=True)
@@ -71,13 +71,21 @@ class Contract(models.Model):
             'sueldo_diario': self.wage/30,
             'sueldo_hora': self.wage/30/8,
             'sueldo_diario_integrado': self.calculate_sueldo_diario_integrado(),
+            'sueldo_base_cotizacion': self.calculate_sueldo_diario_integrado(),
             }
             self.update(values)
-#    @api.one
-#    @api.depends('dias_base', 'dias_x_ano', 'antiguedad_anos')
-#    def _dias_totales(self):
-#        self.dias_totales = self.antiguedad_anos * self.dias_x_ano + self.dias_base
 
+    @api.one
+    @api.depends('date_start')
+    def _compute_antiguedad_anos(self):
+        if self.date_start: 
+            date_start = datetime.strptime(self.date_start, "%Y-%m-%d") 
+            today = datetime.today() 
+            diff_date = today - date_start 
+            years = diff_date.days /365.0
+            self.antiguedad_anos = int(years)
+
+    @api.model
     def calcular_liquidacion(self):
         if self.date_end:
             date_start = datetime.strptime(self.date_start, "%Y-%m-%d")

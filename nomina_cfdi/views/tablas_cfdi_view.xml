@@ -51,6 +51,27 @@
                                 <field name="uma"/>
                                 <field name="salario_minimo"/>
                             </group>
+                            <group string="Periodo IMSS">
+                                <field name="imss_mes"/>
+                            </group>
+                            <group string="Factor de exenciones">
+                                <field name="factor_vale_despensa"/>
+                                <field name="factor_prima_vacacional"/>
+                                <field name="factor_aguinaldo"/>
+                                <field name="factor_fondo_ahorro"/>
+                                <field name="factor_tiempo_extra"/>
+                                <field name="factor_prima_dominical"/>
+                                <field name="factor_liquidacion"/>
+                            </group>
+                            <group string="Exenciones">
+                                <field name="ex_vale_despensa"/>
+                                <field name="ex_prima_vacacional"/>
+                                <field name="ex_aguinaldo"/>
+                                <field name="ex_fondo_ahorro"/>
+                                <field name="ex_tiempo_extra"/>
+                                <field name="ex_prima_dominical"/>
+                                <field name="ex_liquidacion"/>
+                            </group>
                         </group>
              </page>
              <page name="imss_infonavit" string="Seguro social e Infonavit">
