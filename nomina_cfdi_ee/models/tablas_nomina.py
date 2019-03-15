@@ -51,8 +51,26 @@ class TablasCFDI(models.Model):
     tabla_subem = fields.One2many('tablas.subsidio.line', 'form_id')
     tabla_subsidio = fields.One2many('tablas.subsidio2.line', 'form_id')
     tabla_subsidio_acreditable = fields.One2many('tablas.subsidioacreditable.line', 'form_id')
-    uma = fields.Float(string=_('UMA'), default='80.60')
+	
+    uma = fields.Float(string=_('UMA'), default='84.49')
     salario_minimo = fields.Float(string=_('Salario mínimo'))
+    imss_mes = fields.Float('Periodo Mensual para IMSS (dias)',default='30.4')
+	
+    ex_vale_despensa= fields.Float(string=_('Vale de despena'), compute='_compute_ex_vale_despensa')
+    ex_prima_vacacional = fields.Float(string=_('Prima vacacional'), compute='_compute_ex_prima_vacacional')
+    ex_aguinaldo = fields.Float(string=_('Aguinaldo'), compute='_compute_ex_aguinaldo')
+    ex_fondo_ahorro = fields.Float(string=_('Fondo de ahorro'), compute='_compute_ex_fondo_ahorro')
+    ex_tiempo_extra = fields.Float(string=_('Tiempo extra'), compute='_compute_ex_tiempo_extra')
+    ex_prima_dominical = fields.Float(string=_('Prima dominical'), compute='_compute_ex_prima_dominical')
+    factor_vale_despensa= fields.Float(string=_('Vale de despensa (UMA)'),  default=1)
+    factor_prima_vacacional = fields.Float(string=_('Prima vacacional (UMA)'),  default=15)
+    factor_aguinaldo = fields.Float(string=_('Aguinaldo (UMA)'),  default=30)
+    factor_fondo_ahorro = fields.Float(string=_('Fondo de ahorro (UMA)'), default=1.3)
+    factor_tiempo_extra = fields.Float(string=_('Tiempo extra (UMA)'), default=5)
+    factor_prima_dominical = fields.Float(string=_('Prima dominical (UMA)'), default=1)
+    ex_liquidacion = fields.Float(string=_('Liquidación'), compute='_compute_ex_liquidacion')
+    factor_liquidacion = fields.Float(string=_('Liquidación (UMA)'),  default=90)
+
     importe_utilidades = fields.Float(string=_('Importe a repartir a todos los empleados'), default=0)
     dias_min_trabajados = fields.Float(string=_('Dias mínimos trabajados en empleados eventuales'), default=60)
     funcion_ingresos = fields.Float(string=_('% a repartir en función de los ingresos'), default=50)
@@ -121,6 +139,41 @@ class TablasCFDI(models.Model):
     def _factor_sueldo(self):
         if self.total_sueldo_percibido > 0:
             self.factor_sueldo = (self.importe_utilidades*(self.funcion_ingresos/100)) / self.total_sueldo_percibido
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_vale_despensa(self):
+        self.ex_vale_despensa = self.uma * self.imss_mes * self.factor_vale_despensa
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_prima_dominical(self):
+        self.ex_prima_dominical = self.uma * self.factor_prima_dominical
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_fondo_ahorro(self):
+        self.ex_fondo_ahorro = self.uma * self.imss_mes * self.factor_fondo_ahorro
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_prima_vacacional(self):
+        self.ex_prima_vacacional = self.uma * self.factor_prima_vacacional 
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_aguinaldo(self):
+        self.ex_aguinaldo = self.uma * self.factor_aguinaldo
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_tiempo_extra(self):
+        self.ex_tiempo_extra = self.uma * self.factor_tiempo_extra
+
+    @api.one
+    @api.depends('uma')
+    def _compute_ex_liquidacion(self):
+        self.ex_liquidacion = self.uma * self.factor_liquidacion
 
     def calcular_reparto_utilidades(self):
         payslips = self.env['hr.payslip'].search([('date_from', '>=', self.fecha_inicio), ('date_to', '<=', self.fecha_fin),('tipo_nomina','=', 'O')])

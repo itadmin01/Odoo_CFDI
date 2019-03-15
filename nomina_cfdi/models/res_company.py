@@ -52,7 +52,7 @@ class ResCompany(models.Model):
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()
-                self.calculate_sueldo_diario_integrado(contract)
+                #self.calculate_sueldo_diario_integrado(contract)
                 #company.nomina_mail.send_mail(contract_id, force_send=True )
         return
     

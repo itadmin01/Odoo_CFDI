@@ -224,7 +224,9 @@ class HrPayslip(models.Model):
         payslip_total_TOP = 0
         payslip_total_TDED = 0
         payslip_total_PERG = 0
-        payslip_total_PERE = 0	
+        payslip_total_PERE = 0
+        payslip_total_SEIN = 0
+        payslip_total_JPRE = 0
         antiguedad = 1
         if self.contract_id.date_end and self.contract_id.date_start:
             antiguedad = int((self.contract_id.date_end - self.contract_id.date_start + timedelta(days=1)).days/7)
@@ -238,31 +240,217 @@ class HrPayslip(models.Model):
         tipo_percepcion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_percepcion').selection)
         if percepciones_grabadas_lines:
             for line in percepciones_grabadas_lines:
-                payslip_total_PERG += round(line.total,2)
+                if line.salary_rule_id.tipo_percepcion != '022' and line.salary_rule_id.tipo_percepcion != '023' and line.salary_rule_id.tipo_percepcion != '025' and line.salary_rule_id.tipo_percepcion !='039' and line.salary_rule_id.tipo_percepcion !='044':
+                   payslip_total_PERG += round(line.total,2)
                 lineas_de_percepcion.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
                 'Clave': line.code,
                 'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
                 'ImporteGravado': line.total,
                 'ImporteExento': '0'})
+                if line.salary_rule_id.tipo_percepcion == '022' or line.salary_rule_id.tipo_percepcion == '023' or line.salary_rule_id.tipo_percepcion == '025':
+                    payslip_total_SEIN += round(line.total,2)
+                if line.salary_rule_id.tipo_percepcion =='039' or line.salary_rule_id.tipo_percepcion =='044':
+                    payslip_total_JPRE += round(line.total,2)
 
-        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Percepcion c/exencion'),('slip_id','=',self.id)])
         lineas_de_percepcion_exentas = []
         if percepciones_excentas_lines:
             for line in percepciones_excentas_lines:
-                payslip_total_PERE += round(line.total,2)
-                lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
-                'Clave': line.code,
-                'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
-                'ImporteGravado': '0',
-                'ImporteExento': line.total})
+                parte_exenta = 0
+                parte_gravada = 0
+
+                #fondo ahorro
+                if line.code == 'PFA':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_fondo_ahorro:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_fondo_ahorro
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_fondo_ahorro
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #vale de despensa
+                if line.code == 'PDM':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_prima_dominical:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_prima_dominical
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_prima_dominical
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #vale de despensa
+                if line.code == 'DESP':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_vale_despensa:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_vale_despensa
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_vale_despensa
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #aguinaldo
+                if line.code == 'AGU':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_aguinaldo:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_aguinaldo
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_aguinaldo
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #prima vacacional diario
+                if line.code == 'PVD':
+                   antiguedad_anos = self.contract_id.antiguedad_anos
+                   dias_vacaciones = 0
+                   if self.contract_id.tablas_cfdi_id:
+                       line2 = self.contract_id.env['tablas.antiguedades.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('antiguedad','<=',antiguedad_anos)],order='antiguedad desc',limit=1)
+                       if line2:
+                          dias_vacaciones = line2.vacaciones
+
+                   dias_prima_vac = self.env['hr.payslip.worked_days'].search(['|',('payslip_id','=',self.id),('code','=','VAC')]) #l,imit=1
+                   dias_vac = 0
+                   if dias_prima_vac:
+                      _logger.info('si hay dias vacaciones..')
+                      for dias_vac_line in dias_prima_vac:
+                          dias_vac = dias_vac_line.number_of_days
+
+                   monto_max = self.contract_id.tablas_cfdi_id.ex_prima_vacacional / dias_vacaciones * dias_vac
+                   if line.total > monto_max:
+                      parte_gravada = line.total - monto_max
+                      parte_exenta = monto_max
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #prima vaccional completo
+                if line.code == 'PVC':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_prima_vacacional:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_prima_vacacional
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_prima_vacacional
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
+                #nomina de liquidacion / finiquito
+                if line.salary_rule_id.tipo_percepcion == '022' or line.salary_rule_id.tipo_percepcion == '023' or line.salary_rule_id.tipo_percepcion == '025':
+                #calculo total indemnizacion
+                   total_indemnizacion = 0
+                   percepciones_liquidacion = self.env['hr.payslip.line'].search([('category_id.name','=','Percepcion c/exencion'),('slip_id','=',self.id)])
+                   if percepciones_liquidacion:
+                       for line3 in percepciones_liquidacion:
+                           if line3.salary_rule_id.tipo_percepcion == '022' or line3.salary_rule_id.tipo_percepcion == '023' or line3.salary_rule_id.tipo_percepcion == '025':
+                               total_indemnizacion += line3.total
+                   #indemnizacion
+                   if line.code == 'IND':
+                      if total_indemnizacion > self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos:
+                         parte_gravada = round(line.total - (self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos) * (line.total/total_indemnizacion),2)
+                         parte_exenta = round(self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos * (line.total/total_indemnizacion),2)
+                      else:
+                         parte_exenta = line.total
+                         parte_gravada = 0
+
+                   #prima de antiguedad
+                   if line.code == 'PDA':
+                      if total_indemnizacion > self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos:
+                         parte_gravada = round(line.total - (self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos) * (line.total/total_indemnizacion),2)
+                         parte_exenta = round(self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos * (line.total/total_indemnizacion),2)
+                      else:
+                         parte_exenta = line.total
+                         parte_gravada = 0
+
+                   #pagos por separacion
+                   if line.code == 'PPS':
+                      if total_indemnizacion > self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos:
+                         parte_gravada = round(line.total - (self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos) * (line.total/total_indemnizacion),2)
+                         parte_exenta = round(self.contract_id.tablas_cfdi_id.ex_liquidacion * self.contract_id.antiguedad_anos * (line.total/total_indemnizacion),2)
+                      else:
+                         parte_exenta = line.total
+                         parte_gravada = 0
+
+                # obtener totales
+                #if line.salary_rule_id.tipo_percepcion != '022' and line.salary_rule_id.tipo_percepcion != '023' and line.salary_rule_id.tipo_percepcion != '025' and line.salary_rule_id.tipo_percepcion !='039' and line.salary_rule_id.tipo_percepcion !='044':
+                if line.salary_rule_id.tipo_percepcion !='039' and line.salary_rule_id.tipo_percepcion !='044':
+                    payslip_total_PERE += round(parte_exenta,2)
+                    payslip_total_PERG += round(parte_gravada,2)
+                if line.salary_rule_id.tipo_percepcion == '022' or line.salary_rule_id.tipo_percepcion == '023' or line.salary_rule_id.tipo_percepcion == '025':
+                    payslip_total_SEIN += round(line.total,2)
+                if line.salary_rule_id.tipo_percepcion =='039' or line.salary_rule_id.tipo_percepcion =='044':
+                    payslip_total_JPRE += round(line.total,2)
+
+                # horas extras
+                if line.salary_rule_id.tipo_percepcion == '019':
+                   percepciones_horas_extras = self.env['hr.payslip.worked_days'].search([('payslip_id','=',self.id)])
+                   if percepciones_horas_extras:
+                      _logger.info('si hay ..')
+                      for ext_line in percepciones_horas_extras:
+                          #_logger.info('codigo %s.....%s ', line.code, ext_line.code)
+                          if line.code == ext_line.code:
+                             if line.code == 'HEX1':
+                                tipo_hr = '03'
+                             elif line.code == 'HEX2':
+                                tipo_hr = '01'
+                             elif line.code == 'HEX3':
+                                tipo_hr = '02'
+                             lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                             'Clave': line.code,
+                             'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
+                             'ImporteGravado': parte_gravada,
+                             'ImporteExento': parte_exenta,
+                             'Dias': ext_line.number_of_days,
+                             'TipoHoras': tipo_hr,
+                             'HorasExtra': ext_line.number_of_hours,
+                             'ImportePagado': line.total})
+                # Jubilaciones, pensiones o haberes de retiro en una exhibición
+                #elif line.salary_rule_id.tipo_percepcion == '039':
+
+                # Jubilaciones, pensiones o haberes de retiro en parcialidades
+                #elif line.salary_rule_id.tipo_percepcion == '044':
+
+                # Ingresos en acciones o títulos valor que representan bienes
+                elif line.salary_rule_id.tipo_percepcion == '045':
+                   lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                   'Clave': line.code,
+                   'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
+                   'ValorMercado': 56,
+                   'PrecioAlOtorgarse': 48,
+                   'ImporteGravado': parte_gravada,
+                   'ImporteExento': parte_exenta})
+                else:
+                   lineas_de_percepcion_exentas.append({'TipoPercepcion': line.salary_rule_id.tipo_percepcion,
+                   'Clave': line.code,
+                   'Concepto': tipo_percepcion_dict.get(line.salary_rule_id.tipo_percepcion),
+                   'ImporteGravado': parte_gravada,
+                   'ImporteExento': parte_exenta})
 
         percepcion = {
                'Totalpercepcion': {
+                        'TotalSeparacionIndemnizacion': payslip_total_SEIN,
+                        'TotalJubilacionPensionRetiro': payslip_total_JPRE,
                         'TotalGravado': payslip_total_PERG,
                         'TotalExento': payslip_total_PERE,
-                        'TotalSueldos': payslip_total_PERG + payslip_total_PERE,
+                        'TotalSueldos': payslip_total_PERG + payslip_total_PERE - payslip_total_SEIN - payslip_total_JPRE,
                },
         }
+
+        #************ SEPARACION / INDEMNIZACION   ************#
+        if payslip_total_SEIN > 0:
+            if payslip_total_PERG > self.contract_id.wage:
+                ingreso_acumulable = self.contract_id.wage
+            else:
+                ingreso_acumulable = payslip_total_PERG
+            if payslip_total_PERG - self.contract_id.wage < 0:
+                ingreso_no_acumulable = 0
+            else:
+                ingreso_no_acumulable = payslip_total_PERG - self.contract_id.wage
+
+            percepcion.update({
+               'separacion': [{
+                        'TotalPagado': payslip_total_SEIN,
+                        'NumAñosServicio': self.contract_id.antiguedad_anos,
+                        'UltimoSueldoMensOrd': self.contract_id.wage,
+                        'IngresoAcumulable': ingreso_acumulable,
+                        'IngresoNoAcumulable': ingreso_no_acumulable,
+                }]
+            })
+            #percepcion.update({'SeparacionIndemnizacion': separacion})
+
 
         percepcion.update({'lineas_de_percepcion_grabadas': lineas_de_percepcion, 'no_per_grabadas': len(percepciones_grabadas_lines)})
         percepcion.update({'lineas_de_percepcion_excentas': lineas_de_percepcion_exentas, 'no_per_excentas': len(percepciones_excentas_lines)})
@@ -376,6 +564,17 @@ class HrPayslip(models.Model):
         }
         deduccion.update({'lineas_de_deduccion': lineas_deduccion, 'no_deuducciones': no_deuducciones})
         request_params.update({'deducciones': deduccion})
+
+        #************ INCAPACIDADES  ************#
+        if 0 > 1:
+            incapacidad = {
+               'Incapacidad': {
+                        'DiasIncapacidad': 4,
+                        'TipoIncapacidad': '05',
+                        'ImporteMonetario': 48,
+                },
+            }
+            request_params.update({'incapacidades': incapacidad})
 
         self.retencion_subsidio_pagado = self.isr_periodo - self.subsidio_periodo
         self.total_nomina = payslip_total_PERG + payslip_total_PERE + payslip_total_TOP - payslip_total_TDED
