@@ -215,6 +215,7 @@
 							<tr>
 								<th>No. pago</th>
 								<th>Documento relacionado</th>
+								<th>Folio factura</th>
 								<th>Moneda</th>
 								<th>T/C</th>
 								<th>Método de pago</th> 
@@ -230,6 +231,9 @@
 		                        </td>
 								<td>
 		                            <span t-esc="row.get('iddocumento')"/>
+		                        </td>
+								<td>
+		                            <span t-esc="row.get('folio_facura')"/>
 		                        </td>
 								<td>
 		                            <span t-esc="row.get('moneda')"/>
