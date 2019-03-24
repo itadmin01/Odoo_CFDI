@@ -10,8 +10,8 @@ class ResCompany(models.Model):
 
     rfc = fields.Char(string=_('RFC'))
     proveedor_timbrado= fields.Selection(
-        selection=[('gecoerp', _('GecoERP')),
-                   ('multifactura', _('Multifacturas')),],
+        selection=[('gecoerp', _('Servidor 2')),
+                   ('multifactura', _('Servidor 1')),],
         string=_('Proveedor de timbrado'), 
     )
     api_key = fields.Char(string=_('API Key'))

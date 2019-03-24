@@ -80,7 +80,8 @@ class AccountInvoice(models.Model):
     xml_invoice_link = fields.Char(string=_('XML Invoice Link'))
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
-                   ('solicitud_cancelar', 'Cancelación en proceso'),('factura_cancelada', 'Factura cancelada'), ],
+                   ('solicitud_cancelar', 'Cancelación en proceso'),('factura_cancelada', 'Factura cancelada'),
+                   ('solicitud_rechazada', 'Cancelación rechazada'),],
         string=_('Estado de factura'),
         default='factura_no_generada',
         readonly=True
@@ -322,7 +323,7 @@ class AccountInvoice(models.Model):
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code,
+                                      'product': line.product_id.code[:100],
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -333,7 +334,7 @@ class AccountInvoice(models.Model):
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code,
+                                      'product': line.product_id.code[:100],
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -342,7 +343,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code,
+                                      'product': line.product_id.code[:100],
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -740,16 +741,27 @@ class AccountInvoice(models.Model):
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
             elif estado_factura == 'consulta_correcta':
                 if json_response['factura_xml'] == 'Cancelado':
+                    _logger.info('Factura cancelada')
                     _logger.info('EsCancelable: %s', json_response['escancelable'])
                     _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     invoice.action_cfdi_cancel()
                 elif json_response['factura_xml'] == 'Vigente':
+                    _logger.info('Factura vigente')
                     _logger.info('EsCancelable: %s', json_response['escancelable'])
                     _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+                    if json_response['estatuscancelacion'] == 'Solicitud rechazada':
+                        invoice.estado_factura = 'solicitud_rechazada'
             else:
                 _logger.info('Error... %s', response.text)
         return True
 
+    @api.multi
+    def action_cfdi_rechazada(self):
+        for invoice in self:
+            if invoice.factura_cfdi:
+                if invoice.estado_factura == 'solicitud_rechazada':
+                    invoice.estado_factura = 'factura_correcta'
+                    # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
  
 class MailTemplate(models.Model):
     "Templates for sending email"
