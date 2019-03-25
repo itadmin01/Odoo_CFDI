@@ -323,7 +323,7 @@ class AccountInvoice(models.Model):
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code[:100],
+                                      'product': line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -334,7 +334,7 @@ class AccountInvoice(models.Model):
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code[:100],
+                                      'product': line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -343,7 +343,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code[:100],
+                                      'product': line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
