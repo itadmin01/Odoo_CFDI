@@ -306,6 +306,42 @@
 							</tr>
 						</table>
 					</div>
+					<div><br/></div>
+					<t t-if="o.banco_emisor and o.banco_receptor and o.forma_pago == '03'">
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Detalles de la transferencia bancaria</strong></center>
+						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+							<tr>
+								<td>
+									<strong>Banco emisor</strong>
+								</td>
+								<td >
+									<span t-field="o.banco_emisor" />
+								</td>
+								<td>
+									<strong>Banco receptor</strong>
+								</td>
+								<td >
+									<span t-field="o.banco_receptor" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Cuenta bancaria emisor</strong>
+								</td>
+								<td >
+									<span t-field="o.cuenta_emisor.acc_number" />
+								</td>
+								<td>
+									<strong>Cuenta bancaria receptor</strong>
+								</td>
+								<td >
+									<span t-field="o.cuenta_beneficiario" />
+								</td>
+							</tr>
+						</table>
+					</div>
+					</t>
 					<div class="row" style="page-break-inside: avoid">
 						<div class="col-xs-1">
 						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % o.qrcode_image"
@@ -331,8 +367,8 @@
 								<span t-field="o.selo_sat" />
 							</div>
 						</div>
-					</div><!--
-					<t t-if="o.communication">
+					</div>
+					<!--<t t-if="o.communication">
 					<div class="row">
 					<strong>Observaciones:</strong> Complemento de pago de la factura 
 					<strong><span t-if="not o.company_id.serie_factura=='false'" t-field="o.company_id.serie_factura" /></strong>
@@ -362,7 +398,7 @@
 		<report id="report_payments" 
 				model="account.payment" 
 				string="Complemento de Pago" 
-        		menu="False"
+        		        menu="True"
 				report_type="qweb-pdf" 
 				name="custom_invoice.report_payment" 
 				file="custom_invoice.report_payment"/>
