@@ -307,6 +307,42 @@
 							</tr>
 						</table>
 					</div>
+					<div><br/></div>
+					<t t-if="o.banco_emisor and o.banco_receptor and o.forma_pago == '03'">
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<center><strong>Detalles de la transferencia bancaria</strong></center>
+						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+							<tr>
+								<td>
+									<strong>Banco emisor</strong>
+								</td>
+								<td >
+									<span t-field="o.banco_emisor" />
+								</td>
+								<td>
+									<strong>Banco receptor</strong>
+								</td>
+								<td >
+									<span t-field="o.banco_receptor" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Cuenta bancaria emisor</strong>
+								</td>
+								<td >
+									<span t-field="o.cuenta_emisor.acc_number" />
+								</td>
+								<td>
+									<strong>Cuenta bancaria receptor</strong>
+								</td>
+								<td >
+									<span t-field="o.cuenta_beneficiario" />
+								</td>
+							</tr>
+						</table>
+					</div>
+					</t>
 					<div class="row" style="page-break-inside: avoid">
 						<!--INICIA CODIGO QR-->
 						<div class="col-xs-5">
@@ -351,12 +387,12 @@
 		</template>
 
 
-		<report id="report_payments"
-				model="account.payment"
-				string="Complemento de Pago"
-        		menu="True"
-				report_type="qweb-pdf"
-				name="cdfi_invoice.report_payment"
+		<report id="report_payments" 
+				model="account.payment" 
+				string="Complemento de Pago" 
+        		        menu="True"
+				report_type="qweb-pdf" 
+				name="cdfi_invoice.report_payment" 
 				file="cdfi_invoice.report_payment"
 				paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
