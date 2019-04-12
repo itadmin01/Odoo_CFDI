@@ -60,6 +60,7 @@
                     <field name="all_payslip_generated" invisible="1" />
                     <button string="Timbrar Nomina" name="timbrar_nomina" type="object" attrs="{'invisible':[('all_payslip_generated','=',True)]}" class="oe_highlight"/>
                     <button string="Enviar Nomina" name="enviar_nomina" type="object" attrs="{'invisible':[('all_payslip_generated','!=',True)]}" class="oe_highlight"/>
+                    <button string="Recalcular nómina" name="recalcular_nomina_payslip_batch" type="object" states='draft' class="oe_highlight"/>
                 </button>
                <sheet>
                 <group  string="Otras entradas">
