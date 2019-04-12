@@ -78,6 +78,7 @@
                         <group cols="4" string="General">
                             <group >
                                 <field name="apotacion_infonavit"/>
+                                <field name="umi"/>
                             </group>
                             <group string="Salario base de cotización máximo">
                                 <field name="sbcm_general"/>

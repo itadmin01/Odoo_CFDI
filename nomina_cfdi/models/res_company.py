@@ -44,7 +44,7 @@ class ResCompany(models.Model):
                     #'reply_to': mailing.reply_to,
                     'email_to': company.nomina_mail,
                     'subject': '',
-                    'body_html': 'Esta semana cumpleaños ' +  contract.employee_id.name + ' en la empresa, se ajustó el sueldo diario integrado.',
+                    'body_html': 'Esta semana cumpleaños ' +  contract.employee_id.name + ' en la empresa, revisar ajuste en sueldo diario integrado.',
                     'notification': True,
                     #'mailing_id': mailing.id,
                     #'attachment_ids': [(4, attachment.id) for attachment in mailing.attachment_ids],

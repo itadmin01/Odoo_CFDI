@@ -84,6 +84,7 @@ class TablasCFDI(models.Model):
 
     ######## Variables del seguro ####################3
     apotacion_infonavit = fields.Float(string=_('Aportación al Infonavit (%)'), default=5)
+    umi = fields.Float(string=_('UMI (Unidad Mixta INFONAVIT)'), default=82.22)
     sbcm_general = fields.Float(string=_('General (UMA)'), default=25)
     sbcm_inv_inf = fields.Float(string=_('Para invalidez e Infonavit (UMA)'), default=25)
     rt_prom_vida_activa = fields.Float(string=_('Promedio de vida activa (años)'), default=28)

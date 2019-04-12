@@ -10,7 +10,14 @@ class HrPayslipRun(models.Model):
         selection=[('O', 'Nómina ordinaria'), ('E', 'Nómina extraordinaria'),], string=_('Tipo de nómina'), required=True, default='O')
     estructura = fields.Many2one('hr.payroll.structure', string='Estructura')
     tabla_otras_entradas = fields.One2many('otras.entradas', 'form_id')
-
+    
+    @api.multi
+    def recalcular_nomina_payslip_batch(self):
+        for batch in self:
+            batch.slip_ids.compute_sheet()
+            
+        return True
+     
     @api.one
     @api.depends('slip_ids.state','slip_ids.nomina_cfdi')
     def _compute_payslip_cgdi_generated(self):

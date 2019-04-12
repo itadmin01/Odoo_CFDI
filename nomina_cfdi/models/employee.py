@@ -11,15 +11,21 @@ class Employee(models.Model):
     
     no_empleado = fields.Char(_('Número de empleado'))
     tipo_pago = fields.Selection(selection=[('transferencia', 'Transferencia'),('efectivo', 'Efectivo'),
-                                         ('deposito', 'Deposito')],
+                                         ('deposito', 'Deposito'),('cheque', 'Cheque')],
         string=_('Tipo de Pago'),
     )
-    banco = fields.Many2one('res.bank','Banco')
-    no_cuenta = fields.Char(_('No. cuenta'))
+    banco = fields.Many2one('res.bank','Banco empleado')
+    no_cuenta = fields.Char(_('No. cuenta empleado'))
     rfc = fields.Char(_('RFC'))
     curp = fields.Char(_('CURP'))
     segurosocial = fields.Char(_('Seguro social'))
     correo_electronico = fields.Char(_('Correo electrónico'))	
+    tipo_cuenta = fields.Selection(selection=[('t_debido', 'Tarjeta de débito'),('cheques', 'Cheques'),
+                                         ('c_ahorro', 'Cuenta de ahorro'),('t_credito', 'Tarjeta de crédito')],
+        string=_('Tipo de cuenta'),
+    )
+    banco_pago = fields.Many2one('res.bank','Banco de pago')
+    registro_patronal = fields.Char(string=_('Registro patronal'))
 
     regimen = fields.Selection(
         selection=[('02', '02 - Sueldos'),
