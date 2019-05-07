@@ -387,12 +387,12 @@
 		</template>
 
 
-		<report id="report_payments" 
-				model="account.payment" 
-				string="Complemento de Pago" 
+		<report id="report_payments"
+				model="account.payment"
+				string="Complemento de Pago"
         		        menu="True"
-				report_type="qweb-pdf" 
-				name="cdfi_invoice.report_payment" 
+				report_type="qweb-pdf"
+				name="cdfi_invoice.report_payment"
 				file="cdfi_invoice.report_payment"
 				paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
