@@ -319,11 +319,16 @@ class AccountInvoice(models.Model):
                 self.desc = 0
             self.discount += self.desc
 
+            product_string = line.product_id.code and line.product_id.code[:100] or ''
+            if product_string == '':
+               if line.name.find('[') > 0:
+                  product_string = line.name[line.name.find('[')+len('['):line.name.find(']')] or ''
+
             #self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string, # line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -334,7 +339,7 @@ class AccountInvoice(models.Model):
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string, #line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -343,7 +348,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string, #line.product_id.code and line.product_id.code[:100] or '',
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -786,8 +791,9 @@ class MailTemplate(models.Model):
                     invoice = self.env[template.model].browse(res_id)
                     if not invoice.factura_cfdi:
                         continue
-                    if invoice.estado_factura == 'factura_correcta':   
-                        xml_file = open(invoice.xml_invoice_link, 'rb').read()
+                    if invoice.estado_factura == 'factura_correcta' or invoice.estado_factura == 'solicitud_cancelar':
+                        xml_name = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
+                        xml_file = open(xml_name, 'rb').read()
                         attachments = results[res_id]['attachments'] or []
                         attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', 
                                             base64.b64encode(xml_file)))
