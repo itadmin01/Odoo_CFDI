@@ -13,6 +13,8 @@ var QWeb = core.qweb;
 var _t = core._t;
 var _super_posmodel = models.PosModel.prototype;
 
+models.load_fields("res.company", ['rfc', 'regimen_fiscal', 'zip', 'street', 'street2', 'city', 'state_id']);
+
 models.PosModel = models.PosModel.extend({
     initialize: function (session, attributes) {
         // New code
