@@ -40,6 +40,7 @@ UM_CLAVO_MAP = {
                 'Tableros de pie': 'BFT',
                 'Trabajo': 'E51',
                 'No disponible': 'XNA',
+                'Kilowatt hora': 'KWH',
                 }
     
 class ProductTemplate(models.Model):

@@ -321,7 +321,7 @@ class AccountInvoice(models.Model):
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
-               if line.name.find('[') > 0:
+               if line.name.find(']') > 0:
                   product_string = line.name[line.name.find('[')+len('['):line.name.find(']')] or ''
 
             #self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
