@@ -88,8 +88,10 @@ class Contract(models.Model):
     @api.model
     def calcular_liquidacion(self):
         if self.date_end:
-            diff_date = (self.date_end - self.date_start + timedelta(days=1)).days
-            years = diff_date /365.0
+            date_start = datetime.strptime(self.date_start, "%Y-%m-%d")
+            date_end = datetime.strptime(self.date_end, "%Y-%m-%d")
+            diff_date = date_end - date_start
+            years = diff_date.days /365.0
             self.antiguedad_anos = int(years)
             self.dias_totales = self.antiguedad_anos * self.dias_x_ano + self.dias_base
 
@@ -101,9 +103,10 @@ class Contract(models.Model):
     @api.model 
     def calculate_sueldo_diario_integrado(self): 
         if self.date_start: 
-            today = datetime.today().date()
-            diff_date = (today - self.date_start + timedelta(days=1)).days
-            years = diff_date /365.0
+            date_start = datetime.strptime(self.date_start, "%Y-%m-%d") 
+            today = datetime.today() 
+            diff_date = today - date_start 
+            years = diff_date.days /365.0
             #_logger.info('years ... %s', years)
             tablas_cfdi = self.tablas_cfdi_id 
             if not tablas_cfdi: 

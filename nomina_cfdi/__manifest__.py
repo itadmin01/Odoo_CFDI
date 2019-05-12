@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Nomina Electrónica para México CFDI v1.2',
-    'summary': 'Agrega funcionalidades para timbrar la nómina electrónica en México.',
+    'name': 'Nomina Electrónica para México CFDI v1.2 EE',
+    'summary': 'Agrega funcionalidades para timbrar la nómina electrónica en México para la versión EE.',
     'description': '''
     Nomina CFDI Module
     ''',
     'author': 'IT Admin',
-    'version': '12.6',
+    'version': '11.6',
     'category': 'Employees',
     'depends': [
-        'hr_payroll', 'cdfi_invoice'
+        'hr_payroll','hr_payroll_account'
     ],
     'data': [
         'data/sequence_data.xml',
