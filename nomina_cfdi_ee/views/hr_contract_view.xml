@@ -5,6 +5,9 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
+        	<field name="wage" position="attributes">
+          	<attribute name="attrs">{'readonly': [('state','!=','draft')]}</attribute>
+          </field>
           <xpath expr="//notebook" position="inside">
             <page name="info_cdfi" string="CFDI 3.3">
               <group cols="4"  string="Configuración">
@@ -12,10 +15,10 @@
                     <field name="periodicidad_pago" />
                     <field name="riesgo_puesto" />
                     <field name="tablas_cfdi_id" />
-                    <field name="sueldo_diario" />
-                    <field name="sueldo_hora" />
-                    <field name="sueldo_diario_integrado" />
-                    <field name="sueldo_base_cotizacion" />
+                    <field name="sueldo_diario" attrs="{'readonly': [('state','!=','draft')]}" />
+                    <field name="sueldo_hora" attrs="{'readonly': [('state','!=','draft')]}" />
+                    <field name="sueldo_diario_integrado" attrs="{'readonly': [('state','!=','draft')]}" />
+                    <field name="sueldo_base_cotizacion" attrs="{'readonly': [('state','!=','draft')]}" />
                  </group>
                  <group>
                    <!-- <field name="dias_aguinaldo" />-->

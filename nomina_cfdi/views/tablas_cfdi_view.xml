@@ -75,7 +75,7 @@
                         </group>
              </page>
              <page name="imss_infonavit" string="Seguro social e Infonavit">
-                        <group cols="4" string="General">
+                        <group cols="4" string="INFONAVIT">
                             <group >
                                 <field name="apotacion_infonavit"/>
                                 <field name="umi"/>
@@ -135,6 +135,22 @@
                          <button name="button_dummy"
                             string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
                     </group>
+             </page>
+             <page name="periodos" string="Periodos">
+                        <field name="tabla_bimestral" string="Periodo bimestral">
+                            <tree editable="bottom">
+                                <field name="dia_inicio"/>
+                                <field name="dia_fin"/>
+                                <field name="no_dias"/>
+                            </tree>
+                        </field>
+                        <field name="tabla_mensual" string="Periodo mensual">
+                            <tree editable="bottom">
+                                <field name="mes"/>
+                                <field name="dia_inicio"/>
+                                <field name="dia_fin"/>
+                            </tree>
+                        </field>
              </page>
             </notebook>
          </form> 

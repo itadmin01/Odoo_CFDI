@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError        
+from odoo.exceptions import ValidationError
     
 class TablasAntiguedadesLine(models.Model):
     _name = 'tablas.antiguedades.line'
 
-    form_id = fields.Many2one('tablas.cfdi', string='Vacaciones y aguinaldos', required=True) 
+    form_id = fields.Many2one('tablas.cfdi', string='Vacaciones y aguinaldos', required=True)
     antiguedad = fields.Float('Antigüedad/Años') 
     vacaciones = fields.Float('Vacaciones/Días') 
     prima_vac = fields.Float('Prima vacacional (%)')
@@ -15,7 +15,7 @@ class TablasAntiguedadesLine(models.Model):
 class TablasGeneralLine(models.Model):
     _name = 'tablas.general.line'
 
-    form_id = fields.Many2one('tablas.cfdi', string='ISR Mensual Art. 113 LISR', required=True) 
+    form_id = fields.Many2one('tablas.cfdi', string='ISR Mensual Art. 113 LISR', required=True)
     lim_inf = fields.Float('Límite inferior') 
     c_fija = fields.Float('Cuota fija') 
     s_excedente = fields.Float('Sobre excedente (%)')
@@ -23,14 +23,14 @@ class TablasGeneralLine(models.Model):
 class TablasSubsidiolLine(models.Model):
     _name = 'tablas.subsidio.line'
 
-    form_id = fields.Many2one('tablas.cfdi', string='Subem mensual/CAS Mensual', required=True) 
+    form_id = fields.Many2one('tablas.cfdi', string='Subem mensual/CAS Mensual', required=True)
     lim_inf = fields.Float('Límite inferior') 
     s_mensual = fields.Float('Subsidio mensual')
 
 class TablasSubsidio2lLine(models.Model):
     _name = 'tablas.subsidio2.line'
 
-    form_id = fields.Many2one('tablas.cfdi', string='Subsidio Mensual Art. 114 LISR', required=True) 
+    form_id = fields.Many2one('tablas.cfdi', string='Subsidio Mensual Art. 114 LISR', required=True)
     lim_inf = fields.Float('Límite inferior') 
     c_fija = fields.Float('Cuota fija') 
     s_imp_marginal = fields.Float('Sobre imp. marginal (%)')
@@ -38,10 +38,39 @@ class TablasSubsidio2lLine(models.Model):
 class TablasSubsidioAcreditablelLine(models.Model):
     _name = 'tablas.subsidioacreditable.line'
 
-    form_id = fields.Many2one('tablas.cfdi', string='Subsidio acreditable', required=True) 
+    form_id = fields.Many2one('tablas.cfdi', string='Subsidio acreditable', required=True)
     ano = fields.Float('Año') 
     s_mensual = fields.Float('Subsidio (%)')
 
+class TablasPeriodoBimestrallLine(models.Model):
+    _name = 'tablas.periodo.bimestral'
+
+    form_id = fields.Many2one('tablas.cfdi', string='Periodo bimestral', required=True)
+    dia_inicio = fields.Date('Primer día del peridoo') 
+    dia_fin = fields.Date('Ultímo día del peridoo') 
+    no_dias = fields.Float('Dias en el periodo')
+
+class TablasPeriodoMensuallLine(models.Model):
+    _name = 'tablas.periodo.mensual'
+
+    form_id = fields.Many2one('tablas.cfdi', string='Periodo mensual', required=True)
+    dia_inicio = fields.Date('Primer día del peridoo') 
+    dia_fin = fields.Date('Ultímo día del peridoo') 
+    mes = fields.Selection(
+        selection=[('01', 'Enero'), 
+                   ('02', 'Febrero'), 
+                   ('03', 'Marzo'),
+                   ('04', 'Abril'), 
+                   ('05', 'Mayo'),
+                   ('06', 'Junio'),
+                   ('07', 'Julio'),
+                   ('08', 'Agosto'),
+                   ('09', 'Septiembre'),
+                   ('10', 'Octubre'),
+                   ('11', 'Noviembre'),
+                   ('12', 'Diciembre'),
+                   ],
+        string=_('Mes'),)
 class TablasCFDI(models.Model):
     _name = 'tablas.cfdi'
     
@@ -51,7 +80,9 @@ class TablasCFDI(models.Model):
     tabla_subem = fields.One2many('tablas.subsidio.line', 'form_id')
     tabla_subsidio = fields.One2many('tablas.subsidio2.line', 'form_id')
     tabla_subsidio_acreditable = fields.One2many('tablas.subsidioacreditable.line', 'form_id')
-	
+    tabla_bimestral = fields.One2many('tablas.periodo.bimestral', 'form_id')
+    tabla_mensual = fields.One2many('tablas.periodo.mensual', 'form_id')
+
     uma = fields.Float(string=_('UMA'), default='84.49')
     salario_minimo = fields.Float(string=_('Salario mínimo'))
     imss_mes = fields.Float('Periodo Mensual para IMSS (dias)',default='30.4')

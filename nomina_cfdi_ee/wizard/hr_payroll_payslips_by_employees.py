@@ -49,8 +49,14 @@ class HrPayslipEmployeesExt(models.TransientModel):
                 for line in input_lines:
                     line[2].update({'contract_id':contract_id})
                 #input_lines = map(lambda x: x[2].update({'contract_id':contract_id}),input_lines)
-                res.update({'input_line_ids': input_lines})
-                
+                res.update({'input_line_ids': input_lines,})
+            res.update({'dias_pagar': payslip_batch.dias_pagar,
+                            'imss_dias': payslip_batch.imss_dias,
+                            'imss_mes': payslip_batch.imss_mes,
+                            'no_nomina': payslip_batch.no_nomina,
+                            'mes': '{:02d}'.format(datetime.strptime(to_date,"%Y-%m-%d").month),
+                            'isr_ajustar': payslip_batch.freq_pago.isr_ajustar})
+
             payslips += self.env['hr.payslip'].create(res)
             
         payslips.compute_sheet()

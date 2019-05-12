@@ -103,11 +103,11 @@
             <t t-if="len(worked_days)>0">
                  <t t-set="dias_trabajados" t-value="dias_trabajados + worked_days[0].number_of_days"/>
             </t>
-            <t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C103')" />
+            <t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='VAC')" />
             <t t-if="len(worked_days)>0">
                  <t t-set="dias_vacaiones" t-value="worked_days[0].number_of_days"/>
             </t>
-            <t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='C150')" />
+            <t t-set="worked_days" t-value="o.worked_days_line_ids.filtered(lambda x:x.code=='PDM')" />
             <t t-if="len(worked_days)>0">
                  <t t-set="prima_dominical" t-value="worked_days[0].number_of_days"/>
             </t>
@@ -178,16 +178,16 @@
                                 <td class="text-right"> <span t-esc="line.total"
                                           t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
                                 <td>
-                                    <t t-if= "line.code == '101'"><!-- días trabajados -->
+                                    <t t-if= "line.code == 'P001'"><!-- días trabajados -->
                                        <span t-esc="dias_trabajados"/>
                                     </t>
-                                    <t t-if= "line.code == '103'"> <!-- vacaciones -->
+                                    <t t-if= "line.code == 'P019'"> <!-- vacaciones -->
                                        <span t-esc="dias_vacaiones"/>
                                     </t>
-                                    <t t-if= "line.code == '150'"> <!-- prima dominical -->
+                                    <t t-if= "line.code == 'P010'"> <!-- prima dominical -->
                                        <span t-esc="prima_dominical"/>
                                     </t>
-                                    <t t-if= "line.code == '102'"><!-- septimo día-->
+                                    <t t-if= "line.code == 'P003'"><!-- septimo día-->
                                        <span t-esc="septimo_dia"/>	
                                     </t>
                                 </td>

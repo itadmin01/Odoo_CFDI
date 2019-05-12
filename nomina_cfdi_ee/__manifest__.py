@@ -10,7 +10,7 @@
     'version': '11.6',
     'category': 'Employees',
     'depends': [
-        'hr_payroll'
+        'hr_payroll','hr_payroll_account'
     ],
     'data': [
         'data/sequence_data.xml',
