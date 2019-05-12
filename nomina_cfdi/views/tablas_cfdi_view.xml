@@ -51,11 +51,70 @@
                                 <field name="uma"/>
                                 <field name="salario_minimo"/>
                             </group>
+                            <group string="Periodo IMSS">
+                                <field name="imss_mes"/>
+                            </group>
+                            <group string="Factor de exenciones">
+                                <field name="factor_vale_despensa"/>
+                                <field name="factor_prima_vacacional"/>
+                                <field name="factor_aguinaldo"/>
+                                <field name="factor_fondo_ahorro"/>
+                                <field name="factor_tiempo_extra"/>
+                                <field name="factor_prima_dominical"/>
+                                <field name="factor_liquidacion"/>
+                            </group>
+                            <group string="Exenciones">
+                                <field name="ex_vale_despensa"/>
+                                <field name="ex_prima_vacacional"/>
+                                <field name="ex_aguinaldo"/>
+                                <field name="ex_fondo_ahorro"/>
+                                <field name="ex_tiempo_extra"/>
+                                <field name="ex_prima_dominical"/>
+                                <field name="ex_liquidacion"/>
+                            </group>
                         </group>
              </page>
              <page name="imss_infonavit" string="Seguro social e Infonavit">
-                        <group cols="4">
-                            <group string="Seguro">
+                        <group cols="4" string="INFONAVIT">
+                            <group >
+                                <field name="apotacion_infonavit"/>
+                                <field name="umi"/>
+                            </group>
+                            <group string="Salario base de cotización máximo">
+                                <field name="sbcm_general"/>
+                                <field name="sbcm_inv_inf"/>
+                            </group>
+                            <group string="Riesgo de trabajo">
+                                <field name="rt_prom_vida_activa"/>
+                                <field name="rt_prom_vida_fprima"/>
+                                <field name="rt_prom_vida_pmin"/>
+                                <field name="rt_prom_vida_pmax"/>
+                                <field name="rt_prom_vida_varmax"/>
+                            </group>
+                        </group>
+                        <group cols="4" string="Enfermedades y maternidad">
+                            <group string="Patrón">
+                                <field name="enf_mat_cuota_fija"/>
+                                <field name="enf_mat_excedente_p"/>
+                                <field name="enf_mat_prestaciones_p"/>
+                                <field name="enf_mat_gastos_med_p"/>
+                            </group>
+                            <group string="Asegurado">
+                                <field name="enf_mat_excedente_e"/>
+                                <field name="enf_mat_prestaciones_e"/>
+                                <field name="enf_mat_gastos_med_e"/>
+                            </group>
+                        </group>
+                        <group cols="4" string="Otras ramas">
+                            <group string="Patrón">
+                                <field name="inv_vida_p"/>
+                                <field name="cesantia_vejez_p"/>
+                                <field name="retiro_p"/>
+                                <field name="guarderia_p"/>
+                            </group>
+                            <group string="Asegurado">
+                                <field name="inv_vida_e"/>
+                                <field name="cesantia_vejez_e"/>
                             </group>
                         </group>
              </page>
@@ -76,6 +135,22 @@
                          <button name="button_dummy"
                             string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
                     </group>
+             </page>
+             <page name="periodos" string="Periodos">
+                        <field name="tabla_bimestral" string="Periodo bimestral">
+                            <tree editable="bottom">
+                                <field name="dia_inicio"/>
+                                <field name="dia_fin"/>
+                                <field name="no_dias"/>
+                            </tree>
+                        </field>
+                        <field name="tabla_mensual" string="Periodo mensual">
+                            <tree editable="bottom">
+                                <field name="mes"/>
+                                <field name="dia_inicio"/>
+                                <field name="dia_fin"/>
+                            </tree>
+                        </field>
              </page>
             </notebook>
          </form> 

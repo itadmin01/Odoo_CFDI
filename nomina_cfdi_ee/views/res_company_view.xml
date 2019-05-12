@@ -21,6 +21,7 @@
                                 <!--   <field name="http_factura"/> -->
                                 <field name="factura_dir"/>
                                 <field name="modo_prueba"/>
+                                <field name="nomina_mail" /> <!-- domain="[('model','=','hr.contract')]" context="{'default_model': 'hr.contract'}" -->
                              </group>
                            </group>
                            <group cols="4"  string="Certificado Digital">
