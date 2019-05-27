@@ -302,7 +302,14 @@
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<span t-field="o.tipocambiop" />
+									<t t-if="o.monedap!='MXN'">
+										<span t-esc="'{0:,.2f}'.format((1/float(o.currency_id.rate)))"/>
+									</t>
+									<t t-if="o.monedap=='MXN'">
+										<span t-field="o.tipocambiop"/>
+									</t>
+
+									<!--<span t-field="o.tipocambiop" /> -->
 								</td>
 							</tr>
 						</table>
