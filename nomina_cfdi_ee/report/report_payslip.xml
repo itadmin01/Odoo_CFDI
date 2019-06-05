@@ -164,7 +164,6 @@
                        <div>
                           <strong>CURP</strong>: <span t-field="o.employee_id.curp" />
                        </div>
-                    </div>
 					</div>
           <!--TERMINA PARTE DEL RECEPTOR-->
 
