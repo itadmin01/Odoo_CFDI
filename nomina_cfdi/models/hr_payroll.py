@@ -10,6 +10,7 @@ import datetime
 from datetime import timedelta
 from datetime import time as datetime_time
 from dateutil import relativedelta
+from pytz import timezone
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -17,7 +18,7 @@ from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
 from reportlab.lib.units import mm
 import logging
 _logger = logging.getLogger(__name__)
-import os
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF, DEFAULT_SERVER_DATETIME_FORMAT as DTF 
 
 class HrSalaryRule(models.Model):
     #_inherit = ['hr.salary.rule','mail.thread']
@@ -112,6 +113,11 @@ class HrSalaryRule(models.Model):
         string=_('Otros Pagos'),)
     category_code = fields.Char("Category Code",related="category_id.code",store=True)
 
+    forma_pago = fields.Selection(
+        selection=[('001', 'Efectivo'), 
+                   ('002', 'Especie'),],
+        string=_('Forma de pago'),default='001')
+
 class HrPayslip(models.Model):
     _name = "hr.payslip"
     _inherit = ['hr.payslip','mail.thread']
@@ -162,6 +168,10 @@ class HrPayslip(models.Model):
     importe_imss = fields.Float('importe_imss')
     importe_isr = fields.Float('importe_isr')
     periodicidad = fields.Float('periodicidad')
+    concepto_periodico = fields.Boolean('Conceptos periodicos', default = True)
+    septimo_dia = fields.Boolean(string='Proporcional septimo día')
+    incapa_sept_dia = fields.Boolean(string='Incluir incapacidades 7mo día')
+
     #desglose imss
     prestaciones  = fields.Float('prestaciones')
     invalli_y_vida  = fields.Float('invalli_y_vida')
@@ -199,6 +209,8 @@ class HrPayslip(models.Model):
     acum_isr_antes_subem  = fields.Float('acumulado isr_antes_subem', compute='_get_isr_antes_subem')
     acum_subsidio_aplicado  = fields.Float('acumulado subsidio aplicado', compute='_get_subsidio_aplicado')
     isr_ajustar = fields.Boolean(string='Ajustar ISR en cada nómina')
+    acum_fondo_ahorro = fields.Float('acumulado fondo ahorro', compute='_get_fondo_ahorro')
+    dias_periodo = fields.Float(string=_('Dias en el periodo'), compute='_get_dias_periodo')
 
     mes = fields.Selection(
         selection=[('01', 'Enero'), 
@@ -223,38 +235,54 @@ class HrPayslip(models.Model):
         @return: returns a list of dict containing the input that should be applied for the given contract between date_from and date_to
         """
         res = []
+        horas_obj = self.env['horas.nomina']
+        tipo_de_hora_mapping = {'1':'HEX1', '2':'HEX2', '3':'HEX3'}
+        
+        def is_number(s):
+            try:
+                return float(s)
+            except ValueError:
+                return 0
         # fill only if the contract as a working schedule linked
         for contract in contracts.filtered(lambda contract: contract.resource_calendar_id):
-            day_from = datetime.datetime.combine(fields.Date.from_string(date_from), datetime_time.min)
-            day_to = datetime.datetime.combine(fields.Date.from_string(date_to), datetime_time.max)
+            day_from = datetime.datetime.combine(fields.Date.from_string(date_from), datetime.time.min)
+            day_to = datetime.datetime.combine(fields.Date.from_string(date_to), datetime.time.max)
 
             # compute leave days
             leaves = {}
-            day_leave_intervals = contract.employee_id.iter_leaves(day_from, day_to, calendar=contract.resource_calendar_id)
-            for day_intervals in day_leave_intervals:
-                for interval in day_intervals:
-                    holiday = interval[2]['leaves'].holiday_id
-                    current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
-                        'name': holiday.holiday_status_id.name or _('Global Leaves'),
-                        'sequence': 5,
-                        'code': holiday.holiday_status_id.name or 'GLOBAL',
-                        'number_of_days': 0.0,
-                        'number_of_hours': 0.0,
-                        'contract_id': contract.id,
-                    })
-                    leave_time = (interval[1] - interval[0]).seconds / 3600
-                    current_leave_struct['number_of_hours'] += leave_time
-                    work_hours = contract.employee_id.get_day_work_hours_count(interval[0].date(), calendar=contract.resource_calendar_id)
-                    if work_hours:
-                        current_leave_struct['number_of_days'] += leave_time / work_hours
+            calendar = contract.resource_calendar_id
+            tz = timezone(calendar.tz)
+            day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to, calendar=contract.resource_calendar_id)
+            for day, hours, leave in day_leave_intervals:
+                holiday = leave.holiday_id
+                current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
+                    'name': holiday.holiday_status_id.name or _('Global Leaves'),
+                    'sequence': 5,
+                    'code': holiday.holiday_status_id.name or 'GLOBAL',
+                    'number_of_days': 0.0,
+                    'number_of_hours': 0.0,
+                    'contract_id': contract.id,
+                })
+                current_leave_struct['number_of_hours'] += hours
+                work_hours = calendar.get_work_hours_count(
+                    tz.localize(datetime.datetime.combine(day, datetime.time.min)),
+                    tz.localize(datetime.datetime.combine(day, datetime.time.max)),
+                    compute_leaves=False,
+                )
+                if work_hours:
+                    current_leave_struct['number_of_days'] += hours / work_hours
 
             # compute worked days
-            work_data = contract.employee_id.with_context(no_tz_convert=True).get_work_days_data(day_from, day_to, calendar=contract.resource_calendar_id)
+            work_data = contract.employee_id.get_work_days_data(day_from, day_to, calendar=contract.resource_calendar_id)
             max_days = 0
-            if work_data['days'] > 15 and contract.periodicidad_pago == '04':
-                  max_days = 15
+
+            dias_a_pagar = contract.dias_pagar
+            _logger.info('dias a pagar %s', dias_a_pagar)
+
+            if work_data['days'] > 15 and contract.periodicidad_pago == '04' and contract.tipo_pago == '01':
+                max_days = 15
             else:
-               max_days = work_data['days']
+                max_days = work_data['days']
             attendances = {
                 'name': _("Días de trabajo"),
                 'sequence': 1,
@@ -265,9 +293,38 @@ class HrPayslip(models.Model):
             }
 
             res.append(attendances)
+            
+            horas = horas_obj.search([('employee_id','=',contract.employee_id.id),('fecha','>=',date_from), ('fecha', '<=', date_to)])
+            horas_by_tipo_de_horaextra = defaultdict(list)
+            for h in horas:
+                horas_by_tipo_de_horaextra[h.tipo_de_hora].append(h.horas)
+            
+            for tipo_de_hora, horas_set in horas_by_tipo_de_horaextra.items():
+                work_code = tipo_de_hora_mapping.get(tipo_de_hora,'')
+                number_of_days = len(horas_set)
+                number_of_hours = sum(is_number(hs) for hs in horas_set)
+                     
+                attendances = {
+                    'name': _("Horas extras"),
+                    'sequence': 2,
+                    'code': work_code,
+                    'number_of_days': number_of_days, 
+                    'number_of_hours': number_of_hours,
+                    'contract_id': contract.id,
+                }
+                res.append(attendances)
+                
             res.extend(leaves.values())
+        
         return res
 
+    @api.multi
+    def set_fecha_pago(self, payroll_name):
+            values = {
+                'payslip_run_id': payroll_name
+                }
+            self.update(values)
+	
     @api.multi
     @api.onchange('date_to')
     def _get_fecha_pago(self):
@@ -276,7 +333,20 @@ class HrPayslip(models.Model):
                 'fecha_pago': self.date_to
                 }
             self.update(values)
-    
+
+    @api.multi
+    @api.onchange('date_to')
+    def _get_dias_periodo(self):
+        self.dias_periodo = 0
+        if self.date_to and self.date_from and self.contract_id.periodicidad_pago == '02':
+           line = self.contract_id.env['tablas.periodo.semanal'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('dia_fin','>=',self.date_to),
+                                                                    ('dia_inicio','<=',self.date_to)],limit=1)
+           if line:
+               _logger.info('encontró periodo..%s', line.no_periodo)
+               self.dias_periodo = line.no_dias
+           else:
+               raise UserError(_('No están configurados correctamente los periodos semanales en las tablas CFDI'))
+
     @api.model
     def create(self, vals):
         if not vals.get('fecha_pago') and vals.get('date_to'):
@@ -347,7 +417,7 @@ class HrPayslip(models.Model):
             if date_end:
                 domain.append(('date_to','<=',date_end))
             domain.append(('employee_id','=',self.employee_id.id))
-            rules = self.env['hr.salary.rule'].search([('code', '=', 'ISR2'),('category_id.name','=','Deducciones')])
+            rules = self.env['hr.salary.rule'].search([('code', '=', 'ISR2'),('category_id.code','=','DED')])
             payslips = self.env['hr.payslip'].search(domain)
             payslip_lines = payslips.mapped('line_ids').filtered(lambda x: x.salary_rule_id.id in rules.ids)
             employees = {}
@@ -426,6 +496,37 @@ class HrPayslip(models.Model):
                         total += line.total
         self.acum_subsidio_aplicado = total
 
+    @api.multi
+    @api.onchange('mes')
+    def _get_fondo_ahorro(self):
+        total = 0
+        if self.employee_id and self.mes and self.contract_id.tablas_cfdi_id:
+            mes_actual = self.env['tablas.periodo.mensual'].search([('mes', '=', self.mes)])[0]
+            date_start = mes_actual.dia_inicio # self.date_from
+            date_end = mes_actual.dia_fin #self.date_to
+            domain=[('state','=', 'done')]
+            if date_start:
+                domain.append(('date_from','>=',date_start))
+            if date_end:
+                domain.append(('date_to','<=',date_end))
+            domain.append(('employee_id','=',self.employee_id.id))
+            rules = self.env['hr.salary.rule'].search([('code', '=', 'D081'),('category_id.code','=','DED')])
+            payslips = self.env['hr.payslip'].search(domain)
+            payslip_lines = payslips.mapped('line_ids').filtered(lambda x: x.salary_rule_id.id in rules.ids)
+            employees = {}
+            for line in payslip_lines:
+                 if line.slip_id.employee_id not in employees:
+                     employees[line.slip_id.employee_id] = {line.slip_id: []}
+                 if line.slip_id not in employees[line.slip_id.employee_id]:
+                     employees[line.slip_id.employee_id].update({line.slip_id: []})
+                 employees[line.slip_id.employee_id][line.slip_id].append(line)
+
+            for employee, payslips in employees.items():
+                for payslip,lines in payslips.items():
+                    for line in lines:
+                        total += line.total
+        self.acum_fondo_ahorro = total
+
     @api.model
     def to_json(self):
         payslip_total_TOP = 0
@@ -434,15 +535,15 @@ class HrPayslip(models.Model):
         payslip_total_PERE = 0
         payslip_total_SEIN = 0
         payslip_total_JPRE = 0
-
-        if self.contract_id.date_end:
-            antiguedad = int((datetime.datetime.strptime(self.contract_id.date_end, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
-        else:
-            antiguedad = int((datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.contract_id.date_start, "%Y-%m-%d") + timedelta(days=1)).days/7)
+        antiguedad = 1
+        if self.contract_id.date_end and self.contract_id.date_start:
+            antiguedad = int((self.contract_id.date_end - self.contract_id.date_start + timedelta(days=1)).days/7)
+        elif self.date_to and self.contract_id.date_start:
+            antiguedad = int((self.date_to - self.contract_id.date_start + timedelta(days=1)).days/7)
 
 #**********  Percepciones ************
-        total_percepciones_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','P001'),('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
-        percepciones_grabadas_lines = self.env['hr.payslip.line'].search(['|',('category_id.name','=','Percepciones gravadas'),('code','=','P001'),('slip_id','=',self.id)])
+        total_percepciones_lines = self.env['hr.payslip.line'].search(['|',('category_id.code','=','ALW'),('code','=','P001'),('category_id.code','=','ALW3'),('slip_id','=',self.id)])
+        percepciones_grabadas_lines = self.env['hr.payslip.line'].search(['|',('category_id.code','=','ALW'),('code','=','P001'),('slip_id','=',self.id)])
         lineas_de_percepcion = []
         tipo_percepcion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_percepcion').selection)
         if percepciones_grabadas_lines:
@@ -459,7 +560,7 @@ class HrPayslip(models.Model):
                 if line.salary_rule_id.tipo_percepcion =='039' or line.salary_rule_id.tipo_percepcion =='044':
                     payslip_total_JPRE += round(line.total,2)
 
-        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Percepcion c/exencion'),('slip_id','=',self.id)])
+        percepciones_excentas_lines = self.env['hr.payslip.line'].search([('category_id.code','=','ALW2'),('slip_id','=',self.id)])
         lineas_de_percepcion_exentas = []
         if percepciones_excentas_lines:
             for line in percepciones_excentas_lines:
@@ -502,6 +603,15 @@ class HrPayslip(models.Model):
                       parte_exenta = line.total
                       parte_gravada = 0
 
+                #reparto de utlidades
+                if line.salary_rule_id.tipo_percepcion == '003':
+                   if line.total > self.contract_id.tablas_cfdi_id.ex_ptu:
+                      parte_gravada = line.total - self.contract_id.tablas_cfdi_id.ex_ptu
+                      parte_exenta = self.contract_id.tablas_cfdi_id.ex_ptu
+                   else:
+                      parte_exenta = line.total
+                      parte_gravada = 0
+
                 #prima vacacional diario
                 if line.salary_rule_id.tipo_percepcion == '021' and line.salary_rule_id.sequence == '120':
                    antiguedad_anos = self.contract_id.antiguedad_anos
@@ -539,7 +649,7 @@ class HrPayslip(models.Model):
                 if line.salary_rule_id.tipo_percepcion == '022' or line.salary_rule_id.tipo_percepcion == '023' or line.salary_rule_id.tipo_percepcion == '025':
                 #calculo total indemnizacion
                    total_indemnizacion = 0
-                   percepciones_liquidacion = self.env['hr.payslip.line'].search([('category_id.name','=','Percepcion c/exencion'),('slip_id','=',self.id)])
+                   percepciones_liquidacion = self.env['hr.payslip.line'].search([('category_id.code','=','ALW2'),('slip_id','=',self.id)])
                    if percepciones_liquidacion:
                        for line3 in percepciones_liquidacion:
                            if line3.salary_rule_id.tipo_percepcion == '022' or line3.salary_rule_id.tipo_percepcion == '023' or line3.salary_rule_id.tipo_percepcion == '025':
@@ -664,15 +774,15 @@ class HrPayslip(models.Model):
         request_params = {'percepciones': percepcion}
 
 #****** OTROS PAGOS ******
-        otrospagos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Otros Pagos'),('slip_id','=',self.id)])
+        otrospagos_lines = self.env['hr.payslip.line'].search([('category_id.code','=','ALW3'),('slip_id','=',self.id)])
         tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
-        auxiliar_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Auxiliar'),('slip_id','=',self.id)])
+        auxiliar_lines = self.env['hr.payslip.line'].search([('category_id.code','=','AUX'),('slip_id','=',self.id)])
         #tipo_otro_pago_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_otro_pago').selection)
         lineas_de_otros = []
         if otrospagos_lines:
             for line in otrospagos_lines:
                 #_#logger.info('line total ...%s', line.total)
-                if line.salary_rule_id.tipo_otros_pago == '002' and line.total > 0:
+                if line.salary_rule_id.tipo_otro_pago == '002' and line.total > 0:
                     line2 = self.contract_id.env['tablas.subsidio.line'].search([('form_id','=',self.contract_id.tablas_cfdi_id.id),('lim_inf','<=',self.contract_id.wage)],order='lim_inf desc',limit=1)
                     self.subsidio_periodo = 0
                     #_logger.info('entro a este ..')
@@ -711,7 +821,7 @@ class HrPayslip(models.Model):
         self.importe_isr = 0
         self.isr_periodo = 0
         no_deuducciones = 0 #len(self.deducciones_lines)
-        self.deducciones_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        self.deducciones_lines = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         #ded_impuestos_lines = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('code','=','301'),('slip_id','=',self.id)],limit=1)
         tipo_deduccion_dict = dict(self.env['hr.salary.rule']._fields.get('tipo_deduccion').selection)
         #if ded_impuestos_lines:
@@ -773,15 +883,26 @@ class HrPayslip(models.Model):
         request_params.update({'deducciones': deduccion})
 
         #************ INCAPACIDADES  ************#
-        if 0 > 1:
-            incapacidad = {
-               'Incapacidad': {
-                        'DiasIncapacidad': 4,
-                        'TipoIncapacidad': '05',
-                        'ImporteMonetario': 48,
-                },
-            }
-            request_params.update({'incapacidades': incapacidad})
+        incapacidades = self.env['hr.payslip.worked_days'].search([('payslip_id','=',self.id)])
+        if incapacidades:
+           for ext_line in incapacidades:
+               if ext_line.code == 'INC_RT' or ext_line.code == 'INC_EG' or ext_line.code == 'INC_MAT':
+                  _logger.info('codigo %s.... ', ext_line.code)
+                  tipo_inc = ''
+                  if ext_line.code == 'INC_RT':
+                     tipo_inc = '01'
+                  elif ext_line.code == 'INC_EG':
+                     tipo_inc = '02'
+                  elif ext_line.code == 'INC_MAT':
+                     tipo_inc = '03'
+                  incapacidad = {
+                  'Incapacidad': {
+                        'DiasIncapacidad': ext_line.number_of_days,
+                        'TipoIncapacidad': tipo_inc,
+                        'ImporteMonetario': 0,
+                        },
+                  }
+                  request_params.update({'incapacidades': incapacidad})
 
         self.retencion_subsidio_pagado = self.isr_periodo - self.subsidio_periodo
         self.total_nomina = payslip_total_PERG + payslip_total_PERE + payslip_total_TOP - payslip_total_TDED
@@ -792,6 +913,20 @@ class HrPayslip(models.Model):
             self.periodicdad = self.contract_id.periodicidad_pago
         else:
             self.periodicdad = '99'
+        diaspagados = 0
+        if self.struct_id.name == 'Reparto de utilidades':
+           diaspagados = 365
+        else:
+           if self.date_to and self.date_from:
+              diaspagados = (self.date_to - self.date_from + timedelta(days=1)).days
+        regimen = 0
+        contrato = 0
+        if self.struct_id.name == 'Liquidación - indemnizacion/finiquito':
+           regimen = '13'
+           contrato = '99'
+        else:
+           regimen = self.employee_id.regimen
+           contrato = self.employee_id.contrato
 
         request_params.update({
                 'factura': {
@@ -802,7 +937,7 @@ class HrPayslip(models.Model):
                       'tipocomprobante': self.tipo_comprobante,
                       'moneda': 'MXN',
                       'tipodecambio': '1.0000',
-                      'fecha_factura': self.fecha_factura,
+                      'fecha_factura': self.fecha_factura and self.fecha_factura.strftime(DTF),
                       'LugarExpedicion': self.company_id.zip,
                       'RegimenFiscal': self.company_id.regimen_fiscal,
                       'subtotal': self.subtotal,
@@ -832,16 +967,16 @@ class HrPayslip(models.Model):
                 },
                 'nomina12': {
                       'TipoNomina': self.tipo_nomina,
-                      'FechaPago': self.fecha_pago,
-                      'FechaInicialPago': self.date_from,
-                      'FechaFinalPago': self.date_to,
-                      'NumDiasPagados': (datetime.datetime.strptime(self.date_to, "%Y-%m-%d") - datetime.datetime.strptime(self.date_from, "%Y-%m-%d") + timedelta(days=1)).days,
+                      'FechaPago': self.fecha_pago and self.fecha_pago.strftime(DF),
+                      'FechaInicialPago': self.date_from and self.date_from.strftime(DF),
+                      'FechaFinalPago': self.date_to and self.date_to.strftime(DF),
+                      'NumDiasPagados': diaspagados,
                       'TotalPercepciones': payslip_total_PERG + payslip_total_PERE,
                       'TotalDeducciones': self.descuento,
                       'TotalOtrosPagos': payslip_total_TOP,
                 },
                 'nomina12Emisor': {
-                      'RegistroPatronal': self.company_id.registro_patronal,
+                      'RegistroPatronal': self.employee_id.registro_patronal,
                       'RfcPatronOrigen': self.company_id.rfc,
                 },
                 'nomina12Receptor': {
@@ -849,13 +984,13 @@ class HrPayslip(models.Model):
                       'Curp': self.employee_id.curp,
                       'NumEmpleado': self.employee_id.no_empleado,
                       'PeriodicidadPago': self.periodicdad, #self.contract_id.periodicidad_pago,
-                      'TipoContrato': self.employee_id.contrato,
-                      'TipoRegimen': self.employee_id.regimen,
+                      'TipoContrato': contrato,
+                      'TipoRegimen': regimen,
                       'TipoJornada': self.employee_id.jornada,
                       'Antiguedad': 'P' + str(antiguedad) + 'W',
                       'Banco': self.employee_id.banco.c_banco,
                       'CuentaBancaria': self.employee_id.no_cuenta,
-                      'FechaInicioRelLaboral': self.contract_id.date_start,
+                      'FechaInicioRelLaboral': self.contract_id.date_start and self.contract_id.date_start.strftime(DF),
                       'NumSeguridadSocial': self.employee_id.segurosocial,
                       'Puesto': self.employee_id.job_id.name,
                       'Departamento': self.employee_id.department_id.name,
@@ -928,7 +1063,7 @@ class HrPayslip(models.Model):
                                                 'res_id': payslip.id,
                                                 'type': 'binary'
                                             })	
-                report = self.env['ir.actions.report']._get_report_from_name('nomina_cfdi_ee.report_payslip')
+                report = self.env['ir.actions.report']._get_report_from_name('nomina_cfdi.report_payslip')
                 report_data = report.render_qweb_pdf([payslip.id])[0]
                 pdf_file_name = payslip.name.replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
@@ -1063,7 +1198,7 @@ class HrPayslip(models.Model):
     @api.multi
     def send_nomina(self):
         self.ensure_one()
-        template = self.env.ref('nomina_cfdi_ee.email_template_payroll', False)
+        template = self.env.ref('nomina_cfdi.email_template_payroll', False)
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
             
         ctx = dict()
@@ -1088,14 +1223,14 @@ class HrPayslip(models.Model):
 
     @api.model
     def fondo_ahorro(self):	
-        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         if deducciones_ahorro:
             _logger.info('fondo ahorro deudccion...')
             for line in deducciones_ahorro:
                 if line.salary_rule_id.tipo_deduccion == '017':
                     self.employee_id.fondo_ahorro += line.total
 
-        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.code','=','ALW2'),('slip_id','=',self.id)])
         if percepciones_ahorro:
             _logger.info('fondo ahorro percepcion...')
             for line in percepciones_ahorro:
@@ -1104,14 +1239,14 @@ class HrPayslip(models.Model):
 
     @api.model
     def devolucion_fondo_ahorro(self):	
-        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Deducciones'),('slip_id','=',self.id)])
+        deducciones_ahorro = self.env['hr.payslip.line'].search([('category_id.code','=','DED'),('slip_id','=',self.id)])
         if deducciones_ahorro:
             _logger.info('Devolucion fondo ahorro deduccion...')
             for line in deducciones_ahorro:
                 if line.salary_rule_id.tipo_deduccion == '017':
                     self.employee_id.fondo_ahorro -= line.total
 
-        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.name','=','Percepciones excentas'),('slip_id','=',self.id)])
+        percepciones_ahorro = self.env['hr.payslip.line'].search([('category_id.code','=','ALW2'),('slip_id','=',self.id)])
         if percepciones_ahorro:
             _logger.info('Devolucion fondo ahorro percepcion...')
             for line in percepciones_ahorro:
@@ -1189,7 +1324,7 @@ class MailTemplate(models.Model):
         for res_id, template in res_ids_to_templates.items():
             templates_to_res_ids.setdefault(template, []).append(res_id)
         
-        template_id = self.env.ref('nomina_cfdi_ee.email_template_payroll')
+        template_id = self.env.ref('nomina_cfdi.email_template_payroll')
         for template, template_res_ids in templates_to_res_ids.items():
             if template.id  == template_id.id:
                 for res_id in template_res_ids:

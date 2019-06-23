@@ -21,7 +21,7 @@
                     <field name="sueldo_base_cotizacion" attrs="{'readonly': [('state','!=','draft')]}" />
                  </group>
                  <group>
-                   <!-- <field name="dias_aguinaldo" />-->
+                    <field name="tipo_pago" />
                  </group>
               </group>
                         <group cols="4">
@@ -61,6 +61,16 @@
                     <field name="dias_vacaciones" />
                  </group>
               </group>
+            </page>
+            <page name="vacaciones" string="Días de vacaciones">
+                   <group>
+                          <field name="tabla_vacaciones" string="Días de vacaciones">
+                            <tree editable="bottom">
+                                <field name="ano"/>
+                                <field name="dias" sum="Total Dias"/>
+                            </tree>
+                        </field>
+                   </group>
             </page>
 
           </xpath>

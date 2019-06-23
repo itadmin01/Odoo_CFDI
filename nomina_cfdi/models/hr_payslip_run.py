@@ -14,25 +14,30 @@ class HrPayslipRun(models.Model):
     estructura = fields.Many2one('hr.payroll.structure', string='Estructura')
     tabla_otras_entradas = fields.One2many('otras.entradas', 'form_id')
     freq_pago = fields.Many2one('frecuencia.pago', string='Frecuencia de pago')
-    dias_pagar = fields.Float('Dias a pagar', compute="_compute_dias_pagar", store=True)
-    imss_dias = fields.Float('Dias a cotizar en la nómina', store=True) #compute="_compute_imss_dias", , store=True
-    imss_mes = fields.Float('Dias a  cotizar en el mes', compute="_compute_imss_mes", store=True)
+    dias_pagar = fields.Float(string='Dias a pagar', store=True)
+    imss_dias = fields.Float(string='Dias a cotizar en la nómina', store=True) #compute="_compute_imss_dias", , store=True
+    imss_mes = fields.Float(string='Dias a  cotizar en el mes', compute="_compute_imss_mes", store=True)
     no_nomina = fields.Selection(
         selection=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6')], string=_('Nómina del mes'))
     nominas_mes = fields.Integer('Nóminas a pagar en el mes')
+    concepto_periodico = fields.Boolean('Conceptos periodicos', default = True)
 
     @api.multi
-    @api.depends('freq_pago')
-    def _compute_dias_pagar(self):
+    @api.onchange('freq_pago', 'date_end', 'date_start')
+    def _dias_pagar(self):
         if self.freq_pago:
-            self.dias_pagar = self.freq_pago.dias_pago
+          if self.freq_pago.tipo_pago == '01':
+               self.dias_pagar = self.freq_pago.dias_pago
+          else:
+               delta = self.date_end - self.date_start
+               self.dias_pagar = delta.days + 1
 
     @api.multi
     @api.depends('date_end')
     def _compute_imss_mes(self):
         for batch in self:
             if batch.date_end:
-                date_end = datetime.strptime(batch.date_end,"%Y-%m-%d")
+                date_end = batch.date_end
                 batch.imss_mes = monthrange(date_end.year,date_end.month)[1]
 
     @api.multi
@@ -75,7 +80,7 @@ class HrPayslipRun(models.Model):
     def enviar_nomina(self):
         self.ensure_one()
         ctx = self._context.copy()
-        template = self.env.ref('nomina_cfdi_ee.email_template_payroll', False)
+        template = self.env.ref('nomina_cfdi.email_template_payroll', False)
         for payslip in self.slip_ids: 
             ctx.update({
                 'default_model': 'hr.payslip',
@@ -118,10 +123,10 @@ class HrPayslipRun(models.Model):
                 #'imss_dias': self.freq_pago.dias_cotizar,
                 })
         if self.date_start and self.freq_pago:
-            fecha_fin = datetime.strptime(self.date_start, '%Y-%m-%d') + relativedelta(days=self.freq_pago.dias_pago-1)
+            fecha_fin = self.date_start + relativedelta(days=self.freq_pago.dias_pago-1)
             if self.freq_pago.periodicidad_pago == '04':
-                if datetime.strptime(self.date_start, '%Y-%m-%d').day > 15:
-                    date = datetime.strptime(self.date_start, '%Y-%m-%d')
+                if self.date_start.day > 15:
+                    date = self.date_start
                     date = date+relativedelta(days=15)
                     month_last_day = monthrange(date.year,date.month)[1]
                     items = [date+relativedelta(day=month_last_day), date+relativedelta(day=15)]
@@ -155,8 +160,8 @@ class FrecuenciaPago(models.Model):
 
     name = fields.Char('Nombre', required=True)
     dias_pago =  fields.Float('Dias del periodo')
-    horas_pago =  fields.Float('Horas del periodo')
-    dias_cotizar = fields.Float('Dias a cotizar al IMSS')
+    #horas_pago =  fields.Float('Horas del periodo')
+    #dias_cotizar = fields.Float('Dias a cotizar al IMSS')
     periodicidad_pago = fields.Selection(
         selection=[('01', 'Diario'), 
                    ('02', 'Semanal'), 
@@ -169,17 +174,19 @@ class FrecuenciaPago(models.Model):
                    ('09', 'Precio alzado'), 
                    ('10', 'Pago por consignación'), 
                    ('99', 'Otra periodicidad'),],
-        string=_('Periodicidad de pago CFDI'),
+        string=_('Periodicidad de pago CFDI'), required=True
     )
     tipo_pago = fields.Selection(
-        selection=[('01', 'Por día'), 
-                   ('02', 'Por hora'),],
-        string=_('Tipo de pago'),
+        selection=[('01', 'Por periodo'), 
+                   ('02', 'Por día'),], #('03', 'Por hora'),
+        string=_('Tipo de pago'), required=True
     )
-    tipo_proceso = fields.Selection(
-        selection=[('01', 'Automático'), 
-                   ('02', 'Manual'),],
-        string=_('Tipo de proceso'),
-    )
-    isr_ajustar = fields.Boolean(string='Ajustar ISR en cada nómina')
+   # tipo_proceso = fields.Selection(
+   #     selection=[('01', 'Automático'), 
+   #                ('02', 'Manual'),],
+   #     string=_('Tipo de proceso'),
+   # )
+    isr_ajustar = fields.Boolean(string='Ajustar ISR en cada nómina', default= True)
     isr_devolver = fields.Boolean(string='Devolver ISR')
+    septimo_dia = fields.Boolean(string='Proporcional septimo día')
+    incapa_sept_dia = fields.Boolean(string='Incluir incapacidades 7mo día')

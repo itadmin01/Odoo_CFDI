@@ -30,7 +30,14 @@
                                 <field name="s_mensual"/>
                             </tree>
                         </field>
-                        <field name="tabla_subsidio" string="Subsidio Mensual Art. 114 LISR">
+                        <field name="tabla_ISR_anual" string="ISR Anual">
+                            <tree editable="bottom">
+                                <field name="lim_inf"/>
+                                <field name="c_fija"/>
+                                <field name="s_excedente"/>
+                            </tree>
+                        </field>
+                        <field name="tabla_subsidio" string="Subsidio Mensual Art. 114 LISR"> 
                             <tree editable="bottom">
                                 <field name="lim_inf"/>
                                 <field name="c_fija"/>
@@ -62,6 +69,7 @@
                                 <field name="factor_tiempo_extra"/>
                                 <field name="factor_prima_dominical"/>
                                 <field name="factor_liquidacion"/>
+                                <field name="factor_ptu"/>
                             </group>
                             <group string="Exenciones">
                                 <field name="ex_vale_despensa"/>
@@ -71,6 +79,7 @@
                                 <field name="ex_tiempo_extra"/>
                                 <field name="ex_prima_dominical"/>
                                 <field name="ex_liquidacion"/>
+                                <field name="ex_ptu"/>
                             </group>
                         </group>
              </page>
@@ -137,11 +146,12 @@
                     </group>
              </page>
              <page name="periodos" string="Periodos">
+                 <group>
                         <field name="tabla_bimestral" string="Periodo bimestral">
                             <tree editable="bottom">
                                 <field name="dia_inicio"/>
                                 <field name="dia_fin"/>
-                                <field name="no_dias"/>
+                                <field name="no_dias" force_save="1"/>
                             </tree>
                         </field>
                         <field name="tabla_mensual" string="Periodo mensual">
@@ -151,6 +161,15 @@
                                 <field name="dia_fin"/>
                             </tree>
                         </field>
+                        <field name="tabla_semanal" string="Periodo semanal">
+                            <tree editable="bottom">
+                                <field name="no_periodo"/>
+                                <field name="dia_inicio"/>
+                                <field name="dia_fin"/>
+                                <field name="no_dias" force_save="1"/>
+                            </tree>
+                        </field>
+                 </group>
              </page>
             </notebook>
          </form> 

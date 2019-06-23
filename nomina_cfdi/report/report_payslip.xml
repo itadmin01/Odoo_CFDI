@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
       <data>
-        <record id="paperformat_a4_landscape" model="report.paperformat">
-            <field name="name">CDFI Letter</field>
-            <field name="default" eval="True" />
-            <field name="format">Letter</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">20</field>
-            <field name="margin_bottom">20</field>
-            <field name="margin_left">7</field>
-            <field name="margin_right">7</field>
-            <field name="header_line" eval="False" />
-            <field name="header_spacing">15</field>
-            <field name="dpi">90</field>
-        </record>
-
         <template id="cfdi_payroll_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
@@ -66,7 +50,7 @@
   <!--TERMINA CFDI EXTERNAL LAYOUT-->
 
 <template id="report_payslip_document">
-    <t t-call="nomina_cfdi_ee.cfdi_payroll_layout">
+    <t t-call="nomina_cfdi.cfdi_payroll_layout">
         <t t-set="o" t-value="o.with_context({'lang':'es_MX'})" />
             <div class="page" style="padding-top: 10px;">
 		       <div class="row" font-size="18px;">
@@ -344,7 +328,7 @@
 			<template id="report_payslip">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="nomina_cfdi_ee.report_payslip_document" t-lang="es_MX" />
+					<t t-call="nomina_cfdi.report_payslip_document" t-lang="es_MX" />
 				</t>
 			</t>
 		</template>
@@ -354,9 +338,9 @@
 				model="hr.payslip"
 				string="Imprimir Nomina"
 				report_type="qweb-pdf"
-				name="nomina_cfdi_ee.report_payslip"
-				file="nomina_cfdi_ee.report_payslip"
-                paperformat="nomina_cfdi_ee.paperformat_a4_landscape"/>
+				name="nomina_cfdi.report_payslip"
+				file="nomina_cfdi.report_payslip"
+                paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
      </data>
 </odoo>

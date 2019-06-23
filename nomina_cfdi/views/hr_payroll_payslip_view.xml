@@ -82,10 +82,11 @@
 				                     <div>
 				                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"  force_save="1"/> <!--readonly="1"-->
 				                     </div>
-				                     <!--<field name="journal_id"/>-->
-				                    <field name="credit_note"/>
+				                     <!--<field name="journal_id"/>
+				                    <field name="credit_note"/>-->
 				                    <field name="tipo_nomina"/>
 				                    <field name="estructura" attrs="{'invisible' : [('tipo_nomina','!=','E')]}"/>
+				                    <field name="concepto_periodico"/>
 				                </group>
 				                <group cols="4">
 					                <group  string="Nómina">

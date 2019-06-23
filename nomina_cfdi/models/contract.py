@@ -62,6 +62,13 @@ class Contract(models.Model):
     indemnizacion = fields.Boolean("Indemnizar al empleado")
     dias_pendientes_pagar = fields.Float('Días a pagar')
     dias_vacaciones = fields.Float('Días de vacaciones')
+    tabla_vacaciones = fields.One2many('tablas.vacaciones.line', 'form_id') 
+    tipo_pago = fields.Selection(
+        selection=[('01', 'Por periodo'), 
+                   ('02', 'Por día'),],
+        string=_('Conteo de días'),
+    )
+    dias_pagar = fields.Float('Total de días')
 
     @api.multi
     @api.onchange('wage')
@@ -79,8 +86,8 @@ class Contract(models.Model):
     @api.depends('date_start')
     def _compute_antiguedad_anos(self):
         if self.date_start: 
-            date_start = datetime.strptime(self.date_start, "%Y-%m-%d") 
-            today = datetime.today() 
+            date_start = self.date_start
+            today = datetime.today().date() 
             diff_date = today - date_start 
             years = diff_date.days /365.0
             self.antiguedad_anos = int(years)
@@ -88,10 +95,8 @@ class Contract(models.Model):
     @api.model
     def calcular_liquidacion(self):
         if self.date_end:
-            date_start = datetime.strptime(self.date_start, "%Y-%m-%d")
-            date_end = datetime.strptime(self.date_end, "%Y-%m-%d")
-            diff_date = date_end - date_start
-            years = diff_date.days /365.0
+            diff_date = (self.date_end - self.date_start + timedelta(days=1)).days
+            years = diff_date /365.0
             self.antiguedad_anos = int(years)
             self.dias_totales = self.antiguedad_anos * self.dias_x_ano + self.dias_base
 
@@ -99,14 +104,13 @@ class Contract(models.Model):
     def button_dummy(self):
         self.calcular_liquidacion()
         return True
-	
+
     @api.model 
     def calculate_sueldo_diario_integrado(self): 
         if self.date_start: 
-            date_start = datetime.strptime(self.date_start, "%Y-%m-%d") 
-            today = datetime.today() 
-            diff_date = today - date_start 
-            years = diff_date.days /365.0
+            today = datetime.today().date()
+            diff_date = (today - self.date_start + timedelta(days=1)).days
+            years = diff_date /365.0
             #_logger.info('years ... %s', years)
             tablas_cfdi = self.tablas_cfdi_id 
             if not tablas_cfdi: 
@@ -130,3 +134,17 @@ class Contract(models.Model):
         else: 
             sueldo_diario_integrado = 0
         return sueldo_diario_integrado
+
+
+class TablasVacacioneslLine(models.Model):
+    _name = 'tablas.vacaciones.line'
+
+    form_id = fields.Many2one('hr.contract', string='Vacaciones', required=True)
+    dias = fields.Integer('Dias disponibles') 
+    ano = fields.Selection(
+        selection=[('2018', '2018'),
+                   ('2019', '2019'),
+                   ('2020', '2020'),
+                   ('2021', '2021'),
+                   ],
+        string=_('Año'),)
