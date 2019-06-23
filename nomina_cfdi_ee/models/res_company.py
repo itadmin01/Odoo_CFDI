@@ -95,9 +95,30 @@ class ResCompany(models.Model):
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()
+                self.calculate_contract_vacaciones(contract)
                 #self.calculate_sueldo_diario_integrado(contract)
                 #company.nomina_mail.send_mail(contract_id, force_send=True )
         return
+    
+    @api.model
+    def calculate_contract_vacaciones(self, contract):
+        tablas_cfdi = contract.tablas_cfdi_id
+        if not tablas_cfdi:
+            tablas_cfdi = self.env['tablas.cfdi'].search([],limit=1)
+        if not tablas_cfdi:
+            return
+        antiguedad_anos = contract.antiguedad_anos
+        if antiguedad_anos < 1.0:
+            tablas_cfdi_lines = tablas_cfdi.tabla_antiguedades.filtered(lambda x: x.antiguedad >= antiguedad_anos).sorted(key=lambda x:x.antiguedad)
+        else:
+            tablas_cfdi_lines = tablas_cfdi.tabla_antiguedades.filtered(lambda x: x.antiguedad <= antiguedad_anos).sorted(key=lambda x:x.antiguedad, reverse=True)
+        if not tablas_cfdi_lines:
+            return
+        tablas_cfdi_line = tablas_cfdi_lines[0]
+        today = datetime.today()
+        current_year = today.strftime('%Y')
+        contract.write({'tabla_vacaciones': [(0, 0, {'ano':current_year, 'dias': tablas_cfdi_line.vacaciones})]})
+        return True
     
     @api.model
     def calculate_sueldo_diario_integrado(self, contract):
@@ -119,7 +140,7 @@ class ResCompany(models.Model):
             tablas_cfdi_line = tablas_cfdi_lines[0]
             sueldo_diario_integrado = ((365 + tablas_cfdi_line.aguinaldo + (tablas_cfdi_line.vacaciones)* (tablas_cfdi_line.prima_vac/100) ) / 365) * contract.wage/30
             if sueldo_diario_integrado > (tablas_cfdi.uma * 25):
-               sueldo_diario_integrado = tablas_cfdi.uma * 25
+                sueldo_diario_integrado = tablas_cfdi.uma * 25
             contract.write({'sueldo_diario_integrado': sueldo_diario_integrado})
         return
     

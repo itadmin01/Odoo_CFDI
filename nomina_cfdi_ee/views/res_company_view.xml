@@ -13,7 +13,7 @@
                                 <field name="nombre_fiscal"/>
                                 <field name="rfc"/>
                                 <field name="serie_nomina"/>
-                                <field name="registro_patronal"/>
+                                <!--<field name="registro_patronal"/> -->
                                 <field name="regimen_fiscal"/>
                              </group>
                              <group>

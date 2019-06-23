@@ -3,6 +3,7 @@
 from odoo import api, models
 from odoo.exceptions import UserError
 #from odoo.addons.hr_payroll.wizard.hr_payroll_payslips_by_employees import HrPayslipEmployees
+from datetime import datetime
 
 class HrPayslipEmployeesExt(models.TransientModel):
     _inherit = 'hr.payslip.employees'
@@ -49,8 +50,17 @@ class HrPayslipEmployeesExt(models.TransientModel):
                 for line in input_lines:
                     line[2].update({'contract_id':contract_id})
                 #input_lines = map(lambda x: x[2].update({'contract_id':contract_id}),input_lines)
-                res.update({'input_line_ids': input_lines})
-                
+                res.update({'input_line_ids': input_lines,})
+            res.update({'dias_pagar': payslip_batch.dias_pagar,
+                            'imss_dias': payslip_batch.imss_dias,
+                            'imss_mes': payslip_batch.imss_mes,
+                            'no_nomina': payslip_batch.no_nomina,
+                            'mes': '{:02d}'.format(to_date.month),
+                            'septimo_dia': payslip_batch.freq_pago.septimo_dia,
+                            'incapa_sept_dia': payslip_batch.freq_pago.incapa_sept_dia,
+                            'isr_ajustar': payslip_batch.freq_pago.isr_ajustar,
+                            'concepto_periodico': payslip_batch.concepto_periodico})
+
             payslips += self.env['hr.payslip'].create(res)
             
         payslips.compute_sheet()
