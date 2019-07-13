@@ -63,7 +63,7 @@
 					
 					<div class="col-xs-2">
 						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
-							style="max-height: 130px;" />
+							style="max-height: 130px;max-width:130px;" />
 					</div>
 						<div class="col-xs-5" >
 							<div >
@@ -243,7 +243,9 @@
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
 								<td>
-		                            <span t-field="o.methodo_pago" />
+		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
+		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
+
 		                        </td>
 		                        <td>
 		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
@@ -404,6 +406,7 @@
 		<report id="report_payments" 
 				model="account.payment" 
 				string="Complemento de Pago" 
+        		        menu="True"
 				report_type="qweb-pdf" 
 				name="cdfi_invoice.report_payment" 
 				file="cdfi_invoice.report_payment"/>

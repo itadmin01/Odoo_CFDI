@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_invoice_document_cancel">
+			<t t-call="cdfi_invoice.cfdi_external_layout">
+				<t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+				<div class="page" style="padding-top: 10px;">
+					<div class="row"  >
+					
+					<div class="col-xs-2">
+						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo"
+							style="max-height: 130px; max-width: 130px;" />
+					</div>
+						<div class="col-xs-5" >
+							<div >
+								<strong>Emisor</strong>
+							</div>
+							<div>
+								<t t-if="o.factura_cfdi">
+								<span t-field="o.company_id.nombre_fiscal" />
+								</t>
+								<t t-if="not o.factura_cfdi">
+								<span t-field="o.company_id.partner_id.name" />
+								</t>
+								
+							</div>
+								<t t-if="o.factura_cfdi">
+								<div>
+									<span t-field="o.rfc_emisor" />
+								</div>
+								<div>
+									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
+								</div>
+								</t>
+						</div>
+						<div class="col-xs-4 pull-right">
+							<div>
+							<t t-if="o.factura_cfdi">
+								<strong>Folio:</strong>
+							</t>
+							<t t-if="not o.factura_cfdi">
+								<strong>Nota de venta:</strong>
+							</t>
+								<strong><span t-if="not o.serie_emisor=='false'" t-field="o.serie_emisor" /></strong>
+								<span t-field="o.number_folio" />
+							</div>
+							<div>
+							<t t-if="o.factura_cfdi">
+								<strong>Fecha: </strong>
+								<span t-esc="str(o.invoice_datetime).replace('T', ' ')"/> 
+							</t>
+							<t t-if="not o.factura_cfdi">
+								<strong>Fecha de venta: </strong>
+								<span t-field="o.date_invoice" />
+							</t>
+							</div>
+							<div>
+								<strong>Lugar de expedición: </strong>
+								<span t-field="o.company_id.partner_id.zip"/>
+							</div>
+							<!--<div>
+								<t t-if="o.factura_cfdi">
+									<strong>Tipo de comprobante: </strong>
+									<span t-field="o.tipo_comprobante" />
+								</t>
+							</div>-->
+						</div>
+					</div>
+					
+					<div class="row mt32 mb32" style="padding-top: 10px;">
+						<div class="col-xs-10" >
+							<div>
+						<h2>
+							Acuse de cancelación de recibo
+						</h2>
+					</div>
+							<strong>Receptor</strong>
+						</div>
+						<div class="col-xs-10" >
+								<span t-field="o.partner_id.name" />
+						  <t t-if="o.factura_cfdi">
+						     <div>
+						    	<span t-field="o.partner_id.rfc" />
+						     </div>
+							 <div>
+						    	Uso CFDI: <span t-field="o.uso_cfdi" />
+						     </div>
+						   </t>	
+						</div>						
+					</div>
+
+					<!-- Is there a discount on at least one line? -->
+					<t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])" />
+					<t t-set="amount_total" t-value="0.0"/>
+					<t t-set="amount_untaxed" t-value="0.0"/>
+
+						
+					<t t-if="o.tipo_relacion">
+					  <div class="row">
+					    <div>
+					        <strong>CFDI Relacionado </strong>
+					    </div>
+					    <div>
+					        Tipo de Relación: <span t-field="o.tipo_relacion" />
+					    </div>
+					    <div>
+					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
+					    </div>
+					  </div>
+					</t>
+				<t t-if="o.factura_cfdi">
+					<h3>CANCELADA
+					</h3>
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+							<tr>
+								<td>
+									<strong>Folio fiscal</strong>
+								</td>
+								<td >
+									<span t-field="o.folio_fiscal" />
+								</td>
+								<td>
+									<strong>Certificado SAT</strong>
+								</td>
+								<td >
+									<span t-field="o.cetificaso_sat" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Certificado del emisor</strong>
+								</td>
+								<td >
+									<span t-field="o.numero_cetificado" />
+								</td>
+								<td>
+									<strong>Lugar fecha y hora de emisión</strong>
+								</td>
+								<td >
+									<span t-field="o.fecha_certificacion" />
+								</td>
+							</tr>
+							<tr>
+							   <td>
+									<strong>Regimen fiscal</strong>
+								</td>
+								<td >
+									<span t-field="o.regimen_fiscal" />
+								</td>
+							</tr>
+						</table>
+					</div>
+					</t>
+				</div>
+			</t>
+		</template>
+
+		<template id="report_acuse_cfdi">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="cdfi_invoice.report_invoice_document_cancel" t-lang="o.partner_id.lang" />
+				</t>
+			</t>
+		</template>
+
+		<report id="action_report_acuse_cfdi" model="account.invoice" string="Acuse de cancelación"
+			report_type="qweb-pdf" name="cdfi_invoice.report_acuse_cfdi" file="cdfi_invoice.report_acuse_cfdi" paperformat="cdfi_invoice.paperformat_a4_landscape"/>
+		
+		<record id="action_report_acuse_cfdi" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
+        </record>
+
+	</data>
+</odoo>

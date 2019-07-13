@@ -243,7 +243,9 @@
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
 								<td>
-		                            <span t-field="o.methodo_pago" />
+		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
+		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
+
 		                        </td>
 		                        <td>
 		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>

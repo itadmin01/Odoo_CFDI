@@ -30,6 +30,7 @@
         'views/account_journal_view.xml',
         'wizard/import_account_payment_view.xml',
         'report/invoice_report.xml',
+        'report/cancel_report.xml',
         'report/payment_report.xml',
         'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
