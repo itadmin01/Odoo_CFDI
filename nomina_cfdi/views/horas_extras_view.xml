@@ -70,7 +70,7 @@
 
     <menuitem
           name="Horas extras"
-          parent="nomina_cfdi_ee.menu_main_movimivientos"
+          parent="nomina_cfdi.menu_main_movimivientos"
           id="menu_action_tree_horas_nomina"
           action="action_tree_horas_nomina"
           sequence="5"
