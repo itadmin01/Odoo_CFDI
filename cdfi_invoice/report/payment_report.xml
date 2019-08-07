@@ -61,7 +61,7 @@
 
 					<div class="col-4">
 						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-							style="max-height: 130px; max-width: 350px;" />
+							style="max-height: 130px;max-width: 130px;" />
 					</div>
 						<div class="col-4" >
 							<div >
@@ -207,8 +207,8 @@
 					    </div>
 					  </div>
 					</t>
+					<center><strong>Documentos Relacionados</strong></center>
 					<div class="row" style="border:solid 2px black;font-size:15px;">
-						<!--<center><strong>Documentos Relacionados</strong></center> -->
 					<table class=	"borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 						<thead>
 							<tr>
@@ -241,7 +241,8 @@
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
 								<td>
-		                            <span t-field="o.methodo_pago" />
+		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
+		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
 		                        </td>
 		                        <td>
 		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
@@ -260,8 +261,8 @@
 
 
 					<!--TABLA DETALLES DEL DOCUMENTO-->
+					<center><strong>Detalles del documento</strong></center>
 					<div class="row" style="border:solid 2px black;font-size:15px;">
-						<!--<center><strong>Detalles del documento</strong></center> -->
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 							<tr>
 								<td>
@@ -316,8 +317,8 @@
 					</div>
 					<div><br/></div>
 					<t t-if="o.banco_emisor and o.banco_receptor and o.forma_pago == '03'">
+					<center><strong>Detalles de la transferencia bancaria</strong></center>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
-						<center><strong>Detalles de la transferencia bancaria</strong></center>
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 							<tr>
 								<td>

@@ -189,6 +189,7 @@ class AccountPayment(models.Model):
                     docto_relacionados.append({
                           'moneda': invoice.moneda,
                           'tipodecambio': tipocambiop,
+                          'methodo_pago': invoice.methodo_pago,
                           'iddocumento': invoice.folio_fiscal,
                           'folio_facura': invoice.number_folio,
                           'no_de_pago': len(invoice.payment_ids.filtered(lambda x: x.state!='cancelled')), 
@@ -246,7 +247,6 @@ class AccountPayment(models.Model):
             self.tipocambiop = '1'
         else:
             self.tipocambiop = self.currency_id.rate
-        self.methodo_pago  = 'PPD'
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
         #correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 

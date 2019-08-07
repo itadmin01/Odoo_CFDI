@@ -90,7 +90,7 @@
 					<!--INICIA LOGO DE LA EMPRESA-->
 						<div class="col-4">
 							<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-							style="max-height: 130px; max-width: 350px;" />
+							style="max-height: 130px;max-width: 130px;" />
 						</div>
 					<!--TERMINA LOGO DE LA EMPRESA-->
 
