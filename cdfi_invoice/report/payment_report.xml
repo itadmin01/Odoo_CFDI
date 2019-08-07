@@ -60,7 +60,7 @@
 					
 					<div class="col-xs-2">
 						<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-							style="max-height: 130px;" />
+							style="max-height: 130px;max-width:130px;" />
 					</div>
 						<div class="col-xs-5" >
 							<div >
@@ -239,9 +239,11 @@
 								<td>
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
-								<td>
-		                            <span t-field="o.methodo_pago" />
+		                        <td>
+		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
+		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
 		                        </td>
+								
 		                        <td>
 		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
 		                        </td>
@@ -298,7 +300,14 @@
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<span t-field="o.tipocambiop" />
+									<t t-if="o.monedap!='MXN'">
+										<span t-esc="'{0:,.2f}'.format((1/float(o.currency_id.rate)))"/>
+									</t>
+									<t t-if="o.monedap=='MXN'">
+										<span t-field="o.tipocambiop"/>
+									</t>
+
+									<!--<span t-field="o.tipocambiop" /> -->
 								</td>
 							</tr>
 						</table>

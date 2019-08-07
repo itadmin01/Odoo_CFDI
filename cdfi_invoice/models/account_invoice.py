@@ -149,8 +149,11 @@ class AccountInvoice(models.Model):
     monto = fields.Float(string='Amount', digits=dp.get_precision('Product Price'))
     precio_unitario = fields.Float(string='Precio unitario', digits=dp.get_precision('Product Price'))
     monto_impuesto = fields.Float(string='Monto impuesto', digits=dp.get_precision('Product Price'))
+    total_impuesto = fields.Float(string='Monto impuesto', digits=dp.get_precision('Product Price'))
     decimales = fields.Float(string='decimales')
     desc = fields.Float(string='descuento', digits=dp.get_precision('Product Price'))
+    subtotal = fields.Float(string='subtotal', digits=dp.get_precision('Product Price'))
+    total = fields.Float(string='total', digits=dp.get_precision('Product Price'))
 
     @api.model
     def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
@@ -269,12 +272,16 @@ class AccountInvoice(models.Model):
         }
         amount_total = 0.0
         amount_untaxed = 0.0
+        self.subtotal = 0
+        self.total = 0
+        self.discount = 0
         tax_grouped = {}
         items = {'numerodepartidas': len(self.invoice_line_ids)}
         invoice_lines = []
         for line in self.invoice_line_ids:
             if line.quantity < 0:
                 continue
+            self.total_impuesto = 0
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             amounts = line.invoice_line_tax_ids.compute_all(price, line.currency_id, line.quantity, product=line.product_id, partner=line.invoice_id.partner_id)
             price_exclude_tax = amounts['total_excluded']
@@ -292,6 +299,7 @@ class AccountInvoice(models.Model):
                 if tax_id.price_include or tax_id.amount_type == 'division':
                     amount_wo_tax -= tax['amount']
                 self.monto_impuesto = tax['amount']
+                self.total_impuesto += self.monto_impuesto
                 tax_items.append({'name': tax_id.tax_group_id.name,
                  'percentage': tax_id.amount,
                  'amount': self.monto_impuesto, #tax['amount'],
@@ -312,7 +320,10 @@ class AccountInvoice(models.Model):
             self.precio_unitario = float(amount_wo_tax) / float(line.quantity)
             self.monto = self.precio_unitario * line.quantity
             amount_untaxed += self.monto
-            #_logger.info('revisar montos ... precio unitatio %s monto %s  subtotal', self.precio_unitario, self.monto, line.price_subtotal)
+            self.subtotal += self.monto
+            self.total += self.monto + self.total_impuesto
+
+#            _logger.info('revisar montos ... precio unitatio %s monto %s  subtotal produto %s  subtotal acum %s', self.precio_unitario, self.monto, line.price_subtotal, self.subtotal)
 
             self.desc = self.monto - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
             if self.desc < 0.01:
@@ -328,7 +339,7 @@ class AccountInvoice(models.Model):
             if self.tipo_comprobante == 'E':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': product_string, # line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string,
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -339,7 +350,7 @@ class AccountInvoice(models.Model):
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': product_string, #line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string,
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -348,7 +359,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
-                                      'product': product_string, #line.product_id.code and line.product_id.code[:100] or '',
+                                      'product': product_string,
                                       'price_unit': self.precio_unitario,
                                       'amount': self.monto,
                                       'description': line.name[:1000],
@@ -361,7 +372,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': self.amount_untaxed+self.discount,'total': self.amount_total})
+            request_params['invoice'].update({'subtotal': self.subtotal,'total': self.total-self.discount})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []

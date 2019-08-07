@@ -74,7 +74,7 @@
             <div class="row">
 				<div class="col-xs-2">
 					<img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"
-						style="max-height: 130px;" />
+						style="max-height: 130px;max-width:130px;" />
 				</div>
                 <div class="col-xs-5">
 					<div>

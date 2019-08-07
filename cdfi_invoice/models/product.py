@@ -83,6 +83,7 @@ class ProductTemplate(models.Model):
                    ('Tableros de pie', 'Tableros de pie'),
                    ('Trabajo', 'Trabajo'),
                    ('No disponible', 'No disponible'),
+                   ('Kilowatt hora', 'Kilowatt hora'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
