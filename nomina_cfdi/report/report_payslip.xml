@@ -90,6 +90,10 @@
 								<strong>Tipo de comprobante: </strong>
 								<span t-field="o.tipo_comprobante" />
 							</div>
+							<div>
+								<strong>Periodo: </strong>
+								<span t-field="o.date_from" /> - <span t-field="o.date_to" />
+							</div>
                        </div>
 					</div>
             <t t-set="dias_trabajados" t-value="0.0"/>

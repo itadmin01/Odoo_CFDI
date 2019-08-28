@@ -8,8 +8,8 @@
               <field name="credit_note" position="after">
                     <field name="tipo_nomina" />
                     <field name="fecha_pago" />
-                    <field name="mes" />
-                    <field name="no_nomina"/>
+                    <field name="mes" attrs="{'required':[('tipo_nomina','=','O')], 'invisible':[('tipo_nomina','!=','O')]}"/>
+                    <field name="no_nomina" attrs="{'required':[('tipo_nomina','=','O')], 'invisible':[('tipo_nomina','!=','O')]}"/>
                     <field name="nomina_cfdi" invisible="1"/>
               </field>
               <xpath expr="//notebook" position="inside">
@@ -21,10 +21,6 @@
                    <field name="acum_isr" />
                    <field name="isr_ajustar" />-->
 
-                            </group>
-                            <group string="Cotización al IMSS">
-                                <field name="imss_dias"/>
-                                <field name="imss_mes"/>
                             </group>
                             <group string="Datos CFDI">
                                 <field name="forma_pago"/>
@@ -39,6 +35,27 @@
                             <group string="CFDI Relacionados">
                                 <field name="tipo_relacion"/>
                                 <field name="uuid_relacionado"/>
+                            </group>
+                        </group>
+                </page>
+                <page name="info_cdfi" string="Información adicional">
+                        <group cols="4">
+                            <group string="Dias">
+                                <field name="dias_pagar"/>
+                                <field name="imss_dias"/>
+                            </group>
+                            <group string="Procesamiento">
+                                <field name="concepto_periodico"/>
+                                <field name="isr_ajustar"/>
+                                <field name="isr_devolver"/>
+                            </group>
+                            <group string="Acumulados (mensual)">
+                                <field name="acum_per_totales" />
+                                <field name="acum_per_grav" />
+                                <field name="acum_isr" />
+                                <field name="acum_isr_antes_subem" />
+                                <field name="acum_subsidio_aplicado" />
+                                <field name="acum_fondo_ahorro" />
                             </group>
                         </group>
                 </page>
@@ -69,31 +86,40 @@
 		                    <field name="name"/>
 		                </h1>
 		                <notebook>
-		                	<page string="General" name="general">
+		                	<page string="Configuración" name="general">
 		                		<group>
 		                			<group>
-		                				<field name="freq_pago" string="Frecuencia de pago"/>
+		                				<field name="periodicidad_pago" string="Frecuencia de pago"/>
 		                			</group>
 		                			<group>
+					                   <field name="dias_pagar" />
 		                			</group>
 		                		</group>
-		                		<group col="4">
-		                			<label for="date_start" string="Period"/>
+		                		<group>
+		                			<label for="date_start" string="Periodo"/>
 				                     <div>
 				                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"  force_save="1"/> <!--readonly="1"-->
 				                     </div>
-				                   <!--  <field name="journal_id"/>-->
-				                    <field name="credit_note"/>
-				                    <field name="tipo_nomina"/>
-				                    <field name="estructura" attrs="{'invisible' : [('tipo_nomina','!=','E')]}"/>
+                                    
+				                     <!--<field name="journal_id"/>
+				                    <field name="credit_note"/>-->
 				                </group>
-				                <group cols="4">
-					                <group  string="Nómina">
-					                   <field name="dias_pagar" />
+                                <group>
+		                			<label for="estructura" string="Tipo de nómina"/>
+				                     <div>
+				                       <field name="tipo_nomina" class="oe_inline"/>
+				                       <field name="estructura" attrs="{'invisible' : [('tipo_nomina','!=','E')]}" class="oe_inline"/>
+				                     </div>
+                                </group>
+                                <group cols="4">
+                                <group  string="Configuración">
 					                   <field name="no_nomina" /> 
-					                 </group>
-					                <group  string="Cotización al IMSS">
-					                   <field name="imss_dias" />
+				                       <field name="concepto_periodico"/>
+				                       <field name="isr_ajustar"/> 
+				                      <field name="isr_devolver"/> 
+				                </group>
+					                <group  string="Dias a cotizar IMSS">
+					                   <field name="imss_dias"/>
 					                   <field name="imss_mes" />
 					                   <field name="nominas_mes" />
 					                 </group>

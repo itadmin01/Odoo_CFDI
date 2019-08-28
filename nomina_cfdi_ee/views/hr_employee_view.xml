@@ -32,12 +32,12 @@
                                 <field name="registro_patronal"/>
                             </group>
                         </group>
-                </page>
+                </page><!--
                 <page name="fondo_ahorro" string="Fondo de ahorro">
                         <group cols="4">
                             <field name="fondo_ahorro"/>
                         </group>
-                </page>
+                </page>-->
                 <page name="utilidades" string="Reparto de utilidades">
                    <group cols="4">
                       <field name="fecha_utilidad_inicio"/>
