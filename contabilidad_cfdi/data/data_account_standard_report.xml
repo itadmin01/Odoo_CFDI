@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="action_standard_report_itadmin"
+        model="account.report.standard.ledger.itadmin"
+        string="Standard Report"
+        report_type="qweb-pdf"
+        name="contabilidad_cfdi.report_account_standard_report_itadmin"
+        file="contabilidad_cfdi.report_account_standard_report_itadmin"
+        attachment="(object.report_id.report_name)"
+        print_report_name="(object.report_id.report_name)"
+        paperformat="contabilidad_cfdi.paperformat_account_standard_itadmin"/>
+
+    <report
+        id="action_standard_excel_itadmin"
+        model="account.report.standard.ledger.itadmin"
+        string="Excel Report"
+        report_type="xlsx"
+        name="contabilidad_cfdi.report_account_standard_excel_itadmin"
+        file="contabilidad_cfdi.report_account_standard_excel_itadmin"
+        attachment="(object.report_id.report_name)"
+        print_report_name="(object.report_id.report_name)"/>
+        
+</odoo>

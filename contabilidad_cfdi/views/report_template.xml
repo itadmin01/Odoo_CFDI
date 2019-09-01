@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="account_financial_report_assets_backend"
+              name="account_financial_report assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link href="/contabilidad_cfdi/static/src/css/report.css" rel="stylesheet"/>
+            <script type="text/javascript"
+                    src="/contabilidad_cfdi/static/src/js/account_financial_report_backend.js"/>        
+            <script type="text/javascript"
+                    src="/contabilidad_cfdi/static/src/js/account_financial_report_widgets.js"/>
+        </xpath>
+    </template>
+    <template id="report_buttons">
+        <div class="button_row">
+            <button class="o_account_financial_reports_print btn btn-sm oe_button"><span class="fa fa-print"/> Print</button>
+            <button class="o_account_financial_reports_export btn btn-sm oe_button"><span class="fa fa-download"/> Export</button>
+            <button class="o_account_financial_reports_generar_xml btn btn-sm oe_button"><span class="fa fa-download"/> XML</button>
+        </div>
+    </template>
+	
+	<template id="report_account_hirarchy_buttons">
+        <div class="button_row">
+            <!-- <button class="o_account_financial_reports_print btn btn-sm oe_button"><span class="fa fa-print"/> Print</button>
+            <button class="o_account_financial_reports_export btn btn-sm oe_button"><span class="fa fa-download"/> Export</button> -->
+            <button class="o_account_financial_reports_generar_xml btn btn-sm oe_button"><span class="fa fa-download"/> XML</button>
+        </div>
+    </template>
+    
+     <record id="action_report_trial_balance" model="ir.actions.client">
+        <field name="name">Trial Balance</field>
+        <field name="tag">account_financial_report_backend</field>
+        <field name="context" eval="{'active_model': 'report_trial_balance'}" />
+    </record>
+	
+	<record id="action_report_account_account_hirarchy" model="ir.actions.client">
+        <field name="name">Account Hirarchy</field>
+        <field name="tag">account_financial_report_backend</field>
+        <field name="context" eval="{'active_model': 'report_trial_balance', 'is_hirarchy': True}" />
+    </record>
+</odoo>

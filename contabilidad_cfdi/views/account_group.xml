@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="account_group_form_sat_view">
+            <field name="name">account.group.sat</field>
+            <field name="model">account.group</field>
+            <field name="inherit_id" ref="account.view_account_group_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="cuenta_sat"/>
+                    <!--<field name="nivel"/>-->
+                    <field name="cuenta_tipo"/>
+                    <!--<field name="internal_level" />-->
+                </xpath>
+            </field>
+        </record>
+        <menuitem id="menu_account_group_contabilidad_cfdi" parent="account.account_account_menu" name="Groups" action="account.action_account_group_tree" sequence='0'/> 
+    </data>
+</odoo>

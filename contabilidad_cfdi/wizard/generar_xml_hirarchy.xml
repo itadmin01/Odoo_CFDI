@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="generar_xml_wizard_hirarchy_form_view_itadmin" model="ir.ui.view">
+            <field name="name">Generar XML Hirarchy Form</field>
+            <field name="model">generar.xml.hirarchy.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar XML" >
+                	<group>
+                		<field name="fecha_mes" />
+               			<field name="fecha_ano" />
+               			<field name="procesa_nivel" />
+               			<field name="tipo_de_reporte" readonly="1" force_save="1"/> <!--context.get('is_account_hirarchy_report')-->
+                	</group>
+                	<footer>
+                		<button name="action_validate_xml" string="Generar" type="object"
+							class="oe_highlight"  />
+                	</footer>
+                </form>
+            </field>
+        </record>
+    </data>
+    
+    <record id="reporte_conta_xml_zip_download_wizard_download_form_view_itadmin" model="ir.ui.view">
+        <field name="name">Reporte DIOT Download</field>
+        <field name="model">conta.xml.zip.download</field>
+        <field name="arch" type="xml">
+            <form string="Reporte DIOT Download" >
+            	<group>
+            		<field name='xml_data' invisible='1'/>
+            		<field name='zip_data' invisible='1'/>
+            	</group>
+            	<footer>
+            		<button name="download_xml_zip_file" string="XML Download" type="object" class="oe_highlight" context="{'file_type': 'xml'}" />
+            		<button name="download_xml_zip_file" string="Zip Download" type="object" class="oe_highlight" context="{'file_type': 'zip'}" />
+            	</footer>
+            </form>
+        </field>
+    </record>
+</odoo>

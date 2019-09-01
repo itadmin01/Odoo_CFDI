@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_trial_balance">
+        <div class="o_account_financial_reports_page">
+            <t t-call="contabilidad_cfdi.report_buttons"/>
+            <t t-call="contabilidad_cfdi.report_trial_balance_base"/>
+        </div>
+    </template>
+    
+    <template id="report_account_account_hirarchy">
+        <div class="o_account_financial_reports_page">
+            <t t-call="contabilidad_cfdi.report_account_hirarchy_buttons"/>
+            <t t-call="contabilidad_cfdi.report_account_hirarchy_base"/>
+        </div>
+    </template>
+
+</odoo>
