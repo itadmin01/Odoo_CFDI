@@ -253,7 +253,7 @@ class AccountPayment(models.Model):
         correccion_hora -= timedelta(hours=5)
         self.add_resitual_amounts()
 
-        if self.invoice_ids:		            
+        if self.invoice_ids:
             request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -299,8 +299,8 @@ class AccountPayment(models.Model):
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
                       'uuid_relacionado': self.uuid_relacionado,
-                      'confirmacion': self.confirmacion,					  
-                },				
+                      'confirmacion': self.confirmacion,
+                },
                 'certificados': {
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
@@ -359,13 +359,13 @@ class AccountPayment(models.Model):
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
                       'uuid_relacionado': self.uuid_relacionado,
-                      'confirmacion': self.confirmacion,					  
-                },				
+                      'confirmacion': self.confirmacion,
+                },
                 'certificados': {
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
-                }		
+                }
             }
         return request_params
     
@@ -375,6 +375,10 @@ class AccountPayment(models.Model):
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+                url = '%s' % ('http://facturacion2.itadmin.com.mx/api/payment')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+                url = '%s' % ('http://facturacion3.itadmin.com.mx/api/payment')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
@@ -491,11 +495,12 @@ class AccountPayment(models.Model):
         
         options = {'width': 275 * mm, 'height': 275 * mm}
         amount_str = str(self.amount).split('.')
-        qr_value = '?re=%s&rr=%s&tt=%s.%s&id=%s' % (self.company_id.rfc, 
+        qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (self.folio_fiscal,
+                                                 self.company_id.rfc, 
                                                  self.partner_id.rfc,
                                                  amount_str[0].zfill(10),
                                                  amount_str[1].ljust(6, '0'),
-                                                 self.folio_fiscal
+                                                 self.selo_digital_cdfi[-8:],
                                                  )
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
@@ -541,6 +546,9 @@ class AccountPayment(models.Model):
                     raise UserError(_('Falta la ruta del archivo .key'))
                 archivo_cer = p.company_id.archivo_cer.decode("utf-8")
                 archivo_key = p.company_id.archivo_key.decode("utf-8")
+                archivo_xml_link = p.company_id.factura_dir + '/' + p.folio + '.xml'
+                with open(archivo_xml_link, 'rb') as cf:
+                     archivo_xml = base64.b64encode(cf.read())
                 values = {
                           'rfc': p.company_id.rfc,
                           'api_key': p.company_id.proveedor_timbrado,
@@ -552,10 +560,15 @@ class AccountPayment(models.Model):
                                   'archivo_cer': archivo_cer,
                                   'archivo_key': archivo_key,
                                   'contrasena': p.company_id.contrasena,
-                            }
+                            },
+                          'xml': archivo_xml.decode("utf-8"),
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
+                elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+                    url = '%s' % ('http://facturacion2.itadmin.com.mx/api/refund')
+                elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+                    url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif p.company_id.proveedor_timbrado == 'gecoerp':
                     if p.company_id.modo_prueba:
                          #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
@@ -574,7 +587,7 @@ class AccountPayment(models.Model):
                     if p.name:
                         xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.name.replace('/', '_') + '.xml'
                     else:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'						
+                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
                     xml_file.write(xml_invoice.decode("utf-8"))

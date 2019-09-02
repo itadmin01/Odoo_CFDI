@@ -19,7 +19,7 @@
         'date_range',
         'report_xlsx',
         'cdfi_invoice',
-    ],	
+    ],
     'data': [
         'views/menu.xml',
         'data/res_currency_data.xml',

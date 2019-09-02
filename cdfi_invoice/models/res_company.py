@@ -10,8 +10,10 @@ class ResCompany(models.Model):
 
     rfc = fields.Char(string=_('RFC'))
     proveedor_timbrado= fields.Selection(
-        selection=[('gecoerp', _('Servidor 2')),
-                   ('multifactura', _('Servidor 1')),],
+        selection=[('multifactura', _('Servidor 1')),
+                   ('gecoerp', _('Servidor 2')),
+                   ('multifactura2', _('Servidor 3')),
+                   ('multifactura3', _('Servidor 4')),],
         string=_('Proveedor de timbrado'), 
     )
     api_key = fields.Char(string=_('API Key'))
