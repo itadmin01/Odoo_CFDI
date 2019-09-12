@@ -26,6 +26,7 @@
                     <field name="sept_dia" />
                     <field name="septimo_dia" />
                     <field name="incapa_sept_dia" />
+                    <field name="semana_inglesa" />
                  </group>
               </group>
                         <group cols="4">

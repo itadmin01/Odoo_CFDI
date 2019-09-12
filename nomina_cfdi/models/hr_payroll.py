@@ -307,6 +307,11 @@ class HrPayslip(models.Model):
             }
             leaves = {}
             leave_days = 0
+            factor = 0
+            if contract.semana_inglesa:
+                factor = 7.0/5.0
+            else:
+                factor = 7.0/6.0
 
             # Gather all intervals and holidays
             for day in range(0, nb_of_days):
@@ -335,8 +340,8 @@ class HrPayslip(models.Model):
                         }
                     if contract.septimo_dia:
                         if holiday.holiday_status_id.name == 'FJS' or holiday.holiday_status_id.name == 'FI':
-                            leave_days += (hours / 8.0)*(7.0/6.0)
-                            leaves[holiday.holiday_status_id.name]['number_of_days'] += (hours / 8.0)*(7.0/6.0)
+                            leave_days += (hours / 8.0)*factor
+                            leaves[holiday.holiday_status_id.name]['number_of_days'] += (hours / 8.0)*factor
                             _logger.info("entro1 %s", leave_days)
                         else:
                             leave_days += hours / 8.0
@@ -1201,6 +1206,10 @@ class HrPayslip(models.Model):
             #  print json.dumps(values, indent=4, sort_keys=True)
             if payslip.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/nomina')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+                url = '%s' % ('http://facturacion2.itadmin.com.mx/api/nomina')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+                url = '%s' % ('http://facturacion3.itadmin.com.mx/api/nomina')
             elif payslip.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
                     url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/nomina/?handler=OdooHandler33')
@@ -1309,8 +1318,11 @@ class HrPayslip(models.Model):
                     raise UserError(_('Falta la ruta del archivo .cer'))
                 if not payslip.company_id.archivo_key:
                     raise UserError(_('Falta la ruta del archivo .key'))
-                archivo_cer = self.company_id.archivo_cer
-                archivo_key = self.company_id.archivo_key
+                archivo_cer = payslip.company_id.archivo_cer
+                archivo_key = payslip.company_id.archivo_key
+                archivo_xml_link = payslip.company_id.factura_dir + '/' + payslip.folio_fiscal + '.xml'
+                with open(archivo_xml_link, 'rb') as cf:
+                     archivo_xml = base64.b64encode(cf.read())
                 values = {
                           'rfc': payslip.company_id.rfc,
                           'api_key': payslip.company_id.proveedor_timbrado,
@@ -1322,10 +1334,15 @@ class HrPayslip(models.Model):
                                   'archivo_cer': archivo_cer,
                                   'archivo_key': archivo_key,
                                   'contrasena': payslip.company_id.contrasena,
-                            }
+                            },
+                          'xml': archivo_xml,
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
+                elif self.company_id.proveedor_timbrado == 'multifactura2':
+                    url = '%s' % ('http://facturacion2.itadmin.com.mx/api/refund')
+                elif self.company_id.proveedor_timbrado == 'multifactura3':
+                    url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
                         url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
@@ -1346,7 +1363,7 @@ class HrPayslip(models.Model):
                     if payslip.number:
                         xml_file_link = payslip.company_id.factura_dir + '/CANCEL_' + payslip.number.replace('/', '_') + '.xml'
                     else:
-                        xml_file_link = payslip.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'						
+                        xml_file_link = payslip.company_id.factura_dir + '/CANCEL_' + self.folio_fiscal + '.xml'
                     xml_file = open(xml_file_link, 'w')
                     xml_invoice = base64.b64decode(json_response['factura_xml'])
                     xml_file.write(xml_invoice)

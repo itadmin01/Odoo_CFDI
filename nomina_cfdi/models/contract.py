@@ -80,6 +80,7 @@ class Contract(models.Model):
     septimo_dia = fields.Boolean(string='Falta proporcional septimo día')
     incapa_sept_dia = fields.Boolean(string='Incapacidad para cálculo 7mo día')
     sept_dia = fields.Boolean(string='Séptimo día separado')
+    semana_inglesa = fields.Boolean(string='Semana inglesa')
 
     @api.multi
     @api.onchange('wage')

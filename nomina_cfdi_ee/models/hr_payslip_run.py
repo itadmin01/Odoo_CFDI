@@ -104,7 +104,7 @@ class HrPayslipRun(models.Model):
     def enviar_nomina(self):
         self.ensure_one()
         ctx = self._context.copy()
-        template = self.env.ref('nomina_cfdi.email_template_payroll', False)
+        template = self.env.ref('nomina_cfdi_ee.email_template_payroll', False)
         for payslip in self.slip_ids: 
             ctx.update({
                 'default_model': 'hr.payslip',
