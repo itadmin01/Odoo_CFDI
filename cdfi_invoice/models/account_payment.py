@@ -375,9 +375,9 @@ class AccountPayment(models.Model):
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
-            elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+            elif self.company_id.proveedor_timbrado == 'multifactura2':
                 url = '%s' % ('http://facturacion2.itadmin.com.mx/api/payment')
-            elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+            elif self.company_id.proveedor_timbrado == 'multifactura3':
                 url = '%s' % ('http://facturacion3.itadmin.com.mx/api/payment')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
