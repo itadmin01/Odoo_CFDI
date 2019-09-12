@@ -590,7 +590,11 @@ class AccountInvoice(models.Model):
                 invoice.fecha_factura= datetime.datetime.now()
                 invoice.write({'fecha_factura': invoice.fecha_factura})
             if invoice.estado_factura == 'factura_correcta':
-                raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+                if invoice.folio_fiscal:
+                    invoice.write({'factura_cfdi': True})
+                    return True
+                else:
+                    raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if invoice.estado_factura == 'factura_cancelada':
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
             
