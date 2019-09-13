@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
-import datetime
-from datetime import datetime, timedelta
+#import datetime
+from datetime import datetime #, timedelta
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -38,37 +38,49 @@ class Contract(models.Model):
     sueldo_base_cotizacion = fields.Float('Sueldo base cotización (IMSS)')
     tablas_cfdi_id = fields.Many2one('tablas.cfdi','Tabla CFDI')
 
-    bono_productividad = fields.Float('Bono productividad')
-    bono_asistencia = fields.Float('Bono asistencia')
-    bono_puntualidad = fields.Float('Bono puntualidad')
-
+    bono_productividad = fields.Boolean('Bono productividad')
+    bono_productividad_amount = fields.Float('Bono productividad')
+    bono_asistencia = fields.Boolean('Bono asistencia')
+    bono_asistencia_amount = fields.Float('Monto bono asistencia')
+    bono_puntualidad = fields.Boolean('Bono puntualidad')
+    bono_puntualidad_amount = fields.Float('Monto bono puntualidad')
+    fondo_ahorro  = fields.Boolean('Fondo de ahorro')
+    fondo_ahorro_amount  = fields.Float('Monto fondo de ahorro')
+    vale_despensa  = fields.Boolean('Vale de despensa')
+    vale_despensa_amount  = fields.Float('Monto vale de despensa')
+    alimentacion  = fields.Boolean('Alimentación')
+    alimentacion_amount  = fields.Float('Monto alimentación')
+    percepcion_adicional  = fields.Boolean('Percepcion adicional')
+    percepcion_adicional_amount  = fields.Float('Monto percepcion adicional')
+	
     infonavit_fijo = fields.Float('Infonavit (fijo)')
     infonavit_vsm = fields.Float('Infonavit (vsm)')
-
     infonavit_porc = fields.Float('Infonavit (%)')
-    anticipo_sueldo = fields.Float('Anticipo sueldo')
-    deduc_gral = fields.Float('Dedudcion general')
     prestamo_fonacot = fields.Float('Prestamo FONACOT')
-    pago_de_serv = fields.Float('Pago de servicio')
-    pens_alim = fields.Float('Pensión alimienticia')
-    prest_financ = fields.Float('Prestamo financiero')
-    prevision_social = fields.Float('Prevision Social')
-    fondo_ahorro  = fields.Float('Fondo de ahorro')
-#    dias_aguinaldo = fields.Float(string=_('Días de aguinaldo'), default='15')
+    pens_alim = fields.Float('Pensión alimienticia (%)')
+    caja_ahorro  = fields.Boolean('Caja de ahorro')
+    caja_ahorro_amount  = fields.Float('Monto caja de ahorro')
+    deduccion_adicional  = fields.Boolean('Deduccion adicional')
+    deduccion_adicional_amount  = fields.Float('Monto deduccion adicional')
+	
     antiguedad_anos = fields.Float('Años de antiguedad', compute='_compute_antiguedad_anos')
-    dias_base = fields.Float('Días base', default='90')
-    dias_x_ano = fields.Float('Días por cada año trabajado', default='20')
-    dias_totales = fields.Float('Total de días', readonly=True)
-    indemnizacion = fields.Boolean("Indemnizar al empleado")
-    dias_pendientes_pagar = fields.Float('Días a pagar')
-    dias_vacaciones = fields.Float('Días de vacaciones')
+
     tabla_vacaciones = fields.One2many('tablas.vacaciones.line', 'form_id') 
     tipo_pago = fields.Selection(
         selection=[('01', 'Por periodo'), 
                    ('02', 'Por día'),],
         string=_('Conteo de días'),
     )
-    dias_pagar = fields.Float('Total de días')
+    tipo_prima_vacacional = fields.Selection(
+        selection=[('01', 'Al cumplir el año'), 
+                   ('02', 'Con día de vacaciones'),],
+        string=_('Prima vacacional'),
+        default = '02'
+    )
+    septimo_dia = fields.Boolean(string='Falta proporcional septimo día')
+    incapa_sept_dia = fields.Boolean(string='Incapacidad para cálculo 7mo día')
+    sept_dia = fields.Boolean(string='Séptimo día separado')
+    semana_inglesa = fields.Boolean(string='Semana inglesa')
 
     @api.multi
     @api.onchange('wage')
@@ -127,9 +139,9 @@ class Contract(models.Model):
             max_sdi = tablas_cfdi.uma * 25
             sdi = ((365 + tablas_cfdi_line.aguinaldo + (tablas_cfdi_line.vacaciones)* (tablas_cfdi_line.prima_vac/100) ) / 365 ) * self.wage/30
             if sdi > max_sdi:
-               sueldo_diario_integrado = max_sdi
+                sueldo_diario_integrado = max_sdi
             else:
-               sueldo_diario_integrado = sdi
+                sueldo_diario_integrado = sdi
             #_logger.info('sueldo_diario_integrado ... %s max_sdi %s', tablas_cfdi.uma, max_sdi)
         else: 
             sueldo_diario_integrado = 0

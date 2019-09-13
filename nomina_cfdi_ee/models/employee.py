@@ -82,7 +82,7 @@ class Employee(models.Model):
     @api.onchange('registro_patronal')
     def _check_registro_length(self):
         if self.registro_patronal:
-            if len(self.registro_patronal) != 9:
+            if len(self.registro_patronal) != 11:
                 raise UserError(_('La longitud del registro patronal es incorrecto'))
 
     @api.multi
@@ -96,5 +96,5 @@ class Employee(models.Model):
     @api.onchange('rfc')
     def _check_rfc_length(self):
         if self.rfc:
-            if len(self.rfc) != 12 or len(self.rfc) != 13:
+            if len(self.rfc) != 12 and len(self.rfc) != 13:
                 raise UserError(_('La longitud del RFC es incorrecto'))

@@ -7,7 +7,7 @@
     Nomina CFDI Module
     ''',
     'author': 'IT Admin',
-    'version': '12.7',
+    'version': '12.8',
     'category': 'Employees',
     'depends': [
         'hr_payroll', 'cdfi_invoice'
@@ -32,5 +32,5 @@
     ],
     'installable': True,
     'application': False,
-    'license': 'OPL-1',
+    'license': 'AGPL-3',
 }

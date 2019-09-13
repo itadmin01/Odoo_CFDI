@@ -159,6 +159,7 @@
                                 <field name="mes"/>
                                 <field name="dia_inicio"/>
                                 <field name="dia_fin"/>
+                                <field name="no_dias" force_save="1"/>
                             </tree>
                         </field>
                         <field name="tabla_semanal" string="Periodo semanal">

@@ -13,31 +13,56 @@ class HrPayslipRun(models.Model):
         selection=[('O', 'Nómina ordinaria'), ('E', 'Nómina extraordinaria'),], string=_('Tipo de nómina'), required=True, default='O')
     estructura = fields.Many2one('hr.payroll.structure', string='Estructura')
     tabla_otras_entradas = fields.One2many('otras.entradas', 'form_id')
-    freq_pago = fields.Many2one('frecuencia.pago', string='Frecuencia de pago')
+    #freq_pago = fields.Many2one('frecuencia.pago', string='Frecuencia de pago', required=True)
     dias_pagar = fields.Float(string='Dias a pagar', store=True)
     imss_dias = fields.Float(string='Dias a cotizar en la nómina', store=True) #compute="_compute_imss_dias", , store=True
-    imss_mes = fields.Float(string='Dias a  cotizar en el mes', compute="_compute_imss_mes", store=True)
+    imss_mes = fields.Float(string='Dias en el mes', store=True)
     no_nomina = fields.Selection(
-        selection=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6')], string=_('Nómina del mes'))
+        selection=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6')], string=_('No. de nómina en el mes'), required=True)
     nominas_mes = fields.Integer('Nóminas a pagar en el mes')
     concepto_periodico = fields.Boolean('Conceptos periodicos', default = True)
+    isr_ajustar = fields.Boolean(string='Ajustar ISR en cada nómina', default= True)
+    isr_devolver = fields.Boolean(string='Devolver ISR')
+    periodicidad_pago = fields.Selection(
+        selection=[('01', 'Diario'), 
+                   ('02', 'Semanal'), 
+                   ('03', 'Catorcenal'),
+                   ('04', 'Quincenal'), 
+                   ('05', 'Mensual'),
+                   ('06', 'Bimensual'), 
+                   ('07', 'Unidad obra'),
+                   ('08', 'Comisión'), 
+                   ('09', 'Precio alzado'), 
+                   ('10', 'Pago por consignación'), 
+                   ('99', 'Otra periodicidad'),],
+        string=_('Periodicidad de pago CFDI'), required=True
+    )
 
     @api.multi
-    @api.onchange('freq_pago', 'date_end', 'date_start')
+    @api.onchange('periodicidad_pago')
     def _dias_pagar(self):
-        if self.freq_pago:
-          if self.freq_pago.tipo_pago == '01':
-               self.dias_pagar = self.freq_pago.dias_pago
+        if self.periodicidad_pago:
+          if self.periodicidad_pago == '01':
+               self.dias_pagar = 1
+          elif self.periodicidad_pago == '02':
+               self.dias_pagar = 7
+          elif self.periodicidad_pago == '03':
+               self.dias_pagar = 14
+          elif self.periodicidad_pago == '04':
+               self.dias_pagar = 15
+          elif self.periodicidad_pago == '05':
+               self.dias_pagar = 30
           else:
-               delta = self.date_end - self.date_start
-               self.dias_pagar = delta.days + 1
+               if self.date_end and self.date_start:
+                    delta = self.date_end - self.date_start
+                    self.dias_pagar = delta.days + 1
 
     @api.multi
-    @api.depends('date_end')
+    @api.onchange('periodicidad_pago', 'date_end')
     def _compute_imss_mes(self):
         for batch in self:
             if batch.date_end:
-                date_end = batch.date_end
+                date_end = batch.date_end #datetime.strptime(batch.date_end,"%Y-%m-%d")
                 batch.imss_mes = monthrange(date_end.year,date_end.month)[1]
 
     @api.multi
@@ -50,13 +75,13 @@ class HrPayslipRun(models.Model):
             self.update(values)
 
     @api.multi
-    @api.onchange('freq_pago')
+    @api.onchange('periodicidad_pago')
     def _update_nominas_mes(self):
         for batch in self:
-            if self.freq_pago:
-                if self.freq_pago.periodicidad_pago == '02':
+            if self.periodicidad_pago:
+                if self.periodicidad_pago == '02':
                     batch.nominas_mes = 4
-                if self.freq_pago.periodicidad_pago == '04':
+                if self.periodicidad_pago == '04':
                     batch.nominas_mes = 2
 
     @api.multi
@@ -114,17 +139,18 @@ class HrPayslipRun(models.Model):
                 pass
         return
 
-    @api.onchange('freq_pago', 'date_start')
+    @api.onchange('periodicidad_pago', 'date_start')
     def _get_frecuencia_pago(self):
         values = {}
-        if self.freq_pago:
-            values.update({
-                'dias_pagar': self.freq_pago.dias_pago,
-                #'imss_dias': self.freq_pago.dias_cotizar,
-                })
-        if self.date_start and self.freq_pago:
-            fecha_fin = self.date_start + relativedelta(days=self.freq_pago.dias_pago-1)
-            if self.freq_pago.periodicidad_pago == '04':
+        #if self.freq_pago:
+        #    values.update({
+        #        'dias_pagar': self.freq_pago.dias_pago,
+        #        #'imss_dias': self.freq_pago.dias_cotizar,
+        #        })
+        if self.date_start and self.dias_pagar:
+            #fecha_fin = datetime.strptime(self.date_start, '%Y-%m-%d') + relativedelta(days=self.dias_pagar-1)
+            fecha_fin = self.date_start + relativedelta(days=self.dias_pagar-1)
+            if self.periodicidad_pago == '04':
                 if self.date_start.day > 15:
                     date = self.date_start
                     date = date+relativedelta(days=15)
@@ -137,9 +163,9 @@ class HrPayslipRun(models.Model):
                         items.append(date+relativedelta(months=1,day=15))
                     fecha_fin = self.nearest_date(items,date)
             values.update({'date_end': fecha_fin})
-            #self.update(values)    
-        if values:
             self.update(values)
+        #if values:
+        #    self.update(values)
 
     @api.model
     def nearest_date(self, items, pivot):
@@ -153,40 +179,3 @@ class OtrasEntradas(models.Model):
     descripcion = fields.Char('Descripcion') 
     codigo = fields.Char('Codigo')
 
-
-class FrecuenciaPago(models.Model):
-    _name = 'frecuencia.pago'
-    _rec_name = 'name'
-
-    name = fields.Char('Nombre', required=True)
-    dias_pago =  fields.Float('Dias del periodo')
-    #horas_pago =  fields.Float('Horas del periodo')
-    #dias_cotizar = fields.Float('Dias a cotizar al IMSS')
-    periodicidad_pago = fields.Selection(
-        selection=[('01', 'Diario'), 
-                   ('02', 'Semanal'), 
-                   ('03', 'Catorcenal'),
-                   ('04', 'Quincenal'), 
-                   ('05', 'Mensual'),
-                   ('06', 'Bimensual'), 
-                   ('07', 'Unidad obra'),
-                   ('08', 'Comisión'), 
-                   ('09', 'Precio alzado'), 
-                   ('10', 'Pago por consignación'), 
-                   ('99', 'Otra periodicidad'),],
-        string=_('Periodicidad de pago CFDI'), required=True
-    )
-    tipo_pago = fields.Selection(
-        selection=[('01', 'Por periodo'), 
-                   ('02', 'Por día'),], #('03', 'Por hora'),
-        string=_('Tipo de pago'), required=True
-    )
-   # tipo_proceso = fields.Selection(
-   #     selection=[('01', 'Automático'), 
-   #                ('02', 'Manual'),],
-   #     string=_('Tipo de proceso'),
-   # )
-    isr_ajustar = fields.Boolean(string='Ajustar ISR en cada nómina', default= True)
-    isr_devolver = fields.Boolean(string='Devolver ISR')
-    septimo_dia = fields.Boolean(string='Proporcional septimo día')
-    incapa_sept_dia = fields.Boolean(string='Incluir incapacidades 7mo día')

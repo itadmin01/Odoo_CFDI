@@ -22,45 +22,42 @@
                  </group>
                  <group>
                     <field name="tipo_pago" />
+                    <field name="tipo_prima_vacacional" />
+                    <field name="sept_dia" />
+                    <field name="septimo_dia" />
+                    <field name="incapa_sept_dia" />
+                    <field name="semana_inglesa" />
                  </group>
               </group>
                         <group cols="4">
                             <group string="Percepciones adicionales">
                                 <field name="bono_productividad"/>
+                                <field name="bono_productividad_amount" attrs="{'invisible':[('bono_productividad','=',False)]}" />
                                 <field name="bono_asistencia"/>
+                                <field name="bono_asistencia_amount" attrs="{'invisible':[('bono_asistencia','=',False)]}"/>
                                 <field name="bono_puntualidad"/>
-                                <field name="prevision_social"/>
+                                <field name="bono_puntualidad_amount" attrs="{'invisible':[('bono_puntualidad','=',False)]}"/>
+                                <field name="fondo_ahorro"/>
+                                <field name="fondo_ahorro_amount" attrs="{'invisible':[('fondo_ahorro','=',False)]}"/>
+                                <field name="vale_despensa"/>
+                                <field name="vale_despensa_amount" attrs="{'invisible':[('vale_despensa','=',False)]}"/>
+                                <field name="alimentacion"/>
+                                <field name="alimentacion_amount" attrs="{'invisible':[('alimentacion','=',False)]}"/>
+                                <field name="percepcion_adicional"/>
+                                <field name="percepcion_adicional_amount" attrs="{'invisible':[('percepcion_adicional','=',False)]}"/>
                             </group>
                             <group string="Deducciones adicionales">
                                 <field name="infonavit_fijo"/>
                                 <field name="infonavit_vsm"/>
                                 <field name="infonavit_porc"/>
-                                <field name="anticipo_sueldo"/>
-                                <field name="deduc_gral"/>
-                                <field name="prestamo_fonacot"/>
-                                <field name="pago_de_serv"/>
                                 <field name="pens_alim"/>
-                                <field name="prest_financ"/>
-                                <field name="fondo_ahorro"/>
+                                <field name="prestamo_fonacot"/>
+                                <field name="caja_ahorro"/>
+                                <field name="caja_ahorro_amount" attrs="{'invisible':[('caja_ahorro','=',False)]}"/>
+                                <field name="deduccion_adicional"/>
+                                <field name="deduccion_adicional_amount" attrs="{'invisible':[('deduccion_adicional','=',False)]}"/>
                             </group>
                         </group>
-            </page>
-            <page name="liquidaciones" string="Liquidaciones e Indemnizaciones">
-              <group cols="4">
-                 <group  string="Liquidaciones">
-                    <field name="indemnizacion" />
-                    <field name="antiguedad_anos" />
-                    <field name="dias_base" />
-                    <field name="dias_x_ano" />
-                    <field name="dias_totales" />
-                    <button name="button_dummy"
-                            string="Calcular" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
-                 </group>
-                 <group string="Días">
-                    <field name="dias_pendientes_pagar" />
-                    <field name="dias_vacaciones" />
-                 </group>
-              </group>
             </page>
             <page name="vacaciones" string="Días de vacaciones">
                    <group>

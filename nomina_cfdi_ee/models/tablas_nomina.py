@@ -79,6 +79,13 @@ class TablasPeriodoMensuallLine(models.Model):
                    ('12', 'Diciembre'),
                    ],
         string=_('Mes'),)
+    no_dias = fields.Float('Dias en el mes', store=True) 
+    @api.multi
+    @api.onchange('dia_inicio', 'dia_fin')
+    def compute_dias(self):
+        if self.dia_fin and self.dia_inicio:
+           delta = self.dia_fin - self.dia_inicio
+           self.no_dias = delta.days + 1
 
 class TablasPeriodoSemanalLine(models.Model):
     _name = 'tablas.periodo.semanal'

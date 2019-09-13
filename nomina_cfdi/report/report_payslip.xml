@@ -99,6 +99,10 @@
 								<strong>Tipo de comprobante: </strong>
 								<span t-field="o.tipo_comprobante" />
 							</div>
+							<div>
+								<strong>Periodo: </strong>
+								<span t-field="o.date_from" /> - <span t-field="o.date_to" />
+							</div>
 					  </div>
             <!--TERMINA INFORMACIÓN GENERAL DE LA NOMINA-->
 					</div>

@@ -55,10 +55,9 @@ class HrPayslipEmployeesExt(models.TransientModel):
                             'imss_dias': payslip_batch.imss_dias,
                             'imss_mes': payslip_batch.imss_mes,
                             'no_nomina': payslip_batch.no_nomina,
-                            'mes': '{:02d}'.format(to_date.month),
-                            'septimo_dia': payslip_batch.freq_pago.septimo_dia,
-                            'incapa_sept_dia': payslip_batch.freq_pago.incapa_sept_dia,
-                            'isr_ajustar': payslip_batch.freq_pago.isr_ajustar,
+                            'mes': '{:02d}'.format(datetime.strptime(to_date,"%Y-%m-%d").month),
+                            'isr_devolver': payslip_batch.isr_devolver,
+                            'isr_ajustar': payslip_batch.isr_ajustar,
                             'concepto_periodico': payslip_batch.concepto_periodico})
 
             payslips += self.env['hr.payslip'].create(res)

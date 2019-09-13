@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, _, api
 #from tzlocal import get_localzone
-from datetime import datetime
+#from datetime import datetime
 
 class HorasNomina(models.Model):
     _name = 'horas.nomina'
