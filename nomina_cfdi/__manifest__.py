@@ -7,7 +7,7 @@
     Nomina CFDI Module
     ''',
     'author': 'IT Admin',
-    'version': '11.6',
+    'version': '11.8',
     'category': 'Employees',
     'depends': [
         'hr_payroll', 'cdfi_invoice'
@@ -26,6 +26,9 @@
         'data/mail_template_data.xml',
         'security/ir.model.access.csv',
         'data/res.bank.csv',
+        'views/menu.xml',
+        'views/horas_extras_view.xml',
+        'wizard/wizard_liquidacion_view.xml',
     ],
     'installable': True,
     'application': False,

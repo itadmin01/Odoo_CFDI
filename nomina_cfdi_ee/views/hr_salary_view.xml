@@ -10,13 +10,14 @@
                     <field name="tipo_percepcion" attrs="{'invisible':[('category_code','not in',['BASIC','ALW','ALW2'])]}" />
                     <field name="tipo_deduccion" attrs="{'invisible':[('category_code','not in',['DED'])]}"/>
                     <field name="tipo_otro_pago" attrs="{'invisible':[('category_code','not in',['ALW3'])]}"/>
-              </field>
+                    <field name="forma_pago" />
+              </field><!--
               <field name="code" position="attributes">
                    <attribute name="readonly">1</attribute>
               </field>
               <field name="sequence" position="attributes">
                    <attribute name="readonly">1</attribute>
-              </field>
+              </field> -->
             </field>
         </record>
 </odoo>
