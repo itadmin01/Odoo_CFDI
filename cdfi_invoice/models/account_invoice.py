@@ -279,7 +279,7 @@ class AccountInvoice(models.Model):
         items = {'numerodepartidas': len(self.invoice_line_ids)}
         invoice_lines = []
         for line in self.invoice_line_ids:
-            if line.quantity < 0:
+            if line.quantity <= 0:
                 continue
             self.total_impuesto = 0.0
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
