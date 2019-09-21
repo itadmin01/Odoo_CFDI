@@ -654,7 +654,7 @@ class AccountInvoice(models.Model):
                     raise UserError(_('Falta la ruta del archivo .key'))
                 archivo_cer = self.company_id.archivo_cer
                 archivo_key = self.company_id.archivo_key
-                archivo_xml_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                archivo_xml_link = invoice.company_id.factura_dir + '/' + + invoice.move_name.replace('/', '_') + '.xml'
                 with open(archivo_xml_link, 'rb') as cf:
                      archivo_xml = base64.b64encode(cf.read())
                 values = {
