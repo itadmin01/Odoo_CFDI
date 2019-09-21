@@ -546,7 +546,7 @@ class AccountPayment(models.Model):
                     raise UserError(_('Falta la ruta del archivo .key'))
                 archivo_cer = p.company_id.archivo_cer.decode("utf-8")
                 archivo_key = p.company_id.archivo_key.decode("utf-8")
-                archivo_xml_link = p.company_id.factura_dir + '/' + p.folio + '.xml'
+                archivo_xml_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
                 with open(archivo_xml_link, 'rb') as cf:
                      archivo_xml = base64.b64encode(cf.read())
                 values = {
