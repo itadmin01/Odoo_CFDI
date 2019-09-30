@@ -10,6 +10,8 @@ from . import amount_to_text_es_MX
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from datetime import datetime, timedelta
+import pytz
+from .tzlocal import get_localzone
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -249,8 +251,13 @@ class AccountPayment(models.Model):
             self.tipocambiop = self.currency_id.rate
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
-        #correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 
-        #correccion_hora -= timedelta(hours=5)
+        else:
+            local = get_localzone()
+            naive_from = self.fecha_pago
+            local_dt_from = local.localize(naive_from, is_dst=None)
+            utc_dt_from = local_dt_from.astimezone (pytz.utc)
+            date_from = utc_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+
         self.add_resitual_amounts()
 
         if self.invoice_ids:
@@ -291,7 +298,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': datetime.strftime(self.fecha_pago, '%Y-%m-%d %H:%M:%S'), #correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
+                      'fecha_pago': date_from,  #datetime.strftime(self.fecha_pago, '%Y-%m-%d %H:%M:%S'), #correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
                       'monto_factura':  self.amount
                 },
 
