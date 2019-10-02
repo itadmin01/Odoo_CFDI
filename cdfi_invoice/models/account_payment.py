@@ -254,9 +254,8 @@ class AccountPayment(models.Model):
         else:
             local = get_localzone()
             naive_from = self.fecha_pago
-            local_dt_from = local.localize(naive_from, is_dst=None)
-            utc_dt_from = local_dt_from.astimezone (pytz.utc)
-            date_from = utc_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+            local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
+            date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
 
         self.add_resitual_amounts()
 
