@@ -40,6 +40,7 @@ UM_CLAVO_MAP = {
                 'Trabajo': 'E51',
                 'No disponible': 'XNA',
                 'Kilowatt hora': 'KWH',
+                'Cuarto de kilogramo': 'QK',
                 }
     
 class ProductTemplate(models.Model):
@@ -65,7 +66,7 @@ class ProductTemplate(models.Model):
                    ('Lote', 'Lote'),
                    ('Conjunto', 'Conjunto'),
                    ('Actividad', 'Actividad'),
-                   ('Comida', 'Comida'),				   
+                   ('Comida', 'Comida'),
                    ('Habitacion', 'Habitacion'),
                    ('Pallet', 'Pallet'),
                    ('Paquete', 'Paquete'),	
@@ -82,6 +83,7 @@ class ProductTemplate(models.Model):
                    ('Trabajo', 'Trabajo'),
                    ('No disponible', 'No disponible'),
                    ('Kilowatt hora', 'Kilowatt hora'),
+                   ('Cuarto de kilogramo', 'Cuarto de kilogramo'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
