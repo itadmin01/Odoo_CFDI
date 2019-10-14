@@ -10,6 +10,9 @@ from . import amount_to_text_es_MX
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from datetime import datetime, timedelta
+import pytz
+from .tzlocal import get_localzone
+from odoo import tools
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -253,6 +256,17 @@ class AccountPayment(models.Model):
         correccion_hora -= timedelta(hours=5)
         self.add_resitual_amounts()
 
+        #corregir hora
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'UTC'
+        #timezone = tools.ustr(timezone).encode('utf-8')
+
+        local = pytz.timezone(timezone)
+        naive_from = datetime.now() 
+        local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
+        date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+
         if self.invoice_ids:
             request_params = { 
                 'company': {
@@ -273,6 +287,7 @@ class AccountPayment(models.Model):
                       'tipo_comprobante': self.tipo_comprobante,
                       'folio_complemento': self.name.replace('CUST.IN','').replace('/',''),
                       'serie_complemento': self.company_id.serie_complemento,
+                      'fecha_factura': date_from,
                 },
                 'concept': {
                       'claveprodserv': '84111506',
@@ -305,7 +320,12 @@ class AccountPayment(models.Model):
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
-                }
+                },
+                'version': {
+                      'cfdi': '3.3',
+                      'sistema': 'odoo11',
+                      'version': '6',
+                },
             }
         else:
             request_params = { 
@@ -365,7 +385,12 @@ class AccountPayment(models.Model):
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
-                }
+                },
+                'version': {
+                      'cfdi': '3.3',
+                      'sistema': 'odoo11',
+                      'version': '6',
+                },
             }
         return request_params
     
