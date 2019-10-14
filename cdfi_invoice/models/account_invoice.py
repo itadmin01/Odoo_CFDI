@@ -13,6 +13,10 @@ from odoo.exceptions import UserError, Warning
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
+import pytz
+from .tzlocal import get_localzone
+from odoo import tools
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -234,6 +238,19 @@ class AccountInvoice(models.Model):
             nombre = self.partner_id.name
         decimales = self.env['decimal.precision'].search([('name','=','Product Price')])
         no_decimales = decimales.digits
+
+        #corregir hora
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'UTC'
+        #timezone = tools.ustr(timezone).encode('utf-8')
+
+        local = pytz.timezone(timezone)
+        naive_from = datetime.datetime.now() 
+        local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
+        date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+
+        _logger.info('date_from %s', date_from)
         request_params = { 
                 'company': {
                       'rfc': self.company_id.rfc,
@@ -261,13 +278,18 @@ class AccountInvoice(models.Model):
                       'total': self.amount_total,
                       'folio': self.number.replace('INV','').replace('/',''),
                       'serie_factura': self.company_id.serie_factura,
-                      'fecha_factura': datetime.datetime.strftime(self.fecha_factura, '%Y-%m-%d %H:%M:%S'),
+                      'fecha_factura': date_from, #self.fecha_factura,
                       'decimales': no_decimales,
                 },
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
                       'uuid_relacionado': self.uuid_relacionado,
                       'confirmacion': self.confirmacion,
+                },
+                'version': {
+                      'cfdi': '3.3',
+                      'sistema': 'odoo11',
+                      'version': '6',
                 },
         }
         amount_total = 0.0

@@ -12,6 +12,7 @@ from reportlab.lib.units import mm
 from datetime import datetime, timedelta
 import pytz
 from .tzlocal import get_localzone
+from odoo import tools
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
