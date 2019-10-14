@@ -260,6 +260,17 @@ class AccountPayment(models.Model):
 
         self.add_resitual_amounts()
 
+        #corregir hora
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'UTC'
+        #timezone = tools.ustr(timezone).encode('utf-8')
+
+        local2 = pytz.timezone(timezone)
+        naive_from2 = datetime.now() 
+        local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
+        date_payment = local_dt_from2.strftime ("%Y-%m-%d %H:%M:%S")
+
         if self.invoice_ids:
             request_params = { 
                 'company': {
@@ -280,6 +291,7 @@ class AccountPayment(models.Model):
                       'tipo_comprobante': self.tipo_comprobante,
                       'folio_complemento': self.name.replace('CUST.IN','').replace('/',''),
                       'serie_complemento': self.company_id.serie_complemento,
+                      'fecha_factura': date_payment,
                 },
                 'concept': {
                       'claveprodserv': '84111506',
@@ -298,7 +310,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': date_from,  #datetime.strftime(self.fecha_pago, '%Y-%m-%d %H:%M:%S'), #correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
+                      'fecha_pago': date_from,
                       'monto_factura':  self.amount
                 },
 
@@ -312,7 +324,12 @@ class AccountPayment(models.Model):
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
-                }
+                },
+                'version': {
+                      'cfdi': '3.3',
+                      'sistema': 'odoo11',
+                      'version': '6',
+                },
             }
         else:
             request_params = { 
@@ -372,7 +389,12 @@ class AccountPayment(models.Model):
                       'archivo_cer': archivo_cer.decode("utf-8"),
                       'archivo_key': archivo_key.decode("utf-8"),
                       'contrasena': self.company_id.contrasena,
-                }
+                },
+                'version': {
+                      'cfdi': '3.3',
+                      'sistema': 'odoo11',
+                      'version': '6',
+                },
             }
         return request_params
     
