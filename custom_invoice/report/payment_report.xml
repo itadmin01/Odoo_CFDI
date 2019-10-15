@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+
 		<template id="cfdi_payment_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
@@ -242,7 +243,9 @@
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
 								<td>
-		                            <span t-field="o.methodo_pago" />
+		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
+		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
+
 		                        </td>
 		                        <td>
 		                            <span t-esc="row.get('saldo_pendiente')" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
@@ -300,7 +303,13 @@
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<span t-field="o.tipocambiop" />
+									<t t-if="o.monedap!='MXN'">
+										<span t-esc="'{0:,.2f}'.format((1/float(o.currency_id.rate)))"/>
+									</t>
+									<t t-if="o.monedap=='MXN'">
+										<span t-field="o.tipocambiop"/>
+									</t>
+									<!--<span t-field="o.tipocambiop" /> -->
 								</td>
 							</tr>
 						</table>
@@ -397,10 +406,10 @@
 		<report id="report_payments" 
 				model="account.payment" 
 				string="Complemento de Pago" 
-        		menu="False"
+        		        menu="True"
 				report_type="qweb-pdf" 
 				name="custom_invoice.report_payment" 
-				file="custom_invoice.report_payment" />
+				file="custom_invoice.report_payment"/>
 		
 		<record id="custom_invoice.report_payments" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="custom_invoice.paperformat_a4_landscape"/>

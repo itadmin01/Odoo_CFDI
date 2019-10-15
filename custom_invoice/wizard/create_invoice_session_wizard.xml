@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-
-		
-
 		<record id="view_create_invoice_session_button" model="ir.ui.view">
 			<field name="name">Crear Factura Session</field>
 			<field name="model">create.invoice.session.wizard</field>
