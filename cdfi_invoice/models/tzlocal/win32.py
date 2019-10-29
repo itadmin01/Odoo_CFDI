@@ -3,7 +3,7 @@ try:
 except ImportError:
     import winreg
 
-import windows_tz
+from . import windows_tz
 import pytz
 
 _cache_tz = None
