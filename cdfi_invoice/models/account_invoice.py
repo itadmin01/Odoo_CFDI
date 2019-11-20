@@ -242,7 +242,7 @@ class AccountInvoice(models.Model):
         #corregir hora
         timezone = self._context.get('tz')
         if not timezone:
-            timezone = self.env.user.partner_id.tz or 'UTC'
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
         #timezone = tools.ustr(timezone).encode('utf-8')
 
         local = pytz.timezone(timezone)

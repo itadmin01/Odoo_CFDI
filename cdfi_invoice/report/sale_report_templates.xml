@@ -176,7 +176,7 @@
                     <tr>
                         <t t-set="colspan" t-value="5"/>
                         <th class="text-left">Descripción</th>
-                        <th class="text-right">Cnatidad</th>
+                        <th class="text-right">Cantidad</th>
                         <th class="text-right">Precio unitario</th>
                         <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
                             <span>Desc.(%)</span>
