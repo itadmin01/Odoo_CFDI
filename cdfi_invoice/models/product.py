@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api,_
 
-
-    
 UM_CLAVO_MAP = {
                 'Pieza': 'H87',
                 'Hora': 'HUR',
@@ -41,6 +39,9 @@ UM_CLAVO_MAP = {
                 'Trabajo': 'E51',
                 'No disponible': 'XNA',
                 'Kilowatt hora': 'KWH',
+                'Cuarto de kilogramo': 'QK',
+                'Mil pedazos': 'T3',
+                'Bolsa de mil': 'T4',
                 }
     
 class ProductTemplate(models.Model):
@@ -66,7 +67,7 @@ class ProductTemplate(models.Model):
                    ('Lote', 'Lote'),
                    ('Conjunto', 'Conjunto'),
                    ('Actividad', 'Actividad'),
-                   ('Comida', 'Comida'),				   
+                   ('Comida', 'Comida'),
                    ('Habitacion', 'Habitacion'),
                    ('Pallet', 'Pallet'),
                    ('Paquete', 'Paquete'),	
@@ -84,6 +85,8 @@ class ProductTemplate(models.Model):
                    ('Trabajo', 'Trabajo'),
                    ('No disponible', 'No disponible'),
                    ('Kilowatt hora', 'Kilowatt hora'),
+                   ('Mil pedazos', 'Mil pedazos'),
+                   ('Bolsa de mil', 'Bolsa de mil')
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
