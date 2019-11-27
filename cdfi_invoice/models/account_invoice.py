@@ -242,7 +242,7 @@ class AccountInvoice(models.Model):
         #corregir hora
         timezone = self._context.get('tz')
         if not timezone:
-            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+            timezone = self.journal_id.tz or self.env.user.partner_id.tz or 'America/Mexico_City'
         #timezone = tools.ustr(timezone).encode('utf-8')
 
         local = pytz.timezone(timezone)
@@ -257,7 +257,7 @@ class AccountInvoice(models.Model):
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
                       'regimen_fiscal': self.company_id.regimen_fiscal,
-                      'postalcode': self.company_id.zip,
+                      'postalcode': self.journal_id.codigo_postal or self.company_id.zip,
                       'nombre_fiscal': self.company_id.nombre_fiscal,
                       'telefono_sms': self.company_id.telefono_sms,
                 },

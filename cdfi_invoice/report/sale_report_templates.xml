@@ -182,7 +182,7 @@
                             <span>Desc.(%)</span>
                             <t t-set="colspan" t-value="colspan+1"/>
                         </th>
-                        <th class="text-right">Taxes</th>
+                        <th class="text-right">Impuestos</th>
                         <th class="text-right">
                             <t groups="account.group_show_line_subtotals_tax_excluded">Monto</t>
                             <t groups="account.group_show_line_subtotals_tax_included">Precio total</t>
