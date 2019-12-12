@@ -252,8 +252,11 @@ class AccountPayment(models.Model):
             self.tipocambiop = self.currency_id.rate
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
-        correccion_hora = datetime.strptime(self.fecha_pago, "%Y-%m-%d %H:%M:%S") 
-        correccion_hora -= timedelta(hours=5)
+        else:
+            local = get_localzone()
+            naive_from = datetime.strptime(self.fecha_pago, '%Y-%m-%d %H:%M:%S')
+            local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
+            date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
         self.add_resitual_amounts()
 
         #corregir hora
@@ -262,10 +265,10 @@ class AccountPayment(models.Model):
             timezone = self.env.user.partner_id.tz or 'UTC'
         #timezone = tools.ustr(timezone).encode('utf-8')
 
-        local = pytz.timezone(timezone)
-        naive_from = datetime.now() 
-        local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
-        date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+        local2 = pytz.timezone(timezone)
+        naive_from2 = datetime.now() 
+        local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
+        date_payment = local_dt_from2.strftime ("%Y-%m-%d %H:%M:%S")
 
         if self.invoice_ids:
             request_params = { 
@@ -287,7 +290,7 @@ class AccountPayment(models.Model):
                       'tipo_comprobante': self.tipo_comprobante,
                       'folio_complemento': self.name.replace('CUST.IN','').replace('/',''),
                       'serie_complemento': self.company_id.serie_complemento,
-                      'fecha_factura': date_from,
+                      'fecha_factura': date_payment,
                 },
                 'concept': {
                       'claveprodserv': '84111506',
@@ -306,7 +309,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
+                      'fecha_pago': date_from,
                       'monto_factura':  self.amount
                 },
 
