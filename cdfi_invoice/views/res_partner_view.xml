@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
 	<data>
 		<!-- INHERIT view_partner_form -->
 		<record id="view_partner_form" model="ir.ui.view">
@@ -7,41 +7,25 @@
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
-				<field name="street2" position="replace">
-					<div class="address_format">
-						<field name="street2" placeholder="Número Exterior" style="width: 50%;"
-							attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" />
-						<field name="numero_interior" placeholder="Número Interior"
-							style="width: 50%;" attrs="{'invisible':[('is_company','=', False)]}" />
-					</div>
-				</field>
-				<field name="zip" position="after">
-					<div class="address_format">
-						<field name="colonia" placeholder="Colonia" style="width: 50%;"
-							attrs="{'invisible':[('is_company','=', False)]}" />
-						<field name="municipio" style="width: 50%;" placeholder="Municipio"
-							attrs="{'invisible':[('is_company','=', False)]}" />
-					</div>
-
-				</field>
-				<field name="website" position="after">
-					<field name="rfc" attrs="{'invisible':[('is_company','=', False)]}" />
-				</field>
-                <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="Info CDFI">
-                            <group cols="4">
-                                <group string="Detalles de Pago">
-                                	<field name="tipo_comprobante"/>
-                                	<field name="tipo_formato"/>
-                                	<field name="forma_pago"/>
-                                	<field name="condicione_pago"/>
-                                	<field name="methodo_pago"/>
-                                	<field name="num_cta_pago"/>
-                                </group>
-                            </group>
-                    </page>
-                </xpath>
+                 <!--<field name="vat" position="replace">
+                 </field> -->
+                 <field name="website" position="after">
+                     <field name="rfc" />
+                 </field>
+	            <xpath expr="//notebook" position="inside">
+	                <page name="info_cdfi" string="CFDI 3.3">
+	                        <group cols="4">
+	                            <group string="Preferencias de factura">
+	                            	<field name="uso_cfdi"/>
+	                            </group>
+	                            <group string="Detalles extranjero">
+	                            	<field name="residencia_fiscal"/>
+	                            	<field name="registro_tributario"/>
+	                            </group>
+	                        </group>
+	                </page>
+	            </xpath>
 			</field>
 		</record>
 	</data>
-</openerp>
+</odoo>
