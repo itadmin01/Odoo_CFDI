@@ -288,7 +288,7 @@ class AccountInvoice(models.Model):
                 },
                 'version': {
                       'cfdi': '3.3',
-                      'sistema': 'odoo11',
+                      'sistema': 'odoo12',
                       'version': '6',
                 },
         }
@@ -366,7 +366,8 @@ class AccountInvoice(models.Model):
                                       'clave_producto': '84111506',
                                       'clave_unidad': 'ACT',
                                       'taxes': product_taxes,
-                                      'descuento': self.desc,})
+                                      'descuento': self.desc,
+                                      'numero_pedimento': line.pedimento})
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
@@ -386,7 +387,8 @@ class AccountInvoice(models.Model):
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad,
                                       'taxes': product_taxes,
-                                      'descuento': self.desc})
+                                      'descuento': self.desc,
+                                      'numero_pedimento': line.pedimento})
 
         self.discount = round(self.discount,2)
         if self.tipo_comprobante == 'T':
@@ -823,6 +825,17 @@ class AccountInvoice(models.Model):
                     invoice.estado_factura = 'factura_correcta'
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
  
+ 
+    @api.model
+    def action_generate_cfdi(self):
+        for record in self:
+            if record.state!='cancel' and record.estado_factura=='factura_no_generada':
+                if record.state == 'draft':
+                    record.action_invoice_open()
+                    record.action_cfdi_generate()
+                else:
+                    record.action_cfdi_generate()           
+ 
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
@@ -866,6 +879,11 @@ class MailTemplate(models.Model):
                                 attachments.append(('CDFI_CANCEL_' + invoice.move_name.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
                     results[res_id]['attachments'] = attachments
         return results
+
+class AccountInvoiceLine(models.Model):
+    _inherit = "account.invoice.line"
+
+    pedimento = fields.Char('Pedimento')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
     

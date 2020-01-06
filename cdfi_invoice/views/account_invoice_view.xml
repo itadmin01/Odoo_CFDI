@@ -66,4 +66,16 @@
                 </button>
             </field>
         </record>
+        
+   <record id="action_generate_fcdi" model="ir.actions.server">
+    	<field name="name">Generar CFDI</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="account.model_account_invoice"/>
+        <field name="binding_model_id" ref="account.model_account_invoice"/>
+        <field name="code">
+				records.action_generate_cfdi()
+        </field>
+    </record>
+        
 </odoo>
