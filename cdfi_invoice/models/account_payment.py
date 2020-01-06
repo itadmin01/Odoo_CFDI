@@ -367,7 +367,7 @@ class AccountPayment(models.Model):
                       'banco_receptor': self.banco_receptor,
                       'cuenta_beneficiario': self.cuenta_beneficiario,
                       'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
+                      'fecha_pago': datetime.strftime(self.fecha_pago, '%Y-%m-%d %H:%M:%S'), #correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
                       'monto_factura': self.amount,
                 },
                 'docto_relacionado': [{
