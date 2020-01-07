@@ -24,7 +24,7 @@
         'views/account_payment_view.xml',
         'views/account_tax_view.xml',
         'views/sale_view.xml',
-        #'views/account_payment_term_view.xml',
+        'views/account_payment_term_view.xml',
         'views/purchase_view.xml',
         'views/account_journal_view.xml',
         #'wizard/import_account_payment_view.xml',
