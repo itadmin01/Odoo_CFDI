@@ -189,13 +189,23 @@ class AccountPayment(models.Model):
                     else:
                         #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
+                    
+                    nbr_payment = 0
+                    pay_term_line_ids = invoice.line_ids.filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                    partials = pay_term_line_ids.mapped('matched_debit_ids') + pay_term_line_ids.mapped('matched_credit_ids')
+                    for partial in partials:
+                        counterpart_lines = partial.debit_move_id + partial.credit_move_id
+                        counterpart_line = counterpart_lines.filtered(lambda line: line not in invoice.line_ids)
+                        if counterpart_line:
+                            nbr_payment += 1
+                        
                     docto_relacionados.append({
                           'moneda': invoice.moneda,
                           'tipodecambio': tipocambiop,
                           'methodo_pago': invoice.methodo_pago,
                           'iddocumento': invoice.folio_fiscal,
                           'folio_facura': invoice.number_folio,
-                          'no_de_pago': '1', #len(invoice.payment_id.filtered(lambda x: x.state!='cancelled')), 
+                          'no_de_pago': nbr_payment, #len(invoice.payment_id.filtered(lambda x: x.state!='cancel')), 
                           'saldo_pendiente': round(invoice.amount_residual,2),
                           'monto_pagar': 0,
                           'saldo_restante': 0,
