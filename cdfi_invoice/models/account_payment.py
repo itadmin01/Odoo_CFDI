@@ -205,7 +205,7 @@ class AccountPayment(models.Model):
                           'methodo_pago': invoice.methodo_pago,
                           'iddocumento': invoice.folio_fiscal,
                           'folio_facura': invoice.number_folio,
-                          'no_de_pago': nbr_payment, #len(invoice.payment_id.filtered(lambda x: x.state!='cancel')), 
+                          'no_de_pago': nbr_payment+1, #len(invoice.payment_id.filtered(lambda x: x.state!='cancel')), 
                           'saldo_pendiente': round(invoice.amount_residual,2),
                           'monto_pagar': 0,
                           'saldo_restante': 0,
