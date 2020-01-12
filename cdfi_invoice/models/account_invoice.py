@@ -743,7 +743,7 @@ class AccountMove(models.Model):
                                                 {
                                                     'name': file_name,
                                                     'datas': json_response['factura_xml'],
-                                                    'datas_fname': file_name,
+                                                    #'datas_fname': file_name,
                                                     'res_model': self._name,
                                                     'res_id': invoice.id,
                                                     'type': 'binary'
