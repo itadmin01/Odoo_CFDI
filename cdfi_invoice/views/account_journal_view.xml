@@ -20,6 +20,7 @@
                                 <group>
                                       <field name="codigo_postal" />
                                       <field name="tz" readonly="0"/>
+                                      <field name="serie_diario" />
                                 </group>
                                 <group>
                                 </group>
