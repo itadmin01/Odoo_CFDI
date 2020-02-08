@@ -277,7 +277,7 @@ class AccountInvoice(models.Model):
                       'subtotal': self.amount_untaxed,
                       'total': self.amount_total,
                       'folio': self.number.replace('INV','').replace('/',''),
-                      'serie_factura': self.company_id.serie_factura,
+                      'serie_factura': self.journal_id.serie_diario or self.company_id.serie_factura,
                       'fecha_factura': date_from, #self.fecha_factura,
                       'decimales': no_decimales,
                 },
