@@ -6,7 +6,7 @@
 
 {
     'name': 'Punto de Venta Factura Electronica Mexico CFDI',
-    'version': '9.3',
+    'version': '9.4',
     'description': ''' Punto de Venta Factura Electronica Mexico (CFDI 3.3).
     ''',
     'category': 'Accounting',

@@ -7,10 +7,23 @@
         <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <page name="forma_pago" string="CFDI 3.3" attrs="{'invisible':['|',('type','in',('sale', 'purchase'))]}">
-                            <group cols="4">
-                               <!-- <group string="Datos"> -->
-									  <field name="forma_pago" />
-                               <!-- </group> -->
+                            <group cols="2">
+                                <group>
+                                      <field name="forma_pago" />
+                                </group>
+                            </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="forma_pago" string="CFDI 3.3" attrs="{'invisible':['|',('type','not in',('sale'))]}">
+                            <group cols="2">
+                                <group>
+                                      <field name="codigo_postal" />
+                                      <field name="tz" readonly="0"/>
+                                      <field name="serie_diario" />
+                                </group>
+                                <group>
+                                </group>
                             </group>
                     </page>
                 </xpath>
