@@ -138,7 +138,7 @@
 							</t>
 							<t t-if="not o.factura_cfdi">
 								<strong>Fecha de venta: </strong>
-								<span t-field="o.date_invoice" />
+								<span t-field="o.invoice_date" />
 							</t>
 							</div>
 							<div>
