@@ -42,6 +42,7 @@ UM_CLAVO_MAP = {
                 'Cuarto de kilogramo': 'QK',
                 'Mil pedazos': 'T3',
                 'Bolsa de mil': 'T4',
+                'Bolsa de plástico': 'XEC',
                 }
     
 class ProductTemplate(models.Model):
@@ -86,7 +87,8 @@ class ProductTemplate(models.Model):
                    ('No disponible', 'No disponible'),
                    ('Kilowatt hora', 'Kilowatt hora'),
                    ('Mil pedazos', 'Mil pedazos'),
-                   ('Bolsa de mil', 'Bolsa de mil')
+                   ('Bolsa de mil', 'Bolsa de mil'),
+                   ('Bolsa de plástico', 'Bolsa de plástico')
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
