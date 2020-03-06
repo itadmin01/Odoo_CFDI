@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates>
-    <t t-extend="PivotView.buttons">
-    	<t t-jquery='.o_pivot_download' t-operation='after'>
-        	<button class="btn btn-default o_pivot_download_xml" title="XML">XML</button>
-        </t>
-    </t>
-</templates>
