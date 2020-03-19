@@ -211,17 +211,17 @@ class AccountMove(models.Model):
             self.update(values)
 
     
-    @api.onchange('payment_term_id')
+    @api.onchange('invoice_payment_term_id')
     def _get_metodo_pago(self):
-        if self.payment_term_id:
-            if self.payment_term_id.methodo_pago == 'PPD':
+        if self.invoice_payment_term_id:
+            if self.invoice_payment_term_id.methodo_pago == 'PPD':
                 values = {
-                 'methodo_pago': self.payment_term_id.methodo_pago,
+                 'methodo_pago': self.invoice_payment_term_id.methodo_pago,
                  'forma_pago': '99'
                 }
             else:
                 values = {
-                    'methodo_pago': self.payment_term_id.methodo_pago,
+                    'methodo_pago': self.invoice_payment_term_id.methodo_pago,
                     'forma_pago': False
                     }
         else:
