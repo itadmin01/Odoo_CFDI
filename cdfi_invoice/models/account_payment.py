@@ -9,7 +9,7 @@ from odoo.exceptions import UserError, Warning
 from . import amount_to_text_es_MX
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
-from datetime import datetime, timedelta
+from datetime import date,datetime, timedelta
 import pytz
 from .tzlocal import get_localzone
 from odoo import tools
@@ -151,6 +151,11 @@ class AccountPayment(models.Model):
       #  if self.payment_date:
             #self.fecha_pago = datetime.strptime(self.payment_date, "%Y-%m-%d") + timedelta(hours=12)
 
+    @api.onchange('payment_date')
+    def _onchange_payment_date(self):
+        if self.payment_date:
+            self.fecha_pago = datetime.combine((self.payment_date), datetime.max.time())
+
     @api.multi
     def add_resitual_amounts(self):
         if self.invoice_ids:
@@ -209,7 +214,7 @@ class AccountPayment(models.Model):
         res = super(AccountPayment, self).post()
         for rec in self:
             rec.add_resitual_amounts()
-            #rec._onchange_payment_date()
+            rec._onchange_payment_date()
             rec._onchange_journal()
         return res
 
@@ -332,70 +337,7 @@ class AccountPayment(models.Model):
                 },
             }
         else:
-            request_params = { 
-                'company': {
-                      'rfc': self.company_id.rfc,
-                      'api_key': self.company_id.proveedor_timbrado,
-                      'modo_prueba': self.company_id.modo_prueba,
-                      'regimen_fiscal': self.company_id.regimen_fiscal,
-                      'postalcode': self.company_id.zip,
-                      'nombre_fiscal': self.company_id.nombre_fiscal,
-                },
-                'customer': {
-                      'name': self.partner_id.name,
-                      'rfc': self.partner_id.rfc,
-                      'uso_cfdi': 'P01',
-                },
-                'invoice': {
-                      'tipo_comprobante': self.tipo_comprobante,
-                      'folio_complemento': self.name.replace('CUST.IN','').replace('/',''),
-                      'serie_complemento': self.company_id.serie_complemento,
-                },
-                'concept': {
-                      'claveprodserv': '84111506',
-                      'calveunidad': 'ACT',
-                      'cantidad': 1,
-                      'descripcion': 'Pago',
-                },
-                'payment': {
-                      'moneda': self.monedap,
-                      'tipocambio': self.tipocambiop,
-                      'forma_pago': self.forma_pago,
-                      'numero_operacion': self.numero_operacion,
-                      'banco_emisor': self.banco_emisor,
-                      'cuenta_emisor': self.cuenta_emisor and self.cuenta_emisor.acc_number or '',
-                      'rfc_banco_emisor': self.rfc_banco_emisor,
-                      'banco_receptor': self.banco_receptor,
-                      'cuenta_beneficiario': self.cuenta_beneficiario,
-                      'rfc_banco_receptor': self.rfc_banco_receptor,
-                      'fecha_pago': datetime.strftime(self.fecha_pago, '%Y-%m-%d %H:%M:%S'), #correccion_hora.strftime('%Y-%m-%d %H:%M:%S'),
-                      'monto_factura': self.amount,
-                },
-                'docto_relacionado': [{
-                      'moneda': 'false',
-                      'tipodecambio': 'false',
-                      'iddocumento': 'false',
-                      'no_de_pago': 'false',
-                      'saldo_pendiente': 'false',
-                      'monto_pagar': 'false',
-                      'saldo_restante': 'false',
-                }],
-                'adicional': {
-                      'tipo_relacion': self.tipo_relacion,
-                      'uuid_relacionado': self.uuid_relacionado,
-                      'confirmacion': self.confirmacion,
-                },
-                'certificados': {
-                      'archivo_cer': archivo_cer.decode("utf-8"),
-                      'archivo_key': archivo_key.decode("utf-8"),
-                      'contrasena': self.company_id.contrasena,
-                },
-                'version': {
-                      'cfdi': '3.3',
-                      'sistema': 'odoo11',
-                      'version': '6',
-                },
-            }
+            raise Warning("No tiene ninguna factura ligada al documento de pago, debe al menos tener una factura ligada. \n Desde la factura crea el pago para que se asocie la factura al pago.")
         return request_params
     
     @api.multi

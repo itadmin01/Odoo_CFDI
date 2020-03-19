@@ -367,7 +367,8 @@ class AccountInvoice(models.Model):
                                       'clave_unidad': 'ACT',
                                       'taxes': product_taxes,
                                       'descuento': self.desc,
-                                      'numero_pedimento': line.pedimento})
+                                      'numero_pedimento': line.pedimento,
+                                      'numero_predial': line.predial})
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
@@ -388,7 +389,9 @@ class AccountInvoice(models.Model):
                                       'clave_unidad': line.product_id.clave_unidad,
                                       'taxes': product_taxes,
                                       'descuento': self.desc,
-                                      'numero_pedimento': line.pedimento})
+                                      'numero_pedimento': line.pedimento,
+                                      'numero_predial': line.predial})
+
 
         self.discount = round(self.discount,2)
         if self.tipo_comprobante == 'T':
@@ -834,7 +837,7 @@ class AccountInvoice(models.Model):
                     record.action_invoice_open()
                     record.action_cfdi_generate()
                 else:
-                    record.action_cfdi_generate()           
+                    record.action_cfdi_generate()
  
 class MailTemplate(models.Model):
     "Templates for sending email"
@@ -884,6 +887,7 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     pedimento = fields.Char('Pedimento')
+    predial = fields.Char('No. Predial')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
     
