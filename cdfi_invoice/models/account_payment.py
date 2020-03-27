@@ -250,21 +250,22 @@ class AccountPayment(models.Model):
             self.tipocambiop = '1'
         else:
             self.tipocambiop = self.currency_id.rate
+
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+        timezone = tools.ustr(timezone).encode('utf-8')
+
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
         else:
-            local = get_localzone()
+            local = pytz.timezone(timezone)
             naive_from = datetime.strptime(self.fecha_pago, '%Y-%m-%d %H:%M:%S')
             local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
             date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
         self.add_resitual_amounts()
 
         #corregir hora
-        timezone = self._context.get('tz')
-        if not timezone:
-            timezone = self.env.user.partner_id.tz or 'UTC'
-        #timezone = tools.ustr(timezone).encode('utf-8')
-
         local2 = pytz.timezone(timezone)
         naive_from2 = datetime.now() 
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
@@ -332,7 +333,6 @@ class AccountPayment(models.Model):
             }
         else:
             raise Warning("No tiene ninguna factura ligada al documento de pago, debe al menos tener una factura ligada. \n Desde la factura crea el pago para que se asocie la factura al pago.")
-
         return request_params
     
     @api.multi
