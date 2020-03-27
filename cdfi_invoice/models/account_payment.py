@@ -146,11 +146,6 @@ class AccountPayment(models.Model):
             return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
         return {}
     
-    #@api.onchange('payment_date')
-   # def _onchange_payment_date(self):
-      #  if self.payment_date:
-            #self.fecha_pago = datetime.strptime(self.payment_date, "%Y-%m-%d") + timedelta(hours=12)
-
     @api.onchange('payment_date')
     def _onchange_payment_date(self):
         if self.payment_date:
@@ -255,22 +250,22 @@ class AccountPayment(models.Model):
             self.tipocambiop = '1'
         else:
             self.tipocambiop = self.currency_id.rate
+
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+        timezone = tools.ustr(timezone).encode('utf-8')
+
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
         else:
-            local = get_localzone()
+            local = pytz.timezone(timezone)
             naive_from = self.fecha_pago
             local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
             date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
-
         self.add_resitual_amounts()
 
         #corregir hora
-        timezone = self._context.get('tz')
-        if not timezone:
-            timezone = self.env.user.partner_id.tz or 'UTC'
-        #timezone = tools.ustr(timezone).encode('utf-8')
-
         local2 = pytz.timezone(timezone)
         naive_from2 = datetime.now() 
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
