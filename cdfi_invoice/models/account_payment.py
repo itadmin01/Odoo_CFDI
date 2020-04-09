@@ -254,7 +254,7 @@ class AccountPayment(models.Model):
         timezone = self._context.get('tz')
         if not timezone:
             timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
-        timezone = tools.ustr(timezone).encode('utf-8')
+        #timezone = tools.ustr(timezone).encode('utf-8')
 
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")

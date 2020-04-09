@@ -51,6 +51,7 @@ class AccountInvoice(models.Model):
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
                    ('30', '30 - Aplicación de anticipos'), 
+                   ('31', '31 - Intermediario pagos'),
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
@@ -838,6 +839,12 @@ class AccountInvoice(models.Model):
                     record.action_cfdi_generate()
                 else:
                     record.action_cfdi_generate()
+
+    @api.multi
+    def action_invoice_cancel(self):
+        result = super(AccountInvoice, self).action_invoice_cancel()
+        self.write({'number': self.move_name})
+        return result
  
 class MailTemplate(models.Model):
     "Templates for sending email"
