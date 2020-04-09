@@ -223,7 +223,7 @@
 										<span t-field="tax.tipo_factor" />
 									</td>
 									<td class="text-right"  width="25%">
-										<span t-esc="abs(tax.amount / 100)" />
+										<span t-esc="'%.4f'% abs(tax.amount / 100)" />
 									</td>
 									<td class="text-right"  width="25%">
 										<span t-esc="abs(m['amount'])"
