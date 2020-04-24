@@ -49,7 +49,8 @@ class AccountMove(models.Model):
                    ('27', '27 - A satisfacción del acreedor'), 
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'), 
+                   ('30', '30 - Aplicación de anticipos'),
+                   ('31', '31 - Intermediario pagos'), 
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
@@ -480,7 +481,7 @@ class AccountMove(models.Model):
                                                 {
                                                     'name': file_name,
                                                     'datas': json_response['factura_xml'],
-                                                    'datas_fname': file_name,
+                                                    #'datas_fname': file_name,
                                                     'res_model': self._name,
                                                     'res_id': invoice.id,
                                                     'type': 'binary'
