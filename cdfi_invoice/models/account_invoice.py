@@ -51,7 +51,7 @@ class AccountInvoice(models.Model):
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
                    ('30', '30 - Aplicación de anticipos'), 
-                   ('31', '31 - Intermediario pagos'), 
+                   ('31', '31 - Intermediario pagos'),
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
@@ -436,10 +436,12 @@ class AccountInvoice(models.Model):
                 if invoice.fecha_factura == False:
                     invoice.fecha_factura= datetime.datetime.now()
                     invoice.write({'fecha_factura': invoice.fecha_factura})
-                if invoice.estado_factura == 'factura_correcta':
-                    raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+                if invoice.estado_factura == 'factura_correcta' and invoice.state == 'draft':
+                    continue
+                if invoice.estado_factura == 'factura_correcta' and invoice.state != 'draft':
+                    raise UserError(_('Error para validar factura, Factura ya generada.'))
                 if invoice.estado_factura == 'factura_cancelada':
-                    raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
+                    raise UserError(_('Error para validar factura, Factura ya generada y cancelada.'))
                 values = invoice.to_json()
                 url=''
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
