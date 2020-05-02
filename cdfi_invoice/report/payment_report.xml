@@ -240,7 +240,7 @@
 								<td>
 		                            <span t-esc="row.get('tipodecambio')"/>
 		                        </td>
-								<td>
+		                        <td>
 		                            <t t-if="row.get('methodo_pago')=='PUE'">Pago en una sola exibición</t>
 		                            <t t-if="row.get('methodo_pago')=='PPD'">Pago en parcialidades o diferido</t>
 		                        </td>
@@ -316,8 +316,8 @@
 						</table>
 					</div>
 					<div><br/></div>
-					<t t-if="o.banco_emisor and o.banco_receptor and o.forma_pago == '03'">
-					<center><strong>Detalles de la transferencia bancaria</strong></center>
+					<t t-if="o.banco_emisor and o.banco_receptor and (o.forma_pago == '03' or o.forma_pago == '02')">
+					<center><strong>Detalles bancarios</strong></center>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 							<tr>

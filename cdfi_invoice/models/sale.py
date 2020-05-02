@@ -121,15 +121,15 @@ class SaleOrder(models.Model):
     
     def _get_fecha_corregida(self):
         if self.date_order:
-            #corregir hora
-            timezone = self._context.get('tz')
-            if not timezone:
-                timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
-            #timezone = tools.ustr(timezone).encode('utf-8')
-            
-            local = pytz.timezone(timezone)
-            naive_from = self.date_order
-            local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
-            self.fecha_corregida = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
-            #_logger.info('fecha ... %s', self.fecha_corregida)
+           #corregir hora
+           timezone = self._context.get('tz')
+           if not timezone:
+               timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+           #timezone = tools.ustr(timezone).encode('utf-8')
+
+           local = pytz.timezone(timezone)
+           naive_from = self.date_order
+           local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
+           self.fecha_corregida = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
+           #_logger.info('fecha ... %s', self.fecha_corregida)
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

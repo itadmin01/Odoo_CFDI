@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class amount_to_text:
     """
     Transforma de una cantidad numerica a cantidad en letra

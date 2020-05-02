@@ -57,9 +57,9 @@ class AccountPayment(models.Model):
     banco_emisor = fields.Char("Banco del emisor", related='cuenta_emisor.bank_name', readonly=True)
     rfc_banco_emisor = fields.Char(_("RFC banco emisor"), related='cuenta_emisor.bank_bic', readonly=True)
     numero_operacion = fields.Char(_("Número de operación"))
-#    banco_receptor = fields.Char(_("Banco receptor"), compute='_compute_banco_receptor')
-#    cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
-#    rfc_banco_receptor = fields.Char(_("RFC banco receptor"), compute='_compute_banco_receptor')
+    banco_receptor = fields.Char(_("Banco receptor"), compute='_compute_banco_receptor')
+    cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
+    rfc_banco_receptor = fields.Char(_("RFC banco receptor"), compute='_compute_banco_receptor')
     estado_pago = fields.Selection(
         selection=[('pago_no_enviado', 'REP no generado'), ('pago_correcto', 'REP correcto'), 
                    ('problemas_factura', 'Problemas con el pago'), ('solicitud_cancelar', 'Cancelación en proceso'),
@@ -146,11 +146,6 @@ class AccountPayment(models.Model):
             return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
         return {}
     
-    #@api.onchange('payment_date')
-    # def _onchange_payment_date(self):
-        #  if self.payment_date:
-            #self.fecha_pago = datetime.strptime(self.payment_date, "%Y-%m-%d") + timedelta(hours=12)
-            
     @api.onchange('payment_date')
     def _onchange_payment_date(self):
         if self.payment_date:
@@ -233,17 +228,26 @@ class AccountPayment(models.Model):
         for record in self:
             if record.amount:
                 record.monto_pagar = record.amount
-            
-    
-#    @api.depends('journal_id')
-#    def _compute_banco_receptor(self):
-#        for record in self:
-#            if record.journal_id and record.journal_id.bank_id:
-#                record.banco_receptor = record.journal_id.bank_id.name
-#                record.rfc_banco_receptor = record.journal_id.bank_id.bic
-#            if record.journal_id:
-#                record.cuenta_beneficiario = record.journal_id.bank_acc_number
-             
+            else:
+                record.monto_pagar = 0
+
+    @api.depends('journal_id')
+    def _compute_banco_receptor(self):
+        for record in self:
+            if record.journal_id and record.journal_id.bank_id:
+                record.banco_receptor = record.journal_id.bank_id.name
+                record.rfc_banco_receptor = record.journal_id.bank_id.bic
+            else:
+                record.banco_receptor = ''
+                record.rfc_banco_receptor = ''
+                record.cuenta_beneficiario = ''
+            if record.journal_id:
+                record.cuenta_beneficiario = record.journal_id.bank_acc_number
+            else:
+                record.banco_receptor = ''
+                record.rfc_banco_receptor = ''
+                record.cuenta_beneficiario = ''
+
     @api.depends('amount', 'currency_id')
     def _get_amount_to_text(self):
         for record in self:
@@ -266,22 +270,22 @@ class AccountPayment(models.Model):
             self.tipocambiop = '1'
         else:
             self.tipocambiop = self.currency_id.rate
+
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+        #timezone = tools.ustr(timezone).encode('utf-8')
+
         if not self.fecha_pago:
             raise Warning("Falta configurar fecha de pago en la sección de CFDI del documento.")
         else:
-            local = get_localzone()
+            local = pytz.timezone(timezone)
             naive_from = self.fecha_pago
             local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
             date_from = local_dt_from.strftime ("%Y-%m-%d %H:%M:%S")
-
         self.add_resitual_amounts()
 
         #corregir hora
-        timezone = self._context.get('tz')
-        if not timezone:
-            timezone = self.env.user.partner_id.tz or 'UTC'
-        #timezone = tools.ustr(timezone).encode('utf-8')
-
         local2 = pytz.timezone(timezone)
         naive_from2 = datetime.now() 
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
@@ -374,9 +378,9 @@ class AccountPayment(models.Model):
             except Exception as e:
                 error = str(e)
                 if "Name or service not known" in error or "Failed to establish a new connection" in error:
-                    raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
+                     raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
                 else:
-                    raise Warning(error)
+                     raise Warning(error)
 
             #print 'Response: ', response.status_code
             json_response = response.json()
@@ -457,8 +461,8 @@ class AccountPayment(models.Model):
 #           self.methodo_pago = DoctoRelacionado.attrib['MetodoDePagoDR']
 #           self.moneda = DoctoRelacionado.attrib['MonedaDR']
 #           self.monedap = Pago.attrib['MonedaP']
-#           if self.monedap != 'MXN':      
-#               self.tipocambiop = Pago.attrib['TipoCambioP']    
+#           if self.monedap != 'MXN':		   
+#               self.tipocambiop = Pago.attrib['TipoCambioP']	   
 #           if self.moneda != self.monedap:
 #                 self.tipocambio = DoctoRelacionado.attrib['TipoCambioDR']
 #           self.iddocumento = DoctoRelacionado.attrib['IdDocumento']
@@ -530,7 +534,7 @@ class AccountPayment(models.Model):
                 archivo_key = p.company_id.archivo_key.decode("utf-8")
                 archivo_xml_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
                 with open(archivo_xml_link, 'rb') as cf:
-                    archivo_xml = base64.b64encode(cf.read())
+                     archivo_xml = base64.b64encode(cf.read())
                 values = {
                           'rfc': p.company_id.rfc,
                           'api_key': p.company_id.proveedor_timbrado,
@@ -553,7 +557,7 @@ class AccountPayment(models.Model):
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif p.company_id.proveedor_timbrado == 'gecoerp':
                     if p.company_id.modo_prueba:
-                        #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
+                         #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')

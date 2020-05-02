@@ -43,15 +43,15 @@
                                     <group cols="4">
                                         <group>
                                             <field name="fecha_pago"/>
-                                            <!-- <field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-                                            <field name="banco_emisor"   attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-                                            <field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','!=','03')]}"/> -->
+                                            <field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="banco_emisor"   attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
                                         </group>
                                         <group>
                                             <field name="numero_operacion" />
-                                            <!-- <field name="banco_receptor" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-                                            <field name="cuenta_beneficiario" attrs="{'invisible':[('forma_pago','!=','03')]}"/>
-                                            <field name="rfc_banco_receptor" attrs="{'invisible':[('forma_pago','!=','03')]}"/> -->
+                                            <field name="banco_receptor" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="cuenta_beneficiario" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="rfc_banco_receptor" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
                                         </group>
                                     </group>
                                     <group cols="4">

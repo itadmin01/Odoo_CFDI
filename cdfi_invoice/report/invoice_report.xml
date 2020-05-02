@@ -39,10 +39,8 @@
 					<div style="border-bottom: 1px solid black;"></div>
 				</div>
 			</div>
-			<t t-if="o.estado_factura == 'factura_cancelada'">
-			   <div style="position:absolute;opacity:0.25;z-index:1000;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:150%;">
-                      <p style="font-size:140px;">CANCELADO</p>
-               </div>
+			<t t-if="o.estado_factura == 'factura_cancelada'">			 
+			   <h1 style="text-align:center;">FACTURA CANCELADA</h1>			 
 			</t>
         </div>
 
@@ -422,7 +420,7 @@
 				<!--CORRECCIÓN DE ETIQUETAS STRONG-->
 
 
-				<div class="row" style="page-break-inside: avoid">
+				<div name="cadenas" class="row" style="page-break-inside: avoid">
 						<!--INICIA CODIGOQR-->
 						<div class="col-xs-5">
 							<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"

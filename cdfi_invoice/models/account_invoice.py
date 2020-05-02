@@ -49,8 +49,8 @@ class AccountMove(models.Model):
                    ('27', '27 - A satisfacción del acreedor'), 
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'),
-                   ('31', '31 - Intermediario pagos'), 
+                   ('30', '30 - Aplicación de anticipos'), 
+                   ('31', '31 - Intermediario pagos'),
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
@@ -161,9 +161,6 @@ class AccountMove(models.Model):
 
     @api.model
     def _reverse_move_vals(self,default_values, cancel=True):
-    #def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):
-    #    values = super(AccountMove, self)._prepare_refund(invoice, date_invoice=date_invoice, 
-    #                                                       date=date, description=description, journal_id=journal_id)
         values = super(AccountMove, self)._reverse_move_vals(default_values, cancel)
         if self.estado_factura == 'factura_correcta':
             values['uuid_relacionado'] = self.folio_fiscal
@@ -290,8 +287,8 @@ class AccountMove(models.Model):
                 },
                 'version': {
                       'cfdi': '3.3',
-                      'sistema': 'odoo11',
-                      'version': '6',
+                      'sistema': 'odoo13',
+                      'version': '2',
                 },
         }
         amount_total = 0.0
@@ -354,8 +351,8 @@ class AccountMove(models.Model):
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
-                if line.name.find(']') > 0:
-                    product_string = line.name[line.name.find('[')+len('['):line.name.find(']')] or ''
+               if line.name.find(']') > 0:
+                  product_string = line.name[line.name.find('[')+len('['):line.name.find(']')] or ''
 
             #self.amount = p_unit * line.quantity * (1 - (line.discount or 0.0) / 100.0)
             if self.tipo_comprobante == 'E':
@@ -368,7 +365,9 @@ class AccountMove(models.Model):
                                       'clave_producto': '84111506',
                                       'clave_unidad': 'ACT',
                                       'taxes': product_taxes,
-                                      'descuento': self.desc,})
+                                      'descuento': self.desc,
+                                      'numero_pedimento': line.pedimento,
+                                      'numero_predial': line.predial})
             elif self.tipo_comprobante == 'T':
                 invoice_lines.append({'quantity': line.quantity,
                                       'unidad_medida': line.product_id.unidad_medida,
@@ -388,7 +387,10 @@ class AccountMove(models.Model):
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad,
                                       'taxes': product_taxes,
-                                      'descuento': self.desc})
+                                      'descuento': self.desc,
+                                      'numero_pedimento': line.pedimento,
+                                      'numero_predial': line.predial})
+
 
         self.discount = round(self.discount,2)
         if self.tipo_comprobante == 'T':
@@ -432,10 +434,12 @@ class AccountMove(models.Model):
                 if invoice.fecha_factura == False:
                     invoice.fecha_factura= datetime.datetime.now()
                     invoice.write({'fecha_factura': invoice.fecha_factura})
-                if invoice.estado_factura == 'factura_correcta':
-                    raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+                if invoice.estado_factura == 'factura_correcta' and invoice.state == 'draft':
+                    continue
+                if invoice.estado_factura == 'factura_correcta' and invoice.state != 'draft':
+                    raise UserError(_('Error para validar factura, Factura ya generada.'))
                 if invoice.estado_factura == 'factura_cancelada':
-                    raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
+                    raise UserError(_('Error para validar factura, Factura ya generada y cancelada.'))
                 values = invoice.to_json()
                 url=''
                 if invoice.company_id.proveedor_timbrado == 'multifactura':
@@ -574,7 +578,7 @@ class AccountMove(models.Model):
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
         self.folio = xml_data.attrib['Folio']
         if self.company_id.serie_factura:
-            self.serie_emisor = xml_data.attrib['Serie']
+           self.serie_emisor = xml_data.attrib['Serie']
         self.invoice_datetime = xml_data.attrib['Fecha']
         self.version = TimbreFiscalDigital.attrib['Version']
         self.cadena_origenal = '||%s|%s|%s|%s|%s||' % (self.version, self.folio_fiscal, self.fecha_certificacion, 
@@ -716,7 +720,7 @@ class AccountMove(models.Model):
                     if "Name or service not known" in error or "Failed to establish a new connection" in error:
                         raise Warning("Servidor fuera de servicio, favor de intentar mas tarde")
                     else:
-                        raise Warning(error)
+                       raise Warning(error)
                 _logger.info('something ... %s', response.text)
                 json_response = response.json()
 
@@ -787,17 +791,17 @@ class AccountMove(models.Model):
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
 
             try:
-                response = requests.post(url, 
+               response = requests.post(url, 
                                          auth=None,verify=False, data=json.dumps(values), 
                                          headers={"Content-type": "application/json"})
-                #_logger.info('info enviada ...')
-                json_response = response.json()
-                #_logger.info('something ... %s', response.text)
+               #_logger.info('info enviada ...')
+               json_response = response.json()
+               #_logger.info('something ... %s', response.text)
             except Exception as e:
-                _logger.info('log de la exception ... %s', response.text)
-                json_response = {}
+               _logger.info('log de la exception ... %s', response.text)
+               json_response = {}
             if not json_response:
-                return
+               return
             estado_factura = json_response['estado_consulta']
             if estado_factura == 'problemas_consulta':
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
@@ -868,6 +872,12 @@ class MailTemplate(models.Model):
                                 attachments.append(('CDFI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', base64.b64encode(cancel_xml_file)))
                     results[res_id]['attachments'] = attachments
         return results
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    pedimento = fields.Char('Pedimento')
+    predial = fields.Char('No. Predial')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
     
