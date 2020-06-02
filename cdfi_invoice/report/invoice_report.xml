@@ -394,7 +394,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="row" style="page-break-inside: avoid">
+					<div name="cadenas" class="row" style="page-break-inside: avoid">
 						<div class="col-xs-1">
 						<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % o.qrcode_image"
 								style="height: 190;width: 190;padding-left:10px;" />
