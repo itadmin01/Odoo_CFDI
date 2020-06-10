@@ -27,7 +27,8 @@ class AccountInvoice(models.Model):
     tipo_comprobante = fields.Selection(
         selection=[('I', 'Ingreso'), 
                    ('E', 'Egreso'),
-                    ('T', 'Traslado'),],
+                  #('T', 'Traslado')
+                  ],
         string=_('Tipo de comprobante'),
     )
     forma_pago = fields.Selection(
