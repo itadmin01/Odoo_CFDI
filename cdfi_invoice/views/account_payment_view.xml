@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <data>
                 	<button name="post" position="after">
-                        <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),
+                        <button name="complete_payment" class="oe_highlight" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),
                                                                   ]}" string="Genera REP" type="object"/>
                         <button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Enviar por correo-e" type="object"/>
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),
@@ -18,7 +18,7 @@
                 	</button>  <!-- ('factura_cfdi','=',False), -->
                     <xpath expr="//sheet" position="inside">
                     	<notebook >
-                            <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('state','!=','posted')]}">
+                            <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('state','not in',['posted','reconciled'])]}">
                                     <group cols="4">
                                         <group string="Datos del comprobante">
                                         	<field name="forma_pago"/>
@@ -44,8 +44,8 @@
                                         <group>
                                             <field name="fecha_pago"/>
                                             <field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
-                                            <field name="banco_emisor" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
-                                            <field name="rfc_banco_emisor" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="banco_emisor"   attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
+                                            <field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
                                         </group>
                                         <group>
                                             <field name="numero_operacion" />
