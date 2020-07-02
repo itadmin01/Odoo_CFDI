@@ -19,7 +19,6 @@ class import_account_payment_from_xml(models.TransientModel):
     payment_id = fields.Many2one("account.payment",'Payment')
     
     
-    @api.multi
     def import_xml_file_button(self):
         self.ensure_one()
         if not self.import_file:
@@ -39,7 +38,6 @@ class import_account_payment_from_xml(models.TransientModel):
         self.payment_id.write(payment_vals)
         return True
     
-    @api.multi
     def import_xml_file_button_cargar(self):
         self.ensure_one()
         invoice_id = self.env['account.invoice'].browse(self._context.get('active_id'))
