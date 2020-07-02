@@ -45,6 +45,7 @@ UM_CLAVO_MAP = {
                 'Bolsa de plástico': 'XEC',
                 'Saco': 'XSA',
                 'Miles': 'MIL',
+                'Valor monetario': 'M4',
                 }
     
 class ProductTemplate(models.Model):
@@ -93,6 +94,7 @@ class ProductTemplate(models.Model):
                    ('Bolsa de plástico', 'Bolsa de plástico'),
                    ('Saco', 'Saco'),
                    ('Miles', 'Miles'),
+                   ('Valor monetario', 'Valor monetario'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
