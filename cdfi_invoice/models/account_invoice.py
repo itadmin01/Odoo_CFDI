@@ -326,7 +326,8 @@ class AccountMove(models.Model):
                  'percentage': tax_id.amount,
                  'amount': self.monto_impuesto, #tax['amount'],
                  'impuesto': tax_id.impuesto,
-                 'tipo_factor': tax_id.tipo_factor})
+                 'tipo_factor': tax_id.tipo_factor,
+                 'nombre': tax_id.impuesto_local,})
                 val = {'move_id': line.move_id.id,
                  'name': tax_id.tax_group_id.name,
                  'tax_id': tax['id'],

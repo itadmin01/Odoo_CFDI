@@ -10,10 +10,8 @@ class AccountTax(models.Model):
     impuesto = fields.Selection(selection=[('002', 'IVA'),
                                            ('003', ' IEPS'),
                                            ('001', 'ISR'),
-                                           ('004', 'ISH')], string='Impuesto')
+                                           ('004', 'Impuesto Local')], string='Impuesto')
     tipo_factor = fields.Selection(selection=[('Tasa', 'Tasa'),
                                            ('Cuota', 'Cuota'),
                                            ('Exento', 'Exento')], string='Tipo factor')
-
-            
-    
+    impuesto_local = fields.Char('Impuesto Local')
