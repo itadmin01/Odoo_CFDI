@@ -4,7 +4,7 @@ from odoo.exceptions import Warning
 import os
 from lxml import etree
 import base64
-import json, xmltodict
+import json
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from dateutil.parser import parse
 from reportlab.graphics.barcode import createBarcodeDrawing
@@ -48,52 +48,54 @@ class import_account_payment_from_xml(models.TransientModel):
         if ext[1:].lower() !='xml':
             raise Warning(_("Formato no soportado \"{}\", importa solo archivos XML").format(self.file_name))
         
-        file_coontent = base64.b64decode(self.import_file)
-        file_coontent = file_coontent.replace(b'cfdi:',b'')
-        file_coontent = file_coontent.replace(b'tfd:',b'')
-        try:
-            data = json.dumps(xmltodict.parse(file_coontent)) #force_list=('Concepto','Traslado',)
-            data = json.loads(data)
-        except Exception as e:
-            data = {}
-            raise Warning(str(e))
+        NSMAP = {
+                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                 }
 
-        timbrado_data = data.get('Comprobante',{}).get('Complemento',{}).get('TimbreFiscalDigital',{})
-        receptor_data = data.get('Comprobante',{}).get('Receptor',{})
+        file_content = base64.b64decode(self.import_file)
+        xml_data = etree.fromstring(file_content)
+        Emisor = xml_data.find('cfdi:Emisor', NSMAP)
+        Receptor = xml_data.find('cfdi:Receptor', NSMAP)
+        RegimenFiscal = Emisor.find('cfdi:RegimenFiscal', NSMAP)
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+        
         xml_file_link = invoice_id.company_id.factura_dir + '/' + invoice_id.number.replace('/', '_') + '.xml'
 
-        amount_str = str( data.get('Comprobante',{}).get('@Total',{})).split('.')
-        qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (timbrado_data.get('@UUID'),
+        amount_str = str(xml_data.attrib['Total']).split('.')
+        qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (TimbreFiscalDigital.attrib['UUID'],
                                                  invoice_id.company_id.rfc, 
                                                  invoice_id.partner_id.rfc,
                                                  amount_str[0].zfill(10),
                                                  amount_str[1].ljust(6, '0'),
-                                                 timbrado_data.get('@SelloCFD',{})[-8:],
+                                                 str(TimbreFiscalDigital.attrib['SelloCFD'])[-8:],
                                                  )
         options = {'width': 275 * mm, 'height': 275 * mm}
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         qrcode_image = base64.encodestring(ret_val.asString('jpg'))
 
         cargar_values = {
-            'methodo_pago': data.get('Comprobante',{}).get('@MetodoPago',{}),
-            'forma_pago' : data.get('Comprobante',{}).get('@FormaPago',{}), 
-            'uso_cfdi': receptor_data.get('@UsoCFDI'),
-            'folio_fiscal' : timbrado_data.get('@UUID'),
-            'tipo_comprobante': data.get('Comprobante',{}).get('@TipoDeComprobante',{}),
-            'fecha_factura': timbrado_data.get('@FechaTimbrado') and parse(timbrado_data.get('@FechaTimbrado')).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
+            'methodo_pago': xml_data.attrib['MetodoPago'],
+            'forma_pago' : xml_data.attrib['FormaPago'], 
+            'uso_cfdi': Receptor.attrib['UsoCFDI'],
+            'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
+            'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
+            'fecha_factura': TimbreFiscalDigital.attrib['FechaTimbrado'] and parse(TimbreFiscalDigital.attrib['FechaTimbrado']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
             'xml_invoice_link': xml_file_link,
             'factura_cfdi': True,
             'estado_factura': 'factura_correcta',
-            'numero_cetificado' : data.get('Comprobante',{}).get('@NoCertificado',{}),
-            'cetificaso_sat' : timbrado_data.get('@NoCertificadoSAT',{}),
-            'fecha_certificacion' : timbrado_data.get('@FechaTimbrado',{}),
-            'selo_digital_cdfi' : timbrado_data.get('@SelloCFD',{}),
-            'selo_sat' : timbrado_data.get('@SelloSAT',{}),
-            'tipocambio' : data.get('Comprobante',{}).get('@TipoCambio',{}),
-            'moneda': data.get('Comprobante',{}).get('@Moneda',{}),
-            'number_folio': data.get('Comprobante',{}).get('@Folio',{}),
-            'cadena_origenal' : '||%s|%s|%s|%s|%s||' % (timbrado_data.get('@Version',{}), timbrado_data.get('@UUID',{}), timbrado_data.get('@FechaTimbrado',{}),
-                                                         timbrado_data.get('@SelloCFD',{}), timbrado_data.get('@NoCertificadoSAT',{})),
+            'numero_cetificado' : xml_data.attrib['NoCertificado'],
+            'cetificaso_sat' : TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+            'fecha_certificacion' : TimbreFiscalDigital.attrib['FechaTimbrado'],
+            'selo_digital_cdfi' : TimbreFiscalDigital.attrib['SelloCFD'],
+            'selo_sat' : TimbreFiscalDigital.attrib['SelloSAT'],
+            'tipocambio' : xml_data.attrib['TipoCambio'],
+            'moneda': xml_data.attrib['Moneda'],
+            'number_folio': xml_data.attrib['Folio'],
+            'cadena_origenal' : '||%s|%s|%s|%s|%s||' % (TimbreFiscalDigital.attrib['Version'], TimbreFiscalDigital.attrib['UUID'], TimbreFiscalDigital.attrib['FechaTimbrado'],
+                                                         TimbreFiscalDigital.attrib['SelloCFD'], TimbreFiscalDigital.attrib['NoCertificadoSAT']),
             'qrcode_image': qrcode_image
             }
         invoice_id.write(cargar_values)
