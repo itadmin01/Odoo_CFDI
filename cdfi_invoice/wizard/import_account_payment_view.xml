@@ -21,7 +21,7 @@
                </form>
             </field>
         </record>
-        <!--
+        
        <act_window id="action_invoice_carger"
             name="Cargar XML"
             binding_model="account.invoice"
@@ -32,6 +32,6 @@
                         'invoice_type': 'cargar',
                         }"
             />
-        -->
+        
     </data>
 </odoo>
