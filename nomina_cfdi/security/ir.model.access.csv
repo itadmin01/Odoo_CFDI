@@ -6,7 +6,6 @@ access_tablas_cfdi4,tablas_cfdi4,nomina_cfdi.model_tablas_subsidio2_line,om_hr_p
 access_tablas_cfdi5,tablas_cfdi5,nomina_cfdi.model_tablas_subsidioacreditable_line,om_hr_payroll.group_hr_payroll_user,1,1,1,1
 access_tablas_cfdi6,tablas_cfdi6,nomina_cfdi.model_tablas_antiguedades_line,om_hr_payroll.group_hr_payroll_user,1,1,1,1
 access_tablas_cfdi7,otras_entradas,nomina_cfdi.model_otras_entradas,om_hr_payroll.group_hr_payroll_user,1,1,1,1
-access_tablas_cfdi8,access_hr_payslip_mail,nomina_cfdi.model_hr_payslip_mail,om_hr_payroll.group_hr_payroll_user,1,1,1,1
 access_tablas_cfdi9,tablas_cfdi9,nomina_cfdi.model_tablas_periodo_bimestral,om_hr_payroll.group_hr_payroll_user,1,1,1,1
 access_tablas_cfdi10,tablas_cfdi10,nomina_cfdi.model_tablas_periodo_mensual,om_hr_payroll.group_hr_payroll_user,1,1,1,1
 access_tablas_cfdi12,tablas_cfdi12,nomina_cfdi.model_tablas_isr_anual,om_hr_payroll.group_hr_payroll_user,1,1,1,1
