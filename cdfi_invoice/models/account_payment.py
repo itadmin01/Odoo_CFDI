@@ -426,16 +426,17 @@ class AccountPayment(models.Model):
             
     
     def validate_complete_payment(self):
-        self.post()
-        return {
-            'name': _('Payments'),
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'account.payment',
-            'view_id': False,
-            'type': 'ir.actions.act_window',
-            'res_id': self.id,
-        }
+        for rec in self:
+           rec.post()
+           return {
+               'name': _('Payments'),
+               'view_type': 'form',
+               'view_mode': 'form',
+               'res_model': 'account.payment',
+               'view_id': False,
+               'type': 'ir.actions.act_window',
+               'res_id': rec.id,
+           }
 
     
     def _set_data_from_xml(self, xml_payment):
