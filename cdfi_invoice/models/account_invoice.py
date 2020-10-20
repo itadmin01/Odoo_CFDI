@@ -874,10 +874,10 @@ class MailTemplate(models.Model):
                     if not invoice.factura_cfdi:
                         continue
                     if invoice.estado_factura == 'factura_correcta' or invoice.estado_factura == 'solicitud_cancelar':
-                        xml_name = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
+                        xml_name = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
                         xml_file = open(xml_name, 'rb').read()
                         attachments = results[res_id]['attachments'] or []
-                        attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', 
+                        attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', 
                                             base64.b64encode(xml_file)))
                     else:
                         if invoice.number:
