@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_account_payment_from_xml,access_import_account_payment_from_xml,model_import_account_payment_from_xml,,1,1,1,1
+access_unidad_medida,unidad_medida,cdfi_invoice.model_catalogo_unidad_medida,base.group_user,1,1,1,1

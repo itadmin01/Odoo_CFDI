@@ -13,6 +13,31 @@ from datetime import datetime
 import pytz
 from .tzlocal import get_localzone
 import os
+import logging
+_logger = logging.getLogger(__name__)
+
+class AccountRegisterPayment(models.TransientModel):
+    _inherit = 'account.payment.register'
+    
+    def validate_complete_payment(self):
+        for rec in self:
+            rec.action_create_payments()
+            return {
+               'name': _('Payments'),
+               'view_type': 'form',
+               'view_mode': 'form',
+               'res_model': 'account.payment',
+               'view_id': False,
+               'type': 'ir.actions.act_window',
+               'res_id': rec.id,
+           }
+            
+            
+    def _create_payment_vals_from_wizard(self):
+        res = super(AccountRegisterPayment, self)._create_payment_vals_from_wizard()
+        res.update({'fecha_pago': self.payment_date})
+        return res
+    
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -146,15 +171,16 @@ class AccountPayment(models.Model):
             return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
         return {}
     
-    @api.onchange('payment_date')
-    def _onchange_payment_date(self):
-        if self.payment_date:
-            self.fecha_pago = datetime.combine((self.payment_date), datetime.max.time())
+#     @api.onchange('payment_date')
+#     def _onchange_payment_date(self):
+#         if self.payment_date:
+#             self.fecha_pago = datetime.combine((self.payment_date), datetime.max.time())
 
     
     def add_resitual_amounts(self):
-        if self.invoice_ids:
-            for invoice in self.invoice_ids:
+        _logger.info("entra aqui 4")
+        if self.reconciled_invoice_ids and self.docto_relacionados != '[]':
+            for invoice in self.reconciled_invoice_ids:
                 data = json.loads(self.docto_relacionados) or []
                 for line in data:
                     if invoice.folio_fiscal == line.get('iddocumento',False):
@@ -169,14 +195,60 @@ class AccountPayment(models.Model):
                         line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
                         line['saldo_restante'] = monto_restante
                         self.write({'docto_relacionados': json.dumps(data)})
+        elif self.reconciled_invoice_ids and self.docto_relacionados == '[]':
+           # _logger.info('entra2 01')
+           # if self.docto_relacionados == '[]': #si está vacio
+               _logger.info("entra aqui 5")
+               docto_relacionados = []
+               monto_pagado_asignar = round(self.monto_pagar,2)
+               for invoice in self.reconciled_invoice_ids:
+                    _logger.info('entra2 02 %s', invoice.name)
+                    if invoice.factura_cfdi:
+                        #revisa la cantidad que se va a pagar en el docuemnto
+                        if self.currency_id.name != invoice.moneda:
+                            if self.currency_id.name == 'MXN':
+                            #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
+                                tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                            else:
+                            #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
+                                tipocambiop = float(invoice.tipocambio)/float(self.currency_id.rate)
+                        else:
+                            #saldo_pendiente = round(invoice.residual,2)
+                            tipocambiop = invoice.tipocambio
+
+                        payment_dict = json.loads(invoice.invoice_payments_widget)
+                        payment_content = payment_dict['content']
+                        monto_pagado = 0
+                        for invoice_payments in payment_content:
+                            if invoice_payments['account_payment_id'] == self.id:
+                                _logger.info('contenido %s cuantos hay %s', payment_content, len(payment_content))
+                                monto_pagado = invoice_payments['amount']
+                        docto_relacionados.append({
+                              'moneda': invoice.moneda,
+                              'tipodecambio': tipocambiop,
+                              'methodo_pago': invoice.methodo_pago,
+                              'iddocumento': invoice.folio_fiscal,
+                              'folio_facura': invoice.number_folio,
+                              'no_de_pago': len(payment_content), 
+                              'saldo_pendiente': round(invoice.amount_residual + monto_pagado,2),
+                              'monto_pagar': monto_pagado,
+                              'saldo_restante': invoice.amount_residual,
+                        })
+               saldo_pendiente_total = sum(inv.amount_residual for inv in self.reconciled_invoice_ids)
+               self.write({'docto_relacionados': json.dumps(docto_relacionados),
+                           'saldo_pendiente': saldo_pendiente_total, 'saldo_restante':saldo_pendiente_total - monto_pagado_asignar})
+
 
     @api.model
     def create(self, vals):
         res = super(AccountPayment, self).create(vals)
-        if res.invoice_ids:
+        _logger.info("entra aqui 3")
+        if res.reconciled_invoice_ids:
+            _logger.info("entra aqui 2")
             docto_relacionados = []
             monto_pagado_asignar = round(res.monto_pagar,2)
-            for invoice in res.invoice_ids:
+            for invoice in res.reconciled_invoice_ids:
+                _logger.info("entra aqui")
                 if invoice.factura_cfdi:
                     #revisa la cantidad que se va a pagar en el docuemnto
                     if res.currency_id.name != invoice.moneda:
@@ -210,7 +282,7 @@ class AccountPayment(models.Model):
                           'monto_pagar': 0,
                           'saldo_restante': 0,
                     })
-            saldo_pendiente_total = sum(inv.amount_residual for inv in res.invoice_ids)
+            saldo_pendiente_total = sum(inv.amount_residual for inv in res.reconciled_invoice_ids)
             res.write({'docto_relacionados': json.dumps(docto_relacionados),
                        'saldo_pendiente': saldo_pendiente_total, 'saldo_restante':saldo_pendiente_total - monto_pagado_asignar})
         return res
@@ -291,10 +363,10 @@ class AccountPayment(models.Model):
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
         date_payment = local_dt_from2.strftime ("%Y-%m-%d %H:%M:%S")
 
-        if self.invoice_ids:
+        if self.reconciled_invoice_ids:
             request_params = { 
                 'company': {
-                      'rfc': self.company_id.rfc,
+                      'rfc': self.company_id.vat,
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
                       'regimen_fiscal': self.company_id.regimen_fiscal,
@@ -304,7 +376,7 @@ class AccountPayment(models.Model):
                 },
                 'customer': {
                       'name': self.partner_id.name,
-                      'rfc': self.partner_id.rfc,
+                      'rfc': self.partner_id.vat,
                       'uso_cfdi': 'P01',
                 },
                 'invoice': {
@@ -390,13 +462,8 @@ class AccountPayment(models.Model):
                 raise UserError(_(json_response['problemas_message']))
             # Receive and stroe XML 
             if json_response.get('pago_xml'):
-                xml_file_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
-                xml_file = open(xml_file_link, 'w')
-                xml_payment = base64.b64decode(json_response['pago_xml'])
-                xml_file.write(xml_payment.decode("utf-8"))
-                xml_file.close()
-                p._set_data_from_xml(xml_payment)
-                    
+                p._set_data_from_xml(base64.b64decode(json_response['pago_xml']))
+
                 xml_file_name = p.name.replace('.','').replace('/', '_') + '.xml'
                 self.env['ir.attachment'].sudo().create(
                                             {
@@ -408,7 +475,7 @@ class AccountPayment(models.Model):
                                                 'type': 'binary'
                                             })  
                 report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
-                report_data = report.render_qweb_pdf([p.id])[0]
+                report_data = report._render_qweb_pdf([p.id])[0]
                 pdf_file_name = p.name.replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
                                             {
@@ -425,18 +492,18 @@ class AccountPayment(models.Model):
             p.message_post(body="CFDI emitido")
             
     
-    def validate_complete_payment(self):
-        for rec in self:
-           rec.post()
-           return {
-               'name': _('Payments'),
-               'view_type': 'form',
-               'view_mode': 'form',
-               'res_model': 'account.payment',
-               'view_id': False,
-               'type': 'ir.actions.act_window',
-               'res_id': rec.id,
-           }
+#     def validate_complete_payment(self):
+#         for rec in self:
+#            rec.post()
+#            return {
+#                'name': _('Payments'),
+#                'view_type': 'form',
+#                'view_mode': 'form',
+#                'res_model': 'account.payment',
+#                'view_id': False,
+#                'type': 'ir.actions.act_window',
+#                'res_id': rec.id,
+#            }
 
     
     def _set_data_from_xml(self, xml_payment):
@@ -483,8 +550,8 @@ class AccountPayment(models.Model):
         options = {'width': 275 * mm, 'height': 275 * mm}
         amount_str = str(self.amount).split('.')
         qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (self.folio_fiscal,
-                                                 self.company_id.rfc, 
-                                                 self.partner_id.rfc,
+                                                 self.company_id.vat, 
+                                                 self.partner_id.vat,
                                                  amount_str[0].zfill(10),
                                                  amount_str[1].ljust(6, '0'),
                                                  self.selo_digital_cdfi[-8:],
@@ -533,11 +600,15 @@ class AccountPayment(models.Model):
                     raise UserError(_('Falta la ruta del archivo .key'))
                 archivo_cer = p.company_id.archivo_cer.decode("utf-8")
                 archivo_key = p.company_id.archivo_key.decode("utf-8")
-                archivo_xml_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
-                with open(archivo_xml_link, 'rb') as cf:
-                     archivo_xml = base64.b64encode(cf.read())
+
+                domain = [
+                     ('res_id', '=', p.id),
+                     ('res_model', '=', p._name),
+                     ('name', '=', p.name.replace('/', '_') + '.xml')]
+                xml_file = self.env['ir.attachment'].search(domain)[0]
+
                 values = {
-                          'rfc': p.company_id.rfc,
+                          'rfc': p.company_id.vat,
                           'api_key': p.company_id.proveedor_timbrado,
                           'uuid': p.folio_fiscal,
                           'folio': p.folio,
@@ -548,7 +619,7 @@ class AccountPayment(models.Model):
                                   'archivo_key': archivo_key,
                                   'contrasena': p.company_id.contrasena,
                             },
-                          'xml': archivo_xml.decode("utf-8"),
+                          'xml': xml_file.datas.decode("utf-8"),
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
@@ -571,18 +642,7 @@ class AccountPayment(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
-                    if p.name:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.name.replace('/', '_') + '.xml'
-                    else:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'
-                    xml_file = open(xml_file_link, 'w')
-                    xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice.decode("utf-8"))
-                    xml_file.close()
-                    if p.name:
-                        file_name = p.name.replace('/', '_') + '.xml'
-                    else:
-                        file_name = p.folio + '.xml'
+                    file_name = 'CANCEL_' + p.name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -625,24 +685,22 @@ class MailTemplate(models.Model):
         
         if isinstance(res_ids, (int)):
             res_ids = [res_ids]
-        res_ids_to_templates = super(MailTemplate, self).get_email_template(res_ids)
 
         # templates: res_id -> template; template -> res_ids
-        templates_to_res_ids = {}
-        for res_id, template in res_ids_to_templates.items():
-            templates_to_res_ids.setdefault(template, []).append(res_id)
         
         template_id = self.env.ref('cdfi_invoice.email_template_payment')
-        for template, template_res_ids in templates_to_res_ids.items():
+        for lang, (template, template_res_ids) in self._classify_per_lang(res_ids).items():
             if template.id  == template_id.id:
                 for res_id in template_res_ids:
                     payment = self.env[template.model].browse(res_id)
-                    if payment.xml_payment_link:
+                    if payment.estado_pago != 'pago_no_enviado':
                         attachments =  results[res_id]['attachments'] or []
-                        names = payment.xml_payment_link.split('/')
-                        fn = names[len(names) - 1]
-                        data = open(payment.xml_payment_link, 'rb').read()
-                        attachments.append((fn, base64.b64encode(data)))
+                        domain = [
+                            ('res_id', '=', payment.id),
+                            ('res_model', '=', payment._name),
+                            ('name', '=', payment.name.replace('/', '_') + '.xml')]
+                        xml_file = self.env['ir.attachment'].search(domain)[0]
+                        attachments.append((payment.name.replace('.','').replace('/', '_') + '.xml', xml_file.datas))
                         results[res_id]['attachments'] = attachments
         return results
 

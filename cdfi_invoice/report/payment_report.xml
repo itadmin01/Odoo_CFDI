@@ -122,7 +122,7 @@
 								<span t-field="o.partner_id.name" />
 
 						     <div>
-						    	<span t-field="o.partner_id.rfc" />
+						    	<span t-field="o.partner_id.vat" />
 						     </div>
 							 <div>
 						    	Uso CFDI: P01

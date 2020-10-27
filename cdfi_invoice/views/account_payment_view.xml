@@ -7,15 +7,12 @@
             <field name="inherit_id" ref="account.view_account_payment_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <button name="post" position="after">
-                        <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),
-                                                                  ]}" string="Genera REP" type="object"/>
+                    <button name="action_post" position="after">
+                        <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),]}" string="Genera REP" type="object"/>
                         <button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Enviar por correo-e" type="object"/>
-                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),
-                                                         ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
-                        <button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':['|',('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" 
-                                                          class="oe_highlight" groups="base.group_user" confirm="¿Esta seguro que quiere cancelar la factura?"/>
-                    </button>  <!-- ('factura_cfdi','=',False), -->
+                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
+                        <button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':[('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" class="oe_highlight" groups="base.group_user" confirm="¿Esta seguro que quiere cancelar la factura?"/>
+                    </button>
                     <xpath expr="//sheet" position="inside">
                         <notebook >
                             <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('state','!=','posted')]}">
@@ -72,19 +69,17 @@
             </field>
         </record>
         
-         <record model="ir.ui.view" id="view_account_payment_invoice_cfdi_inherit_form">
-            <field name="name">Account Payment cfdi</field>
-            <field name="model">account.payment</field>
-            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <button name="post" position="after">
-                        <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary"/>
-                    </button>
-                </data>
-            </field>
+        <record id="view_saccount_payment_register_inherit_form" model="ir.ui.view">
+        	<field name="name">Account Payment cfdi</field>
+        	<field name="model">account.payment.register</field>
+        	<field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        	<field name="arch" type="xml">
+        		<xpath expr="//footer/button[@name='action_create_payments']" position="after">
+        			<button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary"/>
+        		</xpath>
+        	</field>
         </record>
-
+        
         <record id="view_payment_inherit_tree" model="ir.ui.view">
            <field name="name">account.payment.inherit.tree</field>
            <field name="model">account.payment</field>
