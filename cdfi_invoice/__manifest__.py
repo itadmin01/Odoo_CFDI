@@ -37,6 +37,7 @@
         'data/mail_template_data.xml',
         'data/cron.xml',
     ],
+    'images': ['static/description/banner.png'],
     'application': False,
     'installable': True,
     'price': 0.00,
