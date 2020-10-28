@@ -44,6 +44,7 @@
     'qweb': [
         'static/src/xml/pos.xml',
     ],
+    'images': ['static/description/banner.jpg'],
     'application': False,
     'installable': True,
     'price': 0.00,
