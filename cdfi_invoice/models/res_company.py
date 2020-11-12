@@ -70,7 +70,7 @@ class ResCompany(models.Model):
     
     def get_saldo(self):
         values = {
-                 'rfc': self.rfc,
+                 'rfc': self.vat,
                  'api_key': self.proveedor_timbrado,
                  'modo_prueba': self.modo_prueba,
                  }
