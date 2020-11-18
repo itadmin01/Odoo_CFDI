@@ -9,11 +9,11 @@
 					    <span t-field="o.partner_id.name"/><br/>
 					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
 					    <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.rfc"/> <span t-field="o.partner_id.uso_cfdi"/>
+		                <span t-field="o.partner_id.vat"/> <span t-field="o.partner_id.uso_cfdi"/>
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>
-		            	Rfc Emisor: <span t-field="o.company_id.rfc"/><br/>
+		            	Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
 		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/>
 		            </div>
 		        </div>
@@ -56,7 +56,7 @@
 									<span t-field="l.quantity" />
 								</td>
 								<td>
-									<span t-field="l.product_id.clave_unidad" /> - <span t-field="l.product_id.unidad_medida" />
+									<span t-field="l.product_id.cat_unidad_medida.clave" /> - <span t-field="l.product_id.cat_unidad_medida.descripcion" />
 								</td>
 								<td>
 									<span t-field="l.name" />

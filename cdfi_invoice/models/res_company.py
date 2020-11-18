@@ -9,7 +9,6 @@ from odoo.exceptions import UserError
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    rfc = fields.Char(string=_('RFC'))
     proveedor_timbrado= fields.Selection(
         selection=[('multifactura', _('Servidor 1')),
                    ('gecoerp', _('Servidor 2')),
@@ -18,8 +17,6 @@ class ResCompany(models.Model):
         string=_('Proveedor de timbrado'), 
     )
     api_key = fields.Char(string=_('API Key'))
-    http_factura = fields.Char(string=_('HTTP Factura'))
-    factura_dir = fields.Char(string=_('Directorio XML'))
     modo_prueba = fields.Boolean(string=_('Modo prueba'))
     serie_factura = fields.Char(string=_('Serie factura'))
     regimen_fiscal = fields.Selection(

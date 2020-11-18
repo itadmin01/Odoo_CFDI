@@ -36,7 +36,8 @@ class AccountPayment(models.Model):
                    ('27', '27 - A satisfacción del acreedor'), 
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'),],
+                   ('30', '30 - Aplicación de anticipos'),
+                   ('31', '31 - Intermediario pagos'), ],
                                 string=_('Forma de pago'), 
                             )
     tipo_comprobante = fields.Selection(
@@ -294,7 +295,7 @@ class AccountPayment(models.Model):
         if self.invoice_ids:
             request_params = { 
                 'company': {
-                      'rfc': self.company_id.rfc,
+                      'rfc': self.company_id.vat,
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
                       'regimen_fiscal': self.company_id.regimen_fiscal,
@@ -304,7 +305,7 @@ class AccountPayment(models.Model):
                 },
                 'customer': {
                       'name': self.partner_id.name,
-                      'rfc': self.partner_id.rfc,
+                      'rfc': self.partner_id.vat,
                       'uso_cfdi': 'P01',
                 },
                 'invoice': {
@@ -390,13 +391,8 @@ class AccountPayment(models.Model):
                 raise UserError(_(json_response['problemas_message']))
             # Receive and stroe XML 
             if json_response.get('pago_xml'):
-                xml_file_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
-                xml_file = open(xml_file_link, 'w')
-                xml_payment = base64.b64decode(json_response['pago_xml'])
-                xml_file.write(xml_payment.decode("utf-8"))
-                xml_file.close()
-                p._set_data_from_xml(xml_payment)
-                    
+                p._set_data_from_xml(base64.b64decode(json_response['pago_xml']))
+
                 xml_file_name = p.name.replace('.','').replace('/', '_') + '.xml'
                 self.env['ir.attachment'].sudo().create(
                                             {
@@ -483,8 +479,8 @@ class AccountPayment(models.Model):
         options = {'width': 275 * mm, 'height': 275 * mm}
         amount_str = str(self.amount).split('.')
         qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (self.folio_fiscal,
-                                                 self.company_id.rfc, 
-                                                 self.partner_id.rfc,
+                                                 self.company_id.vat, 
+                                                 self.partner_id.vat,
                                                  amount_str[0].zfill(10),
                                                  amount_str[1].ljust(6, '0'),
                                                  self.selo_digital_cdfi[-8:],
@@ -533,11 +529,15 @@ class AccountPayment(models.Model):
                     raise UserError(_('Falta la ruta del archivo .key'))
                 archivo_cer = p.company_id.archivo_cer.decode("utf-8")
                 archivo_key = p.company_id.archivo_key.decode("utf-8")
-                archivo_xml_link = p.company_id.factura_dir + '/' + p.name.replace('/', '_') + '.xml'
-                with open(archivo_xml_link, 'rb') as cf:
-                     archivo_xml = base64.b64encode(cf.read())
+
+                domain = [
+                     ('res_id', '=', p.id),
+                     ('res_model', '=', p._name),
+                     ('name', '=', p.name.replace('.','').replace('/', '_') + '.xml')]
+                xml_file = self.env['ir.attachment'].search(domain)[0]
+
                 values = {
-                          'rfc': p.company_id.rfc,
+                          'rfc': p.company_id.vat,
                           'api_key': p.company_id.proveedor_timbrado,
                           'uuid': p.folio_fiscal,
                           'folio': p.folio,
@@ -548,7 +548,7 @@ class AccountPayment(models.Model):
                                   'archivo_key': archivo_key,
                                   'contrasena': p.company_id.contrasena,
                             },
-                          'xml': archivo_xml.decode("utf-8"),
+                          'xml': xml_file.datas.decode("utf-8"),
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
@@ -571,18 +571,7 @@ class AccountPayment(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
-                    if p.name:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.name.replace('/', '_') + '.xml'
-                    else:
-                        xml_file_link = p.company_id.factura_dir + '/CANCEL_' + p.folio + '.xml'
-                    xml_file = open(xml_file_link, 'w')
-                    xml_invoice = base64.b64decode(json_response['factura_xml'])
-                    xml_file.write(xml_invoice.decode("utf-8"))
-                    xml_file.close()
-                    if p.name:
-                        file_name = p.name.replace('/', '_') + '.xml'
-                    else:
-                        file_name = p.folio + '.xml'
+                    file_name = 'CANCEL_' + p.name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
@@ -637,12 +626,14 @@ class MailTemplate(models.Model):
             if template.id  == template_id.id:
                 for res_id in template_res_ids:
                     payment = self.env[template.model].browse(res_id)
-                    if payment.xml_payment_link:
+                    if payment.estado_pago != 'pago_no_enviado':
                         attachments =  results[res_id]['attachments'] or []
-                        names = payment.xml_payment_link.split('/')
-                        fn = names[len(names) - 1]
-                        data = open(payment.xml_payment_link, 'rb').read()
-                        attachments.append((fn, base64.b64encode(data)))
+                        domain = [
+                            ('res_id', '=', payment.id),
+                            ('res_model', '=', payment._name),
+                            ('name', '=', payment.name.replace('.','').replace('/', '_') + '.xml')]
+                        xml_file = self.env['ir.attachment'].search(domain)[0]
+                        attachments.append((payment.name.replace('.','').replace('/', '_') + '.xml', xml_file.datas))
                         results[res_id]['attachments'] = attachments
         return results
 
