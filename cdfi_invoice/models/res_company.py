@@ -5,6 +5,7 @@ import json
 import requests
 from odoo import fields, models,api, _
 from odoo.exceptions import UserError
+from datetime import datetime, timedelta
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -50,15 +51,18 @@ class ResCompany(models.Model):
     serie_complemento = fields.Char(string=_('Serie complemento de pago'))
     telefono_sms = fields.Char(string=_('Teléfono celular'))  
     saldo_timbres =  fields.Float(string=_('Saldo de timbres'), readonly=True)
-    saldo_alarma =  fields.Float(string=_('Alarma timbres'), default=0)
+    saldo_alarma =  fields.Float(string=_('Alarma timbres'), default=10)
     correo_alarma =  fields.Char(string=_('Correo de alarma'))
-    
+    fecha_csd = fields.Datetime(string=_('Vigencia CSD'), readonly=True)
+    estado_csd =  fields.Char(string=_('Estado CSD'), readonly=True)
+    aviso_csd =  fields.Char(string=_('Aviso vencimiento (días antes)'), default=14)
+
     @api.model
     def get_saldo_by_cron(self):
         companies = self.search([('proveedor_timbrado','!=',False)])
         for company in companies:
             company.get_saldo()
-            if company.saldo_timbres < company.saldo_alarma and company.correo_alarma:
+            if company.saldo_timbres < company.saldo_alarma and company.correo_alarma: #valida saldo de timbres
                 email_template = self.env.ref("cdfi_invoice.email_template_alarma_de_saldo",False)
                 if not email_template:return
                 emails = company.correo_alarma.split(",")
@@ -66,8 +70,17 @@ class ResCompany(models.Model):
                     email = email.strip()
                     if email:
                         email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
+            if company.aviso_csd and company.fecha_csd and company.correo_alarma: #valida vigencia de CSD
+                if datetime.today() + timedelta(days=1) > company.fecha_csd: 
+                   email_template = self.env.ref("cdfi_invoice.email_template_alarma_de_csd",False)
+                   if not email_template:return
+                   emails = company.correo_alarma.split(",")
+                   for email in emails:
+                       email = email.strip()
+                       if email:
+                          email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
         return True
-    
+
     def get_saldo(self):
         values = {
                  'rfc': self.vat,
@@ -105,7 +118,77 @@ class ResCompany(models.Model):
                   }
         self.update(values2)
 
-    
+    def validar_csd(self):
+        values = {
+                 'rfc': self.vat,
+                 'archivo_cer': self.archivo_cer.decode("utf-8"),
+                 'archivo_key': self.archivo_key.decode("utf-8"),
+                 'contrasena': self.contrasena,
+                 }
+        url=''
+        if self.proveedor_timbrado == 'multifactura':
+            url = '%s' % ('http://facturacion.itadmin.com.mx/api/validarcsd')
+        elif self.proveedor_timbrado == 'multifactura2':
+            url = '%s' % ('http://facturacion2.itadmin.com.mx/api/validarcsd')
+        elif self.proveedor_timbrado == 'multifactura3':
+            url = '%s' % ('http://facturacion3.itadmin.com.mx/api/validarcsd')
+        if not url:
+            return
+        try:
+            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            json_response = response.json()
+        except Exception as e:
+            print(e)
+            json_response = {}
+
+        if not json_response:
+            return
+        #_logger.info('something ... %s', response.text)
+
+        respuesta = json_response['respuesta']
+        if json_response['respuesta'] == 'Certificados CSD correctos':
+           self.fecha_csd = datetime.strptime(json_response['fecha'], '%d-%b-%Y %H:%M:%S')  # 17-Jun-2023 20:40:51
+           values2 = {
+               'fecha_csd': self.fecha_csd,
+               'estado_csd': json_response['respuesta'],
+               }
+           self.update(values2)
+        else:
+           raise UserError(respuesta)
+
+    def borrar_csd(self):
+        values = {
+                 'rfc': self.vat,
+                 }
+        url=''
+        if self.proveedor_timbrado == 'multifactura':
+            url = '%s' % ('http://facturacion.itadmin.com.mx/api/borrarcsd')
+        elif self.proveedor_timbrado == 'multifactura2':
+            url = '%s' % ('http://facturacion2.itadmin.com.mx/api/borrarcsd')
+        elif self.proveedor_timbrado == 'multifactura3':
+            url = '%s' % ('http://facturacion3.itadmin.com.mx/api/borrarcsd')
+        if not url:
+            return
+        try:
+            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            json_response = response.json()
+        except Exception as e:
+            print(e)
+            json_response = {}
+
+        if not json_response:
+            return
+        #_logger.info('something ... %s', response.text)
+        respuesta = json_response['respuesta']
+        raise UserError(respuesta)
+
+    def borrar_estado(self):
+           values2 = {
+               'fecha_csd': '',
+               'estado_csd': '',
+               }
+           self.update(values2)
+
     def button_dummy(self):
         self.get_saldo()
         return True

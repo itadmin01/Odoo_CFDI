@@ -3,13 +3,19 @@
         <template id="report_invoice_inherit_cdfi" inherit_id="account.report_invoice_document">
 	    
 
+        <!--EMPTY HEADER SO THE NAME IS IN THE TOP-->
 		<xpath expr="//address" position="replace">
+		</xpath>
+
+		<!--PUT THE ADDRESS AFTER THE INFORMATION OF THE INVOICE-->
+		<xpath expr="//div[@id='informations']" position="after">
 				<div name="general_information" class="row">
 					<div class="col-6" style="font-size:14px;">
+		            	<strong>Datos receptor:</strong><br/>
 					    <span t-field="o.partner_id.name"/><br/>
 					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
 					    <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/> <span t-field="o.partner_id.uso_cfdi"/>
+		                <span t-field="o.partner_id.vat"/><span t-field="o.partner_id.uso_cfdi"/>
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>
@@ -18,6 +24,12 @@
 		            </div>
 		        </div>
 		</xpath>
+
+		<xpath expr="//div[@class='mt16']" position="replace">
+				
+		</xpath>
+
+
 
 	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
                     <table class="table table table-sm o_main_table" font-size="16px;">
