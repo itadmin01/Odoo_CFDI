@@ -7,6 +7,34 @@
 		<xpath expr="//address" position="replace">
 		</xpath>
 
+
+	<!--REPLACE THE INFORMATION DIV WITH THE NEW INFO-->
+
+    <xpath expr="//div[@id='informations']" position="replace">
+		<div id="informations" class="row mt32 mb32">
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                <strong>Fecha de factura:</strong>
+                        <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due" name="due_date">                          
+            	<strong>Fecha de vencimiento:</strong>
+                        <p class="m-0" t-field="o.invoice_date_due"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.uso_cfdi" name="origin">
+                    <strong>Uso:</strong>
+                        <p class="m-0" t-field="o.uso_cfdi"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.forma_pago" name="customer_code">
+                    <strong>Forma de pago:</strong>
+                        <p class="m-0" t-field="o.forma_pago"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.methodo_pago" name="reference">
+                    <strong>Método de pago:</strong>
+                        <p class="m-0" t-field="o.methodo_pago"/>
+            </div>
+        </div>
+    </xpath>
+
 		<!--PUT THE ADDRESS AFTER THE INFORMATION OF THE INVOICE-->
 		<xpath expr="//div[@id='informations']" position="after">
 				<div name="general_information" class="row">
@@ -15,7 +43,7 @@
 					    <span t-field="o.partner_id.name"/><br/>
 					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
 					    <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/><span t-field="o.partner_id.uso_cfdi"/>
+		                <span t-field="o.partner_id.vat"/> <span t-field="o.partner_id.uso_cfdi"/>
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>
@@ -24,11 +52,6 @@
 		            </div>
 		        </div>
 		</xpath>
-
-		<xpath expr="//div[@class='mt16']" position="replace">
-				
-		</xpath>
-
 
 
 	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
@@ -40,12 +63,13 @@
 								<th class="text-right">Unidad</th>
 								<th width="50%">Descripción</th>
 								<th class="text-right">Precio Unitario</th>
-								<th class="text-right">Importe</th>
 								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Impuesto</th>
-								<th class="text-right">Tipo Factor</th>
+								<th class="text-right">Importe</th>
+
+								<!--<th class="text-right">Tipo Factor</th>
 								<th class="text-right">Tasa Cuota</th>
-								<th class="text-right">Importe Impuesto</th>
+								<th class="text-right">Importe Impuesto</th>-->
 							</tr>
 						</thead>
 						<tbody class="invoice_tbody">
@@ -78,10 +102,7 @@
 									<span t-field="l.price_unit"
 									      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
 								</td>
-								<td class="text-right">
-									<span t-esc="l.price_unit*l.quantity"
-										t-options='{"widget": "monetary", "display_currency": docs.currency_id}' />
-								</td>
+								
 								<td t-if="display_discount" class="text-right" >
 									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity"
 									      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
@@ -94,7 +115,7 @@
 									<td class="text-right" width="25%">
 										<span t-field="tax.impuesto" />
 									</td>
-									<td class="text-right"  width="25%">
+									<!--<td class="text-right"  width="25%">
 										<span t-field="tax.tipo_factor" />
 									</td>
 									<td class="text-right"  width="25%">
@@ -103,9 +124,13 @@
 									<td class="text-right"  width="25%">
 										<span t-esc="abs(m['amount'])"
 										      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
-									</td>
+									</td>-->
 									</t>
 									</t>
+								<td class="text-right">
+									<span t-esc="l.price_unit*l.quantity"
+										t-options='{"widget": "monetary", "display_currency": docs.currency_id}' />
+								</td>
 								</tr>
 								</table>
 								</td>
@@ -125,10 +150,9 @@
 	     </xpath>
 
 	     <xpath expr="//p[@name='note']" position="before">
-	     	<t t-if="docs.factura_cfdi" style="font-size:12px;">
-					<div class="row" style="border:solid 2px black;font-size:12px;">
+					<div class="col-12" style="font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 1px;">
-							<tr>
+							<!--<tr>
 								<td>
 									<strong>Método de pago</strong>
 								</td>
@@ -141,21 +165,8 @@
 								<td >
 									<span t-field="docs.regimen_fiscal" />
 								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Forma de pago</strong>
-								</td>
-								<td >
-									<span t-field="docs.forma_pago" />
-								</td>
-								<td>
-									<strong>Número de certificado</strong>
-								</td>
-								<td >
-									<span t-field="docs.numero_cetificado" />
-								</td>
-							</tr>
+							</tr>-->
+							
 							<tr>
 							   <td>
 									<strong>Moneda</strong>
@@ -185,8 +196,12 @@
 								</td>
 							</tr>
 							<tr>
-								<td></td><td></td>
 								<td>
+									<strong>Número de certificado</strong>
+								</td>
+								<td >
+									<span t-field="docs.numero_cetificado" />
+								</td>								<td>
 									<strong>Fecha y hora de certificación</strong>
 								</td>
 								<td >
@@ -197,7 +212,9 @@
 					</div>
 
 					<br/>
+		</xpath>
 
+		<xpath expr="//p[@name='note']" position="before">		
 				<div name="cadenas" class="row">
 
 					<div class="col-3 float-left">
@@ -217,10 +234,9 @@
 
                     </div>
                 </div>
-				</t>
-
 				
 	     </xpath>
+
 
 
         </template>
