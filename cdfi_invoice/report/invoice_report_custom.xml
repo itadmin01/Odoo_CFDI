@@ -47,7 +47,7 @@
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>
-		            	Nombre emisor: <span t-field="o.company_id.name"/><br/>
+		            	Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
 		            	Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
 		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/>
 		            </div>
