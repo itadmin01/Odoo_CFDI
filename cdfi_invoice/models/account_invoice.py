@@ -704,7 +704,7 @@ class AccountMove(models.Model):
     def action_cfdi_rechazada(self):
         for invoice in self:
             if invoice.factura_cfdi:
-                if invoice.estado_factura == 'solicitud_rechazada':
+                if invoice.estado_factura == 'solicitud_rechazada' or invoice.estado_factura == 'solicitud_cancelar':
                     invoice.estado_factura = 'factura_correcta'
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
  

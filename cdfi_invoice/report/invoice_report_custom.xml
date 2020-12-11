@@ -2,11 +2,9 @@
         <!-- Inherit invoice report (from module accounting) -->
         <template id="report_invoice_inherit_cdfi" inherit_id="account.report_invoice_document">
 	    
-
         <!--EMPTY HEADER SO THE NAME IS IN THE TOP-->
 		<xpath expr="//address" position="replace">
 		</xpath>
-
 
 	<!--REPLACE THE INFORMATION DIV WITH THE NEW INFO-->
 
@@ -53,7 +51,6 @@
 		            </div>
 		        </div>
 		</xpath>
-
 
 	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
                     <table class="table table table-sm o_main_table" font-size="16px;">
@@ -237,7 +234,6 @@
                 </div>
 				
 	     </xpath>
-
 
 
         </template>
