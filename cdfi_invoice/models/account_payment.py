@@ -66,7 +66,7 @@ class AccountPayment(models.Model):
                             )
     tipo_comprobante = fields.Selection(
                                 selection=[ ('P', 'Pago'),],
-                                string=_('Tipo de comprobante'), default='P',
+                                string=_('Tipo de comprobante'), #default='P',
                             )
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
