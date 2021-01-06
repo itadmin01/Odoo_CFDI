@@ -778,11 +778,15 @@ class AccountInvoice(models.Model):
         invoices = self.search(domain, order = 'id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
+            archivo_xml_link = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
+            with open(archivo_xml_link, 'rb') as cf:
+                 archivo_xml = base64.b64encode(cf.read())
             values = {
                  'rfc': invoice.company_id.rfc,
                  'api_key': invoice.company_id.proveedor_timbrado,
                  'modo_prueba': invoice.company_id.modo_prueba,
                  'uuid': invoice.folio_fiscal,
+                 'xml': archivo_xml.decode("utf-8"),
                  }
 
             if invoice.company_id.proveedor_timbrado == 'multifactura':
