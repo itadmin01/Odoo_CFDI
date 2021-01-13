@@ -652,11 +652,17 @@ class AccountMove(models.Model):
         invoices = self.search(domain, order = 'id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
+            domain = [
+                 ('res_id', '=', invoice.id),
+                 ('res_model', '=', invoice._name),
+                 ('name', '=', invoice.name.replace('/', '_') + '.xml')]
+            xml_file = self.env['ir.attachment'].search(domain)[0]
             values = {
                  'rfc': invoice.company_id.vat,
                  'api_key': invoice.company_id.proveedor_timbrado,
                  'modo_prueba': invoice.company_id.modo_prueba,
                  'uuid': invoice.folio_fiscal,
+                 'xml': xml_file.datas.decode("utf-8"),
                  }
 
             if invoice.company_id.proveedor_timbrado == 'multifactura':
