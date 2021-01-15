@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models,_
-
+import ast
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
@@ -93,12 +93,14 @@ class PurchaseOrder(models.Model):
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
     
     
-    def action_view_invoice(self):
-        res = super(PurchaseOrder,self).action_view_invoice()
+    def action_view_invoice(self, invoices=False):
+        res = super(PurchaseOrder,self).action_view_invoice(invoices=invoices)
         if res:
             if res.get('context')==None:
                 res['context']={}
-            res['context'].update({
+            if res['context']:    
+                context=ast.literal_eval(res['context'])
+            context.update({
                 'default_factura_cfdi' : self.factura_cfdi,
                 'default_tipo_comprobante' : self.tipo_comprobante,
                 'default_forma_pago' : self.forma_pago,
@@ -115,7 +117,7 @@ class PurchaseOrder(models.Model):
                 'default_tipo_relacion' : self.tipo_relacion,
                 'default_uuid_relacionado' : self.uuid_relacionado 
                 })
-            
+            res['context'] = context
         return res
 
 
