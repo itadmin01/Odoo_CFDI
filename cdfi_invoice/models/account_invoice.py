@@ -849,9 +849,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        result = super(AccountInvoice, self).action_invoice_cancel()
-        self.write({'number': self.move_name})
-        return result
+        for record in self:
+           result = super(AccountInvoice, record).action_invoice_cancel()
+           record.write({'number': record.move_name})
+           return result
  
 class MailTemplate(models.Model):
     "Templates for sending email"
