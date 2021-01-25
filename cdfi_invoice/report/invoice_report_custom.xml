@@ -35,6 +35,11 @@
 
 		<!--PUT THE ADDRESS AFTER THE INFORMATION OF THE INVOICE-->
 		<xpath expr="//div[@id='informations']" position="after">
+			<t t-if="o.company_id.modo_prueba == True">
+				<div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+            		<center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
+            	</div>
+        	</t>
 				<div name="general_information" class="row">
 					<div class="col-6" style="font-size:14px;">
 		            	<strong>Datos receptor:</strong><br/>
