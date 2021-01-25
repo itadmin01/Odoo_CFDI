@@ -50,6 +50,7 @@
                             attrs="{'invisible':['|','|',('state','in',('draft','cancel')), ('estado_factura','in',('factura_correcta','factura_cancelada','solicitud_rechazada')),
                                    ('move_type','not in',('out_invoice', 'out_refund'))]}" 
                             class="oe_highlight" groups="base.group_user"/>
+
                     <button name="action_cfdi_cancel"
                             type="object" 
                             string="Cancelar CFDI" 
