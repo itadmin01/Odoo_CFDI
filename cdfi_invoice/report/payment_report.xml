@@ -131,6 +131,11 @@
 					</div>
 
 					<table class="table" font-size="15px;">
+						<t t-if="o.company_id.modo_prueba == True">
+			    			<div style="position:absolute;opacity:0.2;z-index:99;width:100%;text-align:center;">
+            					<center><span style="font-size:150px;color:red;">PAGO DE <br/>PRUEBA</span></center>
+            				</div>
+        				</t>
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
