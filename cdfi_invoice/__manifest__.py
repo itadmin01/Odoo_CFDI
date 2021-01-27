@@ -6,7 +6,7 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '14.3',
+    'version': '14.4',
     'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 3.3)
     ''',
     'category': 'Accounting',
@@ -29,7 +29,7 @@
         'views/account_payment_term_view.xml',
         'views/purchase_view.xml',
         'views/account_journal_view.xml',
-        #'wizard/import_account_payment_view.xml',
+        'wizard/import_account_payment_view.xml',
         #'report/invoice_report.xml',
         'report/invoice_report_custom.xml',
         'report/payment_report.xml',

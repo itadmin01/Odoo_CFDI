@@ -39,7 +39,7 @@ class import_account_payment_from_xml(models.TransientModel):
     
     def import_xml_file_button_cargar(self):
         self.ensure_one()
-        invoice_id = self.env['account.invoice'].browse(self._context.get('active_id'))
+        invoice_id = self.env['account.move'].browse(self._context.get('active_id'))
         if not self.import_file:
             raise Warning("Seleccione primero el archivo.")
         p, ext = os.path.splitext(self.file_name)
@@ -60,12 +60,12 @@ class import_account_payment_from_xml(models.TransientModel):
         Complemento = xml_data.find('cfdi:Complemento', NSMAP)
         TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
         
-        xml_file_link = invoice_id.company_id.factura_dir + '/' + invoice_id.number.replace('/', '_') + '.xml'
+        #xml_file_link = invoice_id.company_id.factura_dir + '/' + invoice_id.number.replace('/', '_') + '.xml'
 
         amount_str = str(xml_data.attrib['Total']).split('.')
         qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (TimbreFiscalDigital.attrib['UUID'],
-                                                 invoice_id.company_id.rfc, 
-                                                 invoice_id.partner_id.rfc,
+                                                 invoice_id.company_id.vat, 
+                                                 invoice_id.partner_id.vat,
                                                  amount_str[0].zfill(10),
                                                  amount_str[1].ljust(6, '0'),
                                                  str(TimbreFiscalDigital.attrib['SelloCFD'])[-8:],
@@ -81,7 +81,7 @@ class import_account_payment_from_xml(models.TransientModel):
             'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
             'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
             'fecha_factura': TimbreFiscalDigital.attrib['FechaTimbrado'] and parse(TimbreFiscalDigital.attrib['FechaTimbrado']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
-            'xml_invoice_link': xml_file_link,
+           # 'xml_invoice_link': xml_file_link,
             'factura_cfdi': True,
             'estado_factura': 'factura_correcta',
             'numero_cetificado' : xml_data.attrib['NoCertificado'],
@@ -98,10 +98,10 @@ class import_account_payment_from_xml(models.TransientModel):
             }
         invoice_id.write(cargar_values)
 
-        xml_file = open(xml_file_link, 'w')
-        xml_invoice = base64.b64decode(self.import_file)
-        xml_file.write(xml_invoice.decode("utf-8"))
-        xml_file.close()
+        #xml_file = open(xml_file_link, 'w')
+        #xml_invoice = base64.b64decode(self.import_file)
+        #xml_file.write(xml_invoice.decode("utf-8"))
+        #xml_file.close()
 
         return True
 
