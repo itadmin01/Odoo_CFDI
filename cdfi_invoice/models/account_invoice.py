@@ -239,7 +239,7 @@ class AccountMove(models.Model):
             nombre = ''
         else:
             nombre = self.partner_id.name
-        decimales = self.env['decimal.precision'].search([('name','=','Product Price')])
+        decimales = self.env['decimal.precision'].sudo().search([('name','=','Product Price')])
         no_decimales = decimales.digits
 
         #corregir hora
