@@ -89,7 +89,7 @@ class import_account_payment_from_xml(models.TransientModel):
             'fecha_certificacion' : TimbreFiscalDigital.attrib['FechaTimbrado'],
             'selo_digital_cdfi' : TimbreFiscalDigital.attrib['SelloCFD'],
             'selo_sat' : TimbreFiscalDigital.attrib['SelloSAT'],
-            'tipocambio' : xml_data.attrib['TipoCambio'],
+            'tipocambio' : xml_data.find('TipoCambio') and xml_data.attrib['TipoCambio'] or '1',
             'moneda': xml_data.attrib['Moneda'],
             'number_folio': xml_data.attrib['Folio'],
             'cadena_origenal' : '||%s|%s|%s|%s|%s||' % (TimbreFiscalDigital.attrib['Version'], TimbreFiscalDigital.attrib['UUID'], TimbreFiscalDigital.attrib['FechaTimbrado'],
