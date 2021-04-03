@@ -281,7 +281,7 @@ class AccountInvoice(models.Model):
                       'folio': self.number.replace('INV','').replace('/',''),
                       'serie_factura': self.journal_id.serie_diario or self.company_id.serie_factura,
                       'fecha_factura': date_from, #self.fecha_factura,
-                      'decimales': no_decimales,
+                      'decimales_cantidad': 6,
                 },
                 'adicional': {
                       'tipo_relacion': self.tipo_relacion,
@@ -308,6 +308,7 @@ class AccountInvoice(models.Model):
             self.total_impuesto = 0.0
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             amounts = line.invoice_line_tax_ids.compute_all(price, line.currency_id, line.quantity, product=line.product_id, partner=line.invoice_id.partner_id)
+            _logger.info('amounts %s', amounts)
             price_exclude_tax = amounts['total_excluded']
             price_include_tax = amounts['total_included']
             if line.invoice_id:
@@ -321,19 +322,20 @@ class AccountInvoice(models.Model):
             for tax in taxes:
                 tax_id = self.env['account.tax'].browse(tax['id'])
                 if tax_id.price_include or tax_id.amount_type == 'division':
-                    amount_wo_tax -= tax['amount']
-                self.monto_impuesto = tax['amount']
+                    amount_wo_tax -= float("%.2f" % tax['amount'])
+                self.monto_impuesto = float("%.2f" % tax['amount'])
                 self.total_impuesto += self.monto_impuesto
+                _logger.info('monto_impuesto %s', self.monto_impuesto)
                 tax_items.append({'name': tax_id.tax_group_id.name,
                  'percentage': tax_id.amount,
-                 'amount': self.monto_impuesto, #tax['amount'],
+                 'amount': self.monto_impuesto,
                  'impuesto': tax_id.impuesto,
                  'tipo_factor': tax_id.tipo_factor,
                  'nombre': tax_id.impuesto_local,})
                 val = {'invoice_id': line.invoice_id.id,
                  'name': tax_id.tax_group_id.name,
                  'tax_id': tax['id'],
-                 'amount': tax['amount']}
+                 'amount': float("%.2f" % tax['amount'])}
                 key = tax['id']
                 if key not in tax_grouped:
                     tax_grouped[key] = val
@@ -342,16 +344,19 @@ class AccountInvoice(models.Model):
             if tax_items:
                 product_taxes.update({'tax_lines': tax_items})
 
-            self.precio_unitario = float(amount_wo_tax) / float(line.quantity)
-            self.monto = self.precio_unitario * line.quantity
+            self.precio_unitario = "{:.2f}".format(float(amount_wo_tax) / float(line.quantity))
+            self.monto = line.price_subtotal #self.precio_unitario * line.quantity
             amount_untaxed += self.monto
             self.subtotal += self.monto
             self.total += self.monto + self.total_impuesto
 
-            self.desc = self.monto - line.price_subtotal # p_unit * line.quantity - line.price_subtotal
-            if self.desc < 0.01:
+            if line.discount > 0:
+               self.desc = "{:.2f}".format(self.precio_unitario * line.quantity - line.price_subtotal)
+            else:
                 self.desc = 0
+            _logger.info('descuento_b %s', self.desc)
             self.discount += self.desc
+            _logger.info('descuento %s', self.discount)
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
@@ -364,7 +369,7 @@ class AccountInvoice(models.Model):
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': product_string,
                                       'price_unit': self.precio_unitario,
-                                      'amount': self.monto,
+                                      'amount': "{:.2f}".format(self.monto + self.desc),
                                       'description': line.name[:1000],
                                       'clave_producto': '84111506',
                                       'clave_unidad': 'ACT',
@@ -377,7 +382,7 @@ class AccountInvoice(models.Model):
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': product_string,
                                       'price_unit': self.precio_unitario,
-                                      'amount': self.monto,
+                                      'amount': "{:.2f}".format(self.monto + self.desc),
                                       'description': line.name[:1000],
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad})
@@ -386,7 +391,7 @@ class AccountInvoice(models.Model):
                                       'unidad_medida': line.product_id.unidad_medida,
                                       'product': product_string,
                                       'price_unit': self.precio_unitario,
-                                      'amount': self.monto,
+                                      'amount': "{:.2f}".format(self.monto + self.desc),
                                       'description': line.name[:1000],
                                       'clave_producto': line.product_id.clave_producto,
                                       'clave_unidad': line.product_id.clave_unidad,
@@ -400,7 +405,7 @@ class AccountInvoice(models.Model):
         if self.tipo_comprobante == 'T':
             request_params['invoice'].update({'subtotal': '0.00','total': '0.00'})
         else:
-            request_params['invoice'].update({'subtotal': self.subtotal,'total': self.total-self.discount})
+            request_params['invoice'].update({'subtotal': "{:.2f}".format(self.subtotal  + self.discount),'total': "{:.2f}".format(self.total)})
         items.update({'invoice_lines': invoice_lines})
         request_params.update({'items': items})
         tax_lines = []
@@ -411,7 +416,7 @@ class AccountInvoice(models.Model):
             tax_lines.append({
                       'name': line['name'],
                       'percentage': tax.amount,
-                      'amount': line['amount'],
+                      'amount': float("%.2f" % line['amount']),
                 })
         taxes = {'numerodeimpuestos': tax_count}
         if tax_lines:

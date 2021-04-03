@@ -424,26 +424,26 @@
 				<!--CORRECCIÓN DE ETIQUETAS STRONG-->
 
 
-				<div name="cadenas" class="row" style="page-break-inside: avoid">
+				<div name="cadenas" class="row" style="page-break-inside: avoid" >
 						<!--INICIA CODIGOQR-->
 						<div class="col-xs-5">
 							<img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)"
 							style="height: 190px;width: 190px;padding-left:10px;" />
 						</div>
 						<!--TERMINA CODIGO QR-->
-					<div class="col-xs-7" style="font-size:15px;">
+					<div class="col-xs-7" style="font-size:13px;word-break:break-word;">
 						<!--CADENA ORIGINAL>  -->
-						<div >
+						<div style="width:80%;">
 							<strong>Cadena Original del Complemento digital del SAT</strong>
-								<span t-field="o.cadena_origenal" style="word-break:break-word;" />
+								<span t-field="o.cadena_origenal"/>
 						</div>
-						<div >
+						<div style="width:80%;">
 							<strong>Sello digital del CFDI</strong>
-								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" />
+								<span t-field="o.selo_digital_cdfi"  />
 						</div>
-						<div >
+						<div style="width:80%;">
 							<strong>Sello del SAT</strong>
-								<span t-field="o.selo_sat" style="word-break:break-word;" />
+								<span t-field="o.selo_sat"  />
 						</div>
 					</div>
 				</div>
