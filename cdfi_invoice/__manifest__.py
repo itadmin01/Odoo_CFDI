@@ -6,7 +6,7 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '10.6',
+    'version': '10.8',
     'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 3.3)
     ''',
     'category': 'Accounting',
@@ -36,7 +36,6 @@
         'data/mail_template_data.xml',
         'data/cron.xml',
     ],
-    'images': ['static/description/banner.jpg'],
     'application': False,
     'installable': True,
     'price': 0.00,

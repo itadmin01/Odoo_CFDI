@@ -62,7 +62,7 @@
                     <button name="action_cfdi_rechazada"
                             type="object" 
                             string="Cambiar estado CFDI a factura correcta" 
-                            attrs="{'invisible':['|',('factura_cfdi','=',False), ('estado_factura','not in',('solicitud_rechazada'))]}" 
+                            attrs="{'invisible':['|',('factura_cfdi','=',False), ('estado_factura','not in',('solicitud_cancelar', 'solicitud_rechazada'))]}" 
                             class="oe_highlight" 
                             groups="base.group_user"
                             confirm="La factura va pasar a estado correcto y puede intentar cancelar nuevamente."/>
