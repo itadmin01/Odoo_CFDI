@@ -303,8 +303,8 @@ class AccountMove(models.Model):
         tax_grouped = {}
         items = {'numerodepartidas': len(self.invoice_line_ids)}
         invoice_lines = []
+        for line in self.invoice_line_ids:
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
-            if line.quantity <= 0:
                 continue
             self.total_impuesto = 0.0
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
