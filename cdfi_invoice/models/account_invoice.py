@@ -727,7 +727,7 @@ class MailTemplate(models.Model):
             res_ids = [res_ids]
         
         for lang, (template, template_res_ids) in self._classify_per_lang(res_ids).items():
-            if template.report_template and template.report_template.report_name == 'account.report_invoice_with_payments':
+            if template.report_template and template.report_template.report_name == 'account.report_invoice_with_payments'  or template.report_template.report_name == 'account.report_invoice':
                 for res_id in template_res_ids:
                     invoice = self.env[template.model].browse(res_id)
                     if not invoice.factura_cfdi:
