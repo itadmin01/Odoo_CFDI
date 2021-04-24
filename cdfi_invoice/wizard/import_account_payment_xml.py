@@ -67,7 +67,7 @@ class import_account_payment_from_xml(models.TransientModel):
                                                  invoice_id.company_id.vat, 
                                                  invoice_id.partner_id.vat,
                                                  amount_str[0].zfill(10),
-                                                 amount_str[1].ljust(6, '0'),
+                                                 len(amount_str) == 2 and amount_str[1].ljust(6, '0') or '000000',
                                                  str(TimbreFiscalDigital.attrib['SelloCFD'])[-8:],
                                                  )
         options = {'width': 275 * mm, 'height': 275 * mm}
@@ -91,7 +91,7 @@ class import_account_payment_from_xml(models.TransientModel):
             'selo_sat' : TimbreFiscalDigital.attrib['SelloSAT'],
             'tipocambio' : xml_data.find('TipoCambio') and xml_data.attrib['TipoCambio'] or '1',
             'moneda': xml_data.attrib['Moneda'],
-            'number_folio': xml_data.attrib['Folio'],
+            'number_folio': xml_data.find('Folio') and xml_data.attrib['Folio'] or ' ',
             'cadena_origenal' : '||%s|%s|%s|%s|%s||' % (TimbreFiscalDigital.attrib['Version'], TimbreFiscalDigital.attrib['UUID'], TimbreFiscalDigital.attrib['FechaTimbrado'],
                                                          TimbreFiscalDigital.attrib['SelloCFD'], TimbreFiscalDigital.attrib['NoCertificadoSAT']),
             'qrcode_image': qrcode_image
