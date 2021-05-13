@@ -105,12 +105,12 @@
 
 								<td class="text-right">
 									<span t-field="l.price_unit"
-									      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+									      t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}'/>
 								</td>
 								
 								<td t-if="display_discount" class="text-right" >
 									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity"
-									      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+									      t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}'/>
 								</td>
 								<td colspan="4" class="bordesless" style="padding-top:0px;">
 								<table width="100%">
@@ -134,7 +134,7 @@
 									</t>
 								<td class="text-right">
 									<span t-esc="l.price_unit*l.quantity"
-										t-options='{"widget": "monetary", "display_currency": docs.currency_id}' />
+										t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}' />
 								</td>
 								</tr>
 								</table>
