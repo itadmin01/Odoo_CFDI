@@ -100,7 +100,7 @@
 									<span t-field="l.product_id.cat_unidad_medida.clave" /> - <span t-field="l.product_id.cat_unidad_medida.descripcion" />
 								</td>
 								<td>
-									<span t-field="l.name" />
+									<span t-field="l.name" t-options="{'widget': 'text'}"/>
 								</td>
 
 								<td class="text-right">
