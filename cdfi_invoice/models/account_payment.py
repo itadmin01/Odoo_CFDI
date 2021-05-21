@@ -382,6 +382,10 @@ class AccountPayment(models.Model):
     @api.multi
     def complete_payment(self):
         for p in self:
+            if p.folio_fiscal:
+                 p.write({'estado_pago': 'pago_correcto'})
+                 return True
+
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
