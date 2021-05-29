@@ -381,7 +381,7 @@ class AccountMove(models.Model):
                                       'price_unit': self.precio_unitario,
                                       'amount': "{:.2f}".format(self.monto + self.desc),
                                       'description': line.name[:1000],
-                                      'clave_producto': line.product_id.clave_producto,
+                                      'clave_producto': line.product_id.cat_unidad_medida.clave,
                                       'clave_unidad': line.product_id.cat_unidad_medida.clave})
             else:
                 invoice_lines.append({'quantity': line.quantity,
