@@ -225,15 +225,15 @@
 		</xpath>
 
 		<xpath expr="//p[@name='note']" position="before">		
-				<div name="cadenas" class="row">
+				<div name="cadenas" class="row" style="display: table;">
 
 					<t t-foreach="docs" t-as="rec"> 
 
-						<div class="col-3 float-left">
+						<div class="col-3 float-left" style="break-inside: avoid;">
 	                        <img t-if="rec.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(rec.qrcode_image)" style="height: 190px;width: 190px;padding-left:10px;" />
 	                    </div>
 
-	                    <div class="col-9 float-left" style="font-size:12px;">
+	                    <div class="col-9 float-left" style="font-size:12px;break-inside: avoid;">
 		                <!--CADENA ORIGINAL>  -->
 		                    <strong>Cadena Original del Complemento digital del SAT</strong><br/>
 			                <span t-field="rec.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
