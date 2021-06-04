@@ -6,7 +6,8 @@ import requests
 from odoo import fields, models,api, _
 from odoo.exceptions import UserError
 from datetime import datetime, timedelta
-
+from dateutil import parser
+ 
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
@@ -53,7 +54,7 @@ class ResCompany(models.Model):
     saldo_timbres =  fields.Float(string=_('Saldo de timbres'), readonly=True)
     saldo_alarma =  fields.Float(string=_('Alarma timbres'), default=10)
     correo_alarma =  fields.Char(string=_('Correo de alarma'))
-    fecha_csd = fields.Datetime(string=_('Vigencia CSD'), readonly=True)
+    fecha_csd = fields.Datetime(string=_('Vigencia CSD',readonly=True))
     estado_csd =  fields.Char(string=_('Estado CSD'), readonly=True)
     aviso_csd =  fields.Char(string=_('Aviso vencimiento (días antes)'), default=14)
 
@@ -147,7 +148,7 @@ class ResCompany(models.Model):
 
         respuesta = json_response['respuesta']
         if json_response['respuesta'] == 'Certificados CSD correctos':
-           self.fecha_csd = datetime.strptime(json_response['fecha'], '%d-%b-%Y %H:%M:%S')  # 17-Jun-2023 20:40:51
+           self.fecha_csd = parser.parse(json_response['fecha'])
            values2 = {
                'fecha_csd': self.fecha_csd,
                'estado_csd': json_response['respuesta'],
