@@ -761,3 +761,20 @@ class AccountMoveLine(models.Model):
 
     pedimento = fields.Char('Pedimento')
     predial = fields.Char('No. Predial')
+    
+    
+class AccountPartialReconcile(models.Model):
+    _inherit = "account.partial.reconcile"
+    
+    def unlink(self):
+        full_to_unlink = self.env['account.full.reconcile']
+        for rec in self:
+            if rec.full_reconcile_id:
+                full_to_unlink |= rec.full_reconcile_id
+        for move in self.env['account.move'].search([('tax_cash_basis_rec_id', 'in', self._ids)]):
+            move.tax_cash_basis_rec_id = False
+            move.state = 'cancel'
+        res = super(AccountPartialReconcile, self).unlink()
+        if full_to_unlink:
+            full_to_unlink.unlink()
+        return res

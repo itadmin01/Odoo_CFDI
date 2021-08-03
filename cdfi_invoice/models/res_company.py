@@ -6,6 +6,7 @@ import requests
 from odoo import fields, models,api, _
 from odoo.exceptions import UserError
 from datetime import datetime, timedelta
+from dateutil import parser
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -41,7 +42,8 @@ class ResCompany(models.Model):
                    ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
                    ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
                    ('630', _('Enajenación de acciones en bolsa de valores')),
-                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+                   ('615', _('Régimen de los ingresos por obtención de premios')),
+                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),],
         string=_('Régimen Fiscal'), 
     )
     archivo_cer = fields.Binary(string=_('Archivo .cer'))
@@ -147,7 +149,7 @@ class ResCompany(models.Model):
 
         respuesta = json_response['respuesta']
         if json_response['respuesta'] == 'Certificados CSD correctos':
-           self.fecha_csd = datetime.strptime(json_response['fecha'], '%d-%b-%Y %H:%M:%S')  # 17-Jun-2023 20:40:51
+           self.fecha_csd = parser.parse(json_response['fecha'])
            values2 = {
                'fecha_csd': self.fecha_csd,
                'estado_csd': json_response['respuesta'],

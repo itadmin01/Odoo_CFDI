@@ -224,7 +224,7 @@
 		</xpath>
 
 		<xpath expr="//p[@name='note']" position="before">		
-				<div name="cadenas" class="row">
+				<div name="cadenas" class="row" style="display: table;">
 					<t t-foreach="docs" t-as="rec">
 
 					<div class="col-3 float-left">

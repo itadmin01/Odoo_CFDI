@@ -584,8 +584,6 @@ class AccountPayment(models.Model):
                 p.write({'estado_pago': json_response['estado_factura']})
                 p.message_post(body="CFDI Cancelado")
 
-
-
 class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"
     _inherit = ['mail.thread']
