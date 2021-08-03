@@ -31,7 +31,6 @@
                     <strong>Método de pago:</strong>
                         <p class="m-0" t-field="o.methodo_pago"/>
             </div>
-            
         </div>
     </xpath>
 

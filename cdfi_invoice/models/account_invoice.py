@@ -651,7 +651,7 @@ class AccountMove(models.Model):
 
     @api.model
     def check_cancel_status_by_cron(self):
-        domain = [('type', '=', 'out_invoice'),('estado_factura', '=', 'solicitud_cancelar')]
+        domain = [('move_type', '=', 'out_invoice'),('estado_factura', '=', 'solicitud_cancelar')]
         invoices = self.search(domain, order = 'id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)

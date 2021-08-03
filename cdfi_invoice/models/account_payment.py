@@ -61,12 +61,13 @@ class AccountPayment(models.Model):
                    ('27', '27 - A satisfacción del acreedor'), 
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'),],
+                   ('30', '30 - Aplicación de anticipos'),
+                   ('31', '31 - Intermediario pagos'), ],
                                 string=_('Forma de pago'), 
                             )
     tipo_comprobante = fields.Selection(
                                 selection=[ ('P', 'Pago'),],
-                                string=_('Tipo de comprobante'), #default='P',
+                                string=_('Tipo de comprobante'), default='P',
                             )
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
@@ -654,8 +655,6 @@ class AccountPayment(models.Model):
                                                 })
                 p.write({'estado_pago': json_response['estado_factura']})
                 p.message_post(body="CFDI Cancelado")
-
-
 
 class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"
