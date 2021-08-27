@@ -5,6 +5,7 @@ import requests
 from odoo import fields, models,api, _
 from odoo.exceptions import UserError
 from datetime import datetime, timedelta
+from dateutil import parser
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -150,7 +151,7 @@ class ResCompany(models.Model):
 
         respuesta = json_response['respuesta']
         if json_response['respuesta'] == 'Certificados CSD correctos':
-           self.fecha_csd = datetime.strptime(json_response['fecha'], '%d-%b-%Y %H:%M:%S')  # 17-Jun-2023 20:40:51
+           self.fecha_csd = parser.parse(json_response['fecha'])
            values2 = {
                'fecha_csd': self.fecha_csd,
                'estado_csd': json_response['respuesta'],
