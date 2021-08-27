@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	
-    <record id="view_invoice_inherit_tree" model="ir.ui.view">
+	<record id="view_invoice_inherit_tree" model="ir.ui.view">
         <field name="name">account.move.inherit.tree</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
@@ -18,11 +17,12 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI 3.3" attrs="{'invisible':[('jurnal_type','not in',('sale','purchase','bank'))]}">
                             <group cols="4">
                                 <group string="Detalles de Pago">
                                     <field name="forma_pago"/>
                                     <field name="methodo_pago"/>
+                                    <field name="jurnal_type" invisible="1"/>
                                     <field name="uso_cfdi"/>
                                 </group>
                                 <group  string="Detalles de Factura">

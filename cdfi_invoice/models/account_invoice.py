@@ -126,6 +126,7 @@ class AccountMove(models.Model):
     selo_sat = fields.Char(string=_('Selo del SAT'))
     moneda = fields.Char(string=_('Moneda'))
     tipocambio = fields.Char(string=_('TipoCambio'))
+    jurnal_type=fields.Selection('Journal Type', related='journal_id.type', store=True)
     folio = fields.Char(string=_('Folio'))
     version = fields.Char(string=_('Version'))
     number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
