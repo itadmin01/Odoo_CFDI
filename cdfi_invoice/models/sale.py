@@ -35,7 +35,7 @@ class SaleOrder(models.Model):
                    ('28', '28 - Tarjeta de débito'), 
                    ('29', '29 - Tarjeta de servicios'),
                    ('30', '30 - Aplicación de anticipos'),
-                   ('31', '31 - Intermediario pagos'), 
+                   ('31', '31 - Intermediario pagos'),
                    ('99', '99 - Por definir'),],
         string=_('Forma de pago'),
     )
