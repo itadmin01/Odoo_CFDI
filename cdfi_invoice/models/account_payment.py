@@ -13,6 +13,7 @@ from datetime import date,datetime, timedelta
 import pytz
 from .tzlocal import get_localzone
 from odoo import tools
+import math
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -153,6 +154,20 @@ class AccountPayment(models.Model):
         if self.payment_date:
             self.fecha_pago = datetime.combine((self.payment_date), datetime.max.time())
 
+    def round_decimals_down(self, number:float, decimals:int=2):
+        """
+        Returns a value rounded down to a specific number of decimal places.
+        """
+        if not isinstance(decimals, int):
+            raise TypeError("decimal places must be an integer")
+        elif decimals < 0:
+            raise ValueError("decimal places has to be 0 or more")
+        elif decimals == 0:
+            return math.floor(number)
+
+        factor = 10 ** decimals
+        return math.floor(number * factor) / factor
+
     @api.multi
     def add_resitual_amounts(self):
         if self.invoice_ids and self.docto_relacionados != '[]':
@@ -162,9 +177,9 @@ class AccountPayment(models.Model):
                     if invoice.folio_fiscal == line.get('iddocumento',False):
                         if self.currency_id.name != invoice.moneda:
                            if invoice.moneda != 'MXN':
-                              monto_pagar = round(self.monto_pagar / float(invoice.tipocambio),2)
+                              monto_pagar = self.round_decimals_down(self.monto_pagar / float(invoice.tipocambio))
                            else:
-                              monto_pagar = round(self.monto_pagar * (1/self.currency_id.with_context(date=self.payment_date).rate),2)
+                              monto_pagar = self.round_decimals_down(self.monto_pagar * (1/self.currency_id.with_context(date=self.payment_date).rate))
                         else:
                            monto_pagar = round(self.monto_pagar,2)
                         saldo_restante = float(line.get('saldo_pendiente',False)) - monto_pagar
