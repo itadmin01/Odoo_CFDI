@@ -115,7 +115,8 @@ class AccountInvoice(models.Model):
                    ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
                    ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
                    ('630', _('Enajenación de acciones en bolsa de valores')),
-                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+                   ('615', _('Régimen de los ingresos por obtención de premios')),
+                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),],
         string=_('Régimen Fiscal'), 
     )
     numero_cetificado = fields.Char(string=_('Numero de cetificado'))
@@ -273,7 +274,7 @@ class AccountInvoice(models.Model):
                 'invoice': {
                       'tipo_comprobante': self.tipo_comprobante,
                       'moneda': self.currency_id.name,
-                      'tipocambio': self.currency_id.rate,
+                      'tipocambio': self.currency_id.with_context(date=self.date_invoice).rate,
                       'forma_pago': self.forma_pago,
                       'methodo_pago': self.methodo_pago,
                       'subtotal': self.amount_untaxed,
@@ -325,7 +326,6 @@ class AccountInvoice(models.Model):
                     amount_wo_tax -= float("%.2f" % tax['amount'])
                 self.monto_impuesto = float("%.2f" % tax['amount'])
                 self.total_impuesto += self.monto_impuesto
-                _logger.info('monto_impuesto %s', self.monto_impuesto)
                 tax_items.append({'name': tax_id.tax_group_id.name,
                  'percentage': tax_id.amount,
                  'amount': self.monto_impuesto,
@@ -354,9 +354,7 @@ class AccountInvoice(models.Model):
                self.desc = "{:.2f}".format(self.precio_unitario * line.quantity - line.price_subtotal)
             else:
                 self.desc = 0
-            _logger.info('descuento_b %s', self.desc)
             self.discount += self.desc
-            _logger.info('descuento %s', self.discount)
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
@@ -642,7 +640,6 @@ class AccountInvoice(models.Model):
                 url = '%s' % ('http://facturacion3.itadmin.com.mx/api/invoice')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
-                    #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
@@ -884,11 +881,16 @@ class MailTemplate(models.Model):
                     if not invoice.factura_cfdi:
                         continue
                     if invoice.estado_factura == 'factura_correcta' or invoice.estado_factura == 'solicitud_cancelar':
-                        xml_name = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                        if invoice.number:
+                           xml_name = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                        else:
+                           xml_name = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
                         xml_file = open(xml_name, 'rb').read()
                         attachments = results[res_id]['attachments'] or []
-                        attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', 
-                                            base64.b64encode(xml_file)))
+                        if invoice.number:
+                            attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(xml_file)))
+                        else:
+                            attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', base64.b64encode(xml_file)))
                     else:
                         if invoice.number:
                             cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'

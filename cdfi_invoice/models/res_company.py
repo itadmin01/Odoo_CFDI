@@ -95,6 +95,10 @@ class ResCompany(models.Model):
         url=''
         if self.proveedor_timbrado == 'multifactura':
             url = '%s' % ('http://facturacion.itadmin.com.mx/api/saldo')
+        elif self.proveedor_timbrado == 'multifactura2':
+            url = '%s' % ('http://facturacion2.itadmin.com.mx/api/saldo')
+        elif self.proveedor_timbrado == 'multifactura3':
+            url = '%s' % ('http://facturacion3.itadmin.com.mx/api/saldo')
         elif self.proveedor_timbrado == 'gecoerp':
             if self.modo_prueba:
                 #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')

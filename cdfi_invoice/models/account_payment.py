@@ -109,15 +109,16 @@ class AccountPayment(models.Model):
     @api.one
     @api.depends('name')
     def _get_number_folio(self):
-        if self.number:
-            self.number_folio = self.name.replace('CUST.IN','').replace('/','')
+        for record in self:
+            if record.number:
+                record.number_folio = record.name.replace('CUST.IN','').replace('/','')
 
     @api.model
     def get_docto_relacionados(self,payment):
         try:
             data = json.loads(payment.docto_relacionados)
         except Exception:
-            data = []    
+            data = []
         return data
     
     @api.multi
@@ -159,16 +160,16 @@ class AccountPayment(models.Model):
                 data = json.loads(self.docto_relacionados) or []
                 for line in data:
                     if invoice.folio_fiscal == line.get('iddocumento',False):
-                        #if self.currency_id.name != invoice.moneda:
-                        #   if invoice.moneda == 'MXN':
-                        #      monto_restante = round(invoice.residual/(1/self.currency_id.rate),2)
-                        #   else:
-                        #      monto_restante = round(invoice.residual*float(invoice.tipocambio),2)
-                        #else:
-                        monto_restante = invoice.residual
-                        monto_pagar_docto = float(line.get('saldo_pendiente',False)) - monto_restante
-                        line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
-                        line['saldo_restante'] = monto_restante
+                        if self.currency_id.name != invoice.moneda:
+                           if invoice.moneda != 'MXN':
+                              monto_pagar = round(self.monto_pagar / float(invoice.tipocambio),2)
+                           else:
+                              monto_pagar = round(self.monto_pagar * (1/self.currency_id.with_context(date=self.payment_date).rate),2)
+                        else:
+                           monto_pagar = round(self.monto_pagar,2)
+                        saldo_restante = float(line.get('saldo_pendiente',False)) - monto_pagar
+                        line['monto_pagar'] = monto_pagar #float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['saldo_restante'] = saldo_restante
                         self.write({'docto_relacionados': json.dumps(data)})
         elif self.reconciled_invoice_ids or self.invoice_ids and self.docto_relacionados == '[]':
            # _logger.info('entra2 01')
@@ -185,7 +186,7 @@ class AccountPayment(models.Model):
                                 tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
                             else:
                             #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
-                                tipocambiop = float(invoice.tipocambio)/float(self.currency_id.rate)
+                                tipocambiop = float(invoice.tipocambio)/float(self.currency_id.with_context(date=self.payment_date).rate)
                         else:
                             #saldo_pendiente = round(invoice.residual,2)
                             tipocambiop = invoice.tipocambio
@@ -229,7 +230,7 @@ class AccountPayment(models.Model):
                             tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
                         else:
                         #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
-                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.rate)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.payment_date).rate)
                     else:
                         #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
@@ -293,7 +294,7 @@ class AccountPayment(models.Model):
         if self.currency_id.name == 'MXN':
             self.tipocambiop = '1'
         else:
-            self.tipocambiop = self.currency_id.rate
+            self.tipocambiop = self.currency_id.with_context(date=self.payment_date).rate
 
         timezone = self._context.get('tz')
         if not timezone:
@@ -621,8 +622,6 @@ class AccountPayment(models.Model):
                                                 })
                 p.write({'estado_pago': json_response['estado_factura']})
                 p.message_post(body="CFDI Cancelado")
-
-
 
 class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"
