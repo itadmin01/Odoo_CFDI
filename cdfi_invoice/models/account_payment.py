@@ -13,6 +13,7 @@ from datetime import datetime
 import pytz
 from .tzlocal import get_localzone
 import os
+import math
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -117,7 +118,7 @@ class AccountPayment(models.Model):
         try:
             data = json.loads(payment.docto_relacionados)
         except Exception:
-            data = []    
+            data = []
         return data
     
     
@@ -152,22 +153,15 @@ class AccountPayment(models.Model):
         if self.payment_date:
             self.fecha_pago = datetime.combine((self.payment_date), datetime.max.time())
 
-    
     def add_resitual_amounts(self):
         if self.invoice_ids:
             for invoice in self.invoice_ids:
                 data = json.loads(self.docto_relacionados) or []
                 for line in data:
                     if invoice.folio_fiscal == line.get('iddocumento',False):
-                        #if self.currency_id.name != invoice.moneda:
-                        #   if invoice.moneda == 'MXN':
-                        #      monto_restante = round(invoice.residual/(1/self.currency_id.rate),2)
-                        #   else:
-                        #      monto_restante = round(invoice.residual*float(invoice.tipocambio),2)
-                        #else:
                         monto_restante = invoice.amount_residual
                         monto_pagar_docto = float(line.get('saldo_pendiente',False)) - monto_restante
-                        line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['monto_pagar'] = monto_pagar_docto
                         line['saldo_restante'] = monto_restante
                         self.write({'docto_relacionados': json.dumps(data)})
 
@@ -182,15 +176,11 @@ class AccountPayment(models.Model):
                     #revisa la cantidad que se va a pagar en el docuemnto
                     if res.currency_id.name != invoice.moneda:
                         if res.currency_id.name == 'MXN':
-                        #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
-                            tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                            tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
                         else:
-                        #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
-                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.rate)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.payment_date).rate)
                     else:
-                        #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
-                    
                     nbr_payment = 0
                     pay_term_line_ids = invoice.line_ids.filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
                     partials = pay_term_line_ids.mapped('matched_debit_ids') + pay_term_line_ids.mapped('matched_credit_ids')
@@ -270,7 +260,7 @@ class AccountPayment(models.Model):
         if self.currency_id.name == 'MXN':
             self.tipocambiop = '1'
         else:
-            self.tipocambiop = self.currency_id.rate
+            self.tipocambiop = self.currency_id.with_context(date=self.payment_date).rate
 
         timezone = self._context.get('tz')
         if not timezone:
@@ -359,6 +349,10 @@ class AccountPayment(models.Model):
     
     def complete_payment(self):
         for p in self:
+            if p.folio_fiscal:
+                 p.write({'estado_pago': 'pago_correcto'})
+                 return True
+
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')

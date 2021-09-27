@@ -273,7 +273,7 @@ class AccountMove(models.Model):
                 'invoice': {
                       'tipo_comprobante': self.tipo_comprobante,
                       'moneda': self.currency_id.name,
-                      'tipocambio': self.currency_id.rate,
+                      'tipocambio': self.currency_id.with_context(date=self.invoice_date).rate,
                       'forma_pago': self.forma_pago,
                       'methodo_pago': self.methodo_pago,
                       'subtotal': self.amount_untaxed,
