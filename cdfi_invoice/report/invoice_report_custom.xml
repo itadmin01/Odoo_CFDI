@@ -111,33 +111,24 @@
 									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity"
 									      t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}'/>
 								</td>
-								<td colspan="4" class="bordesless" style="padding-top:0px;">
-								<table width="100%">
-								<tr t-foreach="l.tax_ids" t-as="tax">
-								<t t-foreach="taxes" t-as="m">
-								 <t t-if="m['id'] == tax.id">
-									<td class="text-right" width="25%">
-										<span t-field="tax.impuesto" />
-									</td>
-									<!--<td class="text-right"  width="25%">
-										<span t-field="tax.tipo_factor" />
-									</td>
-									<td class="text-right"  width="25%">
-										<span t-esc="abs(tax.amount / 100)" />
-									</td>
-									<td class="text-right"  width="25%">
-										<span t-esc="abs(m['amount'])"
-										      t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
-									</td>-->
-									</t>
-									</t>
+								<td class="bordesless" style="padding-top:0px;">
+									<table width="100%">
+										<tr t-foreach="l.tax_ids" t-as="tax">
+										<t t-foreach="taxes" t-as="m">
+								 		<t t-if="m['id'] == tax.id">
+											<td class="text-right" width="25%" style="font-size:12px;">
+												<span t-field="tax.name" />
+											</td>
+										</t>
+										</t>
+										</tr>
+									</table>
+								</td>
 								<td class="text-right">
 									<span t-esc="l.price_unit*l.quantity"
 										t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}' />
 								</td>
-								</tr>
-								</table>
-								</td>
+
 								</t>
 							</tr>
 						</tbody>
