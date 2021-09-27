@@ -160,20 +160,12 @@ class AccountPayment(models.Model):
                 data = json.loads(self.docto_relacionados) or []
                 for line in data:
                     if invoice.folio_fiscal == line.get('iddocumento',False):
-                        #if self.currency_id.name != invoice.moneda:
-                        #   if invoice.moneda == 'MXN':
-                        #      monto_restante = round(invoice.residual/(1/self.currency_id.rate),2)
-                        #   else:
-                        #      monto_restante = round(invoice.residual*float(invoice.tipocambio),2)
-                        #else:
                         monto_restante = invoice.residual
                         monto_pagar_docto = float(line.get('saldo_pendiente',False)) - monto_restante
-                        line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['monto_pagar'] = monto_pagar_docto
                         line['saldo_restante'] = monto_restante
                         self.write({'docto_relacionados': json.dumps(data)})
         elif self.reconciled_invoice_ids or self.invoice_ids and self.docto_relacionados == '[]':
-           # _logger.info('entra2 01')
-           # if self.docto_relacionados == '[]': #si está vacio
                docto_relacionados = []
                monto_pagado_asignar = round(self.monto_pagar,2)
                for invoice in self.reconciled_invoice_ids:
@@ -182,21 +174,16 @@ class AccountPayment(models.Model):
                         #revisa la cantidad que se va a pagar en el docuemnto
                         if self.currency_id.name != invoice.moneda:
                             if self.currency_id.name == 'MXN':
-                            #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
-                                tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                                tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
                             else:
-                            #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
                                 tipocambiop = float(invoice.tipocambio)/float(self.currency_id.with_context(date=self.payment_date).rate)
                         else:
-                            #saldo_pendiente = round(invoice.residual,2)
                             tipocambiop = invoice.tipocambio
-
                         payment_dict = json.loads(invoice.payments_widget)
                         payment_content = payment_dict['content']
                         monto_pagado = 0
                         for invoice_payments in payment_content:
                             if invoice_payments['account_payment_id'] == self.id:
-                                #_logger.info('contenido %s cuantos hay %s', payment_content, len(payment_content))
                                 monto_pagado = invoice_payments['amount']
                         docto_relacionados.append({
                               'moneda': invoice.moneda,
@@ -226,13 +213,10 @@ class AccountPayment(models.Model):
                     #revisa la cantidad que se va a pagar en el docuemnto
                     if res.currency_id.name != invoice.moneda:
                         if res.currency_id.name == 'MXN':
-                        #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
-                            tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                            tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
                         else:
-                        #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
                             tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.payment_date).rate)
                     else:
-                        #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
                     docto_relacionados.append({
                           'moneda': invoice.moneda,
