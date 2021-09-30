@@ -30,6 +30,10 @@
                     <strong>Método de pago:</strong>
                         <p class="m-0" t-field="o.methodo_pago"/>
             </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.tipo_comprobante" name="tipo_comprobante">
+                    <strong>Tipo comprobante:</strong>
+                        <p class="m-0" t-field="o.tipo_comprobante"/>
+            </div>
         </div>
     </xpath>
 
