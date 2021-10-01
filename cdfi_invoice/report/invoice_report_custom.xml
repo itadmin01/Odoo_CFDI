@@ -31,10 +31,6 @@
                     <strong>Método de pago:</strong>
                         <p class="m-0" t-field="o.methodo_pago"/>
             </div>
-            <div class="col-auto mw-100 mb-2" t-if="o.tipo_comprobante" name="tipo_comprobante">
-                    <strong>Tipo comprobante:</strong>
-                        <p class="m-0" t-field="o.tipo_comprobante"/>
-            </div>
         </div>
     </xpath>
 
@@ -45,6 +41,18 @@
             		<center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
             	</div>
         	</t>
+
+        	<div id="comprobante_emision" class="row">
+        		<div class="col-auto mw-100 mb-2" t-if="o.tipo_comprobante" name="tipo_comprobante">
+                    <strong>Tipo comprobante:</strong>
+                        <p class="m-0" t-field="o.tipo_comprobante"/>
+            	</div>
+	        	<div class="col-auto mw-100 mb-2" t-if="o.fecha_factura" name="fecha_factura">
+	                    <strong>Fecha de emisión:</strong>
+	                        <p class="m-0" t-field="o.fecha_factura"/>
+	        	</div>
+        	</div>
+        	
 				<div name="general_information" class="row">
 					<div class="col-6" style="font-size:14px;">
 		            	<strong>Datos receptor:</strong><br/>
