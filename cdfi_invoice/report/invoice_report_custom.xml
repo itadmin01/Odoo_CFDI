@@ -41,6 +41,12 @@
             		<center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
             	</div>
         	</t>
+        	
+        	<t t-if="o.estado_factura == 'factura_cancelada'">
+				<div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+            		<center><span style="font-size:100px;color:red;">CANCELADO</span></center>
+            	</div>
+        	</t>
 
         	<div id="comprobante_emision" class="row">
         		<div class="col-auto mw-100 mb-2" t-if="o.tipo_comprobante" name="tipo_comprobante">
