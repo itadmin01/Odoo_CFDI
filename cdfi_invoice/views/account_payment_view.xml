@@ -85,7 +85,7 @@
            <field name="model">account.payment</field>
            <field name="inherit_id" ref="account.view_account_payment_tree" />
            <field name="arch" type="xml">
-              <field name="amount" position="after">
+              <field name="state" position="before">
                   <field name="estado_pago"/>
               </field>
            </field>

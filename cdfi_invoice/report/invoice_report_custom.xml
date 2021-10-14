@@ -154,7 +154,7 @@
 					</table>
 	    </xpath>
 
-	     <xpath expr="//p[@name='comment']" position="before">
+	    <xpath expr="//div[@class='clearfix']" position="after">
 	     	<div class="col-xs-5 text-left">
 				<div style="color: black;">
 					<t t-foreach="docs" t-as="rec"> 
