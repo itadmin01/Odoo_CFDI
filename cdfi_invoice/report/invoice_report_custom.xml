@@ -19,13 +19,13 @@
             	<strong>Fecha de vencimiento:</strong>
                         <p class="m-0" t-field="o.invoice_date_due"/>
             </div>
-            <div class="col-auto mw-100 mb-2" t-if="o.uso_cfdi" name="origin">
+            <div class="col-auto mw-100 mb-2" t-if="o.uso_cfdi_id" name="origin">
                     <strong>Uso:</strong>
-                        <p class="m-0" t-field="o.uso_cfdi"/>
+                        <p class="m-0" t-field="o.uso_cfdi_id.code"/>
             </div>
-            <div class="col-auto mw-100 mb-2" t-if="o.forma_pago" name="customer_code">
+            <div class="col-auto mw-100 mb-2" t-if="o.forma_pago_id" name="customer_code">
                     <strong>Forma de pago:</strong>
-                        <p class="m-0" t-field="o.forma_pago"/>
+                        <p class="m-0" t-field="o.forma_pago_id.code"/>
             </div>
             <div class="col-auto mw-100 mb-2" t-if="o.methodo_pago" name="reference">
                     <strong>Método de pago:</strong>
@@ -71,7 +71,7 @@
 		            	<strong>Datos emisor:</strong><br/>
 		            	Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
 		            	Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
-		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/>
+		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal_id.code"/>
 		            </div>
 		        </div>
 		</xpath>

@@ -42,29 +42,7 @@ class AccountRegisterPayment(models.TransientModel):
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    forma_pago = fields.Selection(selection=[('01', '01 - Efectivo'), 
-                   ('02', '02 - Cheque nominativo'), 
-                   ('03', '03 - Transferencia electrónica de fondos'),
-                   ('04', '04 - Tarjeta de Crédito'), 
-                   ('05', '05 - Monedero electrónico'),
-                   ('06', '06 - Dinero electrónico'), 
-                   ('08', '08 - Vales de despensa'), 
-                   ('12', '12 - Dación en pago'), 
-                   ('13', '13 - Pago por subrogación'), 
-                   ('14', '14 - Pago por consignación'), 
-                   ('15', '15 - Condonación'), 
-                   ('17', '17 - Compensación'), 
-                   ('23', '23 - Novación'), 
-                   ('24', '24 - Confusión'), 
-                   ('25', '25 - Remisión de deuda'), 
-                   ('26', '26 - Prescripción o caducidad'), 
-                   ('27', '27 - A satisfacción del acreedor'), 
-                   ('28', '28 - Tarjeta de débito'), 
-                   ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'),
-                   ('31', '31 - Intermediario pagos'), ],
-                                string=_('Forma de pago'), 
-                            )
+    forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     tipo_comprobante = fields.Selection(
                                 selection=[ ('P', 'Pago'),],
                                 string=_('Tipo de comprobante'), default='P',
@@ -168,7 +146,7 @@ class AccountPayment(models.Model):
             self.payment_method_id = payment_methods and payment_methods[0] or False
             # Set payment method domain (restrict to methods enabled for the journal and to selected payment type)
             payment_type = self.payment_type in ('outbound', 'transfer') and 'outbound' or 'inbound'
-            self.forma_pago = self.journal_id.forma_pago
+            self.forma_pago_id = self.journal_id.forma_pago_id.id
             return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
         return {}
     
@@ -357,7 +335,7 @@ class AccountPayment(models.Model):
                       'rfc': self.company_id.vat,
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
-                      'regimen_fiscal': self.company_id.regimen_fiscal,
+                      'regimen_fiscal': self.company_id.regimen_fiscal_id.code,
                       'postalcode': self.company_id.zip,
                       'nombre_fiscal': self.company_id.nombre_fiscal,
                       'telefono_sms': self.company_id.telefono_sms,
@@ -382,7 +360,7 @@ class AccountPayment(models.Model):
                 'payment': {
                       'moneda': self.monedap,
                       'tipocambio': self.tipocambiop,
-                      'forma_pago': self.forma_pago,
+                      'forma_pago': self.forma_pago_id.code,
                       'numero_operacion': self.numero_operacion,
                       'banco_emisor': self.banco_emisor,
                       'cuenta_emisor': self.cuenta_emisor and self.cuenta_emisor.acc_number or '',
@@ -703,29 +681,4 @@ class AccountPaymentTerm(models.Model):
                    ('PPD', _('Pago en parcialidades o diferido')),],
         string=_('Método de pago'), 
     )
-
-    forma_pago = fields.Selection(
-        selection=[('01', '01 - Efectivo'), 
-                   ('02', '02 - Cheque nominativo'), 
-                   ('03', '03 - Transferencia electrónica de fondos'),
-                   ('04', '04 - Tarjeta de Crédito'), 
-                   ('05', '05 - Monedero electrónico'),
-                   ('06', '06 - Dinero electrónico'), 
-                   ('08', '08 - Vales de despensa'), 
-                   ('12', '12 - Dación en pago'), 
-                   ('13', '13 - Pago por subrogación'), 
-                   ('14', '14 - Pago por consignación'), 
-                   ('15', '15 - Condonación'), 
-                   ('17', '17 - Compensación'), 
-                   ('23', '23 - Novación'), 
-                   ('24', '24 - Confusión'), 
-                   ('25', '25 - Remisión de deuda'), 
-                   ('26', '26 - Prescripción o caducidad'), 
-                   ('27', '27 - A satisfacción del acreedor'), 
-                   ('28', '28 - Tarjeta de débito'), 
-                   ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'),
-                   ('31', '31 - Intermediario pagos'),
-                   ('99', '99 - Por definir'),],
-        string=_('Forma de pago'),
-    )
+    forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')

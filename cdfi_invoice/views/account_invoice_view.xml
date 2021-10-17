@@ -21,9 +21,9 @@
                     <page name="info_cdfi" string="CFDI 3.3">
                             <group cols="4">
                                 <group string="Detalles de Pago">
-                                    <field name="forma_pago"/>
+                                    <field name="forma_pago_id"/>
                                     <field name="methodo_pago"/>
-                                    <field name="uso_cfdi"/>
+                                    <field name="uso_cfdi_id"/>
                                 </group>
                                 <group  string="Detalles de Factura">
                                     <field name="tipo_comprobante"/>

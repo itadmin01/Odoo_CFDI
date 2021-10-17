@@ -15,7 +15,7 @@
                                     <field name="nombre_fiscal"/>
                                     <field name="serie_factura"/>
                                     <field name="serie_complemento"/>
-                                    <field name="regimen_fiscal"/>
+                                    <field name="regimen_fiscal_id"/>
                                 </group>
                                 <group>
                                     <field name="proveedor_timbrado"/>

@@ -30,58 +30,13 @@ class AccountMove(models.Model):
                   ],
         string=_('Tipo de comprobante'),
     )
-    forma_pago = fields.Selection(
-        selection=[('01', '01 - Efectivo'), 
-                   ('02', '02 - Cheque nominativo'), 
-                   ('03', '03 - Transferencia electrónica de fondos'),
-                   ('04', '04 - Tarjeta de Crédito'), 
-                   ('05', '05 - Monedero electrónico'),
-                   ('06', '06 - Dinero electrónico'), 
-                   ('08', '08 - Vales de despensa'), 
-                   ('12', '12 - Dación en pago'), 
-                   ('13', '13 - Pago por subrogación'), 
-                   ('14', '14 - Pago por consignación'), 
-                   ('15', '15 - Condonación'), 
-                   ('17', '17 - Compensación'), 
-                   ('23', '23 - Novación'), 
-                   ('24', '24 - Confusión'), 
-                   ('25', '25 - Remisión de deuda'), 
-                   ('26', '26 - Prescripción o caducidad'), 
-                   ('27', '27 - A satisfacción del acreedor'), 
-                   ('28', '28 - Tarjeta de débito'), 
-                   ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'), 
-                   ('31', '31 - Intermediario pagos'),
-                   ('99', '99 - Por definir'),],
-        string=_('Forma de pago'),
-    )
+    forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
-				   ('PPD', _('Pago en parcialidades o diferido')),],
+                   ('PPD', _('Pago en parcialidades o diferido')),],
         string=_('Método de pago'), 
     )
-    uso_cfdi = fields.Selection(
-        selection=[('G01', _('Adquisición de mercancías')),
-                   ('G02', _('Devoluciones, descuentos o bonificaciones')),
-                   ('G03', _('Gastos en general')),
-                   ('I01', _('Construcciones')),
-                   ('I02', _('Mobiliario y equipo de oficina por inversiones')),
-                   ('I03', _('Equipo de transporte')),
-                   ('I04', _('Equipo de cómputo y accesorios')),
-                   ('I05', _('Dados, troqueles, moldes, matrices y herramental')),
-                   ('I06', _('Comunicacion telefónica')),
-                   ('I07', _('Comunicación Satelital')),
-                   ('I08', _('Otra maquinaria y equipo')),
-                   ('D01', _('Honorarios médicos, dentales y gastos hospitalarios')),
-                   ('D02', _('Gastos médicos por incapacidad o discapacidad')),
-                   ('D03', _('Gastos funerales')),
-                   ('D04', _('Donativos')),
-                   ('D07', _('Primas por seguros de gastos médicos')),
-                   ('D08', _('Gastos de transportación escolar obligatoria')),
-                   ('D10', _('Pagos por servicios educativos (colegiaturas)')),
-                   ('P01', _('Por definir')),],
-        string=_('Uso CFDI (cliente)'),
-    )
+    uso_cfdi_id  =  fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
     xml_invoice_link = fields.Char(string=_('XML Invoice Link'))
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
@@ -93,30 +48,7 @@ class AccountMove(models.Model):
     )
     pdf_cdfi_invoice = fields.Binary("CDFI Invoice")
     qrcode_image = fields.Binary("QRCode")
-    regimen_fiscal = fields.Selection(
-        selection=[('601', _('General de Ley Personas Morales')),
-                   ('603', _('Personas Morales con Fines no Lucrativos')),
-                   ('605', _('Sueldos y Salarios e Ingresos Asimilados a Salarios')),
-                   ('606', _('Arrendamiento')),
-                   ('608', _('Demás ingresos')),
-                   ('609', _('Consolidación')),
-                   ('610', _('Residentes en el Extranjero sin Establecimiento Permanente en México')),
-                   ('611', _('Ingresos por Dividendos (socios y accionistas)')),
-                   ('612', _('Personas Físicas con Actividades Empresariales y Profesionales')),
-                   ('614', _('Ingresos por intereses')),
-                   ('616', _('Sin obligaciones fiscales')),
-                   ('620', _('Sociedades Cooperativas de Producción que optan por diferir sus ingresos')),
-                   ('621', _('Incorporación Fiscal')),
-                   ('622', _('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras')),
-                   ('623', _('Opcional para Grupos de Sociedades')),
-                   ('624', _('Coordinados')),
-                   ('628', _('Hidrocarburos')),
-                   ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
-                   ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
-                   ('630', _('Enajenación de acciones en bolsa de valores')),
-                   ('615', _('Régimen de los ingresos por obtención de premios')),],
-        string=_('Régimen Fiscal'), 
-    )
+    regimen_fiscal_id  =  fields.Many2one('catalogo.regimen.fiscal', string='Régimen Fiscal')
     numero_cetificado = fields.Char(string=_('Numero de cetificado'))
     cetificaso_sat = fields.Char(string=_('Cetificao SAT'))
     folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True)
@@ -166,9 +98,9 @@ class AccountMove(models.Model):
         if self.estado_factura == 'factura_correcta':
             values['uuid_relacionado'] = self.folio_fiscal
             values['methodo_pago'] = self.methodo_pago
-            values['forma_pago'] = self.forma_pago
+            values['forma_pago_id'] = self.forma_pago_id.id
             values['tipo_comprobante'] = 'E'
-            values['uso_cfdi'] = 'G02'
+            values['uso_cfdi_id'] = self.env['catalogo.uso.cfdi'].sudo().search([('code','=','G02')]).id
             values['tipo_relacion'] = '01'
             values['fecha_factura'] = None
             values['folio_fiscal'] = None
@@ -208,7 +140,7 @@ class AccountMove(models.Model):
     def _get_uso_cfdi(self):
         if self.partner_id:
             values = {
-                'uso_cfdi': self.partner_id.uso_cfdi
+                'uso_cfdi_id': self.partner_id.uso_cfdi_id.id
                 }
             self.update(values)
 
@@ -219,17 +151,17 @@ class AccountMove(models.Model):
             if self.invoice_payment_term_id.methodo_pago == 'PPD':
                 values = {
                  'methodo_pago': self.invoice_payment_term_id.methodo_pago,
-                 'forma_pago': '99'
+                 'forma_pago_id': self.env['catalogo.forma.pago'].sudo().search([('code','=','99')])
                 }
             else:
                 values = {
                     'methodo_pago': self.invoice_payment_term_id.methodo_pago,
-                    'forma_pago': False
+                    'forma_pago_id': False
                     }
         else:
             values = {
                 'methodo_pago': False,
-                'forma_pago': False
+                'forma_pago_id': False
                 }
         self.update(values)
     
@@ -259,7 +191,7 @@ class AccountMove(models.Model):
                       'rfc': self.company_id.vat,
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
-                      'regimen_fiscal': self.company_id.regimen_fiscal,
+                      'regimen_fiscal': self.company_id.regimen_fiscal_id.code,
                       'postalcode': self.journal_id.codigo_postal or self.company_id.zip,
                       'nombre_fiscal': self.company_id.nombre_fiscal,
                       'telefono_sms': self.company_id.telefono_sms,
@@ -269,13 +201,13 @@ class AccountMove(models.Model):
                       'rfc': self.partner_id.vat,
                       'residencia_fiscal': self.partner_id.residencia_fiscal,
                       'registro_tributario': self.partner_id.registro_tributario,
-                      'uso_cfdi': self.uso_cfdi,
+                      'uso_cfdi': self.uso_cfdi_id.code,
                 },
                 'invoice': {
                       'tipo_comprobante': self.tipo_comprobante,
                       'moneda': self.currency_id.name,
                       'tipocambio': self.currency_id.with_context(date=self.invoice_date).rate,
-                      'forma_pago': self.forma_pago,
+                      'forma_pago': self.forma_pago_id.code,
                       'methodo_pago': self.methodo_pago,
                       'subtotal': self.amount_untaxed,
                       'total': self.amount_total,
@@ -291,8 +223,8 @@ class AccountMove(models.Model):
                 },
                 'version': {
                       'cfdi': '3.3',
-                      'sistema': 'odoo14',
-                      'version': '4',
+                      'sistema': 'odoo15',
+                      'version': '1',
                 },
         }
         amount_total = 0.0
@@ -456,7 +388,7 @@ class AccountMove(models.Model):
         self.tipocambio = xml_data.attrib['TipoCambio']
         self.tipo_comprobante = xml_data.attrib['TipoDeComprobante']
         self.moneda = xml_data.attrib['Moneda']
-        self.regimen_fiscal = Emisor.attrib['RegimenFiscal'] #checar este!!
+        self.regimen_fiscal_id = self.env['catalogo.regimen.fiscal'].sudo().search([('code','=',Emisor.attrib['RegimenFiscal'])])
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.cetificaso_sat = TimbreFiscalDigital.attrib['NoCertificadoSAT']
         self.fecha_certificacion = TimbreFiscalDigital.attrib['FechaTimbrado']
@@ -483,8 +415,7 @@ class AccountMove(models.Model):
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         self.qrcode_image = base64.encodestring(ret_val.asString('jpg'))
-    
-    
+
     def print_cdfi_invoice(self):
         self.ensure_one()
         #return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon 

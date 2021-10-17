@@ -90,7 +90,7 @@
 								<span t-field="o.rfc_emisor" />
 								</div>
 								<div>
-								<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
+								<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal_id.code" />
 								</div>
 						</div>
 						<div class="col-4">
@@ -289,7 +289,7 @@
 									<strong>Forma de pago</strong>
 								</td>
 								<td >
-									<span t-field="o.forma_pago" />
+									<span t-field="o.forma_pago_id.code" />
 								</td>
 								<td>
 									<strong>Fecha de pago</strong>
@@ -336,7 +336,7 @@
 						</table>
 					</div>
 					<div><br/></div>
-					<t t-if="o.banco_emisor and o.banco_receptor and (o.forma_pago == '03' or o.forma_pago == '02')">
+					<t t-if="o.banco_emisor and o.banco_receptor and (o.forma_pago_id.code == '03' or o.forma_pago_id.code == '02')">
 					<center><strong>Detalles bancarios</strong></center>
 					<div class="row" style="border:solid 2px black;font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">

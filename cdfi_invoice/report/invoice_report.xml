@@ -111,7 +111,7 @@
 									<span t-field="o.rfc_emisor" />
 								</div>
 								<div>
-									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
+									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal_id.code" />
 								</div>
 								</t>
 						</div>
@@ -162,7 +162,7 @@
 								    <span t-field="o.partner_id.rfc" />
 								</div>
 							     <div>
-						    	    Uso CFDI: <span t-field="o.uso_cfdi" />
+						    	    Uso CFDI: <span t-field="o.uso_cfdi_id.code" />
 						         </div>
 						    </t>
 						</div>
@@ -350,7 +350,7 @@
 									<strong>Forma de pago</strong>
 								</td>
 								<td >
-									<span t-field="o.forma_pago" />
+									<span t-field="o.forma_pago_id.code" />
 								</td>
 								<td>
 									<strong>Número de certificado</strong>

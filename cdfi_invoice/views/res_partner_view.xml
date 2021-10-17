@@ -11,7 +11,7 @@
 	                <page name="info_cdfi" string="CFDI 3.3">
 	                        <group cols="4">
 	                            <group string="Preferencias de factura">
-	                            	<field name="uso_cfdi"/>
+	                            	<field name="uso_cfdi_id"/>
 	                            </group>
 	                            <group string="Detalles extranjero">
 	                            	<field name="residencia_fiscal"/>

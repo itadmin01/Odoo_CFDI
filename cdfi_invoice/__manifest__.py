@@ -17,6 +17,9 @@
     ],
     'data': [
         'data/catalogo.unidad.medida.csv',
+        'data/catalogo.forma.pago.csv',
+        'data/catalogo.uso.cfdi.csv',
+        'data/catalogo.regimen.fiscal.csv',
         'security/ir.model.access.csv',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',

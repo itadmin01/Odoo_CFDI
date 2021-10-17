@@ -76,8 +76,8 @@ class import_account_payment_from_xml(models.TransientModel):
 
         cargar_values = {
             'methodo_pago': xml_data.attrib['MetodoPago'],
-            'forma_pago' : xml_data.attrib['FormaPago'], 
-            'uso_cfdi': Receptor.attrib['UsoCFDI'],
+            'forma_pago_id' : self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])]), 
+            'uso_cfdi_id': self.env['catalogo.uso.cfdi'].sudo().search([('code','=',Receptor.attrib['UsoCFDI'])]),
             'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
             'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
             'fecha_factura': TimbreFiscalDigital.attrib['FechaTimbrado'] and parse(TimbreFiscalDigital.attrib['FechaTimbrado']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
