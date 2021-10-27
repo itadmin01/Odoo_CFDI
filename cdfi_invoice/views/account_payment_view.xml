@@ -22,21 +22,16 @@
                                     <group cols="4">
                                         <group string="Datos del comprobante">
                                             <field name="forma_pago"/>
-                                            <field name="tipo_comprobante"/>
-                                        <!--    <field name="no_de_pago"/>-->
                                         </group>
                                         <group  string="Monto">
                                             <label for="saldo_pendiente"/>
                                             <div name="amount_div1" class="o_row">
                                                  <field name="saldo_pendiente"/>
-                                                 <!--<field name="currency_id"/>-->
                                             </div>
                                             <label for="monto_pagar"/>
                                             <div name="amount_div2" class="o_row">
                                                  <field name="monto_pagar"/>
-                                                <!-- <field name="currency_id"/>-->
                                             </div>
-                                        <!--    <field name="saldo_restante"/> -->
                                         </group>
                                     </group>
                                     <separator  string="Datos del pago"/>

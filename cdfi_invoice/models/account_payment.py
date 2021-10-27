@@ -41,10 +41,6 @@ class AccountPayment(models.Model):
                    ('31', '31 - Intermediario pagos'), ],
                                 string=_('Forma de pago'), 
                             )
-    tipo_comprobante = fields.Selection(
-                                selection=[ ('P', 'Pago'),],
-                                string=_('Tipo de comprobante'), default='P',
-                            )
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],
@@ -299,7 +295,7 @@ class AccountPayment(models.Model):
                       'uso_cfdi': 'P01',
                 },
                 'invoice': {
-                      'tipo_comprobante': self.tipo_comprobante,
+                      'tipo_comprobante': 'P',
                       'folio_complemento': self.name.replace('CUST.IN','').replace('/',''),
                       'serie_complemento': self.company_id.serie_complemento,
                       'fecha_factura': date_payment,
