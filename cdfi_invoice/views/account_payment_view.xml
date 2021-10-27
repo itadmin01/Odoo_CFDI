@@ -19,21 +19,16 @@
                                     <group cols="4">
                                         <group string="Datos del comprobante">
                                             <field name="forma_pago"/>
-                                            <field name="tipo_comprobante"/>
-                                        <!--    <field name="no_de_pago"/>-->
                                         </group>
                                         <group  string="Monto">
                                             <label for="saldo_pendiente"/>
                                             <div name="amount_div1" class="o_row">
                                                  <field name="saldo_pendiente"/>
-                                                 <!--<field name="currency_id"/>-->
                                             </div>
                                             <label for="monto_pagar"/>
                                             <div name="amount_div2" class="o_row">
                                                  <field name="monto_pagar"/>
-                                                <!-- <field name="currency_id"/>-->
                                             </div>
-                                        <!--    <field name="saldo_restante"/> -->
                                         </group>
                                     </group>
                                     <separator  string="Datos del pago"/>
@@ -68,18 +63,18 @@
                 </data>
             </field>
         </record>
-        
+
         <record id="view_saccount_payment_register_inherit_form" model="ir.ui.view">
-        	<field name="name">Account Payment cfdi</field>
-        	<field name="model">account.payment.register</field>
-        	<field name="inherit_id" ref="account.view_account_payment_register_form"/>
-        	<field name="arch" type="xml">
-        		<xpath expr="//footer/button[@name='action_create_payments']" position="after">
-        			<button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary"/>
-        		</xpath>
-        	</field>
+            <field name="name">Account Payment cfdi</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//footer/button[@name='action_create_payments']" position="after">
+                    <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary"/>
+                </xpath>
+            </field>
         </record>
-        
+
         <record id="view_payment_inherit_tree" model="ir.ui.view">
            <field name="name">account.payment.inherit.tree</field>
            <field name="model">account.payment</field>

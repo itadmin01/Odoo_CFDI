@@ -82,7 +82,6 @@ class AccountMove(models.Model):
                    ('P01', _('Por definir')),],
         string=_('Uso CFDI (cliente)'),
     )
-    xml_invoice_link = fields.Char(string=_('XML Invoice Link'))
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
                    ('solicitud_cancelar', 'Cancelación en proceso'),('factura_cancelada', 'Factura cancelada'),
@@ -114,7 +113,8 @@ class AccountMove(models.Model):
                    ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
                    ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
                    ('630', _('Enajenación de acciones en bolsa de valores')),
-                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+                   ('615', _('Régimen de los ingresos por obtención de premios')),
+                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),],
         string=_('Régimen Fiscal'), 
     )
     numero_cetificado = fields.Char(string=_('Numero de cetificado'))
@@ -555,7 +555,6 @@ class AccountMove(models.Model):
                                                 })
 
             invoice.write({'estado_factura': estado_factura,
-                           'xml_invoice_link': xml_file_link,
                            'factura_cfdi': True})
             invoice.message_post(body="CFDI emitido")
         return True
@@ -714,7 +713,49 @@ class AccountMove(models.Model):
                 if invoice.estado_factura == 'solicitud_rechazada' or invoice.estado_factura == 'solicitud_cancelar':
                     invoice.estado_factura = 'factura_correcta'
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
- 
+
+    def liberar_cfdi(self):
+        for invoice in self:
+           values = {
+                 'command': 'liberar_cfdi',
+                 'rfc': invoice.company_id.vat,
+                 'folio': invoice.name.replace('INV','').replace('/',''),
+                 'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
+                 'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
+                 'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
+                 'contrasena': invoice.company_id.contrasena,
+                 }
+           url=''
+           if invoice.company_id.proveedor_timbrado == 'multifactura':
+               url = '%s' % ('http://facturacion.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+               url = '%s' % ('http://facturacion2.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+               url = '%s' % ('http://facturacion3.itadmin.com.mx/api/command')
+           if not url:
+               return
+           try:
+               response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+               json_response = response.json()
+           except Exception as e:
+               print(e)
+               json_response = {}
+
+           if not json_response:
+               return
+           #_logger.info('something ... %s', response.text)
+
+           respuesta = json_response['respuesta']
+           message_id = self.env['mymodule.message.wizard'].create({'message': respuesta})
+           return {
+               'name': 'Respuesta',
+               'type': 'ir.actions.act_window',
+               'view_mode': 'form',
+               'res_model': 'mymodule.message.wizard',
+               'res_id': message_id.id,
+               'target': 'new'
+           }
+
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
@@ -756,3 +797,13 @@ class AccountMoveLine(models.Model):
 
     pedimento = fields.Char('Pedimento')
     predial = fields.Char('No. Predial')
+
+class MyModuleMessageWizard(models.TransientModel):
+    _name = 'mymodule.message.wizard'
+    _description = "Show Message"
+
+    message = fields.Text('Message', required=True)
+
+#    @api.multi
+    def action_close(self):
+        return {'type': 'ir.actions.act_window_close'}
