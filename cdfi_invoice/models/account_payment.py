@@ -109,15 +109,16 @@ class AccountPayment(models.Model):
     @api.one
     @api.depends('name')
     def _get_number_folio(self):
-        if self.number:
-            self.number_folio = self.name.replace('CUST.IN','').replace('/','')
+        for record in self:
+            if record.number:
+                record.number_folio = record.name.replace('CUST.IN','').replace('/','')
 
     @api.model
     def get_docto_relacionados(self,payment):
         try:
             data = json.loads(payment.docto_relacionados)
         except Exception:
-            data = []    
+            data = []
         return data
     
     @api.multi
@@ -159,15 +160,9 @@ class AccountPayment(models.Model):
                 data = json.loads(self.docto_relacionados) or []
                 for line in data:
                     if invoice.folio_fiscal == line.get('iddocumento',False):
-                        #if self.currency_id.name != invoice.moneda:
-                        #   if invoice.moneda == 'MXN':
-                        #      monto_restante = round(invoice.residual/(1/self.currency_id.rate),2)
-                        #   else:
-                        #      monto_restante = round(invoice.residual*float(invoice.tipocambio),2)
-                        #else:
                         monto_restante = invoice.residual
                         monto_pagar_docto = float(line.get('saldo_pendiente',False)) - monto_restante
-                        line['monto_pagar'] = monto_pagar_docto #float(line.get('saldo_pendiente',False)) - monto_restante
+                        line['monto_pagar'] = monto_pagar_docto
                         line['saldo_restante'] = monto_restante
                         self.write({'docto_relacionados': json.dumps(data)})
 
@@ -182,13 +177,10 @@ class AccountPayment(models.Model):
                     #revisa la cantidad que se va a pagar en el docuemnto
                     if res.currency_id.name != invoice.moneda:
                         if res.currency_id.name == 'MXN':
-                        #   saldo_pendiente = round(invoice.residual*(1/res.currency_id.rate),2)
-                            tipocambiop = invoice.tipocambio #round(1/float(res.currency_id.rate),2) #
+                            tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
                         else:
-                        #   saldo_pendiente = round(invoice.residual/float(invoice.tipocambio),2)
-                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.rate)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.payment_date).rate)
                     else:
-                        #saldo_pendiente = round(invoice.residual,2)
                         tipocambiop = invoice.tipocambio
                     docto_relacionados.append({
                           'moneda': invoice.moneda,
@@ -250,7 +242,7 @@ class AccountPayment(models.Model):
         if self.currency_id.name == 'MXN':
             self.tipocambiop = '1'
         else:
-            self.tipocambiop = self.currency_id.rate
+            self.tipocambiop = self.currency_id.with_context(date=self.payment_date).rate
 
         timezone = self._context.get('tz')
         if not timezone:
@@ -339,6 +331,10 @@ class AccountPayment(models.Model):
     @api.multi
     def complete_payment(self):
         for p in self:
+            if p.folio_fiscal:
+                 p.write({'estado_pago': 'pago_correcto'})
+                 return True
+
             values = p.to_json()
             if self.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
@@ -387,7 +383,7 @@ class AccountPayment(models.Model):
                                                 'res_model': self._name,
                                                 'res_id': p.id,
                                                 'type': 'binary'
-                                            })	
+                                            })
                 report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
                 report_data = report.render_qweb_pdf([p.id])[0]
                 pdf_file_name = p.name.replace('/', '_') + '.pdf'
@@ -532,9 +528,9 @@ class AccountPayment(models.Model):
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
-                elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+                elif p.company_id.proveedor_timbrado == 'multifactura2':
                     url = '%s' % ('http://facturacion2.itadmin.com.mx/api/refund')
-                elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+                elif p.company_id.proveedor_timbrado == 'multifactura3':
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif p.company_id.proveedor_timbrado == 'gecoerp':
                     if p.company_id.modo_prueba:
@@ -574,8 +570,6 @@ class AccountPayment(models.Model):
                                                 })
                 p.write({'estado_pago': json_response['estado_factura']})
                 p.message_post(body="CFDI Cancelado")
-
-
 
 class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"

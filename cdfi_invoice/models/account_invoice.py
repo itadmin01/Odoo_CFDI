@@ -114,7 +114,8 @@ class AccountInvoice(models.Model):
                    ('607', _('Régimen de Enajenación o Adquisición de Bienes')),
                    ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
                    ('630', _('Enajenación de acciones en bolsa de valores')),
-                   ('615', _('Régimen de los ingresos por obtención de premios')),],
+                   ('615', _('Régimen de los ingresos por obtención de premios')),
+                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),],
         string=_('Régimen Fiscal'), 
     )
     numero_cetificado = fields.Char(string=_('Numero de cetificado'))
@@ -272,7 +273,7 @@ class AccountInvoice(models.Model):
                 'invoice': {
                       'tipo_comprobante': self.tipo_comprobante,
                       'moneda': self.currency_id.name,
-                      'tipocambio': self.currency_id.rate,
+                      'tipocambio': self.currency_id.with_context(date=self.date_invoice).rate,
                       'forma_pago': self.forma_pago,
                       'methodo_pago': self.methodo_pago,
                       'subtotal': self.amount_untaxed,
@@ -637,7 +638,6 @@ class AccountInvoice(models.Model):
                 url = '%s' % ('http://facturacion3.itadmin.com.mx/api/invoice')
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                 if self.company_id.modo_prueba:
-                    #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
@@ -850,11 +850,53 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        for record in self:
-           result = super(AccountInvoice, record).action_invoice_cancel()
-           record.write({'number': record.move_name})
+        for invoice in self:
+           result = super(AccountInvoice, invoice).action_invoice_cancel()
+           invoice.write({'number': invoice.move_name})
            return result
- 
+
+    def liberar_cfdi(self):
+        for invoice in self:
+           values = {
+                 'command': 'liberar_cfdi',
+                 'rfc': invoice.company_id.vat,
+                 'folio': invoice.number.replace('INV','').replace('/',''),
+                 'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
+                 'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
+                 'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
+                 'contrasena': invoice.company_id.contrasena,
+                 }
+           url=''
+           if invoice.company_id.proveedor_timbrado == 'multifactura':
+               url = '%s' % ('http://facturacion.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+               url = '%s' % ('http://facturacion2.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+               url = '%s' % ('http://facturacion3.itadmin.com.mx/api/command')
+           if not url:
+               return
+           try:
+               response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+               json_response = response.json()
+           except Exception as e:
+               print(e)
+               json_response = {}
+
+           if not json_response:
+               return
+           #_logger.info('something ... %s', response.text)
+
+           respuesta = json_response['respuesta']
+           message_id = self.env['mymodule.message.wizard'].create({'message': respuesta})
+           return {
+               'name': 'Respuesta',
+               'type': 'ir.actions.act_window',
+               'view_mode': 'form',
+               'res_model': 'mymodule.message.wizard',
+               'res_id': message_id.id,
+               'target': 'new'
+           }
+
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
@@ -879,11 +921,16 @@ class MailTemplate(models.Model):
                     if not invoice.factura_cfdi:
                         continue
                     if invoice.estado_factura == 'factura_correcta' or invoice.estado_factura == 'solicitud_cancelar':
-                        xml_name = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
+                        if invoice.number:
+                           xml_name = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                        else:
+                           xml_name = invoice.company_id.factura_dir + '/' + invoice.move_name.replace('/', '_') + '.xml'
                         xml_file = open(xml_name, 'rb').read()
                         attachments = results[res_id]['attachments'] or []
-                        attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', 
-                                            base64.b64encode(xml_file)))
+                        if invoice.number:
+                            attachments.append(('CDFI_' + invoice.number.replace('/', '_') + '.xml', base64.b64encode(xml_file)))
+                        else:
+                            attachments.append(('CDFI_' + invoice.move_name.replace('/', '_') + '.xml', base64.b64encode(xml_file)))
                     else:
                         if invoice.number:
                             cancel_file_link = invoice.company_id.factura_dir + '/CANCEL_' + invoice.number.replace('/', '_') + '.xml'
@@ -905,5 +952,12 @@ class AccountInvoiceLine(models.Model):
     pedimento = fields.Char('Pedimento')
     predial = fields.Char('No. Predial')
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
-    
+class MyModuleMessageWizard(models.TransientModel):
+    _name = 'mymodule.message.wizard'
+    _description = "Show Message"
+
+    message = fields.Text('Message', required=True)
+
+    @api.multi
+    def action_close(self):
+        return {'type': 'ir.actions.act_window_close'}
