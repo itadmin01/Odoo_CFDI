@@ -852,11 +852,53 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        for record in self:
-           result = super(AccountInvoice, record).action_invoice_cancel()
-           record.write({'number': record.move_name})
+        for invoice in self:
+           result = super(AccountInvoice, invoice).action_invoice_cancel()
+           invoice.write({'number': invoice.move_name})
            return result
- 
+
+    def liberar_cfdi(self):
+        for invoice in self:
+           values = {
+                 'command': 'liberar_cfdi',
+                 'rfc': invoice.company_id.vat,
+                 'folio': invoice.number.replace('INV','').replace('/',''),
+                 'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
+                 'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
+                 'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
+                 'contrasena': invoice.company_id.contrasena,
+                 }
+           url=''
+           if invoice.company_id.proveedor_timbrado == 'multifactura':
+               url = '%s' % ('http://facturacion.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+               url = '%s' % ('http://facturacion2.itadmin.com.mx/api/command')
+           elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+               url = '%s' % ('http://facturacion3.itadmin.com.mx/api/command')
+           if not url:
+               return
+           try:
+               response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+               json_response = response.json()
+           except Exception as e:
+               print(e)
+               json_response = {}
+
+           if not json_response:
+               return
+           #_logger.info('something ... %s', response.text)
+
+           respuesta = json_response['respuesta']
+           message_id = self.env['mymodule.message.wizard'].create({'message': respuesta})
+           return {
+               'name': 'Respuesta',
+               'type': 'ir.actions.act_window',
+               'view_mode': 'form',
+               'res_model': 'mymodule.message.wizard',
+               'res_id': message_id.id,
+               'target': 'new'
+           }
+
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
@@ -912,5 +954,12 @@ class AccountInvoiceLine(models.Model):
     pedimento = fields.Char('Pedimento')
     predial = fields.Char('No. Predial')
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:            
-    
+class MyModuleMessageWizard(models.TransientModel):
+    _name = 'mymodule.message.wizard'
+    _description = "Show Message"
+
+    message = fields.Text('Message', required=True)
+
+    @api.multi
+    def action_close(self):
+        return {'type': 'ir.actions.act_window_close'}
