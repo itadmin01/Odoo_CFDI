@@ -666,9 +666,10 @@ class MailTemplate(models.Model):
                         domain = [
                             ('res_id', '=', payment.id),
                             ('res_model', '=', payment._name),
-                            ('name', '=', payment.name.replace('/', '_') + '.xml')]
-                        xml_file = self.env['ir.attachment'].search(domain)[0]
-                        attachments.append((payment.name.replace('.','').replace('/', '_') + '.xml', xml_file.datas))
+                            ('name', '=', payment.name.replace('.','').replace('/', '_') + '.xml')]
+                        xml_file = self.env['ir.attachment'].search(domain, limit=1)
+                        if xml_file:
+                           attachments.append((payment.name.replace('.','').replace('/', '_') + '.xml', xml_file.datas))
                         results[res_id]['attachments'] = attachments
         return results
 

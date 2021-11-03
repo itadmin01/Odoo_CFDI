@@ -668,17 +668,19 @@ class MailTemplate(models.Model):
                             ('res_id', '=', invoice.id),
                             ('res_model', '=', invoice._name),
                             ('name', '=', invoice.name.replace('/', '_') + '.xml')]
-                        xml_file = self.env['ir.attachment'].search(domain)[0]
+                        xml_file = self.env['ir.attachment'].search(domain, limit=1)
                         attachments = results[res_id]['attachments'] or []
-                        attachments.append(('CDFI_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
+                        if xml_file:
+                           attachments.append(('CDFI_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     else:
                         domain = [
                             ('res_id', '=', invoice.id),
                             ('res_model', '=', invoice._name),
                             ('name', '=', 'CANCEL_' + invoice.name.replace('/', '_') + '.xml')]
-                        xml_file = self.env['ir.attachment'].search(domain)[0]
-                        attachments = []	
-                        attachments.append(('CDFI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
+                        xml_file = self.env['ir.attachment'].search(domain, limit=1)
+                        attachments = []
+                        if xml_file:
+                           attachments.append(('CDFI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     results[res_id]['attachments'] = attachments
         return results
 
