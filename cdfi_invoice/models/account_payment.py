@@ -31,13 +31,12 @@ class AccountRegisterPayment(models.TransientModel):
                'type': 'ir.actions.act_window',
                'res_id': rec.id,
            }
-            
-            
+
     def _create_payment_vals_from_wizard(self):
         res = super(AccountRegisterPayment, self)._create_payment_vals_from_wizard()
         res.update({'fecha_pago': self.payment_date})
         return res
-    
+
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -175,7 +174,6 @@ class AccountPayment(models.Model):
 
     
     def add_resitual_amounts(self):
-        _logger.info("entra aqui 4")
         if self.reconciled_invoice_ids and self.docto_relacionados != '[]':
             for invoice in self.reconciled_invoice_ids:
                 data = json.loads(self.docto_relacionados) or []
@@ -189,16 +187,14 @@ class AccountPayment(models.Model):
         elif self.reconciled_invoice_ids and self.docto_relacionados == '[]':
            # _logger.info('entra2 01')
            # if self.docto_relacionados == '[]': #si está vacio
-               _logger.info("entra aqui 5")
                docto_relacionados = []
                monto_pagado_asignar = round(self.monto_pagar,2)
                for invoice in self.reconciled_invoice_ids:
-                    _logger.info('entra2 02 %s', invoice.name)
                     if invoice.factura_cfdi:
                         #revisa la cantidad que se va a pagar en el docuemnto
                         if self.currency_id.name != invoice.moneda:
                             if self.currency_id.name == 'MXN':
-                                tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
+                                tipocambiop = round(invoice.currency_id.with_context(date=self.date).rate,6) + 0.000001
                             else:
                                 tipocambiop = float(invoice.tipocambio)/float(self.currency_id.rate)
                         else:
@@ -230,20 +226,17 @@ class AccountPayment(models.Model):
     @api.model
     def create(self, vals):
         res = super(AccountPayment, self).create(vals)
-        _logger.info("entra aqui 3")
         if res.reconciled_invoice_ids:
-            _logger.info("entra aqui 2")
             docto_relacionados = []
             monto_pagado_asignar = round(res.monto_pagar,2)
             for invoice in res.reconciled_invoice_ids:
-                _logger.info("entra aqui")
                 if invoice.factura_cfdi:
                     #revisa la cantidad que se va a pagar en el docuemnto
                     if res.currency_id.name != invoice.moneda:
                         if res.currency_id.name == 'MXN':
-                            tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
+                            tipocambiop = round(invoice.currency_id.with_context(date=res.date).rate,6) + 0.000001
                         else:
-                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.payment_date).rate)
+                            tipocambiop = float(invoice.tipocambio)/float(res.currency_id.with_context(date=res.date).rate)
                     else:
                         tipocambiop = invoice.tipocambio
                     nbr_payment = 0
@@ -325,7 +318,7 @@ class AccountPayment(models.Model):
         if self.currency_id.name == 'MXN':
             self.tipocambiop = '1'
         else:
-            self.tipocambiop = self.currency_id.with_context(date=self.payment_date).rate
+            self.tipocambiop = self.currency_id.with_context(date=self.date).rate
 
         timezone = self._context.get('tz')
         if not timezone:
@@ -546,7 +539,7 @@ class AccountPayment(models.Model):
                                                  )
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
-        self.qrcode_image = base64.encodestring(ret_val.asString('jpg'))
+        self.qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
         
     

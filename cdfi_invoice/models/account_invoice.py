@@ -15,7 +15,6 @@ from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
 import pytz
 
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -482,9 +481,8 @@ class AccountMove(models.Model):
                                                  )
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
-        self.qrcode_image = base64.encodestring(ret_val.asString('jpg'))
-    
-    
+        self.qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
+
     def print_cdfi_invoice(self):
         self.ensure_one()
         #return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon 
