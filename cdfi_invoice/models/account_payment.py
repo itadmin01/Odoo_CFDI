@@ -174,7 +174,7 @@ class AccountPayment(models.Model):
                         #revisa la cantidad que se va a pagar en el docuemnto
                         if self.currency_id.name != invoice.moneda:
                             if self.currency_id.name == 'MXN':
-                                tipocambiop = round(invoice.currency_id.with_context(date=res.payment_date).rate,6) + 0.000001
+                                tipocambiop = round(invoice.currency_id.with_context(date=self.payment_date).rate,6) + 0.000001
                             else:
                                 tipocambiop = float(invoice.tipocambio)/float(self.currency_id.with_context(date=self.payment_date).rate)
                         else:
