@@ -15,7 +15,6 @@ from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
 import pytz
 
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -508,7 +507,7 @@ class AccountMove(models.Model):
                     raise UserError(_('Error para timbrar factura, Factura ya generada.'))
             if invoice.estado_factura == 'factura_cancelada':
                 raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
-            
+
             values = invoice.to_json()
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/invoice')
@@ -521,6 +520,9 @@ class AccountMove(models.Model):
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            else:
+                raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
             try:
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -596,10 +598,12 @@ class AccountMove(models.Model):
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
-                        #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                else:
+                    raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
                 try:
                     response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
