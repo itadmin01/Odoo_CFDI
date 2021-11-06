@@ -457,10 +457,12 @@ class AccountInvoice(models.Model):
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/invoice')
                 elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
-                        #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/invoice/?handler=OdooHandler33')
                         url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+                else:
+                    raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
                 try:
                     response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -521,6 +523,9 @@ class AccountInvoice(models.Model):
                 url = '%s' % ('http://facturacion3.itadmin.com.mx/api/invoice')
             elif self.company_id.proveedor_timbrado == 'gecoerp':
                 url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            else:
+                raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
             try:
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -643,6 +648,9 @@ class AccountInvoice(models.Model):
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
                 else:
                     url = '%s' % ('https://itadmin.gecoerp.com/invoice/?handler=OdooHandler33')
+            else:
+                raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
             try:
                 response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
@@ -713,10 +721,12 @@ class AccountInvoice(models.Model):
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
                 elif self.company_id.proveedor_timbrado == 'gecoerp':
                     if self.company_id.modo_prueba:
-                        #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/refund/?handler=OdooHandler33')
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
+                else:
+                    raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
                 try:
                     response = requests.post(url , 
                                          auth=None,verify=False, data=json.dumps(values), 
