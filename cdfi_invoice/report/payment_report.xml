@@ -109,7 +109,7 @@
 							</div>
 							<div>
 								<strong>Tipo de comprobante: </strong>
-								<span t-field="o.tipo_comprobante" />
+								P
 							</div>
 						</div>
 					</div>
