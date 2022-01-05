@@ -38,9 +38,9 @@
 					<div style="border-bottom: 1px solid black;"></div>
 				</div>
 			</div>
-			<t t-if="o.estado_factura == 'factura_cancelada'">
+			<!--<t t-if="o.estado_factura == 'factura_cancelada'">
 			   <h1 style="text-align:center;">FACTURA CANCELADA</h1>
-			</t>
+			</t>-->
         </div>
 
         <div class="article o_report_layout_standard">
@@ -161,6 +161,11 @@
 						<t t-if="o.company_id.modo_prueba == True">
 							<div style="position:absolute;opacity:0.2;z-index:99;width:100%;">
             					<center><span style="font-size:100px;color:red;">FACTURA DE <br/>PRUEBA</span></center>
+            				</div>
+        				</t>
+        				<t t-if="o.estado_factura == 'factura_cancelada'">
+							<div style="position:absolute;opacity:0.2;z-index:99;width:100%;">
+            					<center><span style="font-size:100px;color:red;">FACTURA<br/>CANCELADA</span></center>
             				</div>
         				</t>
 						<thead>
