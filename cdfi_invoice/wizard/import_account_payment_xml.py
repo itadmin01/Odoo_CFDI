@@ -75,8 +75,8 @@ class import_account_payment_from_xml(models.TransientModel):
         qrcode_image = base64.encodestring(ret_val.asString('jpg'))
 
         cargar_values = {
-            'methodo_pago': xml_data.attrib['MetodoPago'],
-            'forma_pago_id' : self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])]), 
+            'methodo_pago': xml_data.find('MetodoPago') and xml_data.attrib['MetodoPago'] or '',
+            'forma_pago_id' : xml_data.find('FormaPago') and  self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])]) or '',
             'uso_cfdi_id': self.env['catalogo.uso.cfdi'].sudo().search([('code','=',Receptor.attrib['UsoCFDI'])]),
             'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
             'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
