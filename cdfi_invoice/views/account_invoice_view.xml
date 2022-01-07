@@ -51,13 +51,12 @@
                             attrs="{'invisible':['|','|',('state','in',('draft','cancel')), ('estado_factura','in',('factura_correcta','factura_cancelada','solicitud_rechazada')),
                                    ('type','not in',('out_invoice', 'out_refund'))]}" 
                             class="oe_highlight" groups="base.group_user"/>
-                    <button name="action_cfdi_cancel"
-                            type="object" 
+                    <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d"
+                            type="action" 
                             string="Cancelar CFDI" 
                             attrs="{'invisible':['|',('factura_cfdi','=',False), ('estado_factura','in',('solicitud_cancelar', 'factura_cancelada', 'solicitud_rechazada'))]}" 
                             class="oe_highlight" 
-                            groups="base.group_user"
-                            confirm="¿Esta seguro que quiere cancelar la factura?"/>
+                            groups="base.group_user"/>
                     <button name="action_cfdi_rechazada"
                             type="object" 
                             string="Cambiar estado CFDI a factura correcta" 
