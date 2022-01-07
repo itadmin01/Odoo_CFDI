@@ -10,8 +10,11 @@
                     <button name="action_post" position="after">
                         <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),]}" string="Genera REP" type="object"/>
                         <button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Enviar por correo-e" type="object"/>
-                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
-                        <button name="action_cfdi_cancel" type="object" string="Cancelar CFDI" attrs="{'invisible':[('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" class="oe_highlight" groups="base.group_user" confirm="¿Esta seguro que quiere cancelar la factura?"/>
+                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago','!=','03'),
+                                                         ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
+                        <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d" 
+                                                          type="action" string="Cancelar CFDI" attrs="{'invisible':['|',('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" 
+                                                          class="oe_highlight" groups="base.group_user"/>
                     </button>
                     <xpath expr="//sheet" position="inside">
                         <notebook >
