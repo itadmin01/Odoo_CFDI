@@ -46,7 +46,8 @@ class ResCompany(models.Model):
                    ('629', _('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales')),
                    ('630', _('Enajenación de acciones en bolsa de valores')),
                    ('615', _('Régimen de los ingresos por obtención de premios')),
-                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),],
+                   ('625', _('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas')),
+                   ('626', _('Régimen Simplificado de Confianza')),],
         string=_('Régimen Fiscal'), 
     )
     archivo_cer = fields.Binary(string=_('Archivo .cer'))
