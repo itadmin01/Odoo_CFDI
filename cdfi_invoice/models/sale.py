@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 #----------------------------------------------------------
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-      
+
     forma_pago = fields.Selection(
         selection=[('01', '01 - Efectivo'), 
                    ('02', '02 - Cheque nominativo'), 
@@ -69,7 +69,6 @@ class SaleOrder(models.Model):
     )
     fecha_corregida = fields.Datetime(string=_('Fecha Cotizacion'), compute='_get_fecha_corregida')
 
-    
     @api.onchange('partner_id')
     def _get_uso_cfdi(self):
         if self.partner_id:
@@ -78,7 +77,6 @@ class SaleOrder(models.Model):
                 }
             self.update(values)
 
-    
     @api.onchange('payment_term_id')
     def _get_metodo_pago(self):
         if self.payment_term_id:
