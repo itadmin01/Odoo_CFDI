@@ -591,6 +591,8 @@ class AccountMove(models.Model):
                                   'contrasena': invoice.company_id.contrasena,
                             },
                           'xml': xml_file.datas.decode("utf-8"),
+                          'motivo': self.env.context.get('motivo_cancelacion',False),
+                          'foliosustitucion': self.env.context.get('foliosustitucion',''),
                           }
                 if self.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
