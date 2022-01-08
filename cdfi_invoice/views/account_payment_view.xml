@@ -13,7 +13,7 @@
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago_id','!=','03'),
                                                          ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
                         <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d" 
-                                                          type="action" string="Cancelar CFDI" attrs="{'invisible':['|',('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" 
+                                                          type="action" string="Cancelar CFDI" attrs="{'invisible':[('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" 
                                                           class="oe_highlight" groups="base.group_user"/>
                     </button>
                     <xpath expr="//sheet" position="inside">
