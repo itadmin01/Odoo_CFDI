@@ -5,40 +5,40 @@
         <!--Email template -->
         <record id="email_template_payment" model="mail.template">
             <field name="name">Payment - Send by Email</field>
-            <field name="email_from">${(object.company_id.email and '%s &lt;%s&gt;' % (object.company_id.name, object.company_id.email) or '')|safe}</field>
-            <field name="subject">Ref: ${object.name or 'n/a' }</field>
-            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="email_from">{{'%s &lt;%s&gt;' % (object.company_id.name, object.company_id.email or '')}}</field>
+            <field name="subject">Ref:{{object.name or 'n/a'}}</field>
+            <field name="partner_to">{{object.partner_id.id}}</field>
             <field name="model_id" ref="account.model_account_payment"/>
             <field name="auto_delete" eval="True"/>
             <field name="report_template" ref="report_payments"/>
-            <field name="report_name">${object.name.replace('/', '_') + '.pdf'}</field>
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="report_name">{{object.name.replace('/', '_') + '.pdf'}}</field>
+            <field name="lang">{{object.partner_id.lang}}</field>
             <field name="body_html"><![CDATA[
-<p>Hola, ${object.partner_id.name}
-
-
-<p>Anexo encontrará su complemento de pago.</p>
-<p>Saludos.</p>
-
-<p style="color:#eeeeee;">
-% if object.company_id and object.company_id.signature:
-    ${object.company_id.signature | safe}
-% endif
-</p>
-]]></field>
+            <p>Hola, <span t-esc='object.partner_id.name'/></p>
+			<p>Anexo encontrará su complemento de pago.</p>
+			<p>Saludos.</p>
+			  <!-- <p style="color:#eeeeee;">
+			% if object.company_id and object.company_id.signature:
+			     ${object.company_id.portal_confirmation_sign | safe} 
+			    
+			% endif
+			</p>  -->
+			]]>
+				
+			</field>
         </record>
         
         
         <record id="email_template_alarma_de_saldo" model="mail.template">
             <field name="name">Alarma de Saldo</field>
-            <field name="email_from">${(object.email and '%s &lt;%s&gt;' % (object.name, object.email) or '')|safe}</field>
+            <field name="email_from">{{('%s &lt;%s&gt;' % (object.name, object.email) or '')}}</field>
             <field name="subject">Ref: Alarma de Saldo</field>
             <!-- <field name="partner_to">${object.partner_id.id}</field> -->
             <field name="model_id" ref="base.model_res_company"/>
             <field name="auto_delete" eval="True"/>
             <!-- <field name="report_template" ref="report_payments"/>
             <field name="report_name">${object.name.replace('/', '_') + '.pdf'}</field> -->
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="lang">{{object.partner_id.lang}}</field>
             <field name="body_html"><![CDATA[
 El saldo de timbres es menor al monto seleccionado. Por favor contacte a su proveedor de timbres para adquirir más
 ]]></field>
@@ -46,14 +46,14 @@ El saldo de timbres es menor al monto seleccionado. Por favor contacte a su prov
 
         <record id="email_template_alarma_de_csd" model="mail.template">
             <field name="name">Alarma de CSD</field>
-            <field name="email_from">${(object.email and '%s &lt;%s&gt;' % (object.name, object.email) or '')|safe}</field>
+            <field name="email_from">{{('%s &lt;%s&gt;' % (object.name, object.email) or '')}}</field>
             <field name="subject">Ref: Alarma de CSD</field>
             <!-- <field name="partner_to">${object.partner_id.id}</field> -->
             <field name="model_id" ref="base.model_res_company"/>
             <field name="auto_delete" eval="True"/>
             <!-- <field name="report_template" ref="report_payments"/>
             <field name="report_name">${object.name.replace('/', '_') + '.pdf'}</field> -->
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="lang">{{object.partner_id.lang}}</field>
             <field name="body_html"><![CDATA[
 La vigencia de tus certificados CSD está próxima, genera tus nuevos certificados y cámbialos en la configuración de la compañía.
 ]]></field>
