@@ -164,23 +164,38 @@
 	     </xpath>
 
 	     <xpath expr="//p[@name='note']" position="before">
+
+				<t t-if="o.tipo_relacion">
+					<div class="row">
+					    <div>
+					        <strong>CFDI Relacionado </strong>
+					    </div>
+						<div>
+					        Tipo de Relación: <span t-field="o.tipo_relacion" />
+					    </div>
+					    <div>
+					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
+					    </div>
+					</div>
+				</t>
+
 					<div class="col-12" style="font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 1px;">
 							<t t-foreach="docs" t-as="rec">
-							<!--<tr>
+							<tr>
 								<td>
 									<strong>Método de pago</strong>
 								</td>
 								<td >
-									<span t-field="docs.methodo_pago" />
+									<span t-field="rec.methodo_pago" />
 								</td>
 								<td>
-									<strong>Régimen fiscal</strong>
+									<strong>Fecha y hora de certificación</strong>
 								</td>
 								<td >
-									<span t-field="docs.regimen_fiscal" />
+									<span t-field="rec.fecha_certificacion" />
 								</td>
-							</tr>-->
+							</tr>
 							
 							<tr>
 							   <td>
@@ -216,11 +231,6 @@
 								</td>
 								<td >
 									<span t-field="rec.numero_cetificado" />
-								</td>								<td>
-									<strong>Fecha y hora de certificación</strong>
-								</td>
-								<td >
-									<span t-field="rec.fecha_certificacion" />
 								</td>
 							</tr>
 						</t>
