@@ -59,6 +59,7 @@ class ResCompany(models.Model):
     fecha_csd = fields.Datetime(string=_('Vigencia CSD'), readonly=True)
     estado_csd =  fields.Char(string=_('Estado CSD'), readonly=True)
     aviso_csd =  fields.Char(string=_('Aviso vencimiento (días antes)'), default=14)
+    fecha_timbres = fields.Date(string=_('Vigencia timbres'), readonly=True)
 
     @api.model
     def get_saldo_by_cron(self):
@@ -74,8 +75,17 @@ class ResCompany(models.Model):
                     if email:
                         email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
             if company.aviso_csd and company.fecha_csd and company.correo_alarma: #valida vigencia de CSD
-                if datetime.today() + timedelta(days=1) > company.fecha_csd: 
+                if datetime.today() - timedelta(days=int(company.aviso_csd)) > company.fecha_csd:
                    email_template = self.env.ref("cdfi_invoice.email_template_alarma_de_csd",False)
+                   if not email_template:return
+                   emails = company.correo_alarma.split(",")
+                   for email in emails:
+                       email = email.strip()
+                       if email:
+                          email_template.send_mail(company.id, force_send=True,email_values={'email_to':email})
+            if company.fecha_timbres and company.correo_alarma: #valida vigencia de timbres
+                if (datetime.today() + timedelta(days=7)).date() > company.fecha_timbres:
+                   email_template = self.env.ref("cdfi_invoice.email_template_alarma_vencimiento",False)
                    if not email_template:return
                    emails = company.correo_alarma.split(",")
                    for email in emails:
@@ -117,7 +127,8 @@ class ResCompany(models.Model):
         if json_response.get('saldo'):
             xml_saldo = base64.b64decode(json_response['saldo'])
         values2 = {
-                    'saldo_timbres': xml_saldo
+                    'saldo_timbres': xml_saldo,
+                    'fecha_timbres': parser.parse(json_response['vigencia']) if json_response['vigencia'] else '',
                   }
         self.update(values2)
 

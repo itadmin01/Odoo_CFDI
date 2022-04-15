@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="forma_pago" string="CFDI 3.3" attrs="{'invisible':[('type','in',('sale', 'purchase'))]}">
+                    <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','in',('sale', 'purchase'))]}">
                             <group cols="2">
                                 <group>
                                       <field name="forma_pago" />
@@ -15,7 +15,7 @@
                     </page>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page name="forma_pago" string="CFDI 3.3" attrs="{'invisible':[('type','not in',('sale'))]}">
+                    <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','not in',('sale'))]}">
                             <group cols="2">
                                 <group>
                                       <field name="codigo_postal" />

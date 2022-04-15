@@ -27,3 +27,13 @@ class ReasonCancelation(models.TransientModel):
             print(move_obj)
             ctx = {'motivo_cancelacion':self.motivo_cancelacion,'foliosustitucion':self.foliosustitucion or False}
             return move_obj.with_context(ctx).action_cfdi_cancel()
+        if self.env.context.get('active_id') and self.env.context.get('active_model') == "cfdi.traslado":
+            move_obj = self.env['cfdi.traslado'].browse(self.env.context['active_id'])
+            print(move_obj)
+            ctx = {'motivo_cancelacion':self.motivo_cancelacion,'foliosustitucion':self.foliosustitucion or False}
+            return move_obj.with_context(ctx).action_cfdi_cancel()
+        if self.env.context.get('active_id') and self.env.context.get('active_model') == "factura.global":
+            move_obj = self.env['factura.global'].browse(self.env.context['active_id'])
+            print(move_obj)
+            ctx = {'motivo_cancelacion':self.motivo_cancelacion,'foliosustitucion':self.foliosustitucion or False}
+            return move_obj.with_context(ctx).action_cfdi_cancel()

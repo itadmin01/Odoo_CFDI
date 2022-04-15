@@ -63,8 +63,10 @@
 		            	<strong>Datos receptor:</strong><br/>
 					    <span t-field="o.partner_id.name"/><br/>
 					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
-					    <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/>
+					    <span t-field="o.partner_id.city"/><br/>
+		                <span t-field="o.partner_id.vat"/><br/>
+		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/> <br/>
+
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>

@@ -8,7 +8,7 @@
 			<field name="inherit_id" ref="account.view_payment_term_form" />
 			<field name="arch" type="xml">
 				<field name="note" position="after">
-					<group cols="4" string="Factura CFDI 3.3">
+					<group cols="4" string="Factura CFDI">
 					<field name="methodo_pago" />
 					</group>
 				</field>

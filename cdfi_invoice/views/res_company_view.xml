@@ -9,7 +9,7 @@
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI">
                             <group cols="4"  string="Configuración">
                                 <group>
                                     <field name="nombre_fiscal"/>
@@ -43,6 +43,7 @@
                             <group cols="4"  string="Timbres">
                                 <group>
                                     <field name="saldo_timbres"/>
+                                    <field name="fecha_timbres"/>
                                     <field name="saldo_alarma"/>
                                     <field name="correo_alarma"/>
                                     <button name="button_dummy"

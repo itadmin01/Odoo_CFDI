@@ -6,8 +6,8 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '13.13',
-    'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 3.3)
+    'version': '13.15',
+    'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 4.0)
     ''',
     'category': 'Accounting',
     'author': 'IT Admin',
@@ -24,17 +24,15 @@
         'views/res_company_view.xml',
         'views/product_view.xml',
         'views/account_invoice_view.xml',
-        #'views/invoice_supplier_view.xml',
         'views/account_payment_view.xml',
         'views/account_tax_view.xml',
         'views/sale_view.xml',
         'views/account_payment_term_view.xml',
         'views/purchase_view.xml',
         'views/account_journal_view.xml',
-        #'report/invoice_report.xml',
+        'views/res_currency.xml',
         'report/invoice_report_custom.xml',
         'report/payment_report.xml',
-        #'report/sale_report_templates.xml',
         'data/mail_template_data.xml',
         'data/cron.xml',
     ],
@@ -43,5 +41,5 @@
     'installable': True,
     'price': 0.00,
     'currency': 'USD',
-    'license': 'OPL-1',	
+    'license': 'OPL-1',
 }
