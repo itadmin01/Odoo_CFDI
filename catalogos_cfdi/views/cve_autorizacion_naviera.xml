@@ -1,0 +1,38 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_autorizacion_naviera_tree">
+      <field name="name">cve.autorizacion.naviera.tree</field>
+      <field name="model">cve.autorizacion.naviera</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="autorizacion_naviera"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_autorizacion_naviera_form">
+      <field name="name">cve.autorizacion.naviera.form</field>
+      <field name="model">cve.autorizacion.naviera</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="autorizacion_naviera"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_autorizacion_naviera" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Autorización Naviera</field>
+        <field name="res_model">cve.autorizacion.naviera</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_autorizacion_naviera" name="CVE Autorización Naviera" parent="catalogos_traslado_menu_principal" action="action_catalogos_autorizacion_naviera"/>
+  </data>
+</odoo>

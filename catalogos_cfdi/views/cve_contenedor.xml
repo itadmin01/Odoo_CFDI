@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_contenedor_tree">
+      <field name="name">cve.contenedor.tree</field>
+      <field name="model">cve.contenedor</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="tipo_contenedor"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_contenedor_form">
+      <field name="name">cve.contenedor.form</field>
+      <field name="model">cve.contenedor</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="tipo_contenedor"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_contenedor" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Contenedor</field>
+        <field name="res_model">cve.contenedor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_contenedor" name="CVE Contenedor" parent="catalogos_traslado_menu_principal" action="action_catalogos_contenedor"/>
+  </data>
+</odoo>

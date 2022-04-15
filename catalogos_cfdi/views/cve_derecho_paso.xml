@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_derecho_paso_tree">
+      <field name="name">cve.derecho.paso.tree</field>
+      <field name="model">cve.derecho.paso</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="derecho_paso"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_derecho_paso_form">
+      <field name="name">cve.derecho.paso.form</field>
+      <field name="model">cve.derecho.paso</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="derecho_paso"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_derecho_paso" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Derecho de Paso</field>
+        <field name="res_model">cve.derecho.paso</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_derecho_paso" name="CVE Derecho de Paso" parent="catalogos_traslado_menu_principal" action="action_catalogos_derecho_paso"/>
+  </data>
+</odoo>

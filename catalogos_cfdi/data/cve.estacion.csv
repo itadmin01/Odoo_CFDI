@@ -1,0 +1,4 @@
+id,c_estacion,descripcion,c_transporte
+catalogos_estacion1,01,Origen Nacional,"02, 03 y 04"
+catalogos_estacion2,02,Intermedia ,"02, 03 y 04"
+catalogos_estacion3,03,Destino Final Nacional,"02, 03 y 04"

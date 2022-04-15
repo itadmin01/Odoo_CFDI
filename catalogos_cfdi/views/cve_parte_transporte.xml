@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_parte_transporte_tree">
+      <field name="name">cve.parte.transporte.tree</field>
+      <field name="model">cve.parte.transporte</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_parte_transporte_form">
+      <field name="name">cve.parte.transporte.form</field>
+      <field name="model">cve.parte.transporte</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_parte_transporte" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Parte Transporte</field>
+        <field name="res_model">cve.parte.transporte</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_parte_transporte" name="CVE Parte Transporte" parent="catalogos_traslado_menu_principal" action="action_catalogos_parte_transporte"/>
+  </data>
+</odoo>

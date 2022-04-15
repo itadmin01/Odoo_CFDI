@@ -18,25 +18,39 @@
             <field name="inherit_id" ref="account.invoice_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI">
                             <group cols="4">
                                 <group string="Detalles de Pago">
-                                    <field name="forma_pago"/>
-                                    <field name="methodo_pago"/>
-                                    <field name="uso_cfdi"/>
+                                    <field name="forma_pago" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="methodo_pago" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="uso_cfdi" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="exportacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
                                 <group  string="Detalles de Factura">
-                                    <field name="tipo_comprobante"/>
+                                    <field name="tipo_comprobante" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                     <field name="folio_fiscal"/>
-                                    <field name="confirmacion"/>
+                                    <field name="confirmacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                     <field name="estado_factura"/>
-                                    <field name="fecha_factura"/>
+                                    <field name="fecha_factura" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="proceso_timbrado"/>
                                 </group>
                                 <group  string="CFDI Relacionados">
-                                    <field name="tipo_relacion"/>
-                                    <field name="uuid_relacionado"/>
+                                    <field name="tipo_relacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="uuid_relacionado" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                </group>
+                                <group  string="Complementos" name="complementos">
+                                    <field name="factura_global" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
                             </group>
+                    </page>
+                    <page name="info_global" string="Factura global"  attrs="{'invisible': [('factura_global','=',False)]}">
+                        <group cols="4">
+                            <group>
+                                <field name="fg_periodicidad" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                                <field name="fg_meses" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                                <field name="fg_ano" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                            </group>
+                        </group>
                     </page>
                 </xpath>
                 <field name="payment_term_id" position="after">
@@ -46,7 +60,7 @@
                 	<button name="action_invoice_sent" type="object" string="Enviar por correo-e" attrs="{'invisible':[('state', 'not in', ('cancel'))]}" groups="base.group_user"/>
                 </button>
                 <button name="action_invoice_draft" position="before">
-                    <button name="action_cfdi_generate" type="object" string="Generar CFDI" 
+                    <button name="action_cfdi_generate" type="object" string="Generar CFDI"
                             attrs="{'invisible':['|',('factura_cfdi','=',True), ('state','not in',('open', 'paid'))]}"
                             class="oe_highlight" groups="base.group_user"/>
                     <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d"
@@ -100,3 +114,4 @@
     </record>
 
 </odoo>
+

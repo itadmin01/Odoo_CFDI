@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_transporte_tree">
+      <field name="name">cve.transporte.tree</field>
+      <field name="model">cve.transporte</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="c_transporte"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_transporte_form">
+      <field name="name">cve.transporte.form</field>
+      <field name="model">cve.transporte</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="c_transporte"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_transporte" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Transporte</field>
+        <field name="res_model">cve.transporte</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_traslado_menu_principal" name="Catalogos Traslado" parent="account.menu_finance_configuration"/>
+
+      <menuitem id="catalogos_menu_cve_transporte" name="CVE Transporte" parent="catalogos_traslado_menu_principal" action="action_catalogos_transporte"/>
+  </data>
+</odoo>

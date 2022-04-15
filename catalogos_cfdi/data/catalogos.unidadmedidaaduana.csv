@@ -1,13 +1,13 @@
 id,c_unidadmedidaaduana,descripcion
-catalogos_unidadmedidaaduana1,1,KILO  
-catalogos_unidadmedidaaduana2,2,GRAMO  
-catalogos_unidadmedidaaduana3,3,METRO LINEAL  
-catalogos_unidadmedidaaduana4,4,METRO CUADRADO  
-catalogos_unidadmedidaaduana5,5,METRO CUBICO  
-catalogos_unidadmedidaaduana6,6,PIEZA  
-catalogos_unidadmedidaaduana7,7,CABEZA  
-catalogos_unidadmedidaaduana8,8,LITRO  
-catalogos_unidadmedidaaduana9,9,PAR  
+catalogos_unidadmedidaaduana1,01,KILO  
+catalogos_unidadmedidaaduana2,02,GRAMO  
+catalogos_unidadmedidaaduana3,03,METRO LINEAL  
+catalogos_unidadmedidaaduana4,04,METRO CUADRADO  
+catalogos_unidadmedidaaduana5,05,METRO CUBICO  
+catalogos_unidadmedidaaduana6,06,PIEZA  
+catalogos_unidadmedidaaduana7,07,CABEZA  
+catalogos_unidadmedidaaduana8,08,LITRO  
+catalogos_unidadmedidaaduana9,09,PAR  
 catalogos_unidadmedidaaduana10,10,KILOWATT  
 catalogos_unidadmedidaaduana11,11,MILLAR  
 catalogos_unidadmedidaaduana12,12,JUEGO  

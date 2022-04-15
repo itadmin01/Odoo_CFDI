@@ -1,0 +1,13 @@
+id,clave,descripcion
+catalogos_parte_transporte1,PT01,Camión unitario
+catalogos_parte_transporte2,PT02,Camión
+catalogos_parte_transporte3,PT03,Tractocamión
+catalogos_parte_transporte4,PT04,Remolque
+catalogos_parte_transporte5,PT05,Semirremolque
+catalogos_parte_transporte6,PT06,Vehículo ligero de carga
+catalogos_parte_transporte7,PT07,Grúa
+catalogos_parte_transporte8,PT08,Aeronave
+catalogos_parte_transporte9,PT09,Barco o buque
+catalogos_parte_transporte10,PT10,Carro o vagón
+catalogos_parte_transporte11,PT11,Contenedor
+catalogos_parte_transporte12,PT12,Locomotora

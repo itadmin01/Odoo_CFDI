@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_tipo_carro_tree">
+      <field name="name">cve.tipo.carro.tree</field>
+      <field name="model">cve.tipo.carro</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="tipo_carro"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_tipo_carro_form">
+      <field name="name">cve.tipo.carro.form</field>
+      <field name="model">cve.tipo.carro</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="tipo_carro"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_tipo_carro" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Tipo Carro</field>
+        <field name="res_model">cve.tipo.carro</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_tipo_carro" name="CVE Tipo Carro" parent="catalogos_traslado_menu_principal" action="action_catalogos_tipo_carro"/>
+  </data>
+</odoo>

@@ -1,0 +1,16 @@
+id,clave,descripcion
+catalogos_conf_maritima1,B01,Abastecedor
+catalogos_conf_maritima2,B02,Barcaza
+catalogos_conf_maritima3,B03,Granelero
+catalogos_conf_maritima4,B04,Porta Contenedor
+catalogos_conf_maritima5,B05,Draga
+catalogos_conf_maritima6,B06,Pesquero
+catalogos_conf_maritima7,B07,Carga General
+catalogos_conf_maritima8,B08,Quimiqueros
+catalogos_conf_maritima9,B09,Transbordadores
+catalogos_conf_maritima10,B10,Carga RoRo
+catalogos_conf_maritima11,B11,Investigación
+catalogos_conf_maritima12,B12,Tanquero
+catalogos_conf_maritima13,B13,Gasero
+catalogos_conf_maritima14,B14,Remolcador
+catalogos_conf_maritima15,B15,Extraordinaria especialización

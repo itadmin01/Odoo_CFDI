@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_estacion_tree">
+      <field name="name">cve.estacion.tree</field>
+      <field name="model">cve.estacion</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="c_estacion"/>
+          <field name="descripcion"/>
+          <field name="c_transporte"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_estacion_form">
+      <field name="name">cve.estacion.form</field>
+      <field name="model">cve.estacion</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="c_estacion"/>
+          <field name="descripcion"/>
+          <field name="c_transporte"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_estacion" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Estación</field>
+        <field name="res_model">cve.estacion</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_estacion" name="CVE Estación" parent="catalogos_traslado_menu_principal" action="action_catalogos_estacion"/>
+  </data>
+</odoo>

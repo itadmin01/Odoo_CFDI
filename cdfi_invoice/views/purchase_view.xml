@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI">
                             <group cols="4">
                                 <group string="Detalles de Pago">
                                 	<field name="forma_pago"/>

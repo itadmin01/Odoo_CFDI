@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_conf_autotransporte_tree">
+      <field name="name">cve.conf.autotransporte.tree</field>
+      <field name="model">cve.conf.autotransporte</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_conf_autotransporte_form">
+      <field name="name">cve.conf.autotransporte.form</field>
+      <field name="model">cve.conf.autotransporte</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_conf_autotransporte" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Conf Autotransporte</field>
+        <field name="res_model">cve.conf.autotransporte</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_conf_autotransporte" name="CVE Conf Autotransporte" parent="catalogos_traslado_menu_principal" action="action_catalogos_conf_autotransporte"/>
+  </data>
+</odoo>
