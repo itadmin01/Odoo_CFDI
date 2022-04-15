@@ -18,25 +18,39 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI">
                             <group cols="4">
                                 <group string="Detalles de Pago">
-                                    <field name="forma_pago_id"/>
-                                    <field name="methodo_pago"/>
-                                    <field name="uso_cfdi_id"/>
+                                    <field name="forma_pago_id" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="methodo_pago" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="uso_cfdi_id" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="exportacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
                                 <group  string="Detalles de Factura">
-                                    <field name="tipo_comprobante"/>
+                                    <field name="tipo_comprobante" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                     <field name="folio_fiscal"/>
-                                    <field name="confirmacion"/>
+                                    <field name="confirmacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                     <field name="estado_factura"/>
-                                    <field name="fecha_factura"/>
+                                    <field name="fecha_factura" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="proceso_timbrado"/>
                                 </group>
                                 <group  string="CFDI Relacionados">
-                                    <field name="tipo_relacion"/>
-                                    <field name="uuid_relacionado"/>
+                                    <field name="tipo_relacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                    <field name="uuid_relacionado" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
+                                </group>
+                                <group  string="Complementos" name="complementos">
+                                    <field name="factura_global" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
                             </group>
+                    </page>
+                    <page name="info_global" string="Factura global"  attrs="{'invisible': [('factura_global','=',False)]}">
+                        <group cols="4">
+                            <group>
+                                <field name="fg_periodicidad" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                                <field name="fg_meses" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                                <field name="fg_ano" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
+                            </group>
+                        </group>
                     </page>
                 </xpath>
                 <field name="ref" position="after">
@@ -90,4 +104,3 @@
 
 </odoo>
 
-<!--attrs="{'invisible':['|',('factura_cfdi','=',True), ('state','not in',('open', 'paid'))]}"-->

@@ -8,6 +8,7 @@ class ResPartner(models.Model):
     residencia_fiscal = fields.Char(string=_('Residencia Fiscal'))
     registro_tributario = fields.Char(string=_('Registro tributario'))
     uso_cfdi_id  =  fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
+    regimen_fiscal_id  =  fields.Many2one('catalogo.regimen.fiscal', string='Régimen Fiscal')
 
     def check_vat(self):
         if self.env.context.get('company_id'):
