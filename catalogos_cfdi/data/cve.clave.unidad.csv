@@ -1,0 +1,473 @@
+id,clave,nombre
+catalogos_clave_unidad1,Tu,Contenedor externo
+catalogos_clave_unidad2,X1A,Tambor de acero
+catalogos_clave_unidad3,X1B,Tambor de aluminio
+catalogos_clave_unidad4,X1D,Tambor contrachapado
+catalogos_clave_unidad5,X1F,Contenedor flexible
+catalogos_clave_unidad6,X1G,Tambor de fibra
+catalogos_clave_unidad7,X1w,Tambor de madera
+catalogos_clave_unidad8,X2C,Barril de madera
+catalogos_clave_unidad9,X3A,Bidón de acero
+catalogos_clave_unidad10,X3H,Bidón de plástico
+catalogos_clave_unidad11,X43,Bolsa de gran tamaño
+catalogos_clave_unidad12,X44,Bolsa de plástico
+catalogos_clave_unidad13,X4A,Caja de acero
+catalogos_clave_unidad14,X4B,Caja de aluminio
+catalogos_clave_unidad15,X4C,Caja de  madera natural
+catalogos_clave_unidad16,X4D,Caja de contrachapado
+catalogos_clave_unidad17,X4F,Caja de madera reconstituida
+catalogos_clave_unidad18,X4G,Caja de cartón
+catalogos_clave_unidad19,X4H,Caja de plástico
+catalogos_clave_unidad20,X5H,Bolsa de plástico tejido
+catalogos_clave_unidad21,X5L,Bolsa textil
+catalogos_clave_unidad22,X5M,Bolsa de papel
+catalogos_clave_unidad23,X6H,"Recipiente de plástico, Contenedor compuesto."
+catalogos_clave_unidad24,X6P,"Recipiente de vidrio, Contenedor compuesto."
+catalogos_clave_unidad25,X7A,Estuche para carro
+catalogos_clave_unidad26,X7B,Estuche de madera
+catalogos_clave_unidad27,X8A,Pallet de madera
+catalogos_clave_unidad28,X8B,Cajón de madera
+catalogos_clave_unidad29,X8C,Madera flejada
+catalogos_clave_unidad30,XAA,Contenedor intermedio  para gráneles de plástico rígido
+catalogos_clave_unidad31,XAB,Contenedor de fibra
+catalogos_clave_unidad32,XAC,Contenedor de papel
+catalogos_clave_unidad33,XAD,Contenedor de madera
+catalogos_clave_unidad34,XAE,Aerosol
+catalogos_clave_unidad35,XAF,"Pallet modular con collares,  80cms * 60cms"
+catalogos_clave_unidad36,XAG,Pallet o empaquetado
+catalogos_clave_unidad37,XAH,"Pallet, 100cms X 110cms"
+catalogos_clave_unidad38,XAI,Contenedor tipo concha
+catalogos_clave_unidad39,XAJ,Cono
+catalogos_clave_unidad40,XAL,Esfera
+catalogos_clave_unidad41,XAM,Ampolleta no protegida
+catalogos_clave_unidad42,XAP,Ampolleta protegida
+catalogos_clave_unidad43,XAT,Atomizador
+catalogos_clave_unidad44,XAV,Cápsula
+catalogos_clave_unidad45,XB4,Cinturón
+catalogos_clave_unidad46,XBA,Barril
+catalogos_clave_unidad47,XBB,Bobina
+catalogos_clave_unidad48,XBC,Cajón para botellas / Estante para botellas
+catalogos_clave_unidad49,XBD,Tablero
+catalogos_clave_unidad50,XBE,Flejado
+catalogos_clave_unidad51,XBF,Globo no protegido
+catalogos_clave_unidad52,XBG,Bolso
+catalogos_clave_unidad53,XBH,Manojo
+catalogos_clave_unidad54,XBI,Compartimiento
+catalogos_clave_unidad55,XBJ,Cubeta
+catalogos_clave_unidad56,XBK,Cesta
+catalogos_clave_unidad57,XBL,Paca comprimida
+catalogos_clave_unidad58,XBM,Cuenco
+catalogos_clave_unidad59,XBN,Paca no comprimida
+catalogos_clave_unidad60,XBO,Botella no-protegida y cilíndrica
+catalogos_clave_unidad61,XBP,Globo protegido
+catalogos_clave_unidad62,XBQ,Botella cilíndrica protegida
+catalogos_clave_unidad63,XBR,Barra
+catalogos_clave_unidad64,XBS,"Botella, no-protegida en forma de bulbo"
+catalogos_clave_unidad65,XBT,Rollo de tela
+catalogos_clave_unidad66,XBU,Butt
+catalogos_clave_unidad67,XBV,Botella de bulbo protegido
+catalogos_clave_unidad68,XBW,Caja para líquidos
+catalogos_clave_unidad69,XBX,Caja
+catalogos_clave_unidad70,XBY,"Tablero, con fleje/ agrupados/ armados"
+catalogos_clave_unidad71,XBZ,"Barras, con fleje/ agrupados/ armados"
+catalogos_clave_unidad72,XCA,Lata rectangular
+catalogos_clave_unidad73,XCB,Cajón para cerveza
+catalogos_clave_unidad74,XCC,Mantequera
+catalogos_clave_unidad75,XCD,Lata con mango y boquilla
+catalogos_clave_unidad76,XCE,Cesto tejido
+catalogos_clave_unidad77,XCF,Cofre
+catalogos_clave_unidad78,XCG,Contenedor tipo Jaula
+catalogos_clave_unidad79,XCH,Cajonera
+catalogos_clave_unidad80,XCI,Frasco
+catalogos_clave_unidad81,XCJ,Ataúd
+catalogos_clave_unidad82,XCK,Barrica
+catalogos_clave_unidad83,XCL,Espiral
+catalogos_clave_unidad84,XCM,Paquete de tarjetas
+catalogos_clave_unidad85,XCN,"Contenedor, no especificado como equipo de transporte"
+catalogos_clave_unidad86,XCO,Garrafón no protegido
+catalogos_clave_unidad87,XCP,Garrafón protegido
+catalogos_clave_unidad88,XCQ,Cartucho
+catalogos_clave_unidad89,XCR,Cajón
+catalogos_clave_unidad90,XCS,Estuche
+catalogos_clave_unidad91,XCT,Cartón
+catalogos_clave_unidad92,XCU,Vaso
+catalogos_clave_unidad93,XCV,Cubierta
+catalogos_clave_unidad94,XCW,Jaula estilo rodillo
+catalogos_clave_unidad95,XCX,Lata cilíndrica
+catalogos_clave_unidad96,XCY,Cilindro
+catalogos_clave_unidad97,XCZ,Lona
+catalogos_clave_unidad98,XDA,Cajón multicapa de plástico
+catalogos_clave_unidad99,XDB,Cajón de varias capas de madera
+catalogos_clave_unidad100,XDC,Cajón multicapa de cartón
+catalogos_clave_unidad101,XDG,"Jaula, Según la clasificación de la compañía (Commonwealth Handling Equipment Pool (CHEP))"
+catalogos_clave_unidad102,XDH,"Caja, Según la clasificación de la compañía (CHEP), Eurobox"
+catalogos_clave_unidad103,XDI,Tambor de hierro
+catalogos_clave_unidad104,XDJ,"damajuana o garrafa, no protegido"
+catalogos_clave_unidad105,XDK,"Cajón a granel, cartón"
+catalogos_clave_unidad106,XDL,Cajas de plástico
+catalogos_clave_unidad107,XDM,Cajones a granel de madera
+catalogos_clave_unidad108,XDN,Dispensador
+catalogos_clave_unidad109,XDP,"damajuana o garrafa, protegido"
+catalogos_clave_unidad110,XDR,Tambor
+catalogos_clave_unidad111,XDS,Bandeja de una capa sin cubierta y de plástico
+catalogos_clave_unidad112,XDT,Bandeja de una capa sin cubierta y de madera
+catalogos_clave_unidad113,XDU,Bandeja de una capa sin cubierta y  poliestireno
+catalogos_clave_unidad114,XDV,Bandeja de una capa sin cubierta y de cartón
+catalogos_clave_unidad115,XDW,Bandeja de dos capas sin tapa y con bandeja de plástico
+catalogos_clave_unidad116,XDX,Bandeja de dos capas sin cubierta y de madera
+catalogos_clave_unidad117,XDY,Bandeja de dos capas sin cubierta y de cartón
+catalogos_clave_unidad118,XEC,Bolsa de plástico
+catalogos_clave_unidad119,XED,"Estuche, con pallet de base"
+catalogos_clave_unidad120,XEE,"Estuche, con pallet base de madera"
+catalogos_clave_unidad121,XEF,"Estuche, con pallet base de cartón"
+catalogos_clave_unidad122,XEG,"Estuche, con pallet base de plástico"
+catalogos_clave_unidad123,XEH,"Estuche, con pallet base de metal"
+catalogos_clave_unidad124,XEI,Estuche isotérmico
+catalogos_clave_unidad125,XEN,Sobre
+catalogos_clave_unidad126,XFB,Bolsa flexible
+catalogos_clave_unidad127,XFC,Cajón para fruta
+catalogos_clave_unidad128,XFD,Cajón enmarcado
+catalogos_clave_unidad129,XFE,Tanque flexible
+catalogos_clave_unidad130,XFI,Firkin
+catalogos_clave_unidad131,XFL,Matraz
+catalogos_clave_unidad132,XFO,Cajón para zapatos
+catalogos_clave_unidad133,XFP,Caja auxiliar para película fotográfica
+catalogos_clave_unidad134,XFR,Marco
+catalogos_clave_unidad135,XFT,Contenedor para alimentos
+catalogos_clave_unidad136,XFW,Carro de cama plana
+catalogos_clave_unidad137,XFX,Bolsa flexible tipo contenedor
+catalogos_clave_unidad138,XGB,Botella para gas
+catalogos_clave_unidad139,XGI,Viga
+catalogos_clave_unidad140,XGL,Contenedor tipo galón
+catalogos_clave_unidad141,XGR,Recipiente de vidrio
+catalogos_clave_unidad142,XGU,Bandeja contenedor para apilar horizontalmente objetos planos
+catalogos_clave_unidad143,XGY,Costal de Yute
+catalogos_clave_unidad144,XGZ,Vigas con correas o agrupadas
+catalogos_clave_unidad145,XHA,Cesta con mango y de plástico
+catalogos_clave_unidad146,XHB,Cesta con mango y de madera
+catalogos_clave_unidad147,XHC,Cesta  con asa y de  cartón
+catalogos_clave_unidad148,XHG,Hogshead
+catalogos_clave_unidad149,XHN,Gancho
+catalogos_clave_unidad150,XHR,Cesto
+catalogos_clave_unidad151,XIA,Paquete con pantalla y de madera
+catalogos_clave_unidad152,XIB,Paquete  con pantalla y de cartón
+catalogos_clave_unidad153,XIC,Paquete con pantalla y de plástico
+catalogos_clave_unidad154,XID,Paquete con pantalla y de metal
+catalogos_clave_unidad155,XIE,Paquete de mostrador.
+catalogos_clave_unidad156,XIF,Envase para alimentos
+catalogos_clave_unidad157,XIG,Paquete envuelto en papel
+catalogos_clave_unidad158,XIH,Tambor de plástico
+catalogos_clave_unidad159,XIK,Paquete de cartón con los agujeros para botellas
+catalogos_clave_unidad160,XIL,Bandeja rígida con tapa y apilable (CEN TS 14482: 2002)
+catalogos_clave_unidad161,XIN,Lingote
+catalogos_clave_unidad162,XIZ,Lingotes  con correas/ agrupados
+catalogos_clave_unidad163,XJB,Bolsa jumbo
+catalogos_clave_unidad164,XJC,Bidón rectangular
+catalogos_clave_unidad165,XJG,Jarra
+catalogos_clave_unidad166,XJR,Tarro
+catalogos_clave_unidad167,XJT,Bolsa de yute
+catalogos_clave_unidad168,XJY,"Bidón, cilíndrico"
+catalogos_clave_unidad169,XKG,Barrilete
+catalogos_clave_unidad170,XKI,Kit (Conjunto de piezas)
+catalogos_clave_unidad171,XLE,Valijas
+catalogos_clave_unidad172,XLG,Bitácora
+catalogos_clave_unidad173,XLT,Lote
+catalogos_clave_unidad174,XLU,Caja de arrastre
+catalogos_clave_unidad175,XLV,Contenedor pequeño
+catalogos_clave_unidad176,XLZ,Registros  con fleje/ agrupados/ armados
+catalogos_clave_unidad177,XMA,Cajón metálico
+catalogos_clave_unidad178,XMB,Múltiplo de bolsas
+catalogos_clave_unidad179,XMC,Cajón para leche
+catalogos_clave_unidad180,XME,Contenedor de metal
+catalogos_clave_unidad181,XMR,Recipiente de metal
+catalogos_clave_unidad182,XMS,Saco milti-pared
+catalogos_clave_unidad183,XMT,Tapete
+catalogos_clave_unidad184,XMW,Contenedor envuelto en plástico
+catalogos_clave_unidad185,XMX,Caja pequeña de cerillos
+catalogos_clave_unidad186,XNA,No disponible
+catalogos_clave_unidad187,XNE,Sin empaque o no empaquetado
+catalogos_clave_unidad188,XNF,"Sin empaque o no empaquetado, unidad simple"
+catalogos_clave_unidad189,XNG,"Sin empaque o no empaquetado, unidades múltiples"
+catalogos_clave_unidad190,XNS,Caja nido
+catalogos_clave_unidad191,XNT,Red
+catalogos_clave_unidad192,XNU,Red de plástico con tubo
+catalogos_clave_unidad193,XNV,Red textil con tubo
+catalogos_clave_unidad194,XOA,"Pallet, Según la clasificación de la compañía (Commonwealth Handling Equipment Pool (CHEP) 40 cm x 60 cm"
+catalogos_clave_unidad195,XOB,"Pallet, Según la clasificación de la compañía (Commonwealth Handling Equipment Pool (CHEP) 80 cm x 120 cm"
+catalogos_clave_unidad196,XOC,"Pallet, Según la clasificación de la compañía (Commonwealth Handling Equipment Pool (CHEP) 100 cm x 120 cm"
+catalogos_clave_unidad197,XOD,"Pallet, AS 4068-1993"
+catalogos_clave_unidad198,XOE,"Pallet, ISO T11"
+catalogos_clave_unidad199,XOF,"Plataforma, peso o dimensión no especificada"
+catalogos_clave_unidad200,XOK,Bloque
+catalogos_clave_unidad201,XOT,Octabin
+catalogos_clave_unidad202,XP2,Charola
+catalogos_clave_unidad203,XPA,Cajetilla
+catalogos_clave_unidad204,XPB,"Pallet, Caja combinada y abierta con caja y pallet."
+catalogos_clave_unidad205,XPC,Paquete postal
+catalogos_clave_unidad206,XPD,Pallet modular con collares (80cms * 100cms)
+catalogos_clave_unidad207,XPE,Pallet modular con collares (80cms * 120cms)
+catalogos_clave_unidad208,XPF,Corral
+catalogos_clave_unidad209,XPG,Placa
+catalogos_clave_unidad210,XPH,Cantaro
+catalogos_clave_unidad211,XPI,Pleca
+catalogos_clave_unidad212,XPJ,Canastilla
+catalogos_clave_unidad213,XPK,Paquete
+catalogos_clave_unidad214,XPL,Balde
+catalogos_clave_unidad215,XPN,Tablón
+catalogos_clave_unidad216,XPO,Bolsa pequeña
+catalogos_clave_unidad217,XPR,Contenedor de plástico
+catalogos_clave_unidad218,XPT,Maceta
+catalogos_clave_unidad219,XPU,Cacerola
+catalogos_clave_unidad220,XPV,"Tubos, con fleje/ agrupados/ armados"
+catalogos_clave_unidad221,XPX,Pallet
+catalogos_clave_unidad222,XPY,Placas con fleje/ agrupados/ armados
+catalogos_clave_unidad223,XPZ,Tablones con fleje/ agrupados/ armados
+catalogos_clave_unidad224,XQA,Tambor de acero con cabeza no desmontable
+catalogos_clave_unidad225,XQB,Tambor de  acero con cabeza extraíble
+catalogos_clave_unidad226,XQC,Tambor de aluminio con cabeza no extraíble
+catalogos_clave_unidad227,XQD,Tambor de aluminio con cabeza extraíble
+catalogos_clave_unidad228,XQF,"Tambor, plástico con cabeza no desmontable"
+catalogos_clave_unidad229,XQG,"Tambor, plástico, cabeza extraíble"
+catalogos_clave_unidad230,XQH,Barril de madera con tapón
+catalogos_clave_unidad231,XQJ,Barril de madera con cabeza desprendible
+catalogos_clave_unidad232,XQK,Bidón de acero con cabeza no desmontable
+catalogos_clave_unidad233,XQL,Bidón de acero con cabeza desmontable
+catalogos_clave_unidad234,XQM,Bidón de plástico con cabeza no desmontable
+catalogos_clave_unidad235,XQN,Bidón de plástico con cabeza extraíble
+catalogos_clave_unidad236,XQP,Caja de madera natural estándar
+catalogos_clave_unidad237,XQQ,Caja de madera natural con muros a prueba de filtraciones
+catalogos_clave_unidad238,XQR,Caja de plástico expandida
+catalogos_clave_unidad239,XQS,Caja de plástico sólida
+catalogos_clave_unidad240,XRD,Rod
+catalogos_clave_unidad241,XRG,Anillo
+catalogos_clave_unidad242,XRJ,"Estante, Perchero para ropa"
+catalogos_clave_unidad243,XRK,Estante
+catalogos_clave_unidad244,XRL,Carrete
+catalogos_clave_unidad245,XRO,Rollo
+catalogos_clave_unidad246,XRT,Red Roja
+catalogos_clave_unidad247,XRZ,Varillas  con fleje/ agrupados/ armados
+catalogos_clave_unidad248,XSA,Saco
+catalogos_clave_unidad249,XSB,Losa
+catalogos_clave_unidad250,XSC,Cajón poco profundo
+catalogos_clave_unidad251,XSD,Huso
+catalogos_clave_unidad252,XSE,Baúl
+catalogos_clave_unidad253,XSH,Bolsa pequeña hermética
+catalogos_clave_unidad254,XSI,Patín
+catalogos_clave_unidad255,XSK,Carcasa esqueleto
+catalogos_clave_unidad256,XSL,Hoja de deslizamiento
+catalogos_clave_unidad257,XSM,Hoja de metal
+catalogos_clave_unidad258,XSO,Carrete pequeño
+catalogos_clave_unidad259,XSP,Hoja de empaque de plástico
+catalogos_clave_unidad260,XSS,Cajón de acero
+catalogos_clave_unidad261,XSU,Maleta
+catalogos_clave_unidad262,XSV,Sobre de acero
+catalogos_clave_unidad263,XSW,Envoltorio
+catalogos_clave_unidad264,XSY,Manga
+catalogos_clave_unidad265,XSZ,Hojas  con fleje/ agrupados/ armados
+catalogos_clave_unidad266,XT1,Tableta
+catalogos_clave_unidad267,XTB,Tina
+catalogos_clave_unidad268,XTC,Caja para té
+catalogos_clave_unidad269,XTD,Tubo plegable
+catalogos_clave_unidad270,XTG,Contenedor de tanque genérico
+catalogos_clave_unidad271,XTI,Tierce
+catalogos_clave_unidad272,XTK,Tanque rectangular
+catalogos_clave_unidad273,XTL,Tina con tapa
+catalogos_clave_unidad274,XTN,Hojalata
+catalogos_clave_unidad275,XTO,Tonel
+catalogos_clave_unidad276,XTR,Maletero
+catalogos_clave_unidad277,XTS,Estructura
+catalogos_clave_unidad278,XTT,Bolsa de mano
+catalogos_clave_unidad279,XTU,Tubo
+catalogos_clave_unidad280,XTV,Tubo con boquilla
+catalogos_clave_unidad281,XTW,Pallet tricapa
+catalogos_clave_unidad282,XTY,Tanque cilíndrico
+catalogos_clave_unidad283,XTZ,Tubos  con fleje/ agrupados/ armados
+catalogos_clave_unidad284,XUC,Sin empaque
+catalogos_clave_unidad285,XUN,Unidad
+catalogos_clave_unidad286,XVA,Tanque
+catalogos_clave_unidad287,XVG,"Tanque de gas (a 1,031 mbar y 15° C)"
+catalogos_clave_unidad288,XVI,Frasco pequeño
+catalogos_clave_unidad289,XVK,Paquete transportable
+catalogos_clave_unidad290,XVL,Contenedor para líquidos a granel
+catalogos_clave_unidad291,XVN,Vehículo
+catalogos_clave_unidad292,XVO,"Contenedor para sólido de partículas grandes a granel (""nódulos"")"
+catalogos_clave_unidad293,XVP,Envasado al vacío
+catalogos_clave_unidad294,XVQ,Tanque para Gas licuado (a temperatura / presión anormal)
+catalogos_clave_unidad295,XVR,Contenedor para sólidos de partículas granulares a granel (Granos)
+catalogos_clave_unidad296,XVS,Contenedor de chatarra a granel
+catalogos_clave_unidad297,XVY,"Contenedor para sólido de partículas finas a granel (""polvos"")"
+catalogos_clave_unidad298,XWA,Contenedor de granel intermedio
+catalogos_clave_unidad299,XWB,Botella de mimbre
+catalogos_clave_unidad300,XWC,Contenedor intermedio para gráneles y de acero
+catalogos_clave_unidad301,XWD,Contenedor intermedio para gráneles y de aluminio
+catalogos_clave_unidad302,XWF,Contenedor intermedio para gráneles y de metal
+catalogos_clave_unidad303,XWG,Contenedor intermedio para gráneles y de acero presurizado menor a 10 kpa
+catalogos_clave_unidad304,XWH,"Contenedor intermedio para gráneles y de aluminio, presurizado menor a 10 kpa"
+catalogos_clave_unidad305,XWJ,Contenedor intermedio para gráneles y de metal con una presión de 10 kpa
+catalogos_clave_unidad306,XWK,Contenedor intermedio para gráneles y de acero para líquido
+catalogos_clave_unidad307,XWL,Contenedor intermedio para gráneles y de aluminio para líquido
+catalogos_clave_unidad308,XWM,Contenedor intermedio para gráneles y de metal para líquido
+catalogos_clave_unidad309,XWN,Contenedor intermedio para gráneles con tejido plástico sin capa con revestimiento
+catalogos_clave_unidad310,XWP,Contenedor intermedio para gráneles con tejido plástico y recubierto
+catalogos_clave_unidad311,XWQ,Contenedor intermedio para gráneles con tejido plástico con revestimiento
+catalogos_clave_unidad312,XWR,"Contenedor intermedio para gráneles con tejido plástico, revestido y con forro"
+catalogos_clave_unidad313,XWS,Contenedor intermedio para gráneles con película de plástico
+catalogos_clave_unidad314,XWT,Contenedor intermedio para gráneles textil sin capa / forro
+catalogos_clave_unidad315,XWU,Contenedor intermedio para gráneles de madera natural con forro interior
+catalogos_clave_unidad316,XWV,Contenedor intermedio para gráneles textil recubierto
+catalogos_clave_unidad317,XWW,Contenedor intermedio para gráneles textil con revestimiento
+catalogos_clave_unidad318,XWX,Contenedor intermedio para gráneles textil recubierto y con forro
+catalogos_clave_unidad319,XWY,Contenedor intermedio para gráneles contrachapado con revestimiento interior
+catalogos_clave_unidad320,XWZ,Contenedor intermedio para gráneles de madera reconstituida con revestimiento interior
+catalogos_clave_unidad321,XXA,"Bolsa de tejido plástico, sin abrigo interior ni forro"
+catalogos_clave_unidad322,XXB,Bolsa de tejido plástico a prueba de filtraciones
+catalogos_clave_unidad323,XXC,Bolsa de tejido plástico resistente al agua
+catalogos_clave_unidad324,XXD,Bolsa con película de plástico
+catalogos_clave_unidad325,XXF,Bolsa textil sin capa ni forro interior
+catalogos_clave_unidad326,XXG,Bolsa textil a prueba de filtraciones
+catalogos_clave_unidad327,XXH,Bolsa textil resistente al agua
+catalogos_clave_unidad328,XXJ,Bolsa de papel multi-pared
+catalogos_clave_unidad329,XXK,"Bolsa de papel multi-pared, resistente al agua"
+catalogos_clave_unidad330,XYA,"Empaque compuesto, recipiente de plástico en tambor de acero"
+catalogos_clave_unidad331,XYB,"Empaque compuesto, recipiente de plástico en cajas de acero"
+catalogos_clave_unidad332,XYC,"Empaque compuesto, recipiente de plástico en tambor de aluminio"
+catalogos_clave_unidad333,XYD,"Empaque compuesto, recipiente de plástico en cajón de aluminio"
+catalogos_clave_unidad334,XYF,"Empaque compuesto, recipiente de plástico en caja de madera"
+catalogos_clave_unidad335,XYG,"Empaque compuesto, recipiente de plástico en tambor de madera contrachapada"
+catalogos_clave_unidad336,XYH,"Empaque compuesto, recipiente de plástico en caja de madera contrachapada"
+catalogos_clave_unidad337,XYJ,"Empaque compuesto, recipiente de plástico en tambor de fibra"
+catalogos_clave_unidad338,XYK,"Empaque compuesto, recipiente de plástico en caja de cartón"
+catalogos_clave_unidad339,XYL,"Empaque compuesto, recipiente de plástico en el tambor de plástico"
+catalogos_clave_unidad340,XYM,"Empaque compuesto, recipiente de plástico en caja de plástico sólido"
+catalogos_clave_unidad341,XYN,"Empaque compuesto, receptáculo de vidrio en tambor de acero"
+catalogos_clave_unidad342,XYP,"Empaque compuesto, receptáculo de vidrio en caja de cajas de acero"
+catalogos_clave_unidad343,XYQ,"Empaque compuesto, recipiente de vidrio en tambor de aluminio"
+catalogos_clave_unidad344,XYR,"Empaque compuesto, receptáculo de vidrio en caja de aluminio"
+catalogos_clave_unidad345,XYS,"Empaque compuesto, recipiente de vidrio en caja de madera"
+catalogos_clave_unidad346,XYT,"Empaque compuesto, recipiente de vidrio en tambor de madera contrachapada"
+catalogos_clave_unidad347,Xyv,"Empaque compuesto, recipiente de vidrio en el cesto de mimbre"
+catalogos_clave_unidad348,XYW,"Empaque compuesto, recipiente de vidrio en tambor de fibra"
+catalogos_clave_unidad349,XYX,"Empaque compuesto, recipiente de vidrio en caja de cartón"
+catalogos_clave_unidad350,XYY,"Empaque compuesto, recipiente de vidrio en paquete de plástico expandible"
+catalogos_clave_unidad351,XYZ,"Empaque compuesto, recipiente de vidrio en paquete de plástico sólido"
+catalogos_clave_unidad352,XZA,"Contenedor de granel intermedio, papel, multi-pared"
+catalogos_clave_unidad353,XZB,Bolsa grande
+catalogos_clave_unidad354,XZC,"Contenedor intermedio para gráneles de papel, multi-pared y resistente al agua"
+catalogos_clave_unidad355,XZD,"Contenedor intermedio para gráneles de plástico rígido, con equipo estructural para sólidos"
+catalogos_clave_unidad356,XZF,"Contenedor intermedio para gráneles de plástico rígido, autoportante para sólidos"
+catalogos_clave_unidad357,XZG,"Contenedor intermedio para gráneles de plástico rígido, con equipo estructural, presurizado"
+catalogos_clave_unidad358,XZH,"Contenedor intermedio para gráneles de plástico rígido, autoportante y presurizado"
+catalogos_clave_unidad359,XZJ,"Contenedor intermedio para gráneles de plástico rígido, con equipo estructural para líquidos"
+catalogos_clave_unidad360,XZK,"Contenedor intermedio para gráneles de plástico rígido, autoportante, líquidos"
+catalogos_clave_unidad361,XZL,"Contenedor intermedio para gráneles, compuesto y de plástico rígido, sólidos"
+catalogos_clave_unidad362,XZM,"Contenedor intermedio para gráneles, compuesto y de plástico flexible, sólidos"
+catalogos_clave_unidad363,XZN,"Contenedor intermedio para gráneles, compuesto y de plástico rígido, presurizado"
+catalogos_clave_unidad364,XZP,"Contenedor intermedio para gráneles, compuesto y de plástico flexible, presurizado"
+catalogos_clave_unidad365,XZQ,"Contenedor intermedio para gráneles, compuesto y de plástico rígido, líquidos"
+catalogos_clave_unidad366,XZR,"Contenedor intermedio para gráneles, compuesto y de plástico flexible para líquidos"
+catalogos_clave_unidad367,XZS,"Contenedor intermedio para gráneles, compuesto"
+catalogos_clave_unidad368,XZT,Contenedor intermedio para gráneles con tablero de fibras
+catalogos_clave_unidad369,XZU,Contenedor intermedio para gráneles flexible
+catalogos_clave_unidad370,XZV,"Contenedor intermedio para gráneles de metal, distinto del acero"
+catalogos_clave_unidad371,XZW,"Contenedor intermedio para gráneles, de madera natural"
+catalogos_clave_unidad372,XZX,"Contenedor intermedio para gráneles, de contrachapado"
+catalogos_clave_unidad373,XZY,"Contenedor intermedio para gráneles, de madera reconstituida"
+catalogos_clave_unidad374,KGM,Kilogramo
+catalogos_clave_unidad375,MC,Microgramo
+catalogos_clave_unidad376,DJ,Decagramo
+catalogos_clave_unidad377,DG,Decigramo
+catalogos_clave_unidad378,GRM,Gramo
+catalogos_clave_unidad379,CGM,Centigramo
+catalogos_clave_unidad380,TNE,Tonelada (tonelada métrica)
+catalogos_clave_unidad381,DTN,Decitonelada métrica
+catalogos_clave_unidad382,MGM,Miligramo
+catalogos_clave_unidad383,HGM,Hectogramo
+catalogos_clave_unidad384,KTN,Kilotonelada Métrica
+catalogos_clave_unidad385,2U,Megagramo
+catalogos_clave_unidad386,LBR,Libra
+catalogos_clave_unidad387,GRN,Grano
+catalogos_clave_unidad388,ONZ,Onza (avoirdupois)
+catalogos_clave_unidad389,CWI,Hundredweight
+catalogos_clave_unidad390,CWA,Hundred pound
+catalogos_clave_unidad391,LTN,Tonelada (UK) o tonelada larga (estados unidos)
+catalogos_clave_unidad392,STI,Estone (UK)
+catalogos_clave_unidad393,STN,Tonelada (estados unidos) o tonelada corta (UK y estados unidos)
+catalogos_clave_unidad394,APZ,Onza troy u onza farmacéutica 
+catalogos_clave_unidad395,F13,Slug
+catalogos_clave_unidad396,K64,Libra (avoirdupois) por grado fahrenheit
+catalogos_clave_unidad397,L69,Tonelada por kelvin
+catalogos_clave_unidad398,L87,Tonelada corta por grado fahrenheit
+catalogos_clave_unidad399,M85,"Tonelada, ensayo"
+catalogos_clave_unidad400,M86,Libra Alemana
+catalogos_clave_unidad401,J33,Microgramo por kilogramo
+catalogos_clave_unidad402,L32,Nanogramo por kilogramo
+catalogos_clave_unidad403,NA,Miligramo por kilogramo
+catalogos_clave_unidad404,M29,Kilogramo por kilogramo
+catalogos_clave_unidad405,M91,Libra por libra
+catalogos_clave_unidad406,Q29,Microgramo por hectogramo
+catalogos_clave_unidad407,MTQ,Metro cúbico
+catalogos_clave_unidad408,MAL,Megalitro
+catalogos_clave_unidad409,LTR,Litro
+catalogos_clave_unidad410,MMQ,Milímetro cúbico
+catalogos_clave_unidad411,CMQ,Centímetro cúbico
+catalogos_clave_unidad412,DMQ,Decímetro cúbico
+catalogos_clave_unidad413,MLT,Mililitro
+catalogos_clave_unidad414,HLT,Hectolitro
+catalogos_clave_unidad415,CLT,Centilitro
+catalogos_clave_unidad416,DMA,Decámetro cúbico
+catalogos_clave_unidad417,H19,Hectómetro cúbico
+catalogos_clave_unidad418,H20,Kilómetro cúbico
+catalogos_clave_unidad419,M71,Metro cúbico por pascal (joules)
+catalogos_clave_unidad420,DLT,Decilitro
+catalogos_clave_unidad421,4G,Microlitro
+catalogos_clave_unidad422,K6,Kilolitro
+catalogos_clave_unidad423,A44,Decalitro
+catalogos_clave_unidad424,G94,Centímetro cúbico por bar
+catalogos_clave_unidad425,G95,Litro por bar
+catalogos_clave_unidad426,G96,Metro cúbico por bar
+catalogos_clave_unidad427,G97,Mililitro por bar 
+catalogos_clave_unidad428,5I,Pies cúbicos estándar
+catalogos_clave_unidad429,INQ,Pulgada cúbica
+catalogos_clave_unidad430,FTQ,Pie cúbico
+catalogos_clave_unidad431,YDQ,Yarda cúbica
+catalogos_clave_unidad432,GLI,Galón (UK)
+catalogos_clave_unidad433,GLL,Galón (EUA)
+catalogos_clave_unidad434,PT,Pinta (US)
+catalogos_clave_unidad435,PTI,Pint (uk)
+catalogos_clave_unidad436,QTI,Cuarto (UK)
+catalogos_clave_unidad437,PTL,Pinta líquida (estados unidos)
+catalogos_clave_unidad438,QTL,Cuarto de líquido (estadis unidos)
+catalogos_clave_unidad439,PTD,Pinta seca (estados unidos)
+catalogos_clave_unidad440,OZI,Onza líquida (UK)
+catalogos_clave_unidad441,QT,Cuarto (EUA)
+catalogos_clave_unidad442,J57,Barril (uk petróleo)
+catalogos_clave_unidad443,K21,Pie cúbico por grado fahrenheit
+catalogos_clave_unidad444,K23,Pie cúbico por psi (libra por pulgada cuadrada)
+catalogos_clave_unidad445,L43,Peck (UK)
+catalogos_clave_unidad446,L61,Pinta (US seco)
+catalogos_clave_unidad447,L62,Cuarto de galón (seco de los EUA)
+catalogos_clave_unidad448,L84,Tonelada (flota UK)
+catalogos_clave_unidad449,L86,Tonelada (flota estados unidos)
+catalogos_clave_unidad450,M11,Yarda cúbica por grado fahrenheit
+catalogos_clave_unidad451,M14,Yarda cúbica por psi (libra por pulgada cuadrada)
+catalogos_clave_unidad452,OZA,Onza líquida (estados unidos)
+catalogos_clave_unidad453,BUI,Bushel (UK)
+catalogos_clave_unidad454,BUA,Bushel (EUA)
+catalogos_clave_unidad455,BLL,Barril (EUA)
+catalogos_clave_unidad456,BLD,Barril seco (EUA)
+catalogos_clave_unidad457,GLD,Galón seco (EUA)
+catalogos_clave_unidad458,QTD,Cuarto seco (estados unidos)
+catalogos_clave_unidad459,G26,Estere
+catalogos_clave_unidad460,G21,Taza (unidad de volumen)
+catalogos_clave_unidad461,G24,Cucharada (estados unidos)
+catalogos_clave_unidad462,G25,Cucharilla (estados unidos)
+catalogos_clave_unidad463,G23,Peck
+catalogos_clave_unidad464,M67,Acre-pie
+catalogos_clave_unidad465,M68,Cordón
+catalogos_clave_unidad466,M69,Milla cúbica (reino unido)
+catalogos_clave_unidad467,M70,Unidad tradicional de capacidad de carga
+catalogos_clave_unidad468,Q32,Femtolitro
+catalogos_clave_unidad469,Q33,Picolitro
+catalogos_clave_unidad470,Q34,Nanolitro
+catalogos_clave_unidad471,NM3,Metro cúbico normalizado
+catalogos_clave_unidad472,SM3,Metro cúbico estándar

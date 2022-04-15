@@ -16,8 +16,9 @@
             <field name="header_spacing">15</field>
             <field name="dpi">90</field>
         </record>
-		
-		<template id="cfdi_external_layout">
+
+	<!--CFDI EXTERNAL LAYOUT-->
+	<template id="cfdi_external_layout">
 			<!-- Multicompany -->
 			<t t-if="not o and doc">
 				<t t-set="o" t-value="doc" />
@@ -95,7 +96,7 @@
 							</div>
 								<t t-if="o.factura_cfdi">
 								<div>
-									<span t-field="o.rfc_emisor" />
+									<span t-field="o.company_id.rfc" />
 								</div>
 								<div>
 									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
@@ -104,13 +105,20 @@
 						</div>
 						<div class="col-xs-4 pull-right">
 							<div>
-							<t t-if="o.factura_cfdi">
-								<strong>Folio:</strong>
-							</t>
-							<t t-if="not o.factura_cfdi">
-								<strong>Nota de venta:</strong>
-							</t>
-								<strong><span t-if="not o.serie_emisor=='false'" t-field="o.serie_emisor" /></strong>
+								<t t-if="o.factura_cfdi">
+									<strong>Folio:</strong>
+								</t>
+								<t t-if="not o.factura_cfdi">
+									<strong>Nota de venta:</strong>
+								</t>
+								<strong>
+								     <t t-if="not o.journal_id.serie_diario">
+                                        <span t-if="o.company_id.serie_factura" t-field="o.company_id.serie_factura" />
+								     </t>
+								     <t t-if="o.journal_id.serie_diario">
+                                        <span t-field="o.journal_id.serie_diario" />
+								     </t>
+                                </strong>
 								<span t-field="o.number_folio" />
 							</div>
 							<div>
@@ -125,7 +133,12 @@
 							</div>
 							<div>
 								<strong>Lugar de expedición: </strong>
-								<span t-field="o.company_id.partner_id.zip"/>
+								<t t-if="o.journal_id.codigo_postal">
+								    <span t-field="o.journal_id.codigo_postal"/>
+								</t>
+								<t t-if="not o.journal_id.codigo_postal">
+								    <span t-field="o.company_id.partner_id.zip"/>
+								</t>
 							</div>
 							<div>
 								<t t-if="o.factura_cfdi">
@@ -145,6 +158,9 @@
 						     <div>
 						    	<span t-field="o.partner_id.rfc" />
 						     </div>
+						     <div>
+						     	Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/>
+						 	 </div>
 							 <div>
 						    	Uso CFDI: <span t-field="o.uso_cfdi" />
 						     </div>
@@ -339,11 +355,11 @@
 								<td >
 									<span t-field="o.methodo_pago" />
 								</td>
-								<td>
-									<strong>Régimen fiscal</strong>
+					                        <td>
+									<strong>Fecha y hora de certificación</strong>
 								</td>
 								<td >
-									<span t-field="o.regimen_fiscal" />
+									<span t-field="o.fecha_certificacion" />
 								</td>
 							</tr>
 							<tr>
@@ -386,15 +402,6 @@
 								</td>
 								<td >
 									<span t-field="o.folio_fiscal" />
-								</td>
-							</tr>
-							<tr>
-								<td></td><td></td>
-								<td>
-									<strong>Fecha y hora de certificación</strong>
-								</td>
-								<td >
-									<span t-field="o.fecha_certificacion" />
 								</td>
 							</tr>
 						</table>
@@ -451,7 +458,7 @@
 
 
 		<report id="account.account_invoices" model="account.invoice" string="Custom Invoices"
-			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice" 
+			report_type="qweb-pdf" name="account.report_invoice" file="cdfi_invoice.report_invoice"
 			paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
 </odoo>

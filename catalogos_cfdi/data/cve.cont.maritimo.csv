@@ -1,0 +1,10 @@
+id,clave,descripcion
+catalogos_cont_maritimo1,CM001,Contenedores refrigerados de 20FT
+catalogos_cont_maritimo2,CM002,Contenedores refrigerados de 40FT
+catalogos_cont_maritimo3,CM003,Contenedores estándar de 8FT
+catalogos_cont_maritimo4,CM004,Contenedores estándar de 10FT
+catalogos_cont_maritimo5,CM005,Contenedores estándar de 20FT
+catalogos_cont_maritimo6,CM006,Contenedores estándar de 40FT
+catalogos_cont_maritimo7,CM007,Contenedores Open Side
+catalogos_cont_maritimo8,CM008,Contenedor Isotanque
+catalogos_cont_maritimo9,CM009,Contenedor flat racks

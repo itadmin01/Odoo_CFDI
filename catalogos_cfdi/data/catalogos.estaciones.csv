@@ -1,0 +1,3289 @@
+id,clave_identificacion,descripcion,clave_transporte
+catalogos_estaciones1,PM001 ,Rosarito,02
+catalogos_estaciones2,PM002,La Misión,02
+catalogos_estaciones3,PM003,El Sauzal,02
+catalogos_estaciones4,PM004,Marina Coral,02
+catalogos_estaciones5,PM005,Ensenada,02
+catalogos_estaciones6,PM006,Punta China,02
+catalogos_estaciones7,PM007,San Quintín,02
+catalogos_estaciones8,PM008,Isla Cedros,02
+catalogos_estaciones9,PM009,Venustiano Carranza,02
+catalogos_estaciones10,PM010,Bahía de los Ángeles,02
+catalogos_estaciones11,PM011,Puertecitos,02
+catalogos_estaciones12,PM012,San Felipe,02
+catalogos_estaciones13,PM013,Costa Azul,02
+catalogos_estaciones14,PM014,Bahía Colonet,02
+catalogos_estaciones15,PM015,La Paz,02
+catalogos_estaciones16,PM016,Pichilingue,02
+catalogos_estaciones17,PM017,Puerto de Loreto,02
+catalogos_estaciones18,PM018,Puerto de Santa Rosalía,02
+catalogos_estaciones19,PM019,Puerto Escondido,02
+catalogos_estaciones20,PM020,San Carlos,02
+catalogos_estaciones21,PM021,Cabo San Lucas,02
+catalogos_estaciones22,PM022,Guerrero Negro,02
+catalogos_estaciones23,PM023,Santa María,02
+catalogos_estaciones24,PM024,Isla San Marcos,02
+catalogos_estaciones25,PM025,Adolfo López Mateos,02
+catalogos_estaciones26,PM026,San Juan de la Costa,02
+catalogos_estaciones27,PM027,Punta prieta,02
+catalogos_estaciones28,PM028,San José del Cabo,02
+catalogos_estaciones29,PM029,Los Barriles,02
+catalogos_estaciones30,PM030,Mulege,02
+catalogos_estaciones31,PM031,Isla del Carmen,02
+catalogos_estaciones32,PM032,Campeche,02
+catalogos_estaciones33,PM033,Cayo Arcas,02
+catalogos_estaciones34,PM034,Seybaplaya,02
+catalogos_estaciones35,PM035,Isla Arena,02
+catalogos_estaciones36,PM036,San Francisco,02
+catalogos_estaciones37,PM037,Lerma,02
+catalogos_estaciones38,PM038,Champotón,02
+catalogos_estaciones39,PM039,Sabancuy,02
+catalogos_estaciones40,PM040,Isla Aguada,02
+catalogos_estaciones41,PM041,Emiliano Zapata,02
+catalogos_estaciones42,PM042,Nuevo Campechito,02
+catalogos_estaciones43,PM043,Takuntah,02
+catalogos_estaciones44,PM044,Yúum K'ak Naab,02
+catalogos_estaciones45,PM045,Puerto Chiapas,02
+catalogos_estaciones46,PM046,Manzanillo,02
+catalogos_estaciones47,PM047,San Pedrito,02
+catalogos_estaciones48,PM048,Laguna de Cuyutlán,02
+catalogos_estaciones49,PM049,Acapulco,02
+catalogos_estaciones50,PM050,Zihuatanejo,02
+catalogos_estaciones51,PM051,Butaba,02
+catalogos_estaciones52,PM052,Vicente Guerrero,02
+catalogos_estaciones53,PM053,Puerto Marqués,02
+catalogos_estaciones54,PM054,Puerto Vallarta,02
+catalogos_estaciones55,PM055,Barra de Navidad,02
+catalogos_estaciones56,PM056,Lázaro Cárdenas,02
+catalogos_estaciones57,PM057,San Blas,02
+catalogos_estaciones58,PM058,Nuevo Vallarta,02
+catalogos_estaciones59,PM059,Cruz de Huanacaxtle,02
+catalogos_estaciones60,PM060,Chacala,02
+catalogos_estaciones61,PM061,Salina Cruz,02
+catalogos_estaciones62,PM062,Bahías de Huatulco,02
+catalogos_estaciones63,PM063,Puerto Escondido,02
+catalogos_estaciones64,PM064,Puerto Angel,02
+catalogos_estaciones65,PM065,Puerto Juárez,02
+catalogos_estaciones66,PM066,Isla Mujeres,02
+catalogos_estaciones67,PM067,Cancún,02
+catalogos_estaciones68,PM068,Puerto Morelos,02
+catalogos_estaciones69,PM069,Playa del Carmen,02
+catalogos_estaciones70,PM070,Punta Venado,02
+catalogos_estaciones71,PM071,Puerta Aventuras,02
+catalogos_estaciones72,PM072,Punta Allen,02
+catalogos_estaciones73,PM073,Majahual,02
+catalogos_estaciones74,PM074,La Aguada,02
+catalogos_estaciones75,PM075,Xcalac,02
+catalogos_estaciones76,PM076,Chetumal,02
+catalogos_estaciones77,PM077,Holbox,02
+catalogos_estaciones78,PM078,Mazatlán,02
+catalogos_estaciones79,PM079,Topolobampo,02
+catalogos_estaciones80,PM080,Altata,02
+catalogos_estaciones81,PM081,El Sábalo,02
+catalogos_estaciones82,PM082,Escuinapa,02
+catalogos_estaciones83,PM083,Teacapan,02
+catalogos_estaciones84,PM084,Guaymas,02
+catalogos_estaciones85,PM085,Puerto Peñasco,02
+catalogos_estaciones86,PM086,Golfo de Santa Clara,02
+catalogos_estaciones87,PM087,Bahía Kino,02
+catalogos_estaciones88,PM088,Yavaros,02
+catalogos_estaciones89,PM089,Puerto Libertad,02
+catalogos_estaciones90,PM090,General Rodolfo Sánchez Toboada,02
+catalogos_estaciones91,PM091,San Carlos,02
+catalogos_estaciones92,PM092,Dos Bocas,02
+catalogos_estaciones93,PM093,Frontera,02
+catalogos_estaciones94,PM094,Chiltepec,02
+catalogos_estaciones95,PM095,Sanchez Magallanes,02
+catalogos_estaciones96,PM096,Puerto Altamira,02
+catalogos_estaciones97,PM097,Puerto Tampico,02
+catalogos_estaciones98,PM098,Puerto Matamoros,02
+catalogos_estaciones99,PM099,La Pesca,02
+catalogos_estaciones100,PM100,Puerto de Veracruz,02
+catalogos_estaciones101,PM101,Tuxpan,02
+catalogos_estaciones102,PM102,Coatzacoalcos,02
+catalogos_estaciones103,PM103,Pajaritos,02
+catalogos_estaciones104,PM104,Alvarado,02
+catalogos_estaciones105,PM105,Tlacotalpan,02
+catalogos_estaciones106,PM106,Nautla,02
+catalogos_estaciones107,PM107,Tecolutla,02
+catalogos_estaciones108,PM108,Puerto Progreso,02
+catalogos_estaciones109,PM109,Celestún,02
+catalogos_estaciones110,PM110,Sisal,02
+catalogos_estaciones111,PM111,Chuburná,02
+catalogos_estaciones112,PM112,Yucalpetén,02
+catalogos_estaciones113,PM113,Telchac,02
+catalogos_estaciones114,PM114,Chabihau,02
+catalogos_estaciones115,PM115,Dzilam de Bravo,02
+catalogos_estaciones116,PM116,San Felipe,02
+catalogos_estaciones117,PM117,Río Lagartos,02
+catalogos_estaciones118,PM118,Las Coloradas,02
+catalogos_estaciones119,PM119,El Cuyo,02
+catalogos_estaciones120,PM120,Extranjera,02
+catalogos_estaciones121,EA001,Konrad Adenauer,03
+catalogos_estaciones122,EA002,Rhein-Ruhr,03
+catalogos_estaciones123,EA003,Münster/Osnabrück,03
+catalogos_estaciones124,EA004,Rhein-Main,03
+catalogos_estaciones125,EA005,Hannover,03
+catalogos_estaciones126,EA006,Fuhlsbüttel,03
+catalogos_estaciones127,EA007,Frankfurt-Hahn,03
+catalogos_estaciones128,EA008,Franz Josef Strauss,03
+catalogos_estaciones129,EA009,Nürnberg,03
+catalogos_estaciones130,EA010,Prince Mohammad Bin Abdulaziz,03
+catalogos_estaciones131,EA011,Ingeniero Aeronáutico Ambrosio L.V. Taravella,03
+catalogos_estaciones132,EA012,Ministro Pistarini,03
+catalogos_estaciones133,EA013,Astor Piazzolla,03
+catalogos_estaciones134,EA014,Gobernador Francisco Gabrielli,03
+catalogos_estaciones135,EA015,Teniente General Benjamin Matienzo,03
+catalogos_estaciones136,EA016,Vienna,03
+catalogos_estaciones137,EA017,Grand Bahamas,03
+catalogos_estaciones138,EA018,Lynden Pindling,03
+catalogos_estaciones139,EA019,San Salvador,03
+catalogos_estaciones140,EA020,Grantley Adams,03
+catalogos_estaciones141,EA021,Brussels,03
+catalogos_estaciones142,EA022,Liege,03
+catalogos_estaciones143,EA023,Ostend-Brugge,03
+catalogos_estaciones144,EA024,Philip S.W. Goldson,03
+catalogos_estaciones145,EA025,Jorge Wilsterman,03
+catalogos_estaciones146,EA026,El Trompillo,03
+catalogos_estaciones147,EA027,Viru Viru,03
+catalogos_estaciones148,EA028,Presidente Juscelino Kubitschek,03
+catalogos_estaciones149,EA029,Adalberto Mendes Da Silva,03
+catalogos_estaciones150,EA030,Carutapera,03
+catalogos_estaciones151,EA031,Afonso Pena,03
+catalogos_estaciones152,EA032,Pinto Martins,03
+catalogos_estaciones153,EA033,Antonio Carlos Jobim,03
+catalogos_estaciones154,EA034,Governador Andre Franco Montoro,03
+catalogos_estaciones155,EA035,Manaus,03
+catalogos_estaciones156,EA036,Santos Dumont,03
+catalogos_estaciones157,EA037,Salgado Filho,03
+catalogos_estaciones158,EA038,Guararapes,03
+catalogos_estaciones159,EA039,Santos Dumont,03
+catalogos_estaciones160,EA040,Professor Urbano Ernesto Stumpf,03
+catalogos_estaciones161,EA041,Deputado Luis Eduardo Magalhaes,03
+catalogos_estaciones162,EA042,Viracopos-Campinas,03
+catalogos_estaciones163,EA043,Gladman Point,03
+catalogos_estaciones164,EA044,Sault Ste. Marie,03
+catalogos_estaciones165,EA045,Canadian Forces Base Shearwater,03
+catalogos_estaciones166,EA046,Canadian Forces Base Bagotville,03
+catalogos_estaciones167,EA047,Brandon Municipal,03
+catalogos_estaciones168,EA048,Edmonton,03
+catalogos_estaciones169,EA049,Fredericton,03
+catalogos_estaciones170,EA050,John C. Munro,03
+catalogos_estaciones171,EA051,Robert L. Stanfield,03
+catalogos_estaciones172,EA052,Region Of Waterloo,03
+catalogos_estaciones173,EA053,Kelowna,03
+catalogos_estaciones174,EA054,Mary's Harbour,03
+catalogos_estaciones175,EA055,Fort Mcmurray,03
+catalogos_estaciones176,EA056,Montreal-Mirabel,03
+catalogos_estaciones177,EA057,Macdonald-Cartier,03
+catalogos_estaciones178,EA058,Jean Lesage,03
+catalogos_estaciones179,EA059,Windsor,03
+catalogos_estaciones180,EA060,Lethbridge County,03
+catalogos_estaciones181,EA061,Greater Moncton,03
+catalogos_estaciones182,EA062,Canadian Forces Base Comox,03
+catalogos_estaciones183,EA063,Regina,03
+catalogos_estaciones184,EA064,Thunder Bay,03
+catalogos_estaciones185,EA065,Gander,03
+catalogos_estaciones186,EA066,Sudbury,03
+catalogos_estaciones187,EA067,Saint John,03
+catalogos_estaciones188,EA068,Billy Bishop,03
+catalogos_estaciones189,EA069,Pierre Elliott Trudeau,03
+catalogos_estaciones190,EA070,Rouyn-Noranda,03
+catalogos_estaciones191,EA071,Vancouver,03
+catalogos_estaciones192,EA072,James Armstrong Richardson,03
+catalogos_estaciones193,EA073,John G. Diefenbaker,03
+catalogos_estaciones194,EA074,Prince George,03
+catalogos_estaciones195,EA075,London,03
+catalogos_estaciones196,EA076,Abbotsford,03
+catalogos_estaciones197,EA077,Calgary,03
+catalogos_estaciones198,EA078,Victoria,03
+catalogos_estaciones199,EA079,Canadian Forces Base Goose Bay,03
+catalogos_estaciones200,EA080,St. John's,03
+catalogos_estaciones201,EA081,Lester B. Pearson,03
+catalogos_estaciones202,EA082,Andres Sabella,03
+catalogos_estaciones203,EA083,Carriel Sur,03
+catalogos_estaciones204,EA084,Diego Aracena,03
+catalogos_estaciones205,EA085,Arturo Merino Benítez,03
+catalogos_estaciones206,EA086,Baiyun,03
+catalogos_estaciones207,EA087,Changle,03
+catalogos_estaciones208,EA088,Xiaoshan,03
+catalogos_estaciones209,EA089,Lishe,03
+catalogos_estaciones210,EA090,Nanjing Lukou,03
+catalogos_estaciones211,EA091,Capital,03
+catalogos_estaciones212,EA092,Pudong,03
+catalogos_estaciones213,EA093,Gaoqi,03
+catalogos_estaciones214,EA094,Gustavo Rojas Pinilla,03
+catalogos_estaciones215,EA095,Ernesto Cortissoz,03
+catalogos_estaciones216,EA096,El Nuevo Dorado,03
+catalogos_estaciones217,EA097,Alfonso Bonilla Aragón,03
+catalogos_estaciones218,EA098,Rafael Nuñez,03
+catalogos_estaciones219,EA099,Jose Maria Córdova,03
+catalogos_estaciones220,EA100,Montelibano,03
+catalogos_estaciones221,EA101,Daniel Oduber Quiros,03
+catalogos_estaciones222,EA102,Juan Santamaría,03
+catalogos_estaciones223,EA103,Jardines Del Rey,03
+catalogos_estaciones224,EA104,Ignacio Agramonte,03
+catalogos_estaciones225,EA105,Vilo Acuña,03
+catalogos_estaciones226,EA106,Jose Martí,03
+catalogos_estaciones227,EA107,Frank País,03
+catalogos_estaciones228,EA108,Antonio Maceo,03
+catalogos_estaciones229,EA109,Abel Santamaría,03
+catalogos_estaciones230,EA110,Juan Gualberto Gomez,03
+catalogos_estaciones231,EA111,Aalborg,03
+catalogos_estaciones232,EA112,Billund,03
+catalogos_estaciones233,EA113,København,03
+catalogos_estaciones234,EA114,Mariscal Lamar,03
+catalogos_estaciones235,EA115,Jose Joaquín De Olmdeo,03
+catalogos_estaciones236,EA116,Eloy Alfaro,03
+catalogos_estaciones237,EA117,General Ulpiano Páez,03
+catalogos_estaciones238,EA118,Mitad Del Mundo,03
+catalogos_estaciones239,EA119,Monseñor Oscar Arnulfo Romero,03
+catalogos_estaciones240,EA120,Al Maktoum,03
+catalogos_estaciones241,EA121,El Prat,03
+catalogos_estaciones242,EA122,Adolfo Suarez Madrid–Barajas,03
+catalogos_estaciones243,EA123,Son Sant Joan,03
+catalogos_estaciones244,EA124,Manises,03
+catalogos_estaciones245,EA125,Zaragoza,03
+catalogos_estaciones246,EA126,Albuquerque International,03
+catalogos_estaciones247,EA127,Atlantic City International,03
+catalogos_estaciones248,EA128,Addison,03
+catalogos_estaciones249,EA129,Joint Base Andrews,03
+catalogos_estaciones250,EA130,Alexandria International,03
+catalogos_estaciones251,EA131,Fort Worth Alliance,03
+catalogos_estaciones252,EA132,Albany International,03
+catalogos_estaciones253,EA133,Waterloo Regional,03
+catalogos_estaciones254,EA134,Rick Husband Amarillo International,03
+catalogos_estaciones255,EA135,Anniston Regional,03
+catalogos_estaciones256,EA136,Ted Stevens,03
+catalogos_estaciones257,EA137,Talladega Municipal,03
+catalogos_estaciones258,EA138,Hartsfield - Jackson Atlanta International,03
+catalogos_estaciones259,EA139,Appleton International,03
+catalogos_estaciones260,EA140,Augusta State,03
+catalogos_estaciones261,EA141,Austin-Bergstrom International,03
+catalogos_estaciones262,EA142,Asheville Regional,03
+catalogos_estaciones263,EA143,Phoenix-Mesa Gateway,03
+catalogos_estaciones264,EA144,Kalamazoo/Battle Creek International,03
+catalogos_estaciones265,EA145,Bradley International,03
+catalogos_estaciones266,EA146,Laurence G Hanscom,03
+catalogos_estaciones267,EA147,Boeing Field/King County International,03
+catalogos_estaciones268,EA148,Meadows Field,03
+catalogos_estaciones269,EA149,Bangor International,03
+catalogos_estaciones270,EA150,Birmingham-Shuttlesworth,03
+catalogos_estaciones271,EA151,Biggs,03
+catalogos_estaciones272,EA152,West Michigan Regional,03
+catalogos_estaciones273,EA153,Central Il Regional Airport,03
+catalogos_estaciones274,EA154,Nashville International,03
+catalogos_estaciones275,EA155,General Edward Lawrence Logan International,03
+catalogos_estaciones276,EA156,Rafael Hernandez,03
+catalogos_estaciones277,EA157,Brownsville/South Padre Island International,03
+catalogos_estaciones278,EA158,W K Kellogg,03
+catalogos_estaciones279,EA159,Bert Mooney,03
+catalogos_estaciones280,EA160,Buffalo Niagara International,03
+catalogos_estaciones281,EA161,Warren County Regional,03
+catalogos_estaciones282,EA162,Baltimore/Washington International Thurgood Marshall,03
+catalogos_estaciones283,EA163,Columbia Metropolitan,03
+catalogos_estaciones284,EA164,Akron-Canton Regional,03
+catalogos_estaciones285,EA165,Lovell,03
+catalogos_estaciones286,EA166,Charleston International,03
+catalogos_estaciones287,EA167,The Eastern Iowa,03
+catalogos_estaciones288,EA168,Cleveland-Hopkins International,03
+catalogos_estaciones289,EA169,Easterwood,03
+catalogos_estaciones290,EA170,Charlotte/Douglas International,03
+catalogos_estaciones291,EA171,John Glenn Columbus International,03
+catalogos_estaciones292,EA172,University Of Illinois,03
+catalogos_estaciones293,EA173,Aeropuerto de Columbia,03
+catalogos_estaciones294,EA174,Columbia Regional,03
+catalogos_estaciones295,EA175,Corpus Christi International,03
+catalogos_estaciones296,EA176,Columbus,03
+catalogos_estaciones297,EA177,Cincinnati/Northern Kentucky International,03
+catalogos_estaciones298,EA178,Dallas Love,03
+catalogos_estaciones299,EA179,James M Cox Dayton International,03
+catalogos_estaciones300,EA180,Ronald Reagan,03
+catalogos_estaciones301,EA181,Denver International,03
+catalogos_estaciones302,EA182,Dallas-Fort Worth International,03
+catalogos_estaciones303,EA183,De Kalb Taylor Municipal,03
+catalogos_estaciones304,EA184,Duluth International,03
+catalogos_estaciones305,EA185,Dupage,03
+catalogos_estaciones306,EA186,Del Rio International,03
+catalogos_estaciones307,EA187,Des Moines International,03
+catalogos_estaciones308,EA188,Denton Enterprise,03
+catalogos_estaciones309,EA189,Detroit Metropolitan,03
+catalogos_estaciones310,EA190,Eagle County Regional,03
+catalogos_estaciones311,EA191,South Arkansas Regional,03
+catalogos_estaciones312,EA192,El Paso International,03
+catalogos_estaciones313,EA193,Evansville Regional,03
+catalogos_estaciones314,EA194,Newark Liberty International,03
+catalogos_estaciones315,EA195,Héctor International,03
+catalogos_estaciones316,EA196,Fresno Yosemite International,03
+catalogos_estaciones317,EA197,Frederick Regional,03
+catalogos_estaciones318,EA198,Fort Lauderdale,03
+catalogos_estaciones319,EA199,Bishop International,03
+catalogos_estaciones320,EA200,Topeka Regional,03
+catalogos_estaciones321,EA201,Joe Foss,03
+catalogos_estaciones322,EA202,Fort Wayne International,03
+catalogos_estaciones323,EA203,Greeneville-Greene County Municipal,03
+catalogos_estaciones324,EA204,Grand Forks International,03
+catalogos_estaciones325,EA205,Grand Junction Regional,03
+catalogos_estaciones326,EA206,Arlington Municipal,03
+catalogos_estaciones327,EA207,Greenville Mid-Delta,03
+catalogos_estaciones328,EA208,Central Nebraska Regional,03
+catalogos_estaciones329,EA209,Gordon Municipal,03
+catalogos_estaciones330,EA210,Gerald R Ford International,03
+catalogos_estaciones331,EA211,Piedmont Triad International,03
+catalogos_estaciones332,EA212,Greenville Spartanburg International,03
+catalogos_estaciones333,EA213,Donaldson,03
+catalogos_estaciones334,EA214,Gary/Chicago International,03
+catalogos_estaciones335,EA215,Hagerstown Regional,03
+catalogos_estaciones336,EA216,Hawkins,03
+catalogos_estaciones337,EA217,Hickory Regional,03
+catalogos_estaciones338,EA218,Helena Regional,03
+catalogos_estaciones339,EA219,Daniel K Inouye International,03
+catalogos_estaciones340,EA220,William P Hobby,03
+catalogos_estaciones341,EA221,Valley International,03
+catalogos_estaciones342,EA222,Boone County,03
+catalogos_estaciones343,EA223,Carl T Jones Field,03
+catalogos_estaciones344,EA224,Tri-State/Milton J Ferguson,03
+catalogos_estaciones345,EA225,Terre Haute Regional,03
+catalogos_estaciones346,EA226,Washington Dulles,03
+catalogos_estaciones347,EA227,Niagara Falls International,03
+catalogos_estaciones348,EA228,George Bush Intercontinental,03
+catalogos_estaciones349,EA229,Dwight D Eisenhower National,03
+catalogos_estaciones350,EA230,Ankeny Regional,03
+catalogos_estaciones351,EA231,Wilmington International,03
+catalogos_estaciones352,EA232,Wilmington Air Park,03
+catalogos_estaciones353,EA233,Immokalee Regional,03
+catalogos_estaciones354,EA234,Indianapolis International,03
+catalogos_estaciones355,EA235,Jackson Hole,03
+catalogos_estaciones356,EA236,Jackson-Evers International,03
+catalogos_estaciones357,EA237,Jacksonville International,03
+catalogos_estaciones358,EA238,Jefferson City Memorial,03
+catalogos_estaciones359,EA239,John F Kennedy International,03
+catalogos_estaciones360,EA240,Capital Region International,03
+catalogos_estaciones361,EA241,Mccarran International,03
+catalogos_estaciones362,EA242,Los Angeles International,03
+catalogos_estaciones363,EA243,Lubbock Preston Smith International,03
+catalogos_estaciones364,EA244,Rickenbacker International,03
+catalogos_estaciones365,EA245,Blue Grass,03
+catalogos_estaciones366,EA246,Lafayette Regional,03
+catalogos_estaciones367,EA247,Laguardia,03
+catalogos_estaciones368,EA248,Long Beach,03
+catalogos_estaciones369,EA249,Lagrange-Callaway,03
+catalogos_estaciones370,EA250,Bill And Hillary Clinton National,03
+catalogos_estaciones371,EA251,Facility,03
+catalogos_estaciones372,EA252,Louisville Winston County,03
+catalogos_estaciones373,EA253,Bowman,03
+catalogos_estaciones374,EA254,Laredo International,03
+catalogos_estaciones375,EA255,La Crosse Regional,03
+catalogos_estaciones376,EA256,Cincinnati Municipal,03
+catalogos_estaciones377,EA257,Lawrenceville-Vincennes International,03
+catalogos_estaciones378,EA258,Gwinnett County,03
+catalogos_estaciones379,EA259,Mbs International,03
+catalogos_estaciones380,EA260,Kansas City International,03
+catalogos_estaciones381,EA261,Orlando International,03
+catalogos_estaciones382,EA262,Chicago Midway International,03
+catalogos_estaciones383,EA263,Key,03
+catalogos_estaciones384,EA264,Memphis International,03
+catalogos_estaciones385,EA265,Mansfield Lahm Regional,03
+catalogos_estaciones386,EA266,Mcallen Miller International,03
+catalogos_estaciones387,EA267,Michigan City Municipal,03
+catalogos_estaciones388,EA268,Montgomery Regional,03
+catalogos_estaciones389,EA269,Miami International,03
+catalogos_estaciones390,EA270,Charles B Wheeler Downtown,03
+catalogos_estaciones391,EA271,General Mitchell International,03
+catalogos_estaciones392,EA272,Quad City International,03
+catalogos_estaciones393,EA273,Mobile Regional,03
+catalogos_estaciones394,EA274,Smyrna,03
+catalogos_estaciones395,EA275,Maury County,03
+catalogos_estaciones396,EA276,Dane County Regional,03
+catalogos_estaciones397,EA277,Minneapolis-St. Paul International,03
+catalogos_estaciones398,EA278,Louis Armstrong New Orleans International,03
+catalogos_estaciones399,EA279,Montrose Regional,03
+catalogos_estaciones400,EA280,Myrtle Beach International,03
+catalogos_estaciones401,EA281,Metropolitan Oakland International,03
+catalogos_estaciones402,EA282,Ogden-Hinckley,03
+catalogos_estaciones403,EA283,Will Rogers,03
+catalogos_estaciones404,EA284,Kokomo Municipal,03
+catalogos_estaciones405,EA285,Nogales,03
+catalogos_estaciones406,EA286,Eppley,03
+catalogos_estaciones407,EA287,Ontario International,03
+catalogos_estaciones408,EA288,Miami-Opa Locka Executive,03
+catalogos_estaciones409,EA289,Chicago O'hare International,03
+catalogos_estaciones410,EA290,Norfolk International,03
+catalogos_estaciones411,EA291,Orlando Executive,03
+catalogos_estaciones412,EA292,Oscoda-Wurtsmith,03
+catalogos_estaciones413,EA293,Ottumwa Regional,03
+catalogos_estaciones414,EA294,Palm Beach International,03
+catalogos_estaciones415,EA295,Portage Creek,03
+catalogos_estaciones416,EA296,Portland International,03
+catalogos_estaciones417,EA297,Newport News/Williamsburg International,03
+catalogos_estaciones418,EA298,Philadelphia International,03
+catalogos_estaciones419,EA299,Phoenix Sky Harbor,03
+catalogos_estaciones420,EA300,General Downing - Peoria International,03
+catalogos_estaciones421,EA301,Pittsburgh International,03
+catalogos_estaciones422,EA302,Mid-Ohio Valley Regional,03
+catalogos_estaciones423,EA303,Pease International,03
+catalogos_estaciones424,EA304,Palm Springs International,03
+catalogos_estaciones425,EA305,Oakland County International,03
+catalogos_estaciones426,EA306,Theodore Francis Green,03
+catalogos_estaciones427,EA307,Portland International,03
+catalogos_estaciones428,EA308,Vail Van Service,03
+catalogos_estaciones429,EA309,Ellsworth Air Force Base,03
+catalogos_estaciones430,EA310,Raleigh-Durham International,03
+catalogos_estaciones431,EA311,Chicago/Rockford International,03
+catalogos_estaciones432,EA312,Richmond International,03
+catalogos_estaciones433,EA313,Reno/Tahoe International,03
+catalogos_estaciones434,EA314,Greater Rochester International,03
+catalogos_estaciones435,EA315,Rochester International,03
+catalogos_estaciones436,EA316,Southwest Florida International,03
+catalogos_estaciones437,EA317,Rocky Mount-Wilson Regional,03
+catalogos_estaciones438,EA318,Santa Fe Municipal,03
+catalogos_estaciones439,EA319,San Diego International,03
+catalogos_estaciones440,EA320,San Antonio International,03
+catalogos_estaciones441,EA321,San Bernardino International,03
+catalogos_estaciones442,EA322,South Bend International,03
+catalogos_estaciones443,EA323,Louisville International,03
+catalogos_estaciones444,EA324,Brown Field Municipal,03
+catalogos_estaciones445,EA325,Seattle-Tacoma International,03
+catalogos_estaciones446,EA326,Orlando Sanford International,03
+catalogos_estaciones447,EA327,San Francisco International,03
+catalogos_estaciones448,EA328,Sugar Land Regional,03
+catalogos_estaciones449,EA329,Stuttgart Municipal,03
+catalogos_estaciones450,EA330,Shreveport Regional,03
+catalogos_estaciones451,EA331,San José International,03
+catalogos_estaciones452,EA332,Luis Muñoz Marin,03
+catalogos_estaciones453,EA333,Kelly,03
+catalogos_estaciones454,EA334,Griffing Sandusky,03
+catalogos_estaciones455,EA335,Salt Lake City International,03
+catalogos_estaciones456,EA336,Sacramento International,03
+catalogos_estaciones457,EA337,Santa Monica Municipal,03
+catalogos_estaciones458,EA338,John Wayne Airport,03
+catalogos_estaciones459,EA339,St. Louis Lambert International,03
+catalogos_estaciones460,EA340,Spirit Of St. Louis,03
+catalogos_estaciones461,EA341,Statesville Regional,03
+catalogos_estaciones462,EA342,Stewart International,03
+catalogos_estaciones463,EA343,Catalina Island,03
+catalogos_estaciones464,EA344,Syracuse Hancock International,03
+catalogos_estaciones465,EA345,Tuscaloosa Regional,03
+catalogos_estaciones466,EA346,Person County,03
+catalogos_estaciones467,EA347,Teterboro,03
+catalogos_estaciones468,EA348,Tullahoma Regional,03
+catalogos_estaciones469,EA349,Toledo Express,03
+catalogos_estaciones470,EA350,Tampa International,03
+catalogos_estaciones471,EA351,Raleigh Exec Jetport,03
+catalogos_estaciones472,EA352,Tulsa International,03
+catalogos_estaciones473,EA353,Tupelo Regional,03
+catalogos_estaciones474,EA354,Tucson International,03
+catalogos_estaciones475,EA355,Texarkana Regional,03
+catalogos_estaciones476,EA356,Mcghee Tyson,03
+catalogos_estaciones477,EA357,Quincy Regional,03
+catalogos_estaciones478,EA358,University-Oxford,03
+catalogos_estaciones479,EA359,Van Nuys,03
+catalogos_estaciones480,EA360,Mcguire,03
+catalogos_estaciones481,EA361,Willow Run,03
+catalogos_estaciones482,EA362,Youngstown-Warren Regional,03
+catalogos_estaciones483,EA363,Yuma International,03
+catalogos_estaciones484,EA364,Vantaa,03
+catalogos_estaciones485,EA365,Euroairport Basel Mulhouse Freiburg,03
+catalogos_estaciones486,EA366,Felix Eboue,03
+catalogos_estaciones487,EA367,Charles De Gaulle,03
+catalogos_estaciones488,EA368,Euroairport Basel Mulhouse Freiburg,03
+catalogos_estaciones489,EA369,Martinique Aime Cesaire,03
+catalogos_estaciones490,EA370,Lyon St-Exupery,03
+catalogos_estaciones491,EA371,Euroairport Basel Mulhouse Freiburg,03
+catalogos_estaciones492,EA372,Marseille Provence,03
+catalogos_estaciones493,EA373,Côte D'azur,03
+catalogos_estaciones494,EA374,Atlantique,03
+catalogos_estaciones495,EA375,Orly,03
+catalogos_estaciones496,EA376,Le Raizet,03
+catalogos_estaciones497,EA377,Toulouse Blagnac,03
+catalogos_estaciones498,EA378,Mundo Maya,03
+catalogos_estaciones499,EA379,La Aurora,03
+catalogos_estaciones500,EA380,Antoine-Simon,03
+catalogos_estaciones501,EA381,Toussaint Louverture,03
+catalogos_estaciones502,EA382,Goloson,03
+catalogos_estaciones503,EA383,Juan Manuel Gálvez,03
+catalogos_estaciones504,EA384,Ramón Villeda Morales,03
+catalogos_estaciones505,EA385,Toncontin,03
+catalogos_estaciones506,EA386,Chek Lap Kok,03
+catalogos_estaciones507,EA387,Budapest,03
+catalogos_estaciones508,EA388,Vadodara,03
+catalogos_estaciones509,EA389,Dublín,03
+catalogos_estaciones510,EA390,Shannon,03
+catalogos_estaciones511,EA391,Keflavik,03
+catalogos_estaciones512,EA392,Owen Roberts,03
+catalogos_estaciones513,EA393,Ben Gurion,03
+catalogos_estaciones514,EA394,Bologna,03
+catalogos_estaciones515,EA395,Cagliari-Elmas,03
+catalogos_estaciones516,EA396,Ciampino-Giovan Battista Pastine,03
+catalogos_estaciones517,EA397,Leonardo Da Vinci,03
+catalogos_estaciones518,EA398,Genoa Cristoforo Colombo,03
+catalogos_estaciones519,EA399,Malpensa,03
+catalogos_estaciones520,EA400,Caselle,03
+catalogos_estaciones521,EA401,Marco Polo,03
+catalogos_estaciones522,EA402,Villafranca,03
+catalogos_estaciones523,EA403,Norman Manley,03
+catalogos_estaciones524,EA404,Sangster,03
+catalogos_estaciones525,EA405,New Sapporo,03
+catalogos_estaciones526,EA406,Hachijojima,03
+catalogos_estaciones527,EA407,Kansai,03
+catalogos_estaciones528,EA408,Narita,03
+catalogos_estaciones529,EA409,Sendai,03
+catalogos_estaciones530,EA410,Luxembourg,03
+catalogos_estaciones531,EA411,Licenciado Jesus Teran Peredo,03
+catalogos_estaciones532,EA412,General Alberto L. Salinas C.,03
+catalogos_estaciones533,EA413,General Rodolfo Sanchez Taboada,03
+catalogos_estaciones534,EA414,General Abelardo L. Rodriguez,03
+catalogos_estaciones535,EA415,Cabo San Lucas,03
+catalogos_estaciones536,EA416,General Manuel Marquez De Leon,03
+catalogos_estaciones537,EA417,Loreto,03
+catalogos_estaciones538,EA418,Los Cabos,03
+catalogos_estaciones539,EA419,Ciudad Del Carmen,03
+catalogos_estaciones540,EA420,Ingeniero Alberto Acuña Ongay,03
+catalogos_estaciones541,EA421,Palenque,03
+catalogos_estaciones542,EA422,Tapachula,03
+catalogos_estaciones543,EA423,Angel Albino Corzo,03
+catalogos_estaciones544,EA424,Abraham González,03
+catalogos_estaciones545,EA425,General Roberto Fierro Villalobos,03
+catalogos_estaciones546,EA426,Benito Juárez,03
+catalogos_estaciones547,EA427,Ciudad Acuña,03
+catalogos_estaciones548,EA428,Venustiano Carranza,03
+catalogos_estaciones549,EA429,Piedras Negras,03
+catalogos_estaciones550,EA430,Plan De Guadalupe,03
+catalogos_estaciones551,EA431,Francisco Sarabia,03
+catalogos_estaciones552,EA432,Licenciado Miguel De La Madrid,03
+catalogos_estaciones553,EA433,Playa De Oro,03
+catalogos_estaciones554,EA434,General Guadalupe Victoria,03
+catalogos_estaciones555,EA435,Base Aérea Militar No.1 Santa Lucia,03
+catalogos_estaciones556,EA436,Licenciado Adolfo Lopez Mateos,03
+catalogos_estaciones557,EA437,Guanajuato,03
+catalogos_estaciones558,EA438,General Juan N. Alvarez,03
+catalogos_estaciones559,EA439,Ixtapa Zihuatanejo,03
+catalogos_estaciones560,EA440,Don Miguel Hidalgo Y Costilla,03
+catalogos_estaciones561,EA441,Francisco Primo De Verdad,03
+catalogos_estaciones562,EA442,Licenciado Gustavo Díaz Ordaz,03
+catalogos_estaciones563,EA443,Lázaro Cárdenas,03
+catalogos_estaciones564,EA444,General Francisco J. Mujica,03
+catalogos_estaciones565,EA445,Licenciado Y General Ignacio Lopez Rayón,03
+catalogos_estaciones566,EA446,General Mariano Matamoros,03
+catalogos_estaciones567,EA447,Amado Nervo,03
+catalogos_estaciones568,EA448,General Mariano Escobedo,03
+catalogos_estaciones569,EA449,Aeropuerto Del Norte,03
+catalogos_estaciones570,EA450,Bahías De Huatulco,03
+catalogos_estaciones571,EA451,Ixtepec,03
+catalogos_estaciones572,EA452,Xoxocotlan,03
+catalogos_estaciones573,EA453,Puerto Escondido,03
+catalogos_estaciones574,EA454,Estación Aeronaval De Salina Cruz,03
+catalogos_estaciones575,EA455,Hermanos Serdán,03
+catalogos_estaciones576,EA456,Ingeniero Fernando Espinoza Gutiérrez,03
+catalogos_estaciones577,EA457,Chetumal,03
+catalogos_estaciones578,EA458,Cancún,03
+catalogos_estaciones579,EA459,Cozumel,03
+catalogos_estaciones580,EA460,Ponciano Arriaga,03
+catalogos_estaciones581,EA461,Tamuin,03
+catalogos_estaciones582,EA462,Federal De Bachigualato,03
+catalogos_estaciones583,EA463,Federal Del Valle Del Fuerte,03
+catalogos_estaciones584,EA464,General Rafael Buelna,03
+catalogos_estaciones585,EA465,Ciudad Obregón,03
+catalogos_estaciones586,EA466,General Jose Maria Yáñez,03
+catalogos_estaciones587,EA467,General Ignacio Pesqueira Garcia,03
+catalogos_estaciones588,EA468,Nogales,03
+catalogos_estaciones589,EA469,Punta Peñasco,03
+catalogos_estaciones590,EA470,C.P.A. Carlos Rovirosa Perez,03
+catalogos_estaciones591,EA471,General Pedro J. Méndez,03
+catalogos_estaciones592,EA472,General Servando Canales,03
+catalogos_estaciones593,EA473,Quetzalcóatl,03
+catalogos_estaciones594,EA474,General Lucio Blanco,03
+catalogos_estaciones595,EA475,General Francisco Javier Mina,03
+catalogos_estaciones596,EA476,El Lencero,03
+catalogos_estaciones597,EA477,Minatitlán,03
+catalogos_estaciones598,EA478,El Tajín,03
+catalogos_estaciones599,EA479,General Heriberto Jara Corona,03
+catalogos_estaciones600,EA480,Chichen Itzá,03
+catalogos_estaciones601,EA481,Licenciado Manuel Crescencio Rejón,03
+catalogos_estaciones602,EA482,General Leobardo C. Ruiz,03
+catalogos_estaciones603,EA483,Augusto Cesar Sandino,03
+catalogos_estaciones604,EA484,Flesland,03
+catalogos_estaciones605,EA485,Oslo,03
+catalogos_estaciones606,EA486,Sola,03
+catalogos_estaciones607,EA487,Vaernes,03
+catalogos_estaciones608,EA488,Woodbourne,03
+catalogos_estaciones609,EA489,Schiphol,03
+catalogos_estaciones610,EA490,Reina Beatrix,03
+catalogos_estaciones611,EA491,Hato,03
+catalogos_estaciones612,EA492,Princess Juliana,03
+catalogos_estaciones613,EA493,Panamá Pacifico,03
+catalogos_estaciones614,EA494,Enrique Malek,03
+catalogos_estaciones615,EA495,Tocumen,03
+catalogos_estaciones616,EA496,Salamo,03
+catalogos_estaciones617,EA497,Guaraní,03
+catalogos_estaciones618,EA498,Carlos Miguel Jimenez,03
+catalogos_estaciones619,EA499,Capitán Fap Jose A. Quiñones González,03
+catalogos_estaciones620,EA500,Jorge Chávez,03
+catalogos_estaciones621,EA501,Capitán Fap Renán Elías Olivera,03
+catalogos_estaciones622,EA502,Frederic Chopin,03
+catalogos_estaciones623,EA503,Humberto Delgado,03
+catalogos_estaciones624,EA504,Francisco Sa Carneiro,03
+catalogos_estaciones625,EA505,Santa Maria,03
+catalogos_estaciones626,EA506,Aeroporto Das Lajes,03
+catalogos_estaciones627,EA507,Hamad,03
+catalogos_estaciones628,EA508,L.F. Wade,03
+catalogos_estaciones629,EA509,Belfast,03
+catalogos_estaciones630,EA510,George Best,03
+catalogos_estaciones631,EA511,Birmingham,03
+catalogos_estaciones632,EA512,Bournemouth,03
+catalogos_estaciones633,EA513,Bristol,03
+catalogos_estaciones634,EA514,Cardiff,03
+catalogos_estaciones635,EA515,Doncaster Sheffield,03
+catalogos_estaciones636,EA516,Edinburgh,03
+catalogos_estaciones637,EA517,East Midlands,03
+catalogos_estaciones638,EA518,Exeter,03
+catalogos_estaciones639,EA519,Abbotsinch,03
+catalogos_estaciones640,EA520,Leeds Bradford,03
+catalogos_estaciones641,EA521,London City,03
+catalogos_estaciones642,EA522,Gatwick,03
+catalogos_estaciones643,EA523,Heathrow,03
+catalogos_estaciones644,EA524,Raf Lakenheath,03
+catalogos_estaciones645,EA525,Ringway,03
+catalogos_estaciones646,EA526,Newcastle,03
+catalogos_estaciones647,EA527,Providenciales,03
+catalogos_estaciones648,EA528,Stansted,03
+catalogos_estaciones649,EA529,Vaclav Havel,03
+catalogos_estaciones650,EA530,Incheon,03
+catalogos_estaciones651,EA531,Samana El Catey,03
+catalogos_estaciones652,EA532,Casa De Campo,03
+catalogos_estaciones653,EA533,Gregorio Luperón,03
+catalogos_estaciones654,EA534,Punta Cana,03
+catalogos_estaciones655,EA535,Las Américas,03
+catalogos_estaciones656,EA536,Domodedovo,03
+catalogos_estaciones657,EA537,Pulkovo,03
+catalogos_estaciones658,EA538,Sheremetyevo,03
+catalogos_estaciones659,EA539,Vnukovo,03
+catalogos_estaciones660,EA540,O.R. Tambo,03
+catalogos_estaciones661,EA541,Arlanda,03
+catalogos_estaciones662,EA542,Landvetter,03
+catalogos_estaciones663,EA543,Kalmar,03
+catalogos_estaciones664,EA544,Kallax,03
+catalogos_estaciones665,EA545,Kungsängen,03
+catalogos_estaciones666,EA546,Umeå,03
+catalogos_estaciones667,EA547,Zürich-Kloten,03
+catalogos_estaciones668,EA548,Tainan,03
+catalogos_estaciones669,EA549,Piarco International,03
+catalogos_estaciones670,EA550,Carrasco/General Cesareo L. Berisso,03
+catalogos_estaciones671,EA551,General Jose Antonio Anzoátegui,03
+catalogos_estaciones672,EA552,Jacinto Lara,03
+catalogos_estaciones673,EA553,Simón Bolívar,03
+catalogos_estaciones674,EA554,Josefa Camejo,03
+catalogos_estaciones675,EA555,La Chinita,03
+catalogos_estaciones676,EA556,Santiago Mariño,03
+catalogos_estaciones677,EA557,General Manuel Carlos Piar,03
+catalogos_estaciones678,EA558,Las Flecheras,03
+catalogos_estaciones679,EA559,Juan Pablo Perez Alfonso,03
+catalogos_estaciones680,EA560,Arturo Michelena International,03
+catalogos_estaciones681,EA561,Extranjera,03
+catalogos_estaciones682,EF001,Pantaco,04
+catalogos_estaciones683,EF002,Valle de México,04
+catalogos_estaciones684,EF003,Tlalnepantla,04
+catalogos_estaciones685,EF004,Lechería,04
+catalogos_estaciones686,EF005,Cuautitlán,04
+catalogos_estaciones687,EF006,Teoloyucan,04
+catalogos_estaciones688,EF007,Huehuetoca,04
+catalogos_estaciones689,EF008,El Salto,04
+catalogos_estaciones690,EF009,Dorantes,04
+catalogos_estaciones691,EF010,Cruz Azul,04
+catalogos_estaciones692,EF011,Tolteca,04
+catalogos_estaciones693,EF012,Tula,04
+catalogos_estaciones694,EF013,San Juan del Rio,04
+catalogos_estaciones695,EF014,Coachiti,04
+catalogos_estaciones696,EF015,El Tunal,04
+catalogos_estaciones697,EF016,Apaseo,04
+catalogos_estaciones698,EF017,Celaya,04
+catalogos_estaciones699,EF018,Crespo,04
+catalogos_estaciones700,EF019,Cortázar,04
+catalogos_estaciones701,EF020,Villagrán,04
+catalogos_estaciones702,EF021,Molino Sarabia,04
+catalogos_estaciones703,EF022,Univex,04
+catalogos_estaciones704,EF023,Salamanca,04
+catalogos_estaciones705,EF024,Chico,04
+catalogos_estaciones706,EF025,Irapuato,04
+catalogos_estaciones707,EF026,Arandas,04
+catalogos_estaciones708,EF027,Copalillo,04
+catalogos_estaciones709,EF028,Vieyra,04
+catalogos_estaciones710,EF029,Villalobos,04
+catalogos_estaciones711,EF030,Pico de Oro,04
+catalogos_estaciones712,EF031,El Cerrito,04
+catalogos_estaciones713,EF032,Silao,04
+catalogos_estaciones714,EF033,Nápoles,04
+catalogos_estaciones715,EF034,Trinidad,04
+catalogos_estaciones716,EF035,León,04
+catalogos_estaciones717,EF036,La Mora,04
+catalogos_estaciones718,EF037,El Potrerito,04
+catalogos_estaciones719,EF038,San Francisco del Rincón,04
+catalogos_estaciones720,EF039,Guanajal,04
+catalogos_estaciones721,EF040,San Bartolo,04
+catalogos_estaciones722,EF041,Pedrito,04
+catalogos_estaciones723,EF042,Carolina,04
+catalogos_estaciones724,EF043,Corral Blanco,04
+catalogos_estaciones725,EF044,Loma,04
+catalogos_estaciones726,EF045,Lagos de Moreno,04
+catalogos_estaciones727,EF046,Mira,04
+catalogos_estaciones728,EF047,Los Salas,04
+catalogos_estaciones729,EF048,Placa KM. A-503,04
+catalogos_estaciones730,EF049,Castro,04
+catalogos_estaciones731,EF050,Doble,04
+catalogos_estaciones732,EF051,Santa Maria de Enmedio,04
+catalogos_estaciones733,EF052,San Juan de los Lagos,04
+catalogos_estaciones734,EF053,Placa KM. A-529,04
+catalogos_estaciones735,EF054,Encarnación,04
+catalogos_estaciones736,EF055,El Tigre,04
+catalogos_estaciones737,EF056,Peruelas,04
+catalogos_estaciones738,EF057,Arellano,04
+catalogos_estaciones739,EF058,Aguascalientes,04
+catalogos_estaciones740,EF059,Placa KM. A-592,04
+catalogos_estaciones741,EF060,Chicalote,04
+catalogos_estaciones742,EF061,Garabato,04
+catalogos_estaciones743,EF062,Pabellón,04
+catalogos_estaciones744,EF063,Rincón de Romos,04
+catalogos_estaciones745,EF064,Punta,04
+catalogos_estaciones746,EF065,Adames,04
+catalogos_estaciones747,EF066,Berriozábal,04
+catalogos_estaciones748,EF067,Tlacotes,04
+catalogos_estaciones749,EF068,Palmira,04
+catalogos_estaciones750,EF069,Trancoso,04
+catalogos_estaciones751,EF070,San Gerónimo,04
+catalogos_estaciones752,EF071,Rafael S. Martinez,04
+catalogos_estaciones753,EF072,Zacatecas,04
+catalogos_estaciones754,EF073,El Brillo,04
+catalogos_estaciones755,EF074,Pimienta,04
+catalogos_estaciones756,EF075,Morelos,04
+catalogos_estaciones757,EF076,Victor Rosales,04
+catalogos_estaciones758,EF077,Ojuelos,04
+catalogos_estaciones759,EF078,Fresnillo,04
+catalogos_estaciones760,EF079,Mendoza,04
+catalogos_estaciones761,EF080,Gutiérrez,04
+catalogos_estaciones762,EF081,Mezquite,04
+catalogos_estaciones763,EF082,El Saucillo,04
+catalogos_estaciones764,EF083,Felipe Pescador,04
+catalogos_estaciones765,EF084,Cedro,04
+catalogos_estaciones766,EF085,Edmundo,04
+catalogos_estaciones767,EF086,La Colorada,04
+catalogos_estaciones768,EF087,Urbieta,04
+catalogos_estaciones769,EF088,Pacheco,04
+catalogos_estaciones770,EF089,Alamillo,04
+catalogos_estaciones771,EF090,La Sección,04
+catalogos_estaciones772,EF091,Dpal,04
+catalogos_estaciones773,EF092,Carlos,04
+catalogos_estaciones774,EF093,Camacho,04
+catalogos_estaciones775,EF094,Fuertes,04
+catalogos_estaciones776,EF095,San Isidro,04
+catalogos_estaciones777,EF096,Symon,04
+catalogos_estaciones778,EF097,Ryvas,04
+catalogos_estaciones779,EF098,Acacio,04
+catalogos_estaciones780,EF099,La Mancha,04
+catalogos_estaciones781,EF100,Darías,04
+catalogos_estaciones782,EF101,Calvo,04
+catalogos_estaciones783,EF102,El Centinela,04
+catalogos_estaciones784,EF103,Peralta,04
+catalogos_estaciones785,EF104,Otto,04
+catalogos_estaciones786,EF105,La Flor,04
+catalogos_estaciones787,EF106,Jimulco,04
+catalogos_estaciones788,EF107,Los Trizar,04
+catalogos_estaciones789,EF108,Jalisco,04
+catalogos_estaciones790,EF109,Amador,04
+catalogos_estaciones791,EF110,Picardías,04
+catalogos_estaciones792,EF111,Nazareno,04
+catalogos_estaciones793,EF112,Mieleras,04
+catalogos_estaciones794,EF113,La Perla,04
+catalogos_estaciones795,EF114,Torreón,04
+catalogos_estaciones796,EF115,Torreón,04
+catalogos_estaciones797,EF116,AI. IANZA,04
+catalogos_estaciones798,EF117,Gomez Palacio,04
+catalogos_estaciones799,EF118,El Vergel,04
+catalogos_estaciones800,EF119,NOE,04
+catalogos_estaciones801,EF120,Cadena,04
+catalogos_estaciones802,EF121,Maravasco,04
+catalogos_estaciones803,EF122,Bermejillo,04
+catalogos_estaciones804,EF123,Sierrita,04
+catalogos_estaciones805,EF124,Peronal,04
+catalogos_estaciones806,EF125,Banderas,04
+catalogos_estaciones807,EF126,Conejos,04
+catalogos_estaciones808,EF127,El Bolsón,04
+catalogos_estaciones809,EF128,Yermo,04
+catalogos_estaciones810,EF129,Ceballos,04
+catalogos_estaciones811,EF130,Zavalza,04
+catalogos_estaciones812,EF131,Escalón,04
+catalogos_estaciones813,EF132,Asunsolo,04
+catalogos_estaciones814,EF133,Rellano,04
+catalogos_estaciones815,EF134,Mugoz,04
+catalogos_estaciones816,EF135,Corralitos,04
+catalogos_estaciones817,EF136,Lolita,04
+catalogos_estaciones818,EF137,Jimenez,04
+catalogos_estaciones819,EF138,La Reforma,04
+catalogos_estaciones820,EF139,Díaz,04
+catalogos_estaciones821,EF140,La Enramada,04
+catalogos_estaciones822,EF141,Florido,04
+catalogos_estaciones823,EF142,Santa Rosalía Camargo,04
+catalogos_estaciones824,EF143,La Sección,04
+catalogos_estaciones825,EF144,La Cruz,04
+catalogos_estaciones826,EF145,Aurelio,04
+catalogos_estaciones827,EF146,Concho,04
+catalogos_estaciones828,EF147,Saucillo,04
+catalogos_estaciones829,EF148,Armendáriz,04
+catalogos_estaciones830,EF149,Rosetilla,04
+catalogos_estaciones831,EF150,Las Delicias,04
+catalogos_estaciones832,EF151,Meoqui,04
+catalogos_estaciones833,EF152,Consuelo,04
+catalogos_estaciones834,EF153,Hondonada,04
+catalogos_estaciones835,EF154,Bachimba,04
+catalogos_estaciones836,EF155,Abraham González,04
+catalogos_estaciones837,EF156,Francisco Villa,04
+catalogos_estaciones838,EF157,Horcasitas,04
+catalogos_estaciones839,EF158,Los Martinez,04
+catalogos_estaciones840,EF159,Mapula,04
+catalogos_estaciones841,EF160,Alberto,04
+catalogos_estaciones842,EF161,Morse,04
+catalogos_estaciones843,EF162,Tabalaopa,04
+catalogos_estaciones844,EF163,Chihuahua,04
+catalogos_estaciones845,EF164,Cuilty,04
+catalogos_estaciones846,EF165,Corral,04
+catalogos_estaciones847,EF166,Molinar,04
+catalogos_estaciones848,EF167,Terrazas,04
+catalogos_estaciones849,EF168,Sauz,04
+catalogos_estaciones850,EF169,Pirale,04
+catalogos_estaciones851,EF170,Encinillas,04
+catalogos_estaciones852,EF171,Parrita,04
+catalogos_estaciones853,EF172,Ojo Laguna,04
+catalogos_estaciones854,EF173,Arados,04
+catalogos_estaciones855,EF174,Mocho,04
+catalogos_estaciones856,EF175,Loaeza,04
+catalogos_estaciones857,EF176,Gallego,04
+catalogos_estaciones858,EF177,El Sueco,04
+catalogos_estaciones859,EF178,Chavatito,04
+catalogos_estaciones860,EF179,Moctezuma,04
+catalogos_estaciones861,EF180,Las Minas,04
+catalogos_estaciones862,EF181,Vado,04
+catalogos_estaciones863,EF182,Carrizal,04
+catalogos_estaciones864,EF183,Ahumada,04
+catalogos_estaciones865,EF184,Juan Jose,04
+catalogos_estaciones866,EF185,Lucero,04
+catalogos_estaciones867,EF186,Ranchería,04
+catalogos_estaciones868,EF187,Candelaria,04
+catalogos_estaciones869,EF188,Los Médanos,04
+catalogos_estaciones870,EF189,Samalayuca,04
+catalogos_estaciones871,EF190,Desierto,04
+catalogos_estaciones872,EF191,Meseta,04
+catalogos_estaciones873,EF192,Ciudad Juárez,04
+catalogos_estaciones874,EF193,Iturbe,04
+catalogos_estaciones875,EF194,Embarcadero Central,04
+catalogos_estaciones876,EF195,Tlaxcoapan,04
+catalogos_estaciones877,EF196,Tetepango,04
+catalogos_estaciones878,EF197,Valentín,04
+catalogos_estaciones879,EF198,El Gorrión,04
+catalogos_estaciones880,EF199,Rosal,04
+catalogos_estaciones881,EF200,General Zaragoza,04
+catalogos_estaciones882,EF201,Benito Juárez,04
+catalogos_estaciones883,EF202,Tlaxiaca,04
+catalogos_estaciones884,EF203,Tecamatl,04
+catalogos_estaciones885,EF204,Concepción,04
+catalogos_estaciones886,EF205,Los Lobos,04
+catalogos_estaciones887,EF206,Garma,04
+catalogos_estaciones888,EF207,Valle de Santiago,04
+catalogos_estaciones889,EF208,Covadonga,04
+catalogos_estaciones890,EF209,Brande,04
+catalogos_estaciones891,EF210,La Bolsa,04
+catalogos_estaciones892,EF211,Jaral del Progreso,04
+catalogos_estaciones893,EF212,Cuarta Parte,04
+catalogos_estaciones894,EF213,La Cuesta,04
+catalogos_estaciones895,EF214,Teresa,04
+catalogos_estaciones896,EF215,Noche Buena,04
+catalogos_estaciones897,EF216,Marfol,04
+catalogos_estaciones898,EF217,Guanajuato,04
+catalogos_estaciones899,EF218,AEDO,04
+catalogos_estaciones900,EF219,Dinamita,04
+catalogos_estaciones901,EF220,Buenavista,04
+catalogos_estaciones902,EF221,Huehuetoca,04
+catalogos_estaciones903,EF222,Tlaltepoxco,04
+catalogos_estaciones904,EF223,Tula,04
+catalogos_estaciones905,EF224,Daxthi,04
+catalogos_estaciones906,EF225,Aragón,04
+catalogos_estaciones907,EF226,Dazu,04
+catalogos_estaciones908,EF227,Pachuquilla,04
+catalogos_estaciones909,EF228,Polotitlan,04
+catalogos_estaciones910,EF229,Palmillas,04
+catalogos_estaciones911,EF230,San Juan del Rio,04
+catalogos_estaciones912,EF231,Ahorcado,04
+catalogos_estaciones913,EF232,La Griega,04
+catalogos_estaciones914,EF233,Querétaro,04
+catalogos_estaciones915,EF234,Valle de México,04
+catalogos_estaciones916,EF235,Lechería,04
+catalogos_estaciones917,EF236,Cuautitlán,04
+catalogos_estaciones918,EF237,Teoloyucan,04
+catalogos_estaciones919,EF238,Huehuetoca,04
+catalogos_estaciones920,EF239,San Sebastián,04
+catalogos_estaciones921,EF240,Apaxco,04
+catalogos_estaciones922,EF241,Vito,04
+catalogos_estaciones923,EF242,Calera,04
+catalogos_estaciones924,EF243,Bojay,04
+catalogos_estaciones925,EF244,Teocalco,04
+catalogos_estaciones926,EF245,Carrasco,04
+catalogos_estaciones927,EF246,Endo,04
+catalogos_estaciones928,EF247,Magua,04
+catalogos_estaciones929,EF248,Sayula,04
+catalogos_estaciones930,EF249,Rancho Nuevo,04
+catalogos_estaciones931,EF250,Escandón,04
+catalogos_estaciones932,EF251,Aragón,04
+catalogos_estaciones933,EF252,Nopala,04
+catalogos_estaciones934,EF253,Mejia,04
+catalogos_estaciones935,EF254,Huichapan,04
+catalogos_estaciones936,EF255,San Jose de Atlan,04
+catalogos_estaciones937,EF256,Atlan,04
+catalogos_estaciones938,EF257,El Zapote,04
+catalogos_estaciones939,EF258,Rayón,04
+catalogos_estaciones940,EF259,Cambalache,04
+catalogos_estaciones941,EF260,Mercader,04
+catalogos_estaciones942,EF261,Bernal,04
+catalogos_estaciones943,EF262,San Nicolás,04
+catalogos_estaciones944,EF263,La Llave,04
+catalogos_estaciones945,EF264,La Fuente,04
+catalogos_estaciones946,EF265,Noria,04
+catalogos_estaciones947,EF266,Viborillas,04
+catalogos_estaciones948,EF267,Fertimex,04
+catalogos_estaciones949,EF268,Las Adjuntas,04
+catalogos_estaciones950,EF269,Mariscala,04
+catalogos_estaciones951,EF270,Cosio,04
+catalogos_estaciones952,EF271,Jocoqui,04
+catalogos_estaciones953,EF272,Escobedo,04
+catalogos_estaciones954,EF273,Comonfort,04
+catalogos_estaciones955,EF274,Rinconcillo,04
+catalogos_estaciones956,EF275,Dolores Hidalgo,04
+catalogos_estaciones957,EF276,Rio Laja,04
+catalogos_estaciones958,EF277,Villa de Reyes,04
+catalogos_estaciones959,EF278,Jesus Maria,04
+catalogos_estaciones960,EF279,La Pila,04
+catalogos_estaciones961,EF280,Esparita,04
+catalogos_estaciones962,EF281,San Luis Potosí,04
+catalogos_estaciones963,EF282,Perasco,04
+catalogos_estaciones964,EF283,Pinto,04
+catalogos_estaciones965,EF284,Arriola,04
+catalogos_estaciones966,EF285,Bocas,04
+catalogos_estaciones967,EF286,Enramada,04
+catalogos_estaciones968,EF287,Moctezuma,04
+catalogos_estaciones969,EF288,Venado,04
+catalogos_estaciones970,EF289,Laborcilla,04
+catalogos_estaciones971,EF290,Charcas,04
+catalogos_estaciones972,EF291,Laguna Seca,04
+catalogos_estaciones973,EF292,El Cubo,04
+catalogos_estaciones974,EF293,Berrendo,04
+catalogos_estaciones975,EF294,La Maroma,04
+catalogos_estaciones976,EF295,Coronados,04
+catalogos_estaciones977,EF296,Madley,04
+catalogos_estaciones978,EF297,Catorce,04
+catalogos_estaciones979,EF298,Poblazon,04
+catalogos_estaciones980,EF299,Collado,04
+catalogos_estaciones981,EF300,Venegas,04
+catalogos_estaciones982,EF301,La Trueba,04
+catalogos_estaciones983,EF302,San Vicente,04
+catalogos_estaciones984,EF303,El Salado,04
+catalogos_estaciones985,EF304,San Salvador,04
+catalogos_estaciones986,EF305,La Ventura,04
+catalogos_estaciones987,EF306,Huron,04
+catalogos_estaciones988,EF307,Santa Elena,04
+catalogos_estaciones989,EF308,Ledezma,04
+catalogos_estaciones990,EF309,La Zacatera,04
+catalogos_estaciones991,EF310,Gomez Farías,04
+catalogos_estaciones992,EF311,San Miguel,04
+catalogos_estaciones993,EF312,Guillermo,04
+catalogos_estaciones994,EF313,El Cobre,04
+catalogos_estaciones995,EF314,Benjamin Méndez,04
+catalogos_estaciones996,EF315,Agua Nueva,04
+catalogos_estaciones997,EF316,Encantada,04
+catalogos_estaciones998,EF317,Angostura,04
+catalogos_estaciones999,EF318,Saltillo,04
+catalogos_estaciones1000,EF319,Almacenes,04
+catalogos_estaciones1001,EF320,ZINCAMEX,04
+catalogos_estaciones1002,EF321,Rojas,04
+catalogos_estaciones1003,EF322,Ramiro E. Martinez,04
+catalogos_estaciones1004,EF323,Ramos Arizpe,04
+catalogos_estaciones1005,EF324,Santa Maria,04
+catalogos_estaciones1006,EF325,Ojo Caliente,04
+catalogos_estaciones1007,EF326,Higueras,04
+catalogos_estaciones1008,EF327,La Mariposa,04
+catalogos_estaciones1009,EF328,Rinconada,04
+catalogos_estaciones1010,EF329,Los Fierros,04
+catalogos_estaciones1011,EF330,Soledad,04
+catalogos_estaciones1012,EF331,Garcia,04
+catalogos_estaciones1013,EF332,Alcali,04
+catalogos_estaciones1014,EF333,Durazno,04
+catalogos_estaciones1015,EF334,Santa Catarina,04
+catalogos_estaciones1016,EF335,Leona,04
+catalogos_estaciones1017,EF336,Monterrey,04
+catalogos_estaciones1018,EF337,Cortavia 9,04
+catalogos_estaciones1019,EF338,Ramón Travieso,04
+catalogos_estaciones1020,EF339,Topo,04
+catalogos_estaciones1021,EF340,Leal,04
+catalogos_estaciones1022,EF341,Salinas Victoria,04
+catalogos_estaciones1023,EF342,Morales,04
+catalogos_estaciones1024,EF343,El Puerto,04
+catalogos_estaciones1025,EF344,Álamo,04
+catalogos_estaciones1026,EF345,Villaldama,04
+catalogos_estaciones1027,EF346,Bustamante,04
+catalogos_estaciones1028,EF347,Golondrinas,04
+catalogos_estaciones1029,EF348,Candela,04
+catalogos_estaciones1030,EF349,Brasil,04
+catalogos_estaciones1031,EF350,Lampazos,04
+catalogos_estaciones1032,EF351,Naranjo,04
+catalogos_estaciones1033,EF352,Rodriguez,04
+catalogos_estaciones1034,EF353,Anáhuac,04
+catalogos_estaciones1035,EF354,Huizachito,04
+catalogos_estaciones1036,EF355,Jarita,04
+catalogos_estaciones1037,EF356,Sanchez,04
+catalogos_estaciones1038,EF357,Sección Sanchez,04
+catalogos_estaciones1039,EF358,Nuevo Laredo,04
+catalogos_estaciones1040,EF359,Montelongo,04
+catalogos_estaciones1041,EF360,Delgadillo,04
+catalogos_estaciones1042,EF361,Siete Reales,04
+catalogos_estaciones1043,EF362,Lourdes,04
+catalogos_estaciones1044,EF363,San Luis de la Paz,04
+catalogos_estaciones1045,EF364,Pozos,04
+catalogos_estaciones1046,EF365,Vanegas de Abajo,04
+catalogos_estaciones1047,EF366,Tepiche,04
+catalogos_estaciones1048,EF367,San Isidro,04
+catalogos_estaciones1049,EF368,Cedral,04
+catalogos_estaciones1050,EF369,Las Tuzas,04
+catalogos_estaciones1051,EF370,La Cabra,04
+catalogos_estaciones1052,EF371,San Jose de las Trojes,04
+catalogos_estaciones1053,EF372,Matehuala,04
+catalogos_estaciones1054,EF373,Chichimequillas,04
+catalogos_estaciones1055,EF374,Puerto Carrozas,04
+catalogos_estaciones1056,EF375,San José Iturbide,04
+catalogos_estaciones1057,EF376,Presa de la Cebada,04
+catalogos_estaciones1058,EF377,Ing. Buchaman Lopez,04
+catalogos_estaciones1059,EF378,Piedra de Lumbre,04
+catalogos_estaciones1060,EF379,Parritas,04
+catalogos_estaciones1061,EF380,Melchor,04
+catalogos_estaciones1062,EF381,San Felipe,04
+catalogos_estaciones1063,EF382,Pronapade,04
+catalogos_estaciones1064,EF383,San Miguel Allende,04
+catalogos_estaciones1065,EF384,Josefa O. de Domínguez,04
+catalogos_estaciones1066,EF385,Los Garcia,04
+catalogos_estaciones1067,EF386,Escobedo,04
+catalogos_estaciones1068,EF387,Salitre,04
+catalogos_estaciones1069,EF388,Melville,04
+catalogos_estaciones1070,EF389,Las Cotuchas,04
+catalogos_estaciones1071,EF390,Jazminal,04
+catalogos_estaciones1072,EF391,San Carlos,04
+catalogos_estaciones1073,EF392,San Miguel,04
+catalogos_estaciones1074,EF393,Avalos,04
+catalogos_estaciones1075,EF394,Margarita,04
+catalogos_estaciones1076,EF395,Nuevo Laredo,04
+catalogos_estaciones1077,EF396,San Luis Potosí,04
+catalogos_estaciones1078,EF397,Buenavista,04
+catalogos_estaciones1079,EF398,Huehuetoca,04
+catalogos_estaciones1080,EF399,Tlaltepoxco,04
+catalogos_estaciones1081,EF400,Tula,04
+catalogos_estaciones1082,EF401,BAXTHI,04
+catalogos_estaciones1083,EF402,Aragón,04
+catalogos_estaciones1084,EF403,Dañu,04
+catalogos_estaciones1085,EF404,Pachuquilla,04
+catalogos_estaciones1086,EF405,Polotitlan,04
+catalogos_estaciones1087,EF406,Palmillas,04
+catalogos_estaciones1088,EF407,San Juan del Rio,04
+catalogos_estaciones1089,EF408,Ahorcado,04
+catalogos_estaciones1090,EF409,La Griega,04
+catalogos_estaciones1091,EF410,Querétaro,04
+catalogos_estaciones1092,EF411,Julia,04
+catalogos_estaciones1093,EF412,Los Morales,04
+catalogos_estaciones1094,EF413,San Pedro de los Pinos,04
+catalogos_estaciones1095,EF414,Olivar,04
+catalogos_estaciones1096,EF415,Contreras,04
+catalogos_estaciones1097,EF416,Eslava,04
+catalogos_estaciones1098,EF417,Ajusco,04
+catalogos_estaciones1099,EF418,Parres,04
+catalogos_estaciones1100,EF419,Cima,04
+catalogos_estaciones1101,EF420,Toro,04
+catalogos_estaciones1102,EF421,Tezoyo,04
+catalogos_estaciones1103,EF422,Tres Cumbres,04
+catalogos_estaciones1104,EF423,El Parque,04
+catalogos_estaciones1105,EF424,Alarcón,04
+catalogos_estaciones1106,EF425,Ramón,04
+catalogos_estaciones1107,EF426,Cuernavaca,04
+catalogos_estaciones1108,EF427,Plama KM. C-126,04
+catalogos_estaciones1109,EF428,Mango,04
+catalogos_estaciones1110,EF429,Emiliano Zapata,04
+catalogos_estaciones1111,EF430,Tezoyuca,04
+catalogos_estaciones1112,EF431,Tetecalita,04
+catalogos_estaciones1113,EF432,San Miguel Treinta,04
+catalogos_estaciones1114,EF433,Treinta,04
+catalogos_estaciones1115,EF434,Juan Pagaza,04
+catalogos_estaciones1116,EF435,Hermosa,04
+catalogos_estaciones1117,EF436,Vidal,04
+catalogos_estaciones1118,EF437,Puente de Ixtla,04
+catalogos_estaciones1119,EF438,Cacahuamilpa,04
+catalogos_estaciones1120,EF439,Cajones,04
+catalogos_estaciones1121,EF440,El Sureño,04
+catalogos_estaciones1122,EF441,Casahuatlan,04
+catalogos_estaciones1123,EF442,Santa Fe,04
+catalogos_estaciones1124,EF443,Samano,04
+catalogos_estaciones1125,EF444,Vista,04
+catalogos_estaciones1126,EF445,Pimentel,04
+catalogos_estaciones1127,EF446,Los Amantes,04
+catalogos_estaciones1128,EF447,Naranjo,04
+catalogos_estaciones1129,EF448,Iguala,04
+catalogos_estaciones1130,EF449,Metlapa,04
+catalogos_estaciones1131,EF450,Mextitlan,04
+catalogos_estaciones1132,EF451,Xonacatla,04
+catalogos_estaciones1133,EF452,Cocula,04
+catalogos_estaciones1134,EF453,El Puente,04
+catalogos_estaciones1135,EF454,Apipilulco,04
+catalogos_estaciones1136,EF455,Tlanipantlan,04
+catalogos_estaciones1137,EF456,Olea,04
+catalogos_estaciones1138,EF457,Durango,04
+catalogos_estaciones1139,EF458,Labor,04
+catalogos_estaciones1140,EF459,Málaga,04
+catalogos_estaciones1141,EF460,El Salvador,04
+catalogos_estaciones1142,EF461,Chorro,04
+catalogos_estaciones1143,EF462,Francisco I. Madero,04
+catalogos_estaciones1144,EF463,Guadalupe Victoria,04
+catalogos_estaciones1145,EF464,Calixto Contreras,04
+catalogos_estaciones1146,EF465,Ignacio Allende,04
+catalogos_estaciones1147,EF466,Luis Moya,04
+catalogos_estaciones1148,EF467,Progreso,04
+catalogos_estaciones1149,EF468,Colonia Independencia,04
+catalogos_estaciones1150,EF469,Placa KM. DA-114,04
+catalogos_estaciones1151,EF470,Yerbanis,04
+catalogos_estaciones1152,EF471,Chupaderos,04
+catalogos_estaciones1153,EF472,Pasaje,04
+catalogos_estaciones1154,EF473,El Centro,04
+catalogos_estaciones1155,EF474,Agua Vieja,04
+catalogos_estaciones1156,EF475,Las Mercedes,04
+catalogos_estaciones1157,EF476,Pedricera,04
+catalogos_estaciones1158,EF477,Huarichi,04
+catalogos_estaciones1159,EF478,Diego,04
+catalogos_estaciones1160,EF479,Chocolate,04
+catalogos_estaciones1161,EF480,Placa KM. DA-219,04
+catalogos_estaciones1162,EF481,La Goma,04
+catalogos_estaciones1163,EF482,Ejido Monterrey,04
+catalogos_estaciones1164,EF483,Villa Juárez,04
+catalogos_estaciones1165,EF484,Rio Nazas,04
+catalogos_estaciones1166,EF485,Alianza,04
+catalogos_estaciones1167,EF486,Pedrera KM. DB-10,04
+catalogos_estaciones1168,EF487,Casa Blanca,04
+catalogos_estaciones1169,EF488,Morcillo,04
+catalogos_estaciones1170,EF489,Ranchoya,04
+catalogos_estaciones1171,EF490,Carpintero,04
+catalogos_estaciones1172,EF491,El Sábalo,04
+catalogos_estaciones1173,EF492,Nicolás Bravo,04
+catalogos_estaciones1174,EF493,Lucia,04
+catalogos_estaciones1175,EF494,La Granja,04
+catalogos_estaciones1176,EF495,Canatlan,04
+catalogos_estaciones1177,EF496,Pozole,04
+catalogos_estaciones1178,EF497,Los Pinos,04
+catalogos_estaciones1179,EF498,Don Hilario,04
+catalogos_estaciones1180,EF499,Las Olas,04
+catalogos_estaciones1181,EF500,La Soledad,04
+catalogos_estaciones1182,EF501,Guatimape,04
+catalogos_estaciones1183,EF502,Esfuerzos Unidos,04
+catalogos_estaciones1184,EF503,Alisos,04
+catalogos_estaciones1185,EF504,Nuevo Ideal,04
+catalogos_estaciones1186,EF505,Angelita,04
+catalogos_estaciones1187,EF506,Las Flores,04
+catalogos_estaciones1188,EF507,Chinacates,04
+catalogos_estaciones1189,EF508,El Jaguey,04
+catalogos_estaciones1190,EF509,Francisco Javier Leyva,04
+catalogos_estaciones1191,EF510,Huizache,04
+catalogos_estaciones1192,EF511,Placa KM. DB-157,04
+catalogos_estaciones1193,EF512,Santiago Papasquiaro,04
+catalogos_estaciones1194,EF513,Tambor,04
+catalogos_estaciones1195,EF514,Barrazas,04
+catalogos_estaciones1196,EF515,El Barrial,04
+catalogos_estaciones1197,EF516,Hervideros,04
+catalogos_estaciones1198,EF517,Los Herreras,04
+catalogos_estaciones1199,EF518,Pedrera KM. DB-187,04
+catalogos_estaciones1200,EF519,Pascuales,04
+catalogos_estaciones1201,EF520,Manqueros,04
+catalogos_estaciones1202,EF521,Los Corrales,04
+catalogos_estaciones1203,EF522,Sandias,04
+catalogos_estaciones1204,EF523,La Candela,04
+catalogos_estaciones1205,EF524,El Presidio,04
+catalogos_estaciones1206,EF525,Escape Presidio,04
+catalogos_estaciones1207,EF526,Carreras,04
+catalogos_estaciones1208,EF527,Tepehuanes,04
+catalogos_estaciones1209,EF528,Central Camionera,04
+catalogos_estaciones1210,EF529,Dalila,04
+catalogos_estaciones1211,EF530,Centauro,04
+catalogos_estaciones1212,EF531,Guadiana,04
+catalogos_estaciones1213,EF532,Tuitan,04
+catalogos_estaciones1214,EF533,Brena,04
+catalogos_estaciones1215,EF534,Poanas,04
+catalogos_estaciones1216,EF535,Parrilla,04
+catalogos_estaciones1217,EF536,Vicente Guerrero,04
+catalogos_estaciones1218,EF537,San Jose del Molino,04
+catalogos_estaciones1219,EF538,El Súchil,04
+catalogos_estaciones1220,EF539,Bualterio,04
+catalogos_estaciones1221,EF540,Canutillo,04
+catalogos_estaciones1222,EF541,El Cerrito,04
+catalogos_estaciones1223,EF542,Vergelitos,04
+catalogos_estaciones1224,EF543,San Pascual,04
+catalogos_estaciones1225,EF544,Lodemena,04
+catalogos_estaciones1226,EF545,La Parada,04
+catalogos_estaciones1227,EF546,Abrego,04
+catalogos_estaciones1228,EF547,Frio,04
+catalogos_estaciones1229,EF548,Felipe Carrillo Puerto,04
+catalogos_estaciones1230,EF549,El Arenal,04
+catalogos_estaciones1231,EF550,Cantuna,04
+catalogos_estaciones1232,EF551,El Fresno,04
+catalogos_estaciones1233,EF552,El Mirasol,04
+catalogos_estaciones1234,EF553,Sain Alto,04
+catalogos_estaciones1235,EF554,Santa Mónica,04
+catalogos_estaciones1236,EF555,Virata,04
+catalogos_estaciones1237,EF556,Pastelera,04
+catalogos_estaciones1238,EF557,Felipe,04
+catalogos_estaciones1239,EF558,Rio Grande,04
+catalogos_estaciones1240,EF559,Indios,04
+catalogos_estaciones1241,EF560,Tetillas,04
+catalogos_estaciones1242,EF561,Picotello,04
+catalogos_estaciones1243,EF562,Las Cuatro Ciénegas,04
+catalogos_estaciones1244,EF563,La Vieja,04
+catalogos_estaciones1245,EF564,Baravito,04
+catalogos_estaciones1246,EF565,Placa KM. DE-17,04
+catalogos_estaciones1247,EF566,Cieneguita,04
+catalogos_estaciones1248,EF567,Nevería,04
+catalogos_estaciones1249,EF568,Palos Colorados,04
+catalogos_estaciones1250,EF569,Rio Chico,04
+catalogos_estaciones1251,EF570,Otinapa,04
+catalogos_estaciones1252,EF571,Jarocho,04
+catalogos_estaciones1253,EF572,El Fuerte,04
+catalogos_estaciones1254,EF573,Cocona,04
+catalogos_estaciones1255,EF574,El Chicle,04
+catalogos_estaciones1256,EF575,Purísima,04
+catalogos_estaciones1257,EF576,Placa KM. DE-90,04
+catalogos_estaciones1258,EF577,Los Artículos,04
+catalogos_estaciones1259,EF578,El Toro,04
+catalogos_estaciones1260,EF579,Borcelano,04
+catalogos_estaciones1261,EF580,Llano Piocode,04
+catalogos_estaciones1262,EF581,Cruz de Piedra,04
+catalogos_estaciones1263,EF582,Coyotes,04
+catalogos_estaciones1264,EF583,Bajío Atascoso,04
+catalogos_estaciones1265,EF584,Los Negros,04
+catalogos_estaciones1266,EF585,Aserraderos,04
+catalogos_estaciones1267,EF586,Ramón Barajas,04
+catalogos_estaciones1268,EF587,Sombrerete,04
+catalogos_estaciones1269,EF588,Asarco,04
+catalogos_estaciones1270,EF589,Velardera,04
+catalogos_estaciones1271,EF590,Navíos Viejos,04
+catalogos_estaciones1272,EF591,El Tanque,04
+catalogos_estaciones1273,EF592,Tecuan,04
+catalogos_estaciones1274,EF593,Los Bancos,04
+catalogos_estaciones1275,EF594,La Venada,04
+catalogos_estaciones1276,EF595,Ciénega de los Caballos,04
+catalogos_estaciones1277,EF596,Ardillon,04
+catalogos_estaciones1278,EF597,Encinal,04
+catalogos_estaciones1279,EF598,La Cruz,04
+catalogos_estaciones1280,EF599,Rebocijo,04
+catalogos_estaciones1281,EF600,Santa Rosa,04
+catalogos_estaciones1282,EF601,Tres Jagueyes,04
+catalogos_estaciones1283,EF602,Cartago,04
+catalogos_estaciones1284,EF603,Tepeaca,04
+catalogos_estaciones1285,EF604,Ajajalpan,04
+catalogos_estaciones1286,EF605,Buenaventura,04
+catalogos_estaciones1287,EF606,San Simón,04
+catalogos_estaciones1288,EF607,Zoyaoetlayoca,04
+catalogos_estaciones1289,EF608,Perro Rubín,04
+catalogos_estaciones1290,EF609,Rosendo Marquez,04
+catalogos_estaciones1291,EF610,Huixcolotla,04
+catalogos_estaciones1292,EF611,Tecamachalco,04
+catalogos_estaciones1293,EF612,Alseseca,04
+catalogos_estaciones1294,EF613,Las Animas,04
+catalogos_estaciones1295,EF614,Rancho Chico,04
+catalogos_estaciones1296,EF615,Tlacotepec,04
+catalogos_estaciones1297,EF616,Tlacoyalco,04
+catalogos_estaciones1298,EF617,Libertad,04
+catalogos_estaciones1299,EF618,Pozoltepec,04
+catalogos_estaciones1300,EF619,Temalacayuca,04
+catalogos_estaciones1301,EF620,Tepanco,04
+catalogos_estaciones1302,EF621,Cuayucatepec,04
+catalogos_estaciones1303,EF622,Patio Nuevo Carnero,04
+catalogos_estaciones1304,EF623,Carnero,04
+catalogos_estaciones1305,EF624,Tehuacán,04
+catalogos_estaciones1306,EF625,La Huerta,04
+catalogos_estaciones1307,EF626,Sanchez,04
+catalogos_estaciones1308,EF627,Altepexi,04
+catalogos_estaciones1309,EF628,San Sebastián,04
+catalogos_estaciones1310,EF629,Nopala,04
+catalogos_estaciones1311,EF630,Venta Salada,04
+catalogos_estaciones1312,EF631,Aldama,04
+catalogos_estaciones1313,EF632,San Antonio,04
+catalogos_estaciones1314,EF633,Ignacio Mejia,04
+catalogos_estaciones1315,EF634,Mejia Viejo,04
+catalogos_estaciones1316,EF635,Los Cues,04
+catalogos_estaciones1317,EF636,Tecomavaca,04
+catalogos_estaciones1318,EF637,Quiotepec,04
+catalogos_estaciones1319,EF638,Tanque KM. E-237,04
+catalogos_estaciones1320,EF639,Los Obos,04
+catalogos_estaciones1321,EF640,La Venta,04
+catalogos_estaciones1322,EF641,Cuicatlan,04
+catalogos_estaciones1323,EF642,San Pedrito,04
+catalogos_estaciones1324,EF643,Tomellin,04
+catalogos_estaciones1325,EF644,Organal,04
+catalogos_estaciones1326,EF645,Almoloyas,04
+catalogos_estaciones1327,EF646,Venado,04
+catalogos_estaciones1328,EF647,Santa Catarina,04
+catalogos_estaciones1329,EF648,Anona,04
+catalogos_estaciones1330,EF649,Parían,04
+catalogos_estaciones1331,EF650,Escondida,04
+catalogos_estaciones1332,EF651,Placa KM. E-318,04
+catalogos_estaciones1333,EF652,Las Bedas,04
+catalogos_estaciones1334,EF653,Telixtlahuaca,04
+catalogos_estaciones1335,EF654,Huitzo,04
+catalogos_estaciones1336,EF655,Sulchiquitongo,04
+catalogos_estaciones1337,EF656,Mixteca,04
+catalogos_estaciones1338,EF657,Lachixolana,04
+catalogos_estaciones1339,EF658,Don Benito,04
+catalogos_estaciones1340,EF659,Magdalena,04
+catalogos_estaciones1341,EF660,Etla,04
+catalogos_estaciones1342,EF661,Magote,04
+catalogos_estaciones1343,EF662,Hacienda Blanca,04
+catalogos_estaciones1344,EF663,Oaxaca,04
+catalogos_estaciones1345,EF664,Negritos,04
+catalogos_estaciones1346,EF665,El Tule,04
+catalogos_estaciones1347,EF666,Guendulain,04
+catalogos_estaciones1348,EF667,Guelece,04
+catalogos_estaciones1349,EF668,Abasolo,04
+catalogos_estaciones1350,EF669,Guelavia,04
+catalogos_estaciones1351,EF670,Tlacolula,04
+catalogos_estaciones1352,EF671,Miahuatlan,04
+catalogos_estaciones1353,EF672,Carmen,04
+catalogos_estaciones1354,EF673,Cabras,04
+catalogos_estaciones1355,EF674,Llano Grande de Linares,04
+catalogos_estaciones1356,EF675,La Defensa,04
+catalogos_estaciones1357,EF676,Cañada,04
+catalogos_estaciones1358,EF677,San Antonio Soledad,04
+catalogos_estaciones1359,EF678,Garcias,04
+catalogos_estaciones1360,EF679,El Salado,04
+catalogos_estaciones1361,EF680,Amozoquillo,04
+catalogos_estaciones1362,EF681,Esperanza,04
+catalogos_estaciones1363,EF682,XOXO,04
+catalogos_estaciones1364,EF683,San Isidro,04
+catalogos_estaciones1365,EF684,Jalpan,04
+catalogos_estaciones1366,EF685,Zaachila,04
+catalogos_estaciones1367,EF686,Trinidad,04
+catalogos_estaciones1368,EF687,Cienega de los Caballos,04
+catalogos_estaciones1369,EF688,Zimatlan,04
+catalogos_estaciones1370,EF689,San Nicolás,04
+catalogos_estaciones1371,EF690,San Pablo,04
+catalogos_estaciones1372,EF691,Santa Inés Yatzechi,04
+catalogos_estaciones1373,EF692,Santiago,04
+catalogos_estaciones1374,EF693,Ocotlán,04
+catalogos_estaciones1375,EF694,Guebesche,04
+catalogos_estaciones1376,EF695,La Cima,04
+catalogos_estaciones1377,EF696,Taviche,04
+catalogos_estaciones1378,EF697,Las Puentes,04
+catalogos_estaciones1379,EF698,San Nicolás,04
+catalogos_estaciones1380,EF699,LaGrange,04
+catalogos_estaciones1381,EF700,Apodaca,04
+catalogos_estaciones1382,EF701,Palma,04
+catalogos_estaciones1383,EF702,Pesquería,04
+catalogos_estaciones1384,EF703,Francisco Villa Pesquería,04
+catalogos_estaciones1385,EF704,Lobos,04
+catalogos_estaciones1386,EF705,San Juan,04
+catalogos_estaciones1387,EF706,Milpa,04
+catalogos_estaciones1388,EF707,Ayancual,04
+catalogos_estaciones1389,EF708,AltaVista,04
+catalogos_estaciones1390,EF709,Ramones,04
+catalogos_estaciones1391,EF710,Loma,04
+catalogos_estaciones1392,EF711,Barretosa,04
+catalogos_estaciones1393,EF712,Herreras,04
+catalogos_estaciones1394,EF713,La Laja,04
+catalogos_estaciones1395,EF714,La Palmita,04
+catalogos_estaciones1396,EF715,Aldamas,04
+catalogos_estaciones1397,EF716,Doctos Coss,04
+catalogos_estaciones1398,EF717,Zacate,04
+catalogos_estaciones1399,EF718,Arroyo Lobo,04
+catalogos_estaciones1400,EF719,Ochoa,04
+catalogos_estaciones1401,EF720,Camargo,04
+catalogos_estaciones1402,EF721,Nuevo Cadillo,04
+catalogos_estaciones1403,EF722,Valadeces,04
+catalogos_estaciones1404,EF723,Los Villarreas,04
+catalogos_estaciones1405,EF724,Gustavo Díaz Ordaz,04
+catalogos_estaciones1406,EF725,Venecia,04
+catalogos_estaciones1407,EF726,Los Altos,04
+catalogos_estaciones1408,EF727,Anguelles,04
+catalogos_estaciones1409,EF728,Sinaí,04
+catalogos_estaciones1410,EF729,Anzalduas,04
+catalogos_estaciones1411,EF730,Barita,04
+catalogos_estaciones1412,EF731,Reynosa,04
+catalogos_estaciones1413,EF732,Reynosa,04
+catalogos_estaciones1414,EF733,Corrales,04
+catalogos_estaciones1415,EF734,Alacranes,04
+catalogos_estaciones1416,EF735,Rio Bravo,04
+catalogos_estaciones1417,EF736,Celulosa,04
+catalogos_estaciones1418,EF737,Tenacitas,04
+catalogos_estaciones1419,EF738,Charco Azul,04
+catalogos_estaciones1420,EF739,Canales,04
+catalogos_estaciones1421,EF740,Ebanito Nuevo,04
+catalogos_estaciones1422,EF741,Los Olmos,04
+catalogos_estaciones1423,EF742,Control,04
+catalogos_estaciones1424,EF743,Ramirez,04
+catalogos_estaciones1425,EF744,Capote,04
+catalogos_estaciones1426,EF745,Timones,04
+catalogos_estaciones1427,EF746,Sandoval,04
+catalogos_estaciones1428,EF747,La Gloria,04
+catalogos_estaciones1429,EF748,Rosita,04
+catalogos_estaciones1430,EF749,Matamoros,04
+catalogos_estaciones1431,EF750,Coatzacoalcos,04
+catalogos_estaciones1432,EF751,Ing. A. Lira Arciniega,04
+catalogos_estaciones1433,EF752,Cangrejera,04
+catalogos_estaciones1434,EF753,El Chapo,04
+catalogos_estaciones1435,EF754,Cuichapa,04
+catalogos_estaciones1436,EF755,Acalapa,04
+catalogos_estaciones1437,EF756,Pueblo Viejo,04
+catalogos_estaciones1438,EF757,Cárdenas,04
+catalogos_estaciones1439,EF758,Tancochapa,04
+catalogos_estaciones1440,EF759,Rueda,04
+catalogos_estaciones1441,EF760,El Guanal,04
+catalogos_estaciones1442,EF761,Héroe de Macozari,04
+catalogos_estaciones1443,EF762,Gaytán,04
+catalogos_estaciones1444,EF763,Mosquitero,04
+catalogos_estaciones1445,EF764,Zanapa,04
+catalogos_estaciones1446,EF765,Ing. Roberto Ayala,04
+catalogos_estaciones1447,EF766,Mezcalapa,04
+catalogos_estaciones1448,EF767,San Manuel,04
+catalogos_estaciones1449,EF768,El Porvenir,04
+catalogos_estaciones1450,EF769,La Crimea,04
+catalogos_estaciones1451,EF770,Camoapa,04
+catalogos_estaciones1452,EF771,Cardona,04
+catalogos_estaciones1453,EF772,Juárez,04
+catalogos_estaciones1454,EF773,Joaquín Gutiérrez,04
+catalogos_estaciones1455,EF774,Pichucalco,04
+catalogos_estaciones1456,EF775,Teapa,04
+catalogos_estaciones1457,EF776,Tacotalpa,04
+catalogos_estaciones1458,EF777,Poana,04
+catalogos_estaciones1459,EF778,Lomas Tristes,04
+catalogos_estaciones1460,EF779,Chango Santo,04
+catalogos_estaciones1461,EF780,González,04
+catalogos_estaciones1462,EF781,Macuspana,04
+catalogos_estaciones1463,EF782,Agua Blanca,04
+catalogos_estaciones1464,EF783,Pino Suarez,04
+catalogos_estaciones1465,EF784,El Zopo,04
+catalogos_estaciones1466,EF785,El Ceibo,04
+catalogos_estaciones1467,EF786,Salto de Agua,04
+catalogos_estaciones1468,EF787,Dos Arroyos,04
+catalogos_estaciones1469,EF788,La Gloria,04
+catalogos_estaciones1470,EF789,Los Llanos,04
+catalogos_estaciones1471,EF790,La Unión,04
+catalogos_estaciones1472,EF791,Palenque,04
+catalogos_estaciones1473,EF792,San Marcos,04
+catalogos_estaciones1474,EF793,Lacandón,04
+catalogos_estaciones1475,EF794,San Agustín,04
+catalogos_estaciones1476,EF795,Placa KM. FA-363,04
+catalogos_estaciones1477,EF796,Chacamax,04
+catalogos_estaciones1478,EF797,Zapata,04
+catalogos_estaciones1479,EF798,Boca del Cerro,04
+catalogos_estaciones1480,EF799,Tenosique,04
+catalogos_estaciones1481,EF800,Esperanza,04
+catalogos_estaciones1482,EF801,Mactun,04
+catalogos_estaciones1483,EF802,El Águila,04
+catalogos_estaciones1484,EF803,Barita,04
+catalogos_estaciones1485,EF804,El Pozo,04
+catalogos_estaciones1486,EF805,San Pedro,04
+catalogos_estaciones1487,EF806,El Triunfo,04
+catalogos_estaciones1488,EF807,La Micotea,04
+catalogos_estaciones1489,EF808,El Naranjo,04
+catalogos_estaciones1490,EF809,Paraíso,04
+catalogos_estaciones1491,EF810,Pajaral,04
+catalogos_estaciones1492,EF811,Candelaria,04
+catalogos_estaciones1493,EF812,Peje Lagarto,04
+catalogos_estaciones1494,EF813,Miguel Alemán,04
+catalogos_estaciones1495,EF814,Luna,04
+catalogos_estaciones1496,EF815,Don Samuel,04
+catalogos_estaciones1497,EF816,Hard,04
+catalogos_estaciones1498,EF817,División Norte,04
+catalogos_estaciones1499,EF818,Escarcega,04
+catalogos_estaciones1500,EF819,Colorado,04
+catalogos_estaciones1501,EF820,5 de Febrero,04
+catalogos_estaciones1502,EF821,Pixoyal,04
+catalogos_estaciones1503,EF822,Carrillo Puerto,04
+catalogos_estaciones1504,EF823,Pustunich,04
+catalogos_estaciones1505,EF824,San Dimas,04
+catalogos_estaciones1506,EF825,San Juan Carpizo,04
+catalogos_estaciones1507,EF826,Arellano,04
+catalogos_estaciones1508,EF827,Placa KM. FA-656,04
+catalogos_estaciones1509,EF828,Santa Cruz,04
+catalogos_estaciones1510,EF829,Hool,04
+catalogos_estaciones1511,EF830,Yixmucuy,04
+catalogos_estaciones1512,EF831,Uayamon,04
+catalogos_estaciones1513,EF832,Mucuychacan,04
+catalogos_estaciones1514,EF833,Placa KM. FA-712,04
+catalogos_estaciones1515,EF834,China,04
+catalogos_estaciones1516,EF835,Campeche,04
+catalogos_estaciones1517,EF836,Koben,04
+catalogos_estaciones1518,EF837,Hampoldi,04
+catalogos_estaciones1519,EF838,Managua,04
+catalogos_estaciones1520,EF839,Tenabo,04
+catalogos_estaciones1521,EF840,Pomuch,04
+catalogos_estaciones1522,EF841,Hecelchakan,04
+catalogos_estaciones1523,EF842,Pocboc,04
+catalogos_estaciones1524,EF843,Dzitbalche,04
+catalogos_estaciones1525,EF844,Calkini,04
+catalogos_estaciones1526,EF845,Tepakam,04
+catalogos_estaciones1527,EF846,Becal,04
+catalogos_estaciones1528,EF847,Halacho,04
+catalogos_estaciones1529,EF848,Maxcanu,04
+catalogos_estaciones1530,EF849,San Bernardo,04
+catalogos_estaciones1531,EF850,Kopoma,04
+catalogos_estaciones1532,EF851,Chochola,04
+catalogos_estaciones1533,EF852,Umán,04
+catalogos_estaciones1534,EF853,Ciudad Industrial,04
+catalogos_estaciones1535,EF854,Mérida,04
+catalogos_estaciones1536,EF855,Tixpeual,04
+catalogos_estaciones1537,EF856,Tixkokob,04
+catalogos_estaciones1538,EF857,Euan,04
+catalogos_estaciones1539,EF858,Cacalchen,04
+catalogos_estaciones1540,EF859,Bokoba,04
+catalogos_estaciones1541,EF860,Tekanto,04
+catalogos_estaciones1542,EF861,Izamal,04
+catalogos_estaciones1543,EF862,Sitilpech,04
+catalogos_estaciones1544,EF863,Ualactun,04
+catalogos_estaciones1545,EF864,Kankabchen,04
+catalogos_estaciones1546,EF865,Tunkas,04
+catalogos_estaciones1547,EF866,Cámara,04
+catalogos_estaciones1548,EF867,Quintana Roo,04
+catalogos_estaciones1549,EF868,Dzitas,04
+catalogos_estaciones1550,EF869,Santa Rosa,04
+catalogos_estaciones1551,EF870,Xuilub,04
+catalogos_estaciones1552,EF871,Espita,04
+catalogos_estaciones1553,EF872,Calothul,04
+catalogos_estaciones1554,EF873,Tizimin Nuevo,04
+catalogos_estaciones1555,EF874,Tizimin,04
+catalogos_estaciones1556,EF875,Chuburna,04
+catalogos_estaciones1557,EF876,Cordemex,04
+catalogos_estaciones1558,EF877,Xcanatun,04
+catalogos_estaciones1559,EF878,Yaxche,04
+catalogos_estaciones1560,EF879,San Ignacio,04
+catalogos_estaciones1561,EF880,Progreso,04
+catalogos_estaciones1562,EF881,Kanasin,04
+catalogos_estaciones1563,EF882,Acanceh,04
+catalogos_estaciones1564,EF883,Tecoh,04
+catalogos_estaciones1565,EF884,Lepan,04
+catalogos_estaciones1566,EF885,Xcanchakan,04
+catalogos_estaciones1567,EF886,Hunaschen,04
+catalogos_estaciones1568,EF887,Ticul,04
+catalogos_estaciones1569,EF888,Pustunich,04
+catalogos_estaciones1570,EF889,Yhotolin,04
+catalogos_estaciones1571,EF890,Oxkutzcab,04
+catalogos_estaciones1572,EF891,Akil,04
+catalogos_estaciones1573,EF892,Tekak,04
+catalogos_estaciones1574,EF893,Ticum,04
+catalogos_estaciones1575,EF894,Kaxaytuc,04
+catalogos_estaciones1576,EF895,Tzucacab,04
+catalogos_estaciones1577,EF896,Xoy,04
+catalogos_estaciones1578,EF897,Peto,04
+catalogos_estaciones1579,EF898,Seye,04
+catalogos_estaciones1580,EF899,Xucu,04
+catalogos_estaciones1581,EF900,Hocaba,04
+catalogos_estaciones1582,EF901,Sanahcat,04
+catalogos_estaciones1583,EF902,Huhi,04
+catalogos_estaciones1584,EF903,Xletra,04
+catalogos_estaciones1585,EF904,Sotuta,04
+catalogos_estaciones1586,EF905,Balatun,04
+catalogos_estaciones1587,EF906,Tinun,04
+catalogos_estaciones1588,EF907,Uayma,04
+catalogos_estaciones1589,EF908,Valladolid,04
+catalogos_estaciones1590,EF909,Córdoba,04
+catalogos_estaciones1591,EF910,San Miguelito,04
+catalogos_estaciones1592,EF911,Amatlan,04
+catalogos_estaciones1593,EF912,La Patrona,04
+catalogos_estaciones1594,EF913,Los Ángeles,04
+catalogos_estaciones1595,EF914,Cerro Blanco,04
+catalogos_estaciones1596,EF915,Cuichapa,04
+catalogos_estaciones1597,EF916,Xuchiles,04
+catalogos_estaciones1598,EF917,Omealca,04
+catalogos_estaciones1599,EF918,La Zafra,04
+catalogos_estaciones1600,EF919,Pocitos,04
+catalogos_estaciones1601,EF920,Presidio,04
+catalogos_estaciones1602,EF921,El Paraíso,04
+catalogos_estaciones1603,EF922,Motzorongo,04
+catalogos_estaciones1604,EF923,Tezonapa,04
+catalogos_estaciones1605,EF924,Refugio,04
+catalogos_estaciones1606,EF925,Rancho Tablas,04
+catalogos_estaciones1607,EF926,La Estrella,04
+catalogos_estaciones1608,EF927,Guadalupe de Reyes,04
+catalogos_estaciones1609,EF928,Acatlán,04
+catalogos_estaciones1610,EF929,Martinica,04
+catalogos_estaciones1611,EF930,La Margarita,04
+catalogos_estaciones1612,EF931,Vicente,04
+catalogos_estaciones1613,EF932,Camalote,04
+catalogos_estaciones1614,EF933,El Cañaveral,04
+catalogos_estaciones1615,EF934,Tétela,04
+catalogos_estaciones1616,EF935,Las Prietas,04
+catalogos_estaciones1617,EF936,Chicalon,04
+catalogos_estaciones1618,EF937,Tierra Blanca,04
+catalogos_estaciones1619,EF938,Tierra Blanca,04
+catalogos_estaciones1620,EF939,El Cien,04
+catalogos_estaciones1621,EF940,Amapá,04
+catalogos_estaciones1622,EF941,La Granja,04
+catalogos_estaciones1623,EF942,Las Yaguas,04
+catalogos_estaciones1624,EF943,Tres Valles,04
+catalogos_estaciones1625,EF944,Ciudad General Alemán,04
+catalogos_estaciones1626,EF945,Papaloapan,04
+catalogos_estaciones1627,EF946,Escape El Hule,04
+catalogos_estaciones1628,EF947,Las Piñas,04
+catalogos_estaciones1629,EF948,Benemérito Juárez,04
+catalogos_estaciones1630,EF949,Guadavictor,04
+catalogos_estaciones1631,EF950,Obispo,04
+catalogos_estaciones1632,EF951,Loma Bonita,04
+catalogos_estaciones1633,EF952,Arroyo Claro,04
+catalogos_estaciones1634,EF953,Dobladero,04
+catalogos_estaciones1635,EF954,Azueta,04
+catalogos_estaciones1636,EF955,Masoco,04
+catalogos_estaciones1637,EF956,Garza Blanca,04
+catalogos_estaciones1638,EF957,Isla,04
+catalogos_estaciones1639,EF958,Rodriguez Clara,04
+catalogos_estaciones1640,EF959,Jimba,04
+catalogos_estaciones1641,EF960,Los Tigres,04
+catalogos_estaciones1642,EF961,Angostura,04
+catalogos_estaciones1643,EF962,La Ceiba,04
+catalogos_estaciones1644,EF963,Juanita,04
+catalogos_estaciones1645,EF964,Bellaco,04
+catalogos_estaciones1646,EF965,Achotal,04
+catalogos_estaciones1647,EF966,Campo Nuevo,04
+catalogos_estaciones1648,EF967,Espartal,04
+catalogos_estaciones1649,EF968,El Tejar,04
+catalogos_estaciones1650,EF969,Paso del Toro,04
+catalogos_estaciones1651,EF970,Los Robles,04
+catalogos_estaciones1652,EF971,Guayabo,04
+catalogos_estaciones1653,EF972,El Rodeo,04
+catalogos_estaciones1654,EF973,Tlalixcoyan,04
+catalogos_estaciones1655,EF974,Piedras Negras,04
+catalogos_estaciones1656,EF975,Madereros,04
+catalogos_estaciones1657,EF976,Cospalapam,04
+catalogos_estaciones1658,EF977,Otapa,04
+catalogos_estaciones1659,EF978,Joachin,04
+catalogos_estaciones1660,EF979,Moreno Norte,04
+catalogos_estaciones1661,EF980,Moreno Sur,04
+catalogos_estaciones1662,EF981,Jícaro,04
+catalogos_estaciones1663,EF982,Estanzuela,04
+catalogos_estaciones1664,EF983,Fulgencio D. Vázquez,04
+catalogos_estaciones1665,EF984,Carolina,04
+catalogos_estaciones1666,EF985,Coyol,04
+catalogos_estaciones1667,EF986,Nopaltepec,04
+catalogos_estaciones1668,EF987,Alfredo,04
+catalogos_estaciones1669,EF988,El Roble,04
+catalogos_estaciones1670,EF989,Cocuite,04
+catalogos_estaciones1671,EF990,Nuevo Cocuite,04
+catalogos_estaciones1672,EF991,Chacal Tianguis,04
+catalogos_estaciones1673,EF992,Casomaldapan,04
+catalogos_estaciones1674,EF993,San Gabriel,04
+catalogos_estaciones1675,EF994,San Cristóbal,04
+catalogos_estaciones1676,EF995,Banano,04
+catalogos_estaciones1677,EF996,Toro Bravo,04
+catalogos_estaciones1678,EF997,Bela,04
+catalogos_estaciones1679,EF998,Bartolome,04
+catalogos_estaciones1680,EF999,Silverio,04
+catalogos_estaciones1681,EF1000,Tuxtepec,04
+catalogos_estaciones1682,EF1001,Adolfo Lopez Mateos,04
+catalogos_estaciones1683,EF1002,Presidente Juárez,04
+catalogos_estaciones1684,EF1003,Cartagena,04
+catalogos_estaciones1685,EF1004,Tultepec,04
+catalogos_estaciones1686,EF1005,Cajiba,04
+catalogos_estaciones1687,EF1006,Jaltocan,04
+catalogos_estaciones1688,EF1007,Xolox,04
+catalogos_estaciones1689,EF1008,Paula,04
+catalogos_estaciones1690,EF1009,Maquixco,04
+catalogos_estaciones1691,EF1010,Temascalapa,04
+catalogos_estaciones1692,EF1011,Empalme El Rey,04
+catalogos_estaciones1693,EF1012,Ocotitlan,04
+catalogos_estaciones1694,EF1013,Tezontepec,04
+catalogos_estaciones1695,EF1014,Relinas,04
+catalogos_estaciones1696,EF1015,San Agustín,04
+catalogos_estaciones1697,EF1016,Tepa,04
+catalogos_estaciones1698,EF1017,San Antonio Oztoyuca,04
+catalogos_estaciones1699,EF1018,Pueblilla,04
+catalogos_estaciones1700,EF1019,Tecajete,04
+catalogos_estaciones1701,EF1020,Animas,04
+catalogos_estaciones1702,EF1021,San Vicente,04
+catalogos_estaciones1703,EF1022,Somorriel,04
+catalogos_estaciones1704,EF1023,San Joaquín,04
+catalogos_estaciones1705,EF1024,Las Lajas,04
+catalogos_estaciones1706,EF1025,Los Romeros,04
+catalogos_estaciones1707,EF1026,Otlimulco,04
+catalogos_estaciones1708,EF1027,Fabrica,04
+catalogos_estaciones1709,EF1028,Santiago,04
+catalogos_estaciones1710,EF1029,Tulancingo,04
+catalogos_estaciones1711,EF1030,Huapalcalco,04
+catalogos_estaciones1712,EF1031,Sototlan,04
+catalogos_estaciones1713,EF1032,Laguna del Cerrito,04
+catalogos_estaciones1714,EF1033,Anita,04
+catalogos_estaciones1715,EF1034,Pánfilo,04
+catalogos_estaciones1716,EF1035,Canales,04
+catalogos_estaciones1717,EF1036,Tonalixco,04
+catalogos_estaciones1718,EF1037,Pejay,04
+catalogos_estaciones1719,EF1038,Amapolas,04
+catalogos_estaciones1720,EF1039,Honey,04
+catalogos_estaciones1721,EF1040,19 de Marzo,04
+catalogos_estaciones1722,EF1041,Téllez,04
+catalogos_estaciones1723,EF1042,Venta de Cruz,04
+catalogos_estaciones1724,EF1043,Santa Inés,04
+catalogos_estaciones1725,EF1044,Tlanalapa,04
+catalogos_estaciones1726,EF1045,Ciudad Sahagún,04
+catalogos_estaciones1727,EF1046,Irolo,04
+catalogos_estaciones1728,EF1047,La Trinidad,04
+catalogos_estaciones1729,EF1048,Xochihuacan,04
+catalogos_estaciones1730,EF1049,La Soledad,04
+catalogos_estaciones1731,EF1050,Las Colonias,04
+catalogos_estaciones1732,EF1051,Cadena,04
+catalogos_estaciones1733,EF1052,Pachuca,04
+catalogos_estaciones1734,EF1053,Ventoquipa,04
+catalogos_estaciones1735,EF1054,Cuautepec,04
+catalogos_estaciones1736,EF1055,Hueyapan,04
+catalogos_estaciones1737,EF1056,Xocopa,04
+catalogos_estaciones1738,EF1057,Cima de Togo,04
+catalogos_estaciones1739,EF1058,Ahuazotepec,04
+catalogos_estaciones1740,EF1059,Beristaín,04
+catalogos_estaciones1741,EF1060,Sototlan,04
+catalogos_estaciones1742,EF1061,Santa Rosa,04
+catalogos_estaciones1743,EF1062,Acocul,04
+catalogos_estaciones1744,EF1063,Tortugas,04
+catalogos_estaciones1745,EF1064,Apulco,04
+catalogos_estaciones1746,EF1065,Covarrubias,04
+catalogos_estaciones1747,EF1066,Rivera,04
+catalogos_estaciones1748,EF1067,Joaquín,04
+catalogos_estaciones1749,EF1068,Abasolo,04
+catalogos_estaciones1750,EF1069,Corralejo,04
+catalogos_estaciones1751,EF1070,Pénjamo,04
+catalogos_estaciones1752,EF1071,Oliva,04
+catalogos_estaciones1753,EF1072,La Maraña,04
+catalogos_estaciones1754,EF1073,Cortes,04
+catalogos_estaciones1755,EF1074,La Piedad,04
+catalogos_estaciones1756,EF1075,La Mula,04
+catalogos_estaciones1757,EF1076,Patti,04
+catalogos_estaciones1758,EF1077,Mirandillas,04
+catalogos_estaciones1759,EF1078,Monte león,04
+catalogos_estaciones1760,EF1079,Yurecuaro,04
+catalogos_estaciones1761,EF1080,Villanueva,04
+catalogos_estaciones1762,EF1081,Los Pilares,04
+catalogos_estaciones1763,EF1082,El Alvareso,04
+catalogos_estaciones1764,EF1083,Negrete,04
+catalogos_estaciones1765,EF1084,Salamea,04
+catalogos_estaciones1766,EF1085,La Barca,04
+catalogos_estaciones1767,EF1086,Feliciano,04
+catalogos_estaciones1768,EF1087,Limón,04
+catalogos_estaciones1769,EF1088,Santa Inesia,04
+catalogos_estaciones1770,EF1089,El Pedregal,04
+catalogos_estaciones1771,EF1090,Ocotlán,04
+catalogos_estaciones1772,EF1091,Camcel,04
+catalogos_estaciones1773,EF1092,El Grande,04
+catalogos_estaciones1774,EF1093,Pocitlan,04
+catalogos_estaciones1775,EF1094,Constancia,04
+catalogos_estaciones1776,EF1095,San Jacinto,04
+catalogos_estaciones1777,EF1096,Corona,04
+catalogos_estaciones1778,EF1097,Atequiza,04
+catalogos_estaciones1779,EF1098,La Capilla,04
+catalogos_estaciones1780,EF1099,El Castillo,04
+catalogos_estaciones1781,EF1100,Ladrillera,04
+catalogos_estaciones1782,EF1101,La Junta,04
+catalogos_estaciones1783,EF1102,Guadalajara,04
+catalogos_estaciones1784,EF1103,Guadalajara,04
+catalogos_estaciones1785,EF1104,Mojonera,04
+catalogos_estaciones1786,EF1105,Incalpa,04
+catalogos_estaciones1787,EF1106,Orozco,04
+catalogos_estaciones1788,EF1107,Lomas de Tejeda,04
+catalogos_estaciones1789,EF1108,Tlajomulco,04
+catalogos_estaciones1790,EF1109,Flores,04
+catalogos_estaciones1791,EF1110,Tepetates,04
+catalogos_estaciones1792,EF1111,Cruz Vieja,04
+catalogos_estaciones1793,EF1112,Mazatepec,04
+catalogos_estaciones1794,EF1113,Los Baños,04
+catalogos_estaciones1795,EF1114,Valencia,04
+catalogos_estaciones1796,EF1115,Balastre,04
+catalogos_estaciones1797,EF1116,Mascota,04
+catalogos_estaciones1798,EF1117,Santa Ana,04
+catalogos_estaciones1799,EF1118,Catarina,04
+catalogos_estaciones1800,EF1119,Zacoalco,04
+catalogos_estaciones1801,EF1120,Verdia,04
+catalogos_estaciones1802,EF1121,San Miguel del Zapote,04
+catalogos_estaciones1803,EF1122,Techaluta,04
+catalogos_estaciones1804,EF1123,Atoyac,04
+catalogos_estaciones1805,EF1124,Carmelita,04
+catalogos_estaciones1806,EF1125,Sayula,04
+catalogos_estaciones1807,EF1126,Nicolás Bravo,04
+catalogos_estaciones1808,EF1127,Manzano,04
+catalogos_estaciones1809,EF1128,Providencia,04
+catalogos_estaciones1810,EF1129,Ciudad Guzman,04
+catalogos_estaciones1811,EF1130,Ciudad Guzman,04
+catalogos_estaciones1812,EF1131,Huescalapa,04
+catalogos_estaciones1813,EF1132,Zapotiltic,04
+catalogos_estaciones1814,EF1133,Tuxpan,04
+catalogos_estaciones1815,EF1134,Quito,04
+catalogos_estaciones1816,EF1135,Atenquique,04
+catalogos_estaciones1817,EF1136,Platanar,04
+catalogos_estaciones1818,EF1137,Platanarillo,04
+catalogos_estaciones1819,EF1138,Higuera,04
+catalogos_estaciones1820,EF1139,Villegas,04
+catalogos_estaciones1821,EF1140,Tonilita,04
+catalogos_estaciones1822,EF1141,Fernández,04
+catalogos_estaciones1823,EF1142,Alzada,04
+catalogos_estaciones1824,EF1143,Salvador,04
+catalogos_estaciones1825,EF1144,Estancia,04
+catalogos_estaciones1826,EF1145,Colima,04
+catalogos_estaciones1827,EF1146,Balcón,04
+catalogos_estaciones1828,EF1147,Conquinatlan Pueblo,04
+catalogos_estaciones1829,EF1148,Conquinatlan,04
+catalogos_estaciones1830,EF1149,Jala,04
+catalogos_estaciones1831,EF1150,Madrid,04
+catalogos_estaciones1832,EF1151,El Rosario,04
+catalogos_estaciones1833,EF1152,Caleras,04
+catalogos_estaciones1834,EF1153,Tecomán,04
+catalogos_estaciones1835,EF1154,La Bascula,04
+catalogos_estaciones1836,EF1155,Periquillo,04
+catalogos_estaciones1837,EF1156,Armería,04
+catalogos_estaciones1838,EF1157,Cuyutlan,04
+catalogos_estaciones1839,EF1158,Tepalcates,04
+catalogos_estaciones1840,EF1159,Campos,04
+catalogos_estaciones1841,EF1160,Manzanillo,04
+catalogos_estaciones1842,EF1161,Dionisia,04
+catalogos_estaciones1843,EF1162,Verduzco,04
+catalogos_estaciones1844,EF1163,Cieneguitas,04
+catalogos_estaciones1845,EF1164,Las Fuentes,04
+catalogos_estaciones1846,EF1165,Falconi,04
+catalogos_estaciones1847,EF1166,Torcazas,04
+catalogos_estaciones1848,EF1167,Lopez,04
+catalogos_estaciones1849,EF1168,Zamora,04
+catalogos_estaciones1850,EF1169,Ario,04
+catalogos_estaciones1851,EF1170,Dávalos,04
+catalogos_estaciones1852,EF1171,Chavinda,04
+catalogos_estaciones1853,EF1172,Moreno,04
+catalogos_estaciones1854,EF1173,El Guayabo,04
+catalogos_estaciones1855,EF1174,Guaracha,04
+catalogos_estaciones1856,EF1175,La Soledad,04
+catalogos_estaciones1857,EF1176,Cotija,04
+catalogos_estaciones1858,EF1177,Angel,04
+catalogos_estaciones1859,EF1178,Barrio Alto,04
+catalogos_estaciones1860,EF1179,Yarecuato,04
+catalogos_estaciones1861,EF1180,Guascaro,04
+catalogos_estaciones1862,EF1181,Mercado,04
+catalogos_estaciones1863,EF1182,Chucandiran,04
+catalogos_estaciones1864,EF1183,Tinguindin,04
+catalogos_estaciones1865,EF1184,Plaka KM. IB-125,04
+catalogos_estaciones1866,EF1185,Santa Clara,04
+catalogos_estaciones1867,EF1186,Salitre,04
+catalogos_estaciones1868,EF1187,Los Reyes,04
+catalogos_estaciones1869,EF1188,Zula,04
+catalogos_estaciones1870,EF1189,La Labor Vieja,04
+catalogos_estaciones1871,EF1190,Margaro,04
+catalogos_estaciones1872,EF1191,Rancho Viejo,04
+catalogos_estaciones1873,EF1192,Alcalde,04
+catalogos_estaciones1874,EF1193,El Zorrillo,04
+catalogos_estaciones1875,EF1194,Gaspar,04
+catalogos_estaciones1876,EF1195,La Esperanza,04
+catalogos_estaciones1877,EF1196,Navarro,04
+catalogos_estaciones1878,EF1197,Atotonilco,04
+catalogos_estaciones1879,EF1198,Barajas,04
+catalogos_estaciones1880,EF1199,Atarjea,04
+catalogos_estaciones1881,EF1200,La Calle,04
+catalogos_estaciones1882,EF1201,Tres Mezquites,04
+catalogos_estaciones1883,EF1202,Los Ángeles,04
+catalogos_estaciones1884,EF1203,Villachuato,04
+catalogos_estaciones1885,EF1204,Tunillas,04
+catalogos_estaciones1886,EF1205,El Sabino,04
+catalogos_estaciones1887,EF1206,Curimeo,04
+catalogos_estaciones1888,EF1207,Magdacuaro,04
+catalogos_estaciones1889,EF1208,Panindicuaro,04
+catalogos_estaciones1890,EF1209,San Elias,04
+catalogos_estaciones1891,EF1210,Zipimeo,04
+catalogos_estaciones1892,EF1211,Villa Jimenez,04
+catalogos_estaciones1893,EF1212,Tariacuri,04
+catalogos_estaciones1894,EF1213,Jauja,04
+catalogos_estaciones1895,EF1214,Viscosa,04
+catalogos_estaciones1896,EF1215,Zacapu,04
+catalogos_estaciones1897,EF1216,Ortega,04
+catalogos_estaciones1898,EF1217,El Cortijo,04
+catalogos_estaciones1899,EF1218,Comanja,04
+catalogos_estaciones1900,EF1219,Escobillas,04
+catalogos_estaciones1901,EF1220,Zirondaro,04
+catalogos_estaciones1902,EF1221,Oponquio,04
+catalogos_estaciones1903,EF1222,Puacuaro,04
+catalogos_estaciones1904,EF1223,Erongaricuaro,04
+catalogos_estaciones1905,EF1224,Lomitas,04
+catalogos_estaciones1906,EF1225,San Julián,04
+catalogos_estaciones1907,EF1226,Aguanaval,04
+catalogos_estaciones1908,EF1227,Espuela Arenera,04
+catalogos_estaciones1909,EF1228,El Fresno,04
+catalogos_estaciones1910,EF1229,Gilita,04
+catalogos_estaciones1911,EF1230,La Fe,04
+catalogos_estaciones1912,EF1231,Claudio,04
+catalogos_estaciones1913,EF1232,Ojo de Agua,04
+catalogos_estaciones1914,EF1233,Hornos,04
+catalogos_estaciones1915,EF1234,Viesca,04
+catalogos_estaciones1916,EF1235,Ixtaltepec,04
+catalogos_estaciones1917,EF1236,La Planta,04
+catalogos_estaciones1918,EF1237,Juchitán,04
+catalogos_estaciones1919,EF1238,General Charis,04
+catalogos_estaciones1920,EF1239,Salineras,04
+catalogos_estaciones1921,EF1240,Unión Hidalgo,04
+catalogos_estaciones1922,EF1241,Yolanda,04
+catalogos_estaciones1923,EF1242,San Dionicio,04
+catalogos_estaciones1924,EF1243,La Riqueza,04
+catalogos_estaciones1925,EF1244,Sidar,04
+catalogos_estaciones1926,EF1245,Las Palmas,04
+catalogos_estaciones1927,EF1246,Reforma,04
+catalogos_estaciones1928,EF1247,Cabestrada,04
+catalogos_estaciones1929,EF1248,Las Anonas,04
+catalogos_estaciones1930,EF1249,Chahuites,04
+catalogos_estaciones1931,EF1250,Elías Castro Ortega,04
+catalogos_estaciones1932,EF1251,San Ramón,04
+catalogos_estaciones1933,EF1252,Aurora,04
+catalogos_estaciones1934,EF1253,Arriaga,04
+catalogos_estaciones1935,EF1254,San Antolín,04
+catalogos_estaciones1936,EF1255,Tonalá,04
+catalogos_estaciones1937,EF1256,Esmeralda,04
+catalogos_estaciones1938,EF1257,La Polka,04
+catalogos_estaciones1939,EF1258,Cabaña,04
+catalogos_estaciones1940,EF1259,Amates,04
+catalogos_estaciones1941,EF1260,Mojarras,04
+catalogos_estaciones1942,EF1261,Andrés,04
+catalogos_estaciones1943,EF1262,Tres Picos,04
+catalogos_estaciones1944,EF1263,Indalecio,04
+catalogos_estaciones1945,EF1264,Ricardo Flores Magón,04
+catalogos_estaciones1946,EF1265,Los Patos,04
+catalogos_estaciones1947,EF1266,Joaquín Amaron,04
+catalogos_estaciones1948,EF1267,San Isidro,04
+catalogos_estaciones1949,EF1268,Colonia Central,04
+catalogos_estaciones1950,EF1269,Nancinapa,04
+catalogos_estaciones1951,EF1270,Urbina,04
+catalogos_estaciones1952,EF1271,Pijijiapan,04
+catalogos_estaciones1953,EF1272,Echegaray,04
+catalogos_estaciones1954,EF1273,El Progreso,04
+catalogos_estaciones1955,EF1274,El Carmen,04
+catalogos_estaciones1956,EF1275,Margaritas,04
+catalogos_estaciones1957,EF1276,Polmorada,04
+catalogos_estaciones1958,EF1277,Jericó,04
+catalogos_estaciones1959,EF1278,Leon Brindis,04
+catalogos_estaciones1960,EF1279,Valdivia,04
+catalogos_estaciones1961,EF1280,Mapastepec,04
+catalogos_estaciones1962,EF1281,Barrancón,04
+catalogos_estaciones1963,EF1282,La Playa,04
+catalogos_estaciones1964,EF1283,Sesecapa,04
+catalogos_estaciones1965,EF1284,Ulapa,04
+catalogos_estaciones1966,EF1285,El Pataste,04
+catalogos_estaciones1967,EF1286,La Bonanza,04
+catalogos_estaciones1968,EF1287,Socomusco,04
+catalogos_estaciones1969,EF1288,Acapetahua,04
+catalogos_estaciones1970,EF1289,Zorrillo,04
+catalogos_estaciones1971,EF1290,La Acacia,04
+catalogos_estaciones1972,EF1291,Zacualpan,04
+catalogos_estaciones1973,EF1292,Villa de Comaltitlan,04
+catalogos_estaciones1974,EF1293,Despoblado,04
+catalogos_estaciones1975,EF1294,Saltillo,04
+catalogos_estaciones1976,EF1295,Montecristo,04
+catalogos_estaciones1977,EF1296,Huixtla,04
+catalogos_estaciones1978,EF1297,Tuzantan,04
+catalogos_estaciones1979,EF1298,Islamapa,04
+catalogos_estaciones1980,EF1299,Chamulapa,04
+catalogos_estaciones1981,EF1300,Cuyamiapa,04
+catalogos_estaciones1982,EF1301,Huehuetan,04
+catalogos_estaciones1983,EF1302,22 de Mayo,04
+catalogos_estaciones1984,EF1303,Tapachula,04
+catalogos_estaciones1985,EF1304,Los Toros,04
+catalogos_estaciones1986,EF1305,Congregación Reforma,04
+catalogos_estaciones1987,EF1306,El Manzano,04
+catalogos_estaciones1988,EF1307,La Soledad,04
+catalogos_estaciones1989,EF1308,Cahuacan,04
+catalogos_estaciones1990,EF1309,Ejido 20 de Noviembre,04
+catalogos_estaciones1991,EF1310,Tres Hermanos,04
+catalogos_estaciones1992,EF1311,El Silencio,04
+catalogos_estaciones1993,EF1312,La Gloria,04
+catalogos_estaciones1994,EF1313,El Dorado,04
+catalogos_estaciones1995,EF1314,Los Fideles,04
+catalogos_estaciones1996,EF1315,EL Campito,04
+catalogos_estaciones1997,EF1316,La Platanera,04
+catalogos_estaciones1998,EF1317,Ciudad Hidalgo,04
+catalogos_estaciones1999,EF1318,Puerto Madero,04
+catalogos_estaciones2000,EF1319,Canadá,04
+catalogos_estaciones2001,EF1320,Jaltomate,04
+catalogos_estaciones2002,EF1321,Amapola del Rio,04
+catalogos_estaciones2003,EF1322,Gallardo,04
+catalogos_estaciones2004,EF1323,El Tule,04
+catalogos_estaciones2005,EF1324,Villa Juárez,04
+catalogos_estaciones2006,EF1325,San Juan del Rio,04
+catalogos_estaciones2007,EF1326,San Gil,04
+catalogos_estaciones2008,EF1327,Bimbaletes,04
+catalogos_estaciones2009,EF1328,Loreto,04
+catalogos_estaciones2010,EF1329,Genaro,04
+catalogos_estaciones2011,EF1330,Tauro,04
+catalogos_estaciones2012,EF1331,La Honda,04
+catalogos_estaciones2013,EF1332,La Olma,04
+catalogos_estaciones2014,EF1333,Perón Blanco,04
+catalogos_estaciones2015,EF1334,Salinas,04
+catalogos_estaciones2016,EF1335,Sotol,04
+catalogos_estaciones2017,EF1336,El Jaibito,04
+catalogos_estaciones2018,EF1337,Espíritu Santo,04
+catalogos_estaciones2019,EF1338,Tolosa,04
+catalogos_estaciones2020,EF1339,Ipiña,04
+catalogos_estaciones2021,EF1340,Arenal,04
+catalogos_estaciones2022,EF1341,El Viejo,04
+catalogos_estaciones2023,EF1342,El Corte,04
+catalogos_estaciones2024,EF1343,Julián Carrillo,04
+catalogos_estaciones2025,EF1344,Palmar Primero,04
+catalogos_estaciones2026,EF1345,Ojo Zarco,04
+catalogos_estaciones2027,EF1346,Estanzuela,04
+catalogos_estaciones2028,EF1347,Alonso,04
+catalogos_estaciones2029,EF1348,Techa,04
+catalogos_estaciones2030,EF1349,Ventura,04
+catalogos_estaciones2031,EF1350,Corcovada,04
+catalogos_estaciones2032,EF1351,Pozo,04
+catalogos_estaciones2033,EF1352,Los Venaditos,04
+catalogos_estaciones2034,EF1353,Peotillos,04
+catalogos_estaciones2035,EF1354,San Ignacio,04
+catalogos_estaciones2036,EF1355,Silos,04
+catalogos_estaciones2037,EF1356,Villar,04
+catalogos_estaciones2038,EF1357,La Joya,04
+catalogos_estaciones2039,EF1358,Montaña,04
+catalogos_estaciones2040,EF1359,Cerritos,04
+catalogos_estaciones2041,EF1360,El Gato,04
+catalogos_estaciones2042,EF1361,La Borreguita,04
+catalogos_estaciones2043,EF1362,El Tejocote,04
+catalogos_estaciones2044,EF1363,San Bartolo,04
+catalogos_estaciones2045,EF1364,EL Viejo,04
+catalogos_estaciones2046,EF1365,Las Tablas,04
+catalogos_estaciones2047,EF1366,Los Anteojos,04
+catalogos_estaciones2048,EF1367,El Divisadero,04
+catalogos_estaciones2049,EF1368,El Duro,04
+catalogos_estaciones2050,EF1369,La Cinta,04
+catalogos_estaciones2051,EF1370,Cárdenas,04
+catalogos_estaciones2052,EF1371,La Presa,04
+catalogos_estaciones2053,EF1372,La Bomba,04
+catalogos_estaciones2054,EF1373,Escontria,04
+catalogos_estaciones2055,EF1374,La Labor,04
+catalogos_estaciones2056,EF1375,Las Candas,04
+catalogos_estaciones2057,EF1376,Espinazo de Diablo,04
+catalogos_estaciones2058,EF1377,Venastequi,04
+catalogos_estaciones2059,EF1378,El Balcón,04
+catalogos_estaciones2060,EF1379,Zacate,04
+catalogos_estaciones2061,EF1380,Cafetal,04
+catalogos_estaciones2062,EF1381,Tamasopo,04
+catalogos_estaciones2063,EF1382,La Changa,04
+catalogos_estaciones2064,EF1383,Abacatan,04
+catalogos_estaciones2065,EF1384,Tambaca,04
+catalogos_estaciones2066,EF1385,Rascón,04
+catalogos_estaciones2067,EF1386,San Dieguito,04
+catalogos_estaciones2068,EF1387,Las Crucitas,04
+catalogos_estaciones2069,EF1388,Quinientos,04
+catalogos_estaciones2070,EF1389,Micos,04
+catalogos_estaciones2071,EF1390,Pago Pago,04
+catalogos_estaciones2072,EF1391,San Mateo,04
+catalogos_estaciones2073,EF1392,Valles,04
+catalogos_estaciones2074,EF1393,El Abra,04
+catalogos_estaciones2075,EF1394,Tanimul,04
+catalogos_estaciones2076,EF1395,Las Palmas,04
+catalogos_estaciones2077,EF1396,Tamuin,04
+catalogos_estaciones2078,EF1397,El Coco,04
+catalogos_estaciones2079,EF1398,Celis,04
+catalogos_estaciones2080,EF1399,Velasco,04
+catalogos_estaciones2081,EF1400,Auza,04
+catalogos_estaciones2082,EF1401,Ébano,04
+catalogos_estaciones2083,EF1402,Ferronales,04
+catalogos_estaciones2084,EF1403,Chi Jol,04
+catalogos_estaciones2085,EF1404,Méndez,04
+catalogos_estaciones2086,EF1405,Lázaro Cárdenas,04
+catalogos_estaciones2087,EF1406,Chila,04
+catalogos_estaciones2088,EF1407,El Claron,04
+catalogos_estaciones2089,EF1408,Ochoa,04
+catalogos_estaciones2090,EF1409,Ferroautlan,04
+catalogos_estaciones2091,EF1410,Tamos,04
+catalogos_estaciones2092,EF1411,Tampico,04
+catalogos_estaciones2093,EF1412,Árbol Grande,04
+catalogos_estaciones2094,EF1413,Dora Cecilia,04
+catalogos_estaciones2095,EF1414,La Angostura,04
+catalogos_estaciones2096,EF1415,Pastora,04
+catalogos_estaciones2097,EF1416,Cirio,04
+catalogos_estaciones2098,EF1417,Zuciga,04
+catalogos_estaciones2099,EF1418,Naranjal,04
+catalogos_estaciones2100,EF1419,Rio verde,04
+catalogos_estaciones2101,EF1420,Ciudad Madero,04
+catalogos_estaciones2102,EF1421,Germinal,04
+catalogos_estaciones2103,EF1422,Miramar,04
+catalogos_estaciones2104,EF1423,Altamira,04
+catalogos_estaciones2105,EF1424,Colonia,04
+catalogos_estaciones2106,EF1425,Cervantes,04
+catalogos_estaciones2107,EF1426,San Carlitos,04
+catalogos_estaciones2108,EF1427,El Esfuerzo,04
+catalogos_estaciones2109,EF1428,Los Enteros,04
+catalogos_estaciones2110,EF1429,Cuauhtémoc,04
+catalogos_estaciones2111,EF1430,Los Plátanos,04
+catalogos_estaciones2112,EF1431,Chocoy,04
+catalogos_estaciones2113,EF1432,Manuel,04
+catalogos_estaciones2114,EF1433,González,04
+catalogos_estaciones2115,EF1434,El Bernal,04
+catalogos_estaciones2116,EF1435,Rosillo,04
+catalogos_estaciones2117,EF1436,Pretil,04
+catalogos_estaciones2118,EF1437,Calles,04
+catalogos_estaciones2119,EF1438,Escandón,04
+catalogos_estaciones2120,EF1439,Ignacio Zaragoza,04
+catalogos_estaciones2121,EF1440,Forlón,04
+catalogos_estaciones2122,EF1441,San Francisco,04
+catalogos_estaciones2123,EF1442,Lavín,04
+catalogos_estaciones2124,EF1443,Zorrilla,04
+catalogos_estaciones2125,EF1444,Rosa,04
+catalogos_estaciones2126,EF1445,Ciudad Victoria,04
+catalogos_estaciones2127,EF1446,La Misión,04
+catalogos_estaciones2128,EF1447,Caballeros,04
+catalogos_estaciones2129,EF1448,Cerámica,04
+catalogos_estaciones2130,EF1449,Carbonero,04
+catalogos_estaciones2131,EF1450,Otilio Montaño,04
+catalogos_estaciones2132,EF1451,Martinez,04
+catalogos_estaciones2133,EF1452,Santa Enoracia,04
+catalogos_estaciones2134,EF1453,Adeleida,04
+catalogos_estaciones2135,EF1454,Cruz,04
+catalogos_estaciones2136,EF1455,Tinajas,04
+catalogos_estaciones2137,EF1456,Puerto del Aire,04
+catalogos_estaciones2138,EF1457,Carrizos,04
+catalogos_estaciones2139,EF1458,Grande,04
+catalogos_estaciones2140,EF1459,Campoamor,04
+catalogos_estaciones2141,EF1460,Garza Valdez,04
+catalogos_estaciones2142,EF1461,Cima,04
+catalogos_estaciones2143,EF1462,Benítez,04
+catalogos_estaciones2144,EF1463,Maguiras,04
+catalogos_estaciones2145,EF1464,Linares,04
+catalogos_estaciones2146,EF1465,Alta,04
+catalogos_estaciones2147,EF1466,Huertas,04
+catalogos_estaciones2148,EF1467,Paras,04
+catalogos_estaciones2149,EF1468,Montemorelos,04
+catalogos_estaciones2150,EF1469,Terán,04
+catalogos_estaciones2151,EF1470,Vaqueros,04
+catalogos_estaciones2152,EF1471,Emilio Carranza,04
+catalogos_estaciones2153,EF1472,Caña,04
+catalogos_estaciones2154,EF1473,San Juan,04
+catalogos_estaciones2155,EF1474,Pedro C. Morales,04
+catalogos_estaciones2156,EF1475,Cadereyta,04
+catalogos_estaciones2157,EF1476,Bellavista,04
+catalogos_estaciones2158,EF1477,Cerrito la Silla,04
+catalogos_estaciones2159,EF1478,San Miguel,04
+catalogos_estaciones2160,EF1479,Lindavista,04
+catalogos_estaciones2161,EF1480,Monterrey,04
+catalogos_estaciones2162,EF1481,General Escobedo,04
+catalogos_estaciones2163,EF1482,Chimpinque,04
+catalogos_estaciones2164,EF1483,Abasolito,04
+catalogos_estaciones2165,EF1484,Hidalgo,04
+catalogos_estaciones2166,EF1485,Villa Mina,04
+catalogos_estaciones2167,EF1486,Arista,04
+catalogos_estaciones2168,EF1487,Ixtle,04
+catalogos_estaciones2169,EF1488,El Milagro,04
+catalogos_estaciones2170,EF1489,Ramos,04
+catalogos_estaciones2171,EF1490,Paredón,04
+catalogos_estaciones2172,EF1491,Amargos,04
+catalogos_estaciones2173,EF1492,Las Moras,04
+catalogos_estaciones2174,EF1493,Fraustro,04
+catalogos_estaciones2175,EF1494,Placa KM. M-636,04
+catalogos_estaciones2176,EF1495,Josefa,04
+catalogos_estaciones2177,EF1496,Sauceda,04
+catalogos_estaciones2178,EF1497,Mimo,04
+catalogos_estaciones2179,EF1498,Hipólito,04
+catalogos_estaciones2180,EF1499,Letona,04
+catalogos_estaciones2181,EF1500,Brisa,04
+catalogos_estaciones2182,EF1501,Marte,04
+catalogos_estaciones2183,EF1502,Venus,04
+catalogos_estaciones2184,EF1503,Tizoc,04
+catalogos_estaciones2185,EF1504,Cacama,04
+catalogos_estaciones2186,EF1505,Madero,04
+catalogos_estaciones2187,EF1506,Pomona,04
+catalogos_estaciones2188,EF1507,Talía,04
+catalogos_estaciones2189,EF1508,Ceres,04
+catalogos_estaciones2190,EF1509,La Sección,04
+catalogos_estaciones2191,EF1510,Minerva,04
+catalogos_estaciones2192,EF1511,Benavides,04
+catalogos_estaciones2193,EF1512,Nazas,04
+catalogos_estaciones2194,EF1513,San Pedro,04
+catalogos_estaciones2195,EF1514,Gurza,04
+catalogos_estaciones2196,EF1515,Concordia,04
+catalogos_estaciones2197,EF1516,La Dalia,04
+catalogos_estaciones2198,EF1517,Santa Teresa,04
+catalogos_estaciones2199,EF1518,Santo Niño,04
+catalogos_estaciones2200,EF1519,Abelardo Rodriguez,04
+catalogos_estaciones2201,EF1520,Porvenir,04
+catalogos_estaciones2202,EF1521,Gregorio Garcia,04
+catalogos_estaciones2203,EF1522,Lujan,04
+catalogos_estaciones2204,EF1523,El Compas,04
+catalogos_estaciones2205,EF1524,Viredo,04
+catalogos_estaciones2206,EF1525,Ferroaleaciones,04
+catalogos_estaciones2207,EF1526,General Banda,04
+catalogos_estaciones2208,EF1527,El Conejo,04
+catalogos_estaciones2209,EF1528,El Conejito,04
+catalogos_estaciones2210,EF1529,La Concha,04
+catalogos_estaciones2211,EF1530,Xicontencatl,04
+catalogos_estaciones2212,EF1531,Guayalejo,04
+catalogos_estaciones2213,EF1532,El Ejido,04
+catalogos_estaciones2214,EF1533,Las Ovejas,04
+catalogos_estaciones2215,EF1534,Las Águilas,04
+catalogos_estaciones2216,EF1535,El Limón,04
+catalogos_estaciones2217,EF1536,Álvaro Obregón,04
+catalogos_estaciones2218,EF1537,General Villa,04
+catalogos_estaciones2219,EF1538,El Mante,04
+catalogos_estaciones2220,EF1539,Quintero,04
+catalogos_estaciones2221,EF1540,La Gavia,04
+catalogos_estaciones2222,EF1541,La Bonita,04
+catalogos_estaciones2223,EF1542,Atascador,04
+catalogos_estaciones2224,EF1543,Clavo de Oro,04
+catalogos_estaciones2225,EF1544,Palmito,04
+catalogos_estaciones2226,EF1545,Ceiba,04
+catalogos_estaciones2227,EF1546,Puerto Indust. Altamira,04
+catalogos_estaciones2228,EF1547,Tlatilco,04
+catalogos_estaciones2229,EF1548,El Rosario,04
+catalogos_estaciones2230,EF1549,Tacuba,04
+catalogos_estaciones2231,EF1550,Naucalpan,04
+catalogos_estaciones2232,EF1551,Molinito,04
+catalogos_estaciones2233,EF1552,Rio Hondo,04
+catalogos_estaciones2234,EF1553,Monte,04
+catalogos_estaciones2235,EF1554,San Bartolito,04
+catalogos_estaciones2236,EF1555,Dos Ríos,04
+catalogos_estaciones2237,EF1556,Nava,04
+catalogos_estaciones2238,EF1557,Laurel,04
+catalogos_estaciones2239,EF1558,San Martin,04
+catalogos_estaciones2240,EF1559,La Cima,04
+catalogos_estaciones2241,EF1560,Salazar,04
+catalogos_estaciones2242,EF1561,Carretera,04
+catalogos_estaciones2243,EF1562,Fresno,04
+catalogos_estaciones2244,EF1563,Jajalpa,04
+catalogos_estaciones2245,EF1564,Ocoyoacac,04
+catalogos_estaciones2246,EF1565,Maclovio Herrera,04
+catalogos_estaciones2247,EF1566,Lerma,04
+catalogos_estaciones2248,EF1567,Doña Rosa,04
+catalogos_estaciones2249,EF1568,Toluca,04
+catalogos_estaciones2250,EF1569,Palmillas,04
+catalogos_estaciones2251,EF1570,Mina México,04
+catalogos_estaciones2252,EF1571,Santa Juana,04
+catalogos_estaciones2253,EF1572,Del Rio,04
+catalogos_estaciones2254,EF1573,Toxico,04
+catalogos_estaciones2255,EF1574,Ixtlahuaca,04
+catalogos_estaciones2256,EF1575,Vaquería,04
+catalogos_estaciones2257,EF1576,Tepatitlán,04
+catalogos_estaciones2258,EF1577,Flor de Maria,04
+catalogos_estaciones2259,EF1578,Atlacomulco,04
+catalogos_estaciones2260,EF1579,Manto,04
+catalogos_estaciones2261,EF1580,Tepeolilco,04
+catalogos_estaciones2262,EF1581,Bassoco,04
+catalogos_estaciones2263,EF1582,Venta del Aire,04
+catalogos_estaciones2264,EF1583,Tultenango,04
+catalogos_estaciones2265,EF1584,Puerto de Medina,04
+catalogos_estaciones2266,EF1585,Alberto Garduro,04
+catalogos_estaciones2267,EF1586,Contepec,04
+catalogos_estaciones2268,EF1587,Agua Buena,04
+catalogos_estaciones2269,EF1588,Colorado,04
+catalogos_estaciones2270,EF1589,Los Lirios,04
+catalogos_estaciones2271,EF1590,Pateo,04
+catalogos_estaciones2272,EF1591,Pomoca,04
+catalogos_estaciones2273,EF1592,Apeo,04
+catalogos_estaciones2274,EF1593,Tumgadero,04
+catalogos_estaciones2275,EF1594,El Jejero,04
+catalogos_estaciones2276,EF1595,Maravito,04
+catalogos_estaciones2277,EF1596,Nicolasito,04
+catalogos_estaciones2278,EF1597,San Antonio,04
+catalogos_estaciones2279,EF1598,Gigantes,04
+catalogos_estaciones2280,EF1599,Zirizicuaro,04
+catalogos_estaciones2281,EF1600,Arena Blanca,04
+catalogos_estaciones2282,EF1601,Tarandacuao,04
+catalogos_estaciones2283,EF1602,Arroyo de la Luna,04
+catalogos_estaciones2284,EF1603,Juan J. Franco,04
+catalogos_estaciones2285,EF1604,Miguel G. Navarro,04
+catalogos_estaciones2286,EF1605,Acambaro,04
+catalogos_estaciones2287,EF1606,General Felipe Ángeles,04
+catalogos_estaciones2288,EF1607,Costura,04
+catalogos_estaciones2289,EF1608,Alvarez,04
+catalogos_estaciones2290,EF1609,Andocutin,04
+catalogos_estaciones2291,EF1610,Huingo,04
+catalogos_estaciones2292,EF1611,Coro,04
+catalogos_estaciones2293,EF1612,Querendaro,04
+catalogos_estaciones2294,EF1613,Zinzimeo,04
+catalogos_estaciones2295,EF1614,El Plan,04
+catalogos_estaciones2296,EF1615,Quirio,04
+catalogos_estaciones2297,EF1616,Charo,04
+catalogos_estaciones2298,EF1617,La Goleta,04
+catalogos_estaciones2299,EF1618,Atapaneo,04
+catalogos_estaciones2300,EF1619,El Pilila,04
+catalogos_estaciones2301,EF1620,Morelia,04
+catalogos_estaciones2302,EF1621,La Huerta,04
+catalogos_estaciones2303,EF1622,Coinztzio,04
+catalogos_estaciones2304,EF1623,Jacuaro,04
+catalogos_estaciones2305,EF1624,Noriega,04
+catalogos_estaciones2306,EF1625,Tiripetio,04
+catalogos_estaciones2307,EF1626,San Jose Coapa,04
+catalogos_estaciones2308,EF1627,Lagunillas,04
+catalogos_estaciones2309,EF1628,La Caja,04
+catalogos_estaciones2310,EF1629,Fontezuela,04
+catalogos_estaciones2311,EF1630,Chapultepec,04
+catalogos_estaciones2312,EF1631,Pátzcuaro,04
+catalogos_estaciones2313,EF1632,Parco,04
+catalogos_estaciones2314,EF1633,Bonilla,04
+catalogos_estaciones2315,EF1634,San Pablo,04
+catalogos_estaciones2316,EF1635,Ajuno,04
+catalogos_estaciones2317,EF1636,Lago Zirahuen,04
+catalogos_estaciones2318,EF1637,Copandaro,04
+catalogos_estaciones2319,EF1638,Ajambaran,04
+catalogos_estaciones2320,EF1639,Jujucato,04
+catalogos_estaciones2321,EF1640,Tarascón,04
+catalogos_estaciones2322,EF1641,Paranguitiro,04
+catalogos_estaciones2323,EF1642,Las Palomas,04
+catalogos_estaciones2324,EF1643,Zurumucapio,04
+catalogos_estaciones2325,EF1644,Conuy,04
+catalogos_estaciones2326,EF1645,Aristeo,04
+catalogos_estaciones2327,EF1646,Caltzontzin,04
+catalogos_estaciones2328,EF1647,Cienfuegos,04
+catalogos_estaciones2329,EF1648,Canacha,04
+catalogos_estaciones2330,EF1649,Ziracuaretiro,04
+catalogos_estaciones2331,EF1650,Patuam,04
+catalogos_estaciones2332,EF1651,Taretan,04
+catalogos_estaciones2333,EF1652,Plan Sexenal,04
+catalogos_estaciones2334,EF1653,La Purísima,04
+catalogos_estaciones2335,EF1654,Chupangujo,04
+catalogos_estaciones2336,EF1655,Alberto Arenal Banuet,04
+catalogos_estaciones2337,EF1656,Hoyo del Aire,04
+catalogos_estaciones2338,EF1657,Tomendan,04
+catalogos_estaciones2339,EF1658,Tipitaro,04
+catalogos_estaciones2340,EF1659,Las Pilas,04
+catalogos_estaciones2341,EF1660,El Jabalí,04
+catalogos_estaciones2342,EF1661,Mirador,04
+catalogos_estaciones2343,EF1662,Nuevo Urechp,04
+catalogos_estaciones2344,EF1663,Huarenitzio,04
+catalogos_estaciones2345,EF1664,Casilda,04
+catalogos_estaciones2346,EF1665,Lombardia,04
+catalogos_estaciones2347,EF1666,Maguizabal,04
+catalogos_estaciones2348,EF1667,El Marques,04
+catalogos_estaciones2349,EF1668,Nueva Italia,04
+catalogos_estaciones2350,EF1669,Cussi,04
+catalogos_estaciones2351,EF1670,Corondiro,04
+catalogos_estaciones2352,EF1671,El Ceridor,04
+catalogos_estaciones2353,EF1672,Antúnez,04
+catalogos_estaciones2354,EF1673,Paracuaro,04
+catalogos_estaciones2355,EF1674,El Junco,04
+catalogos_estaciones2356,EF1675,Apatzingán,04
+catalogos_estaciones2357,EF1676,Tlalnepantla,04
+catalogos_estaciones2358,EF1677,Betti,04
+catalogos_estaciones2359,EF1678,Monte Prieto,04
+catalogos_estaciones2360,EF1679,Manzana,04
+catalogos_estaciones2361,EF1680,San Cristóbal,04
+catalogos_estaciones2362,EF1681,Chamacuaro,04
+catalogos_estaciones2363,EF1682,San Agustín,04
+catalogos_estaciones2364,EF1683,Guzman,04
+catalogos_estaciones2365,EF1684,La Rancherita,04
+catalogos_estaciones2366,EF1685,Salvatierra,04
+catalogos_estaciones2367,EF1686,Corral,04
+catalogos_estaciones2368,EF1687,LA Moncada,04
+catalogos_estaciones2369,EF1688,Panales,04
+catalogos_estaciones2370,EF1689,Cacalote,04
+catalogos_estaciones2371,EF1690,Ojo Seco,04
+catalogos_estaciones2372,EF1691,Tamayo,04
+catalogos_estaciones2373,EF1692,Bajío,04
+catalogos_estaciones2374,EF1693,Milpa Vieja,04
+catalogos_estaciones2375,EF1694,Boulevard Celaya,04
+catalogos_estaciones2376,EF1695,Santa Rita,04
+catalogos_estaciones2377,EF1696,Mendoza,04
+catalogos_estaciones2378,EF1697,San Juan de la Vega,04
+catalogos_estaciones2379,EF1698,Uruapan,04
+catalogos_estaciones2380,EF1699,El Oro,04
+catalogos_estaciones2381,EF1700,Gambara,04
+catalogos_estaciones2382,EF1701,Capirio,04
+catalogos_estaciones2383,EF1702,Limoncito,04
+catalogos_estaciones2384,EF1703,Los Ranchos,04
+catalogos_estaciones2385,EF1704,La Vinata,04
+catalogos_estaciones2386,EF1705,Las Caras,04
+catalogos_estaciones2387,EF1706,Los Chivos,04
+catalogos_estaciones2388,EF1707,Las Cruces,04
+catalogos_estaciones2389,EF1708,Infiernillo,04
+catalogos_estaciones2390,EF1709,Ing. J. M. Aguirre,04
+catalogos_estaciones2391,EF1710,El Salvador,04
+catalogos_estaciones2392,EF1711,El Panamá,04
+catalogos_estaciones2393,EF1712,Las Minas,04
+catalogos_estaciones2394,EF1713,Lázaro Cárdenas,04
+catalogos_estaciones2395,EF1714,Chamuco,04
+catalogos_estaciones2396,EF1715,Campo Hermoso,04
+catalogos_estaciones2397,EF1716,Caredo,04
+catalogos_estaciones2398,EF1717,Seguio,04
+catalogos_estaciones2399,EF1718,Tarimoro,04
+catalogos_estaciones2400,EF1719,Irimbo,04
+catalogos_estaciones2401,EF1720,Aporo,04
+catalogos_estaciones2402,EF1721,Alvarado,04
+catalogos_estaciones2403,EF1722,Arguello,04
+catalogos_estaciones2404,EF1723,Oyamel,04
+catalogos_estaciones2405,EF1724,El Sanudo,04
+catalogos_estaciones2406,EF1725,La Junta,04
+catalogos_estaciones2407,EF1726,Ocampo,04
+catalogos_estaciones2408,EF1727,Hernandez,04
+catalogos_estaciones2409,EF1728,Tuxpan,04
+catalogos_estaciones2410,EF1729,Sirahuato,04
+catalogos_estaciones2411,EF1730,Purua,04
+catalogos_estaciones2412,EF1731,Curungueo,04
+catalogos_estaciones2413,EF1732,Zitácuaro,04
+catalogos_estaciones2414,EF1733,Anguangeo,04
+catalogos_estaciones2415,EF1734,La Cuadrilla,04
+catalogos_estaciones2416,EF1735,Troya,04
+catalogos_estaciones2417,EF1736,Baca,04
+catalogos_estaciones2418,EF1737,Marportin,04
+catalogos_estaciones2419,EF1738,Dorado,04
+catalogos_estaciones2420,EF1739,La Mansa,04
+catalogos_estaciones2421,EF1740,Morita,04
+catalogos_estaciones2422,EF1741,Adela,04
+catalogos_estaciones2423,EF1742,El Cobero,04
+catalogos_estaciones2424,EF1743,Ejido Querita,04
+catalogos_estaciones2425,EF1744,Bomera,04
+catalogos_estaciones2426,EF1745,General Ángeles,04
+catalogos_estaciones2427,EF1746,Mayurana,04
+catalogos_estaciones2428,EF1747,Parral,04
+catalogos_estaciones2429,EF1748,Fluorita,04
+catalogos_estaciones2430,EF1749,Zenzontle,04
+catalogos_estaciones2431,EF1750,La Vencedora,04
+catalogos_estaciones2432,EF1751,Borjas,04
+catalogos_estaciones2433,EF1752,Roncesvalles,04
+catalogos_estaciones2434,EF1753,Peinado,04
+catalogos_estaciones2435,EF1754,Cuevas,04
+catalogos_estaciones2436,EF1755,Catarinas,04
+catalogos_estaciones2437,EF1756,Piloncillos,04
+catalogos_estaciones2438,EF1757,Paloma,04
+catalogos_estaciones2439,EF1758,Rosario,04
+catalogos_estaciones2440,EF1759,Santa Bárbara,04
+catalogos_estaciones2441,EF1760,San Francisco del Oro,04
+catalogos_estaciones2442,EF1761,Ojinaga,04
+catalogos_estaciones2443,EF1762,San Uriel,04
+catalogos_estaciones2444,EF1763,Chapo,04
+catalogos_estaciones2445,EF1764,La Hula,04
+catalogos_estaciones2446,EF1765,Lagunitas,04
+catalogos_estaciones2447,EF1766,Volcanes,04
+catalogos_estaciones2448,EF1767,Chilicote,04
+catalogos_estaciones2449,EF1768,Pulpito,04
+catalogos_estaciones2450,EF1769,Falomia,04
+catalogos_estaciones2451,EF1770,Picachos,04
+catalogos_estaciones2452,EF1771,San Sostenes,04
+catalogos_estaciones2453,EF1772,Colonias,04
+catalogos_estaciones2454,EF1773,Encantada,04
+catalogos_estaciones2455,EF1774,Morreon,04
+catalogos_estaciones2456,EF1775,Trancas,04
+catalogos_estaciones2457,EF1776,Aldama,04
+catalogos_estaciones2458,EF1777,Muller,04
+catalogos_estaciones2459,EF1778,Tabalaopa,04
+catalogos_estaciones2460,EF1779,Chihuahua,04
+catalogos_estaciones2461,EF1780,Fresno,04
+catalogos_estaciones2462,EF1781,Salas,04
+catalogos_estaciones2463,EF1782,Palomas,04
+catalogos_estaciones2464,EF1783,Araiza,04
+catalogos_estaciones2465,EF1784,Santa Isabel,04
+catalogos_estaciones2466,EF1785,Baeza,04
+catalogos_estaciones2467,EF1786,Nopalera,04
+catalogos_estaciones2468,EF1787,Chavarria,04
+catalogos_estaciones2469,EF1788,San Andrés,04
+catalogos_estaciones2470,EF1789,Aldana,04
+catalogos_estaciones2471,EF1790,Mesa,04
+catalogos_estaciones2472,EF1791,Bustillos,04
+catalogos_estaciones2473,EF1792,Anáhuac,04
+catalogos_estaciones2474,EF1793,Colonia Anáhuac,04
+catalogos_estaciones2475,EF1794,Cuauhtémoc,04
+catalogos_estaciones2476,EF1795,Casa Colorada,04
+catalogos_estaciones2477,EF1796,Cima,04
+catalogos_estaciones2478,EF1797,Pedernales,04
+catalogos_estaciones2479,EF1798,Rosario,04
+catalogos_estaciones2480,EF1799,La Junta,04
+catalogos_estaciones2481,EF1800,Miraca,04
+catalogos_estaciones2482,EF1801,La Unión,04
+catalogos_estaciones2483,EF1802,González,04
+catalogos_estaciones2484,EF1803,Terrero,04
+catalogos_estaciones2485,EF1804,Vergel,04
+catalogos_estaciones2486,EF1805,Pichachic,04
+catalogos_estaciones2487,EF1806,Ataros,04
+catalogos_estaciones2488,EF1807,Treviño,04
+catalogos_estaciones2489,EF1808,Pinera,04
+catalogos_estaciones2490,EF1809,San Juanito,04
+catalogos_estaciones2491,EF1810,Cuesta Prieta,04
+catalogos_estaciones2492,EF1811,Poblado Bocoyna,04
+catalogos_estaciones2493,EF1812,Bocoyna,04
+catalogos_estaciones2494,EF1813,Creel,04
+catalogos_estaciones2495,EF1814,Sanchez,04
+catalogos_estaciones2496,EF1815,Federico Lopez,04
+catalogos_estaciones2497,EF1816,Pitorreal,04
+catalogos_estaciones2498,EF1817,Nacaibo,04
+catalogos_estaciones2499,EF1818,Divisadero,04
+catalogos_estaciones2500,EF1819,Ing. Francisco M. Tosno,04
+catalogos_estaciones2501,EF1820,Posada Barrancas,04
+catalogos_estaciones2502,EF1821,San Rafael,04
+catalogos_estaciones2503,EF1822,Chihuahuicame,04
+catalogos_estaciones2504,EF1823,Cuiteco,04
+catalogos_estaciones2505,EF1824,Bahuichivo,04
+catalogos_estaciones2506,EF1825,Irigoyen,04
+catalogos_estaciones2507,EF1826,Parajes,04
+catalogos_estaciones2508,EF1827,Soledad,04
+catalogos_estaciones2509,EF1828,Temoris,04
+catalogos_estaciones2510,EF1829,Julio Ornelas,04
+catalogos_estaciones2511,EF1830,Tacuina,04
+catalogos_estaciones2512,EF1831,Santo Niño,04
+catalogos_estaciones2513,EF1832,Jesus Cruz,04
+catalogos_estaciones2514,EF1833,Descango,04
+catalogos_estaciones2515,EF1834,Ing. Luis Covarrubias,04
+catalogos_estaciones2516,EF1835,Los Pozos,04
+catalogos_estaciones2517,EF1836,Aguacaliente,04
+catalogos_estaciones2518,EF1837,Loreto,04
+catalogos_estaciones2519,EF1838,La Laguna,04
+catalogos_estaciones2520,EF1839,Ing. Heriberto Valdez,04
+catalogos_estaciones2521,EF1840,El Fuerte,04
+catalogos_estaciones2522,EF1841,Norotes,04
+catalogos_estaciones2523,EF1842,Vega,04
+catalogos_estaciones2524,EF1843,Sufragio,04
+catalogos_estaciones2525,EF1844,Charay,04
+catalogos_estaciones2526,EF1845,Constancia,04
+catalogos_estaciones2527,EF1846,Cerrillos,04
+catalogos_estaciones2528,EF1847,Santa Rosa,04
+catalogos_estaciones2529,EF1848,Jiquilpan,04
+catalogos_estaciones2530,EF1849,Los Mochis,04
+catalogos_estaciones2531,EF1850,Topolobampo,04
+catalogos_estaciones2532,EF1851,Basuchil,04
+catalogos_estaciones2533,EF1852,San Isidro,04
+catalogos_estaciones2534,EF1853,Girasol,04
+catalogos_estaciones2535,EF1854,Santo Tomas,04
+catalogos_estaciones2536,EF1855,Placa KM. DA-48,04
+catalogos_estaciones2537,EF1856,Tejolocachic,04
+catalogos_estaciones2538,EF1857,Matachic,04
+catalogos_estaciones2539,EF1858,Loma,04
+catalogos_estaciones2540,EF1859,Maulas,04
+catalogos_estaciones2541,EF1860,Temosachic,04
+catalogos_estaciones2542,EF1861,Yepomera,04
+catalogos_estaciones2543,EF1862,Rincon,04
+catalogos_estaciones2544,EF1863,Las Varas,04
+catalogos_estaciones2545,EF1864,El Preson,04
+catalogos_estaciones2546,EF1865,Madera,04
+catalogos_estaciones2547,EF1866,El Rastro,04
+catalogos_estaciones2548,EF1867,Cebadilla,04
+catalogos_estaciones2549,EF1868,La Herradura,04
+catalogos_estaciones2550,EF1869,"Colonia ""Año de Hidalgo""",04
+catalogos_estaciones2551,EF1870,Babicora,04
+catalogos_estaciones2552,EF1871,Ojo,04
+catalogos_estaciones2553,EF1872,Drake,04
+catalogos_estaciones2554,EF1873,Chico,04
+catalogos_estaciones2555,EF1874,Aguilar,04
+catalogos_estaciones2556,EF1875,Cumbre,04
+catalogos_estaciones2557,EF1876,Caballo,04
+catalogos_estaciones2558,EF1877,Bellavista,04
+catalogos_estaciones2559,EF1878,Aguaje,04
+catalogos_estaciones2560,EF1879,Riba,04
+catalogos_estaciones2561,EF1880,Cuevitas,04
+catalogos_estaciones2562,EF1881,Rucio,04
+catalogos_estaciones2563,EF1882,Santa Rosa,04
+catalogos_estaciones2564,EF1883,Maya Ortiz,04
+catalogos_estaciones2565,EF1884,San Diego,04
+catalogos_estaciones2566,EF1885,Achondo,04
+catalogos_estaciones2567,EF1886,Colonia Madero,04
+catalogos_estaciones2568,EF1887,Nuevo Casas Grandes,04
+catalogos_estaciones2569,EF1888,Guzman,04
+catalogos_estaciones2570,EF1889,San Blas,04
+catalogos_estaciones2571,EF1890,Barreal,04
+catalogos_estaciones2572,EF1891,Placa KM. QA-490,04
+catalogos_estaciones2573,EF1892,Médanos,04
+catalogos_estaciones2574,EF1893,Mezquite,04
+catalogos_estaciones2575,EF1894,Sapello,04
+catalogos_estaciones2576,EF1895,Méndez,04
+catalogos_estaciones2577,EF1896,Ciudad Juárez,04
+catalogos_estaciones2578,EF1897,Piedras Negras,04
+catalogos_estaciones2579,EF1898,Fuente,04
+catalogos_estaciones2580,EF1899,Cantú,04
+catalogos_estaciones2581,EF1900,Rio Escondido,04
+catalogos_estaciones2582,EF1901,Placa KM. R-29,04
+catalogos_estaciones2583,EF1902,Navas,04
+catalogos_estaciones2584,EF1903,Allende,04
+catalogos_estaciones2585,EF1904,Los Rosales,04
+catalogos_estaciones2586,EF1905,Calatrava,04
+catalogos_estaciones2587,EF1906,Las Blancas,04
+catalogos_estaciones2588,EF1907,Peyotes,04
+catalogos_estaciones2589,EF1908,Silencio,04
+catalogos_estaciones2590,EF1909,Puente Negro,04
+catalogos_estaciones2591,EF1910,Blanco,04
+catalogos_estaciones2592,EF1911,Sabinas,04
+catalogos_estaciones2593,EF1912,Mezquital,04
+catalogos_estaciones2594,EF1913,San Fernando,04
+catalogos_estaciones2595,EF1914,Barroteran,04
+catalogos_estaciones2596,EF1915,Aura,04
+catalogos_estaciones2597,EF1916,Lechuguilla,04
+catalogos_estaciones2598,EF1917,Obayos,04
+catalogos_estaciones2599,EF1918,Manuel M. Rodriguez,04
+catalogos_estaciones2600,EF1919,Hermanas,04
+catalogos_estaciones2601,EF1920,Tapado,04
+catalogos_estaciones2602,EF1921,Adjuntas,04
+catalogos_estaciones2603,EF1922,Agustín Espinoza,04
+catalogos_estaciones2604,EF1923,Ciudad Frontera,04
+catalogos_estaciones2605,EF1924,Fierro,04
+catalogos_estaciones2606,EF1925,Dolomita,04
+catalogos_estaciones2607,EF1926,Castaño,04
+catalogos_estaciones2608,EF1927,Bocatoche,04
+catalogos_estaciones2609,EF1928,Gloria,04
+catalogos_estaciones2610,EF1929,Dezago,04
+catalogos_estaciones2611,EF1930,Bajan,04
+catalogos_estaciones2612,EF1931,Joya,04
+catalogos_estaciones2613,EF1932,Sierra Azul,04
+catalogos_estaciones2614,EF1933,Espinazo,04
+catalogos_estaciones2615,EF1934,La Popa,04
+catalogos_estaciones2616,EF1935,General Coss,04
+catalogos_estaciones2617,EF1936,Carlos Pereyra,04
+catalogos_estaciones2618,EF1937,Anhelo,04
+catalogos_estaciones2619,EF1938,Bravo,04
+catalogos_estaciones2620,EF1939,Mesillas,04
+catalogos_estaciones2621,EF1940,Roca,04
+catalogos_estaciones2622,EF1941,Los Ixtles,04
+catalogos_estaciones2623,EF1942,Higo,04
+catalogos_estaciones2624,EF1943,Zertuche,04
+catalogos_estaciones2625,EF1944,Rio,04
+catalogos_estaciones2626,EF1945,Morelos,04
+catalogos_estaciones2627,EF1946,Zaragoza,04
+catalogos_estaciones2628,EF1947,Dávila,04
+catalogos_estaciones2629,EF1948,Nogalera,04
+catalogos_estaciones2630,EF1949,Teresita,04
+catalogos_estaciones2631,EF1950,Borrados,04
+catalogos_estaciones2632,EF1951,Trasquilla,04
+catalogos_estaciones2633,EF1952,San Carlos,04
+catalogos_estaciones2634,EF1953,Nueva Palestina,04
+catalogos_estaciones2635,EF1954,El Pilar,04
+catalogos_estaciones2636,EF1955,Cuevitas,04
+catalogos_estaciones2637,EF1956,Ciudad Acura,04
+catalogos_estaciones2638,EF1957,Rosita,04
+catalogos_estaciones2639,EF1958,Las Esperanzas,04
+catalogos_estaciones2640,EF1959,Mota,04
+catalogos_estaciones2641,EF1960,Ranchería,04
+catalogos_estaciones2642,EF1961,El Cedro,04
+catalogos_estaciones2643,EF1962,Palau,04
+catalogos_estaciones2644,EF1963,Zamora,04
+catalogos_estaciones2645,EF1964,Muzquiz,04
+catalogos_estaciones2646,EF1965,Pozuelos,04
+catalogos_estaciones2647,EF1966,Manuel Aguirre,04
+catalogos_estaciones2648,EF1967,Nadadores,04
+catalogos_estaciones2649,EF1968,Águila,04
+catalogos_estaciones2650,EF1969,Celemania,04
+catalogos_estaciones2651,EF1970,Polka,04
+catalogos_estaciones2652,EF1971,Lamadrid,04
+catalogos_estaciones2653,EF1972,Boquillas,04
+catalogos_estaciones2654,EF1973,Placa KM. AD-59,04
+catalogos_estaciones2655,EF1974,Cuatro Ciénegas,04
+catalogos_estaciones2656,EF1975,Placa KM. RD-76,04
+catalogos_estaciones2657,EF1976,Divisadero,04
+catalogos_estaciones2658,EF1977,Doblones,04
+catalogos_estaciones2659,EF1978,Socorro,04
+catalogos_estaciones2660,EF1979,Los Belloc,04
+catalogos_estaciones2661,EF1980,Juncal,04
+catalogos_estaciones2662,EF1981,Zacatosa,04
+catalogos_estaciones2663,EF1982,Arocha,04
+catalogos_estaciones2664,EF1983,Las Monjas,04
+catalogos_estaciones2665,EF1984,Magueyal,04
+catalogos_estaciones2666,EF1985,La Curva,04
+catalogos_estaciones2667,EF1986,La Víbora,04
+catalogos_estaciones2668,EF1987,Pedro Ortegón,04
+catalogos_estaciones2669,EF1988,Patrimonio,04
+catalogos_estaciones2670,EF1989,Americanos,04
+catalogos_estaciones2671,EF1990,El Rey,04
+catalogos_estaciones2672,EF1991,Avante Ahmsa,04
+catalogos_estaciones2673,EF1992,Presa,04
+catalogos_estaciones2674,EF1993,El Oro,04
+catalogos_estaciones2675,EF1994,Rincón,04
+catalogos_estaciones2676,EF1995,Estanque,04
+catalogos_estaciones2677,EF1996,Quimbalete,04
+catalogos_estaciones2678,EF1997,Escape Carrillo,04
+catalogos_estaciones2679,EF1998,Carrillo,04
+catalogos_estaciones2680,EF1999,La Morita,04
+catalogos_estaciones2681,EF2000,Mercurio,04
+catalogos_estaciones2682,EF2001,Lorenzo,04
+catalogos_estaciones2683,EF2002,La India,04
+catalogos_estaciones2684,EF2003,Agujita,04
+catalogos_estaciones2685,EF2004,Cloete,04
+catalogos_estaciones2686,EF2005,Palau,04
+catalogos_estaciones2687,EF2006,La Puerta,04
+catalogos_estaciones2688,EF2007,Sierra Mojada,04
+catalogos_estaciones2689,EF2008,Martin G. Rodriguez,04
+catalogos_estaciones2690,EF2009,Química El Rey,04
+catalogos_estaciones2691,EF2010,Tenayuca,04
+catalogos_estaciones2692,EF2011,Espuela La Villa,04
+catalogos_estaciones2693,EF2012,Xalostoc,04
+catalogos_estaciones2694,EF2013,Ecatepec,04
+catalogos_estaciones2695,EF2014,Tepexpan,04
+catalogos_estaciones2696,EF2015,Xometla,04
+catalogos_estaciones2697,EF2016,Teotihuacán,04
+catalogos_estaciones2698,EF2017,Otumba Mexicano,04
+catalogos_estaciones2699,EF2018,La Palma,04
+catalogos_estaciones2700,EF2019,Ometusco,04
+catalogos_estaciones2701,EF2020,Xala,04
+catalogos_estaciones2702,EF2021,Irolo Mexicano,04
+catalogos_estaciones2703,EF2022,Acopinalco,04
+catalogos_estaciones2704,EF2023,Apan,04
+catalogos_estaciones2705,EF2024,Tetlepayac,04
+catalogos_estaciones2706,EF2025,Soltepec,04
+catalogos_estaciones2707,EF2026,Cobrito,04
+catalogos_estaciones2708,EF2027,Calderon Norte,04
+catalogos_estaciones2709,EF2028,Calderon Sur,04
+catalogos_estaciones2710,EF2029,Guadalupe,04
+catalogos_estaciones2711,EF2030,Muroz,04
+catalogos_estaciones2712,EF2031,Apizaco,04
+catalogos_estaciones2713,EF2032,Tocha,04
+catalogos_estaciones2714,EF2033,Acocotla,04
+catalogos_estaciones2715,EF2034,Huamatlan,04
+catalogos_estaciones2716,EF2035,Tamariz,04
+catalogos_estaciones2717,EF2036,San Marcos,04
+catalogos_estaciones2718,EF2037,Moctezuma,04
+catalogos_estaciones2719,EF2038,Rinconada,04
+catalogos_estaciones2720,EF2039,Aljibes,04
+catalogos_estaciones2721,EF2040,San Juan Atenco,04
+catalogos_estaciones2722,EF2041,San Andrés,04
+catalogos_estaciones2723,EF2042,San Pedro,04
+catalogos_estaciones2724,EF2043,Santa Maria Techicalco,04
+catalogos_estaciones2725,EF2044,Jesus de Nazareno,04
+catalogos_estaciones2726,EF2045,Los Reyes,04
+catalogos_estaciones2727,EF2046,Esperanza,04
+catalogos_estaciones2728,EF2047,Boca del Monte,04
+catalogos_estaciones2729,EF2048,Galera,04
+catalogos_estaciones2730,EF2049,Alta Luz,04
+catalogos_estaciones2731,EF2050,Bota,04
+catalogos_estaciones2732,EF2051,Maltrata,04
+catalogos_estaciones2733,EF2052,Balastrera,04
+catalogos_estaciones2734,EF2053,Encinar,04
+catalogos_estaciones2735,EF2054,Santa Rosa,04
+catalogos_estaciones2736,EF2055,Nogales,04
+catalogos_estaciones2737,EF2056,Rio Blanco,04
+catalogos_estaciones2738,EF2057,Orizaba,04
+catalogos_estaciones2739,EF2058,Molino,04
+catalogos_estaciones2740,EF2059,Sumidero,04
+catalogos_estaciones2741,EF2060,Metlac,04
+catalogos_estaciones2742,EF2061,Fortín,04
+catalogos_estaciones2743,EF2062,Córdoba,04
+catalogos_estaciones2744,EF2063,Peruela,04
+catalogos_estaciones2745,EF2064,Paraje Nuevo,04
+catalogos_estaciones2746,EF2065,Potrero,04
+catalogos_estaciones2747,EF2066,Atoyac,04
+catalogos_estaciones2748,EF2067,San Alejo,04
+catalogos_estaciones2749,EF2068,Las Palomas,04
+catalogos_estaciones2750,EF2069,Paso del Macho,04
+catalogos_estaciones2751,EF2070,Camarón,04
+catalogos_estaciones2752,EF2071,Mata de Agua,04
+catalogos_estaciones2753,EF2072,Soledad,04
+catalogos_estaciones2754,EF2073,Manlio Favio Altamirano,04
+catalogos_estaciones2755,EF2074,Mata Loma,04
+catalogos_estaciones2756,EF2075,Santa Rita,04
+catalogos_estaciones2757,EF2076,Tejería,04
+catalogos_estaciones2758,EF2077,El Laurelal,04
+catalogos_estaciones2759,EF2078,Santa Cruz,04
+catalogos_estaciones2760,EF2079,Santa Ana,04
+catalogos_estaciones2761,EF2080,Teolocholco,04
+catalogos_estaciones2762,EF2081,Zacatelco,04
+catalogos_estaciones2763,EF2082,Panzacola,04
+catalogos_estaciones2764,EF2083,San Antonio Soledad,04
+catalogos_estaciones2765,EF2084,La Cañada Morelos,04
+catalogos_estaciones2766,EF2085,Puente Colorado,04
+catalogos_estaciones2767,EF2086,Vaquería I,04
+catalogos_estaciones2768,EF2087,Huaxtitla,04
+catalogos_estaciones2769,EF2088,Acultzingo,04
+catalogos_estaciones2770,EF2089,Mezquite,04
+catalogos_estaciones2771,EF2090,Tecamalucan,04
+catalogos_estaciones2772,EF2091,Encinar,04
+catalogos_estaciones2773,EF2092,Tecámac,04
+catalogos_estaciones2774,EF2093,Nogales,04
+catalogos_estaciones2775,EF2094,Encina,04
+catalogos_estaciones2776,EF2095,Agua Zarca,04
+catalogos_estaciones2777,EF2096,Casita,04
+catalogos_estaciones2778,EF2097,Cumeral,04
+catalogos_estaciones2779,EF2098,Imuris,04
+catalogos_estaciones2780,EF2099,Pierson,04
+catalogos_estaciones2781,EF2100,Magdalena,04
+catalogos_estaciones2782,EF2101,Santa Ana,04
+catalogos_estaciones2783,EF2102,Llano,04
+catalogos_estaciones2784,EF2103,Noria,04
+catalogos_estaciones2785,EF2104,Benjamin Hill,04
+catalogos_estaciones2786,EF2105,Querosabi,04
+catalogos_estaciones2787,EF2106,Camou,04
+catalogos_estaciones2788,EF2107,Poza,04
+catalogos_estaciones2789,EF2108,Carbo,04
+catalogos_estaciones2790,EF2109,Selva,04
+catalogos_estaciones2791,EF2110,Pesquería,04
+catalogos_estaciones2792,EF2111,Zamora,04
+catalogos_estaciones2793,EF2112,Hermosillo,04
+catalogos_estaciones2794,EF2113,Ciudad Industrial,04
+catalogos_estaciones2795,EF2114,Calera,04
+catalogos_estaciones2796,EF2115,Willard,04
+catalogos_estaciones2797,EF2116,Vega,04
+catalogos_estaciones2798,EF2117,Torres,04
+catalogos_estaciones2799,EF2118,Lujan,04
+catalogos_estaciones2800,EF2119,Moreno,04
+catalogos_estaciones2801,EF2120,Tapia,04
+catalogos_estaciones2802,EF2121,Ortiz,04
+catalogos_estaciones2803,EF2122,Santa Rosa,04
+catalogos_estaciones2804,EF2123,Maytorena,04
+catalogos_estaciones2805,EF2124,Empalme,04
+catalogos_estaciones2806,EF2125,Piedra,04
+catalogos_estaciones2807,EF2126,Guasimas,04
+catalogos_estaciones2808,EF2127,Napoli,04
+catalogos_estaciones2809,EF2128,Oroz,04
+catalogos_estaciones2810,EF2129,Vicam,04
+catalogos_estaciones2811,EF2130,Bacum,04
+catalogos_estaciones2812,EF2131,Corral,04
+catalogos_estaciones2813,EF2132,Esperanza,04
+catalogos_estaciones2814,EF2133,Ciudad Obregón,04
+catalogos_estaciones2815,EF2134,Velderrain,04
+catalogos_estaciones2816,EF2135,Fundición,04
+catalogos_estaciones2817,EF2136,Santini,04
+catalogos_estaciones2818,EF2137,Margarita,04
+catalogos_estaciones2819,EF2138,Navojoa,04
+catalogos_estaciones2820,EF2139,Bacabachi,04
+catalogos_estaciones2821,EF2140,Masiaca,04
+catalogos_estaciones2822,EF2141,Luis,04
+catalogos_estaciones2823,EF2142,Don,04
+catalogos_estaciones2824,EF2143,Francisco,04
+catalogos_estaciones2825,EF2144,Cañedo,04
+catalogos_estaciones2826,EF2145,Fenochio,04
+catalogos_estaciones2827,EF2146,San Blas,04
+catalogos_estaciones2828,EF2147,Sufragio,04
+catalogos_estaciones2829,EF2148,Algodón,04
+catalogos_estaciones2830,EF2149,Zeferino Paredes,04
+catalogos_estaciones2831,EF2150,Naranjo,04
+catalogos_estaciones2832,EF2151,Zopilote,04
+catalogos_estaciones2833,EF2152,Leon Fonseca,04
+catalogos_estaciones2834,EF2153,Bamda,04
+catalogos_estaciones2835,EF2154,Capomas,04
+catalogos_estaciones2836,EF2155,Guamúchil,04
+catalogos_estaciones2837,EF2156,Acatita,04
+catalogos_estaciones2838,EF2157,Palón Blancos,04
+catalogos_estaciones2839,EF2158,Techa,04
+catalogos_estaciones2840,EF2159,Reyes,04
+catalogos_estaciones2841,EF2160,Caimanero,04
+catalogos_estaciones2842,EF2161,Vitaruto,04
+catalogos_estaciones2843,EF2162,Rosales,04
+catalogos_estaciones2844,EF2163,Colorada,04
+catalogos_estaciones2845,EF2164,Culiacán,04
+catalogos_estaciones2846,EF2165,San Rafael,04
+catalogos_estaciones2847,EF2166,Costa Rica,04
+catalogos_estaciones2848,EF2167,Alhuate,04
+catalogos_estaciones2849,EF2168,Quila,04
+catalogos_estaciones2850,EF2169,Oso,04
+catalogos_estaciones2851,EF2170,Obispo,04
+catalogos_estaciones2852,EF2171,Abuya,04
+catalogos_estaciones2853,EF2172,Tanques,04
+catalogos_estaciones2854,EF2173,La Cruz,04
+catalogos_estaciones2855,EF2174,Olaje,04
+catalogos_estaciones2856,EF2175,Dimas,04
+catalogos_estaciones2857,EF2176,Pozole,04
+catalogos_estaciones2858,EF2177,Mármol,04
+catalogos_estaciones2859,EF2178,Redo,04
+catalogos_estaciones2860,EF2179,Mazatlán,04
+catalogos_estaciones2861,EF2180,Presidio,04
+catalogos_estaciones2862,EF2181,Labrados,04
+catalogos_estaciones2863,EF2182,Matadero,04
+catalogos_estaciones2864,EF2183,Rosario,04
+catalogos_estaciones2865,EF2184,Astengo,04
+catalogos_estaciones2866,EF2185,Escuinapa,04
+catalogos_estaciones2867,EF2186,Bacho,04
+catalogos_estaciones2868,EF2187,Palmar,04
+catalogos_estaciones2869,EF2188,Copales,04
+catalogos_estaciones2870,EF2189,Concha,04
+catalogos_estaciones2871,EF2190,Acaponeta,04
+catalogos_estaciones2872,EF2191,Montaje,04
+catalogos_estaciones2873,EF2192,Bonita,04
+catalogos_estaciones2874,EF2193,Morada,04
+catalogos_estaciones2875,EF2194,Ruiz,04
+catalogos_estaciones2876,EF2195,Yago,04
+catalogos_estaciones2877,EF2196,Nanchi,04
+catalogos_estaciones2878,EF2197,Pani,04
+catalogos_estaciones2879,EF2198,Roseta,04
+catalogos_estaciones2880,EF2199,Corte,04
+catalogos_estaciones2881,EF2200,Mango,04
+catalogos_estaciones2882,EF2201,Ignacio Borrego,04
+catalogos_estaciones2883,EF2202,Aguirre,04
+catalogos_estaciones2884,EF2203,Mora,04
+catalogos_estaciones2885,EF2204,Tepic,04
+catalogos_estaciones2886,EF2205,Pantanal,04
+catalogos_estaciones2887,EF2206,Costilla,04
+catalogos_estaciones2888,EF2207,Compostela,04
+catalogos_estaciones2889,EF2208,Borbollón,04
+catalogos_estaciones2890,EF2209,Cerro Pelón,04
+catalogos_estaciones2891,EF2210,Conde,04
+catalogos_estaciones2892,EF2211,Valle Verde,04
+catalogos_estaciones2893,EF2212,Marquesado,04
+catalogos_estaciones2894,EF2213,Ahuacatlan,04
+catalogos_estaciones2895,EF2214,Ixtlán,04
+catalogos_estaciones2896,EF2215,Gracia,04
+catalogos_estaciones2897,EF2216,Barrancas,04
+catalogos_estaciones2898,EF2217,Agua Fría,04
+catalogos_estaciones2899,EF2218,La Quemada,04
+catalogos_estaciones2900,EF2219,Magdalena,04
+catalogos_estaciones2901,EF2220,Cuervo,04
+catalogos_estaciones2902,EF2221,Tequila,04
+catalogos_estaciones2903,EF2222,Amatitan,04
+catalogos_estaciones2904,EF2223,Arenal,04
+catalogos_estaciones2905,EF2224,La Venta,04
+catalogos_estaciones2906,EF2225,Jocotan,04
+catalogos_estaciones2907,EF2226,Guadalajara,04
+catalogos_estaciones2908,EF2227,Portezuelo,04
+catalogos_estaciones2909,EF2228,Mascarera,04
+catalogos_estaciones2910,EF2229,Santa Bárbara,04
+catalogos_estaciones2911,EF2230,Martinez,04
+catalogos_estaciones2912,EF2231,San Lázaro,04
+catalogos_estaciones2913,EF2232,Domínguez,04
+catalogos_estaciones2914,EF2233,Santa Cruz,04
+catalogos_estaciones2915,EF2234,Zorrilla,04
+catalogos_estaciones2916,EF2235,La Bota,04
+catalogos_estaciones2917,EF2236,Álamo Gordo,04
+catalogos_estaciones2918,EF2237,Molina,04
+catalogos_estaciones2919,EF2238,Sauceda,04
+catalogos_estaciones2920,EF2239,Del Rio,04
+catalogos_estaciones2921,EF2240,Villa Verde,04
+catalogos_estaciones2922,EF2241,Mina Oro,04
+catalogos_estaciones2923,EF2242,Naco,04
+catalogos_estaciones2924,EF2243,La Calera,04
+catalogos_estaciones2925,EF2244,Cabullona,04
+catalogos_estaciones2926,EF2245,Cima,04
+catalogos_estaciones2927,EF2246,Elías Calles,04
+catalogos_estaciones2928,EF2247,Fronteras,04
+catalogos_estaciones2929,EF2248,Cochuta,04
+catalogos_estaciones2930,EF2249,Esqueda,04
+catalogos_estaciones2931,EF2250,Turicachi,04
+catalogos_estaciones2932,EF2251,Vigía,04
+catalogos_estaciones2933,EF2252,Calabazas,04
+catalogos_estaciones2934,EF2253,El Tajo,04
+catalogos_estaciones2935,EF2254,San Nicolás,04
+catalogos_estaciones2936,EF2255,Purica,04
+catalogos_estaciones2937,EF2256,Hidalgo,04
+catalogos_estaciones2938,EF2257,Nacozari,04
+catalogos_estaciones2939,EF2258,Cananea,04
+catalogos_estaciones2940,EF2259,Agua Prieta,04
+catalogos_estaciones2941,EF2260,La Campana,04
+catalogos_estaciones2942,EF2261,Guaymas,04
+catalogos_estaciones2943,EF2262,Bacobambo,04
+catalogos_estaciones2944,EF2263,Etchojoa,04
+catalogos_estaciones2945,EF2264,Huatabampo,04
+catalogos_estaciones2946,EF2265,Guasave,04
+catalogos_estaciones2947,EF2266,Navolato,04
+catalogos_estaciones2948,EF2267,El Dorado,04
+catalogos_estaciones2949,EF2268,Orendain,04
+catalogos_estaciones2950,EF2269,Tala,04
+catalogos_estaciones2951,EF2270,Refugio,04
+catalogos_estaciones2952,EF2271,Cuicillos,04
+catalogos_estaciones2953,EF2272,La Vega,04
+catalogos_estaciones2954,EF2273,Matute,04
+catalogos_estaciones2955,EF2274,Ameca,04
+catalogos_estaciones2956,EF2275,Amarillo,04
+catalogos_estaciones2957,EF2276,Carmen,04
+catalogos_estaciones2958,EF2277,Portes Gil,04
+catalogos_estaciones2959,EF2278,Ahualulco,04
+catalogos_estaciones2960,EF2279,La Calabaza,04
+catalogos_estaciones2961,EF2280,Etzatlan,04
+catalogos_estaciones2962,EF2281,Pascualitos,04
+catalogos_estaciones2963,EF2282,Cerro Prieto,04
+catalogos_estaciones2964,EF2283,Delta,04
+catalogos_estaciones2965,EF2284,Victoria,04
+catalogos_estaciones2966,EF2285,Rio Colorado,04
+catalogos_estaciones2967,EF2286,Coahuila,04
+catalogos_estaciones2968,EF2287,Riito,04
+catalogos_estaciones2969,EF2288,El Doctor,04
+catalogos_estaciones2970,EF2289,Los Pioneros,04
+catalogos_estaciones2971,EF2290,Sanchez Islas,04
+catalogos_estaciones2972,EF2291,Torres Burciga,04
+catalogos_estaciones2973,EF2292,Lopez Collada,04
+catalogos_estaciones2974,EF2293,Gustavo Sotelo,04
+catalogos_estaciones2975,EF2294,Puerto Perasco,04
+catalogos_estaciones2976,EF2295,Irigoyen,04
+catalogos_estaciones2977,EF2296,Almejas,04
+catalogos_estaciones2978,EF2297,El Sahuaro,04
+catalogos_estaciones2979,EF2298,Las Enchilayas,04
+catalogos_estaciones2980,EF2299,El Coyote,04
+catalogos_estaciones2981,EF2300,Los Sapos,04
+catalogos_estaciones2982,EF2301,Caborca,04
+catalogos_estaciones2983,EF2302,Pitiquito,04
+catalogos_estaciones2984,EF2303,La Ventana,04
+catalogos_estaciones2985,EF2304,La Verbena,04
+catalogos_estaciones2986,EF2305,La Pera,04
+catalogos_estaciones2987,EF2306,Trincheras,04
+catalogos_estaciones2988,EF2307,Ruiz Díaz,04
+catalogos_estaciones2989,EF2308,Benjamin Hill,04
+catalogos_estaciones2990,EF2309,Mexicali,04
+catalogos_estaciones2991,EF2310,Tijuana,04
+catalogos_estaciones2992,EF2311,Agua Caliente,04
+catalogos_estaciones2993,EF2312,Garcia,04
+catalogos_estaciones2994,EF2313,Matanuco,04
+catalogos_estaciones2995,EF2314,Redondo,04
+catalogos_estaciones2996,EF2315,Tecate,04
+catalogos_estaciones2997,EF2316,San Vicente,04
+catalogos_estaciones2998,EF2317,Cuautlalpan,04
+catalogos_estaciones2999,EF2318,General Gomez,04
+catalogos_estaciones3000,EF2319,Chapingo,04
+catalogos_estaciones3001,EF2320,Texcoco,04
+catalogos_estaciones3002,EF2321,San Andrés,04
+catalogos_estaciones3003,EF2322,Robles,04
+catalogos_estaciones3004,EF2323,Azteca,04
+catalogos_estaciones3005,EF2324,Chipiltepec,04
+catalogos_estaciones3006,EF2325,Xometla,04
+catalogos_estaciones3007,EF2326,Antonio,04
+catalogos_estaciones3008,EF2327,Pirámides,04
+catalogos_estaciones3009,EF2328,Metepec,04
+catalogos_estaciones3010,EF2329,Oxtotipac,04
+catalogos_estaciones3011,EF2330,Otumba,04
+catalogos_estaciones3012,EF2331,El Magueyal,04
+catalogos_estaciones3013,EF2332,Aguatepec,04
+catalogos_estaciones3014,EF2333,Campero,04
+catalogos_estaciones3015,EF2334,Jaltepec,04
+catalogos_estaciones3016,EF2335,Santa Clara,04
+catalogos_estaciones3017,EF2336,Mal País,04
+catalogos_estaciones3018,EF2337,San Lorenzo,04
+catalogos_estaciones3019,EF2338,Veloz,04
+catalogos_estaciones3020,EF2339,Iturbe,04
+catalogos_estaciones3021,EF2340,La Luz,04
+catalogos_estaciones3022,EF2341,Sanz,04
+catalogos_estaciones3023,EF2342,La Trasquila,04
+catalogos_estaciones3024,EF2343,Mena,04
+catalogos_estaciones3025,EF2344,Xicoténcatl,04
+catalogos_estaciones3026,EF2345,Velasco,04
+catalogos_estaciones3027,EF2346,Kiumicho,04
+catalogos_estaciones3028,EF2347,Tecoac,04
+catalogos_estaciones3029,EF2348,Santo Domingo,04
+catalogos_estaciones3030,EF2349,Cerón,04
+catalogos_estaciones3031,EF2350,Mazarraza,04
+catalogos_estaciones3032,EF2351,Vega,04
+catalogos_estaciones3033,EF2352,Oriental,04
+catalogos_estaciones3034,EF2353,Varela,04
+catalogos_estaciones3035,EF2354,Titipanapa,04
+catalogos_estaciones3036,EF2355,Tepeyahualco,04
+catalogos_estaciones3037,EF2356,Pizarro,04
+catalogos_estaciones3038,EF2357,Artesiano,04
+catalogos_estaciones3039,EF2358,Totalco,04
+catalogos_estaciones3040,EF2359,Perote,04
+catalogos_estaciones3041,EF2360,Rubín,04
+catalogos_estaciones3042,EF2361,Cruz Blanca,04
+catalogos_estaciones3043,EF2362,Las Vigas,04
+catalogos_estaciones3044,EF2363,David. S Alonso,04
+catalogos_estaciones3045,EF2364,Loma de Tablas,04
+catalogos_estaciones3046,EF2365,Negro,04
+catalogos_estaciones3047,EF2366,Cruz Verde,04
+catalogos_estaciones3048,EF2367,Jilotepec,04
+catalogos_estaciones3049,EF2368,San Miguel,04
+catalogos_estaciones3050,EF2369,Demesa,04
+catalogos_estaciones3051,EF2370,Banderilla,04
+catalogos_estaciones3052,EF2371,Jalapa,04
+catalogos_estaciones3053,EF2372,Los Berros,04
+catalogos_estaciones3054,EF2373,Pacho,04
+catalogos_estaciones3055,EF2374,Roma,04
+catalogos_estaciones3056,EF2375,Alborada,04
+catalogos_estaciones3057,EF2376,El Chico,04
+catalogos_estaciones3058,EF2377,Chavarrillo,04
+catalogos_estaciones3059,EF2378,Palman,04
+catalogos_estaciones3060,EF2379,Souter,04
+catalogos_estaciones3061,EF2380,Apazapam,04
+catalogos_estaciones3062,EF2381,Tigrillos,04
+catalogos_estaciones3063,EF2382,El Carrizal,04
+catalogos_estaciones3064,EF2383,Los Ídolos,04
+catalogos_estaciones3065,EF2384,Tamarindo,04
+catalogos_estaciones3066,EF2385,Chichicaxtle,04
+catalogos_estaciones3067,EF2386,Guayabal,04
+catalogos_estaciones3068,EF2387,Paso de Varas,04
+catalogos_estaciones3069,EF2388,Cardel,04
+catalogos_estaciones3070,EF2389,Salmoral,04
+catalogos_estaciones3071,EF2390,La Posta,04
+catalogos_estaciones3072,EF2391,Antigua,04
+catalogos_estaciones3073,EF2392,Pureza,04
+catalogos_estaciones3074,EF2393,Matillo,04
+catalogos_estaciones3075,EF2394,Loma de Iguana,04
+catalogos_estaciones3076,EF2395,Vargas,04
+catalogos_estaciones3077,EF2396,Santa Fe,04
+catalogos_estaciones3078,EF2397,Tamsa,04
+catalogos_estaciones3079,EF2398,Veracruz,04
+catalogos_estaciones3080,EF2399,Veracruz,04
+catalogos_estaciones3081,EF2400,Calpulalpan,04
+catalogos_estaciones3082,EF2401,Mazapa,04
+catalogos_estaciones3083,EF2402,Tepuente,04
+catalogos_estaciones3084,EF2403,Nanacamilpa,04
+catalogos_estaciones3085,EF2404,Arroyo,04
+catalogos_estaciones3086,EF2405,Contadero,04
+catalogos_estaciones3087,EF2406,Lagunitas,04
+catalogos_estaciones3088,EF2407,Dolores,04
+catalogos_estaciones3089,EF2408,Tláloc,04
+catalogos_estaciones3090,EF2409,San Martin,04
+catalogos_estaciones3091,EF2410,Baltazar,04
+catalogos_estaciones3092,EF2411,Moyotzingo,04
+catalogos_estaciones3093,EF2412,La Posta,04
+catalogos_estaciones3094,EF2413,Analco,04
+catalogos_estaciones3095,EF2414,Xoxtla,04
+catalogos_estaciones3096,EF2415,Zoquiapan,04
+catalogos_estaciones3097,EF2416,Coronango,04
+catalogos_estaciones3098,EF2417,Santa Clara,04
+catalogos_estaciones3099,EF2418,Los Arcos,04
+catalogos_estaciones3100,EF2419,La Unión,04
+catalogos_estaciones3101,EF2420,Puebla,04
+catalogos_estaciones3102,EF2421,Amalucan,04
+catalogos_estaciones3103,EF2422,Signoret,04
+catalogos_estaciones3104,EF2423,Amozoc,04
+catalogos_estaciones3105,EF2424,Tepatlaxco,04
+catalogos_estaciones3106,EF2425,Acajete,04
+catalogos_estaciones3107,EF2426,Los Pinales,04
+catalogos_estaciones3108,EF2427,Citlaltepec,04
+catalogos_estaciones3109,EF2428,Ixtenco,04
+catalogos_estaciones3110,EF2429,Jara,04
+catalogos_estaciones3111,EF2430,Grajales,04
+catalogos_estaciones3112,EF2431,Chiapa,04
+catalogos_estaciones3113,EF2432,Sebma,04
+catalogos_estaciones3114,EF2433,Manantiales,04
+catalogos_estaciones3115,EF2434,Vicencio,04
+catalogos_estaciones3116,EF2435,Carmela,04
+catalogos_estaciones3117,EF2436,Carcara,04
+catalogos_estaciones3118,EF2437,Cholula,04
+catalogos_estaciones3119,EF2438,Tehuiloyoca,04
+catalogos_estaciones3120,EF2439,Maria,04
+catalogos_estaciones3121,EF2440,Tecuanipan,04
+catalogos_estaciones3122,EF2441,Frailes,04
+catalogos_estaciones3123,EF2442,San Martin Tlamapa,04
+catalogos_estaciones3124,EF2443,Tlamapa,04
+catalogos_estaciones3125,EF2444,Molinos,04
+catalogos_estaciones3126,EF2445,Portezuelo,04
+catalogos_estaciones3127,EF2446,Totometla de Juárez,04
+catalogos_estaciones3128,EF2447,San Agustín Huixaxtla,04
+catalogos_estaciones3129,EF2448,San Félix,04
+catalogos_estaciones3130,EF2449,Tejaluca,04
+catalogos_estaciones3131,EF2450,Atlixco,04
+catalogos_estaciones3132,EF2451,Gavana,04
+catalogos_estaciones3133,EF2452,Tronconal,04
+catalogos_estaciones3134,EF2453,Champusco,04
+catalogos_estaciones3135,EF2454,Teyuca,04
+catalogos_estaciones3136,EF2455,Teruel,04
+catalogos_estaciones3137,EF2456,Tepeojura,04
+catalogos_estaciones3138,EF2457,La Balarza,04
+catalogos_estaciones3139,EF2458,Carales,04
+catalogos_estaciones3140,EF2459,Matamores,04
+catalogos_estaciones3141,EF2460,Mier,04
+catalogos_estaciones3142,EF2461,Zoloquiapa,04
+catalogos_estaciones3143,EF2462,Colon,04
+catalogos_estaciones3144,EF2463,Chietla,04
+catalogos_estaciones3145,EF2464,Atencingo,04
+catalogos_estaciones3146,EF2465,Ahuehuetzingo,04
+catalogos_estaciones3147,EF2466,Lagunillas,04
+catalogos_estaciones3148,EF2467,Órgano,04
+catalogos_estaciones3149,EF2468,Axochiapan,04
+catalogos_estaciones3150,EF2469,San Cosme,04
+catalogos_estaciones3151,EF2470,Coayuca,04
+catalogos_estaciones3152,EF2471,Atlacahualoya,04
+catalogos_estaciones3153,EF2472,Loyola,04
+catalogos_estaciones3154,EF2473,Garcia,04
+catalogos_estaciones3155,EF2474,Atotonilco,04
+catalogos_estaciones3156,EF2475,Productora Nacional,04
+catalogos_estaciones3157,EF2476,Xalostoc,04
+catalogos_estaciones3158,EF2477,San Juan de Aragón,04
+catalogos_estaciones3159,EF2478,Xochiaca,04
+catalogos_estaciones3160,EF2479,Los Reyes,04
+catalogos_estaciones3161,EF2480,Huitzilzingo,04
+catalogos_estaciones3162,EF2481,Tenango,04
+catalogos_estaciones3163,EF2482,Ayapango,04
+catalogos_estaciones3164,EF2483,Amecameca,04
+catalogos_estaciones3165,EF2484,Tepetlixpa,04
+catalogos_estaciones3166,EF2485,Nepopualco,04
+catalogos_estaciones3167,EF2486,San Sebastián,04
+catalogos_estaciones3168,EF2487,La Carada,04
+catalogos_estaciones3169,EF2488,San Juan Texcalpan,04
+catalogos_estaciones3170,EF2489,Atlatlahuacan,04
+catalogos_estaciones3171,EF2490,Cuautla,04
+catalogos_estaciones3172,EF2491,Espuela Marinera,04
+catalogos_estaciones3173,EF2492,San Rafael,04
+catalogos_estaciones3174,EF2493,Rio Panuco,04
+catalogos_estaciones3175,EF2494,Pebernales,04
+catalogos_estaciones3176,EF2495,Topila,04
+catalogos_estaciones3177,EF2496,Agrarios,04
+catalogos_estaciones3178,EF2497,Palacho,04
+catalogos_estaciones3179,EF2498,Carbono,04
+catalogos_estaciones3180,EF2499,Quebrache,04
+catalogos_estaciones3181,EF2500,Lagartero,04
+catalogos_estaciones3182,EF2501,Chapancal,04
+catalogos_estaciones3183,EF2502,Cebadilla,04
+catalogos_estaciones3184,EF2503,San Carlos,04
+catalogos_estaciones3185,EF2504,La Puente,04
+catalogos_estaciones3186,EF2505,Los Manantiales,04
+catalogos_estaciones3187,EF2506,Tanceme,04
+catalogos_estaciones3188,EF2507,Coronel Mascareñas,04
+catalogos_estaciones3189,EF2508,Ozuluama,04
+catalogos_estaciones3190,EF2509,Placetas,04
+catalogos_estaciones3191,EF2510,Mincuini,04
+catalogos_estaciones3192,EF2511,Magosal,04
+catalogos_estaciones3193,EF2512,Berta,04
+catalogos_estaciones3194,EF2513,Bernal Díaz,04
+catalogos_estaciones3195,EF2514,Calzadas,04
+catalogos_estaciones3196,EF2515,Horacio P. Sanchez,04
+catalogos_estaciones3197,EF2516,Guazuntlan,04
+catalogos_estaciones3198,EF2517,Higueras,04
+catalogos_estaciones3199,EF2518,Chinameca,04
+catalogos_estaciones3200,EF2519,Jaltipan,04
+catalogos_estaciones3201,EF2520,Azufrera,04
+catalogos_estaciones3202,EF2521,Texistepec,04
+catalogos_estaciones3203,EF2522,Mina Mana,04
+catalogos_estaciones3204,EF2523,Ojapa,04
+catalogos_estaciones3205,EF2524,Correa,04
+catalogos_estaciones3206,EF2525,Ololica,04
+catalogos_estaciones3207,EF2526,Almagres,04
+catalogos_estaciones3208,EF2527,El Azufre,04
+catalogos_estaciones3209,EF2528,General Miguel Alemán,04
+catalogos_estaciones3210,EF2529,Juile,04
+catalogos_estaciones3211,EF2530,Medias Aguas,04
+catalogos_estaciones3212,EF2531,Adolfo Ruiz Cortines,04
+catalogos_estaciones3213,EF2532,Macaya,04
+catalogos_estaciones3214,EF2533,Las Tres Gardenias,04
+catalogos_estaciones3215,EF2534,Suchil,04
+catalogos_estaciones3216,EF2535,Jesus Carranza,04
+catalogos_estaciones3217,EF2536,Suchilapa,04
+catalogos_estaciones3218,EF2537,Ubero,04
+catalogos_estaciones3219,EF2538,Donaji,04
+catalogos_estaciones3220,EF2539,Tolosita,04
+catalogos_estaciones3221,EF2540,Paso de Buques,04
+catalogos_estaciones3222,EF2541,Palomares,04
+catalogos_estaciones3223,EF2542,Sarabia,04
+catalogos_estaciones3224,EF2543,Bixidu,04
+catalogos_estaciones3225,EF2544,Mogore,04
+catalogos_estaciones3226,EF2545,Ives,04
+catalogos_estaciones3227,EF2546,Matías Romero,04
+catalogos_estaciones3228,EF2547,Niza Conejo,04
+catalogos_estaciones3229,EF2548,Lagunas,04
+catalogos_estaciones3230,EF2549,Almoloya,04
+catalogos_estaciones3231,EF2550,Chivela,04
+catalogos_estaciones3232,EF2551,Placa KM. Z-232,04
+catalogos_estaciones3233,EF2552,Nizanda,04
+catalogos_estaciones3234,EF2553,La Mata,04
+catalogos_estaciones3235,EF2554,Ixtepec,04
+catalogos_estaciones3236,EF2555,Comitancillo,04
+catalogos_estaciones3237,EF2556,Guichibe,04
+catalogos_estaciones3238,EF2557,Jordán,04
+catalogos_estaciones3239,EF2558,Tehuantepec,04
+catalogos_estaciones3240,EF2559,Reoloteca,04
+catalogos_estaciones3241,EF2560,La Cantera,04
+catalogos_estaciones3242,EF2561,Pearson,04
+catalogos_estaciones3243,EF2562,Salina Cruz,04
+catalogos_estaciones3244,EF2563,Guanomex,04
+catalogos_estaciones3245,EF2564,Minatitlán,04
+catalogos_estaciones3246,EF2565,Aguaruto,04
+catalogos_estaciones3247,EF2566,Booster,04
+catalogos_estaciones3248,EF2567,Cerro Jardín,04
+catalogos_estaciones3249,EF2568,Cerro La Cruz,04
+catalogos_estaciones3250,EF2569,Derramadero,04
+catalogos_estaciones3251,EF2570,El Cayacal,04
+catalogos_estaciones3252,EF2571,Empalme De Orendain,04
+catalogos_estaciones3253,EF2572,Escape KM Q 406,04
+catalogos_estaciones3254,EF2573,Ferroservicios,04
+catalogos_estaciones3255,EF2574,Hercules,04
+catalogos_estaciones3256,EF2575,Hidalgo Tilh,04
+catalogos_estaciones3257,EF2576,Ing. Antonio Gutierrez,04
+catalogos_estaciones3258,EF2577,Interpuerto,04
+catalogos_estaciones3259,EF2578,KM T 585,04
+catalogos_estaciones3260,EF2579,KM B170,04
+catalogos_estaciones3261,EF2580,Las Flores,04
+catalogos_estaciones3262,EF2581,Lition,04
+catalogos_estaciones3263,EF2582,Logistik,04
+catalogos_estaciones3264,EF2583,Melchor Ocampo,04
+catalogos_estaciones3265,EF2584,Montana,04
+catalogos_estaciones3266,EF2585,Nuevo Carnero,04
+catalogos_estaciones3267,EF2586,Penuelas,04
+catalogos_estaciones3268,EF2587,Placa Km 730,04
+catalogos_estaciones3269,EF2588,Poxila,04
+catalogos_estaciones3270,EF2589,Prieto,04
+catalogos_estaciones3271,EF2590,San Francisco De Los Romo,04
+catalogos_estaciones3272,EF2591,Texcoco,04
+catalogos_estaciones3273,EF2592,Tlacote,04
+catalogos_estaciones3274,EF2593,Topo Grande,04
+catalogos_estaciones3275,EF2594,Vanegas,04
+catalogos_estaciones3276,EF2595,Viscosa,04
+catalogos_estaciones3277,EF2596,Yevavito,04
+catalogos_estaciones3278,EF2597,Bachigualato,04
+catalogos_estaciones3279,EF2598,Barrientos,04
+catalogos_estaciones3280,EF2599,Empacadora,04
+catalogos_estaciones3281,EF2600,Gasera Km 8,04
+catalogos_estaciones3282,EF2601,Hormigas,04
+catalogos_estaciones3283,EF2602,Kimberly Ramos,04
+catalogos_estaciones3284,EF2603,LC Logistica GPS,04
+catalogos_estaciones3285,EF2604,Valladolid,04
+catalogos_estaciones3286,EF2605,Valle Redondo,04
+catalogos_estaciones3287,EF2606,Zacapu,04
+catalogos_estaciones3288,EF2607,Extranjera,04

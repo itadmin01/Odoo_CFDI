@@ -1,0 +1,8 @@
+id,clave,tipo_carro
+catalogos_tipo_carro1,TC01,Furgón
+catalogos_tipo_carro2,TC02,Góndola
+catalogos_tipo_carro3,TC03,Tolva
+catalogos_tipo_carro4,TC04,Tanque
+catalogos_tipo_carro5,TC05,Plataforma Intermodal
+catalogos_tipo_carro6,TC06,Plataforma Especializada
+catalogos_tipo_carro7,TC07,Plataforma Automotriz

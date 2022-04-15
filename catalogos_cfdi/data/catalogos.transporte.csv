@@ -1,0 +1,6 @@
+id,c_transporte,descripcion
+catalogos_transporte1,01,Autotransporte Federal
+catalogos_transporte2,02,Transporte Marítimo
+catalogos_transporte3,03,Transporte Aéreo
+catalogos_transporte4,04,Transporte Ferroviario
+catalogos_transporte5,05,Ducto

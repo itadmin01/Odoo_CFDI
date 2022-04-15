@@ -10,3 +10,4 @@ from . import account_journal
 from . import sale
 from . import amount_to_text_es_MX
 from . import purchase
+from . import res_currency

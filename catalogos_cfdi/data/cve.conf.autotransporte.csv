@@ -1,0 +1,37 @@
+id,clave,descripcion
+catalogos_conf_autotransporte1,C2,Camión Unitario (2 llantas en el eje delantero y 4 llantas en el eje trasero)
+catalogos_conf_autotransporte2,C3,Camión Unitario (2 llantas en el eje delantero y 6 o 8 llantas en los dos ejes traseros)
+catalogos_conf_autotransporte3,C2R2,Camión-Remolque (6 llantas en el camión y 8 llantas en remolque)
+catalogos_conf_autotransporte4,C3R2,Camión-Remolque (10 llantas en el camión y 8 llantas en remolque)
+catalogos_conf_autotransporte5,C2R3,Camión-Remolque (6 llantas en el camión y 12 llantas en remolque)
+catalogos_conf_autotransporte6,C3R3,Camión-Remolque (10 llantas en el camión y 12 llantas en remolque)
+catalogos_conf_autotransporte7,T2S1,"Tractocamión Articulado (6 llantas en el tractocamión, 4 llantas en el semirremolque)"
+catalogos_conf_autotransporte8,T2S2,"Tractocamión Articulado (6 llantas en el tractocamión, 8 llantas en el semirremolque)"
+catalogos_conf_autotransporte9,T2S3,"Tractocamión Articulado (6 llantas en el tractocamión, 12 llantas en el semirremolque)"
+catalogos_conf_autotransporte10,T3S1,"Tractocamión Articulado (10 llantas en el tractocamión, 4 llantas en el semirremolque)"
+catalogos_conf_autotransporte11,T3S2,"Tractocamión Articulado (10 llantas en el tractocamión, 8 llantas en el semirremolque)"
+catalogos_conf_autotransporte12,T3S3,"Tractocamión Articulado (10 llantas en el tractocamión, 12 llantas en el semirremolque)"
+catalogos_conf_autotransporte13,T2S1R2,"Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)"
+catalogos_conf_autotransporte14,T2S2R2,"Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)"
+catalogos_conf_autotransporte15,T2S1R3,"Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)"
+catalogos_conf_autotransporte16,T3S1R2,"Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)"
+catalogos_conf_autotransporte17,T3S1R3,"Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)"
+catalogos_conf_autotransporte18,T3S2R2,"Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)"
+catalogos_conf_autotransporte19,T3S2R3,"Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 12 llantas en el remolque)"
+catalogos_conf_autotransporte20,T3S2R4,"Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 16 llantas en el remolque)"
+catalogos_conf_autotransporte21,T2S2S2,"Tractocamión Semirremolque-Semirremolque (6 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)"
+catalogos_conf_autotransporte22,T3S2S2,"Tractocamión Semirremolque-Semirremolque (10 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)"
+catalogos_conf_autotransporte23,T3S3S2,"Tractocamión Semirremolque-Semirremolque (10 llantas en el tractocamión, 12 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)"
+catalogos_conf_autotransporte24,OTROEV,"Especializado de Voluminoso"
+catalogos_conf_autotransporte25,OTROEGP,"Especializado de Gran Peso"
+catalogos_conf_autotransporte26,OTROSG,"Servicio de Grúas"
+catalogos_conf_autotransporte27,OTROEVGP,"Especializado de carga Voluminosa y/o Gran Peso"
+catalogos_conf_autotransporte28,GPLUTA,"Grúa de Pluma Tipo A"
+catalogos_conf_autotransporte29,GPLUTB,"Grúa de Pluma Tipo B"
+catalogos_conf_autotransporte30,GPLUTC,"Grúa de Pluma Tipo C"
+catalogos_conf_autotransporte31,GPLUTD,"Grúa de Pluma Tipo D"
+catalogos_conf_autotransporte32,GPLATA,"Grúa de Plataforma Tipo A"
+catalogos_conf_autotransporte33,GPLATB,"Grúa de Plataforma Tipo B"
+catalogos_conf_autotransporte34,GPLATC,"Grúa de Plataforma Tipo C"
+catalogos_conf_autotransporte35,GPLATD,"Grúa de Plataforma Tipo D"
+catalogos_conf_autotransporte36,VL,"Vehículo ligero de carga (2 llantas en el eje delantero y 2 llantas en el eje trasero)"

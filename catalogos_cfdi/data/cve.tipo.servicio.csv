@@ -1,0 +1,5 @@
+id,clave,descripcion
+catalogos_tipo_servicio1,TS01,Carros Ferroviarios
+catalogos_tipo_servicio2,TS02,Carros Ferroviarios intermodal
+catalogos_tipo_servicio3,TS03,Tren unitario de carros ferroviarios
+catalogos_tipo_servicio4,TS04,Tren unitario Intermodal

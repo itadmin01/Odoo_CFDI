@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_cont_maritimo_tree">
+      <field name="name">cve.cont.maritimo.tree</field>
+      <field name="model">cve.cont.maritimo</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_cont_maritimo_form">
+      <field name="name">cve.cont.maritimo.form</field>
+      <field name="model">cve.cont.maritimo</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_cont_maritimo" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Contenedor Maritimo</field>
+        <field name="res_model">cve.cont.maritimo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_cont_maritimo" name="CVE Contenedor Maritimo" parent="catalogos_traslado_menu_principal" action="action_catalogos_cont_maritimo"/>
+  </data>
+</odoo>

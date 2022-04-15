@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_codigo_transporte_aereo_tree">
+      <field name="name">cve.codigo.transporte.aereo.tree</field>
+      <field name="model">cve.codigo.transporte.aereo</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="nacionalidad"/>
+          <field name="aerolinea"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_codigo_transporte_aereo_form">
+      <field name="name">cve.codigo.transporte.aereo.form</field>
+      <field name="model">cve.codigo.transporte.aereo</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="nacionalidad"/>
+          <field name="aerolinea"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_codigo_transporte_aereo" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Código Transporte Aereo</field>
+        <field name="res_model">cve.codigo.transporte.aereo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_codigo_transporte_aereo" name="CVE Código Transporte Aereo" parent="catalogos_traslado_menu_principal" action="action_catalogos_codigo_transporte_aereo"/>
+  </data>
+</odoo>

@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="catalogos_figura_transporte_tree">
+      <field name="name">cve.figura.transporte.tree</field>
+      <field name="model">cve.figura.transporte</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="clave"/>
+          <field name="descripcion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="catalogos_figura_transporte_form">
+      <field name="name">cve.figura.transporte.form</field>
+      <field name="model">cve.figura.transporte</field>
+      <field name="arch" type="xml">
+        <form string="description">
+          <header>
+          </header>
+          <sheet>
+            <group>
+          <field name="clave"/>
+          <field name="descripcion"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+      
+      <record id="action_catalogos_figura_transporte" model="ir.actions.act_window">
+        <field name="name">Catálogo de CVE Figura Transporte</field>
+        <field name="res_model">cve.figura.transporte</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+      </record>
+
+      <menuitem id="catalogos_menu_cve_figura_transporte" name="CVE Figura Transporte" parent="catalogos_traslado_menu_principal" action="action_catalogos_figura_transporte"/>
+  </data>
+</odoo>

@@ -1,0 +1,157 @@
+id,clave,nacionalidad,aerolinea
+catalogos_codigo_transporte_aereo1,CA001,Asiáticas,All Nippon Airways LTD
+catalogos_codigo_transporte_aereo2,CA002,Asiáticas,Cathay Pacific Airways Limited
+catalogos_codigo_transporte_aereo3,CA003,Asiáticas,China Southern Airlines
+catalogos_codigo_transporte_aereo4,CA004,Asiáticas,Emirates
+catalogos_codigo_transporte_aereo5,CA005,Asiáticas,Hainan Airlines
+catalogos_codigo_transporte_aereo6,CA006,Asiáticas,Korean Air
+catalogos_codigo_transporte_aereo7,CA007,Asiáticas,Qatar Airlines 
+catalogos_codigo_transporte_aereo8,CA008,Canadienses,Air Canada
+catalogos_codigo_transporte_aereo9,CA009,Canadienses,Air Transat (Transat A. T.)
+catalogos_codigo_transporte_aereo10,CA010,Canadienses,Canjet (Imp Group Limited/Canjet Airlines)
+catalogos_codigo_transporte_aereo11,CA011,Canadienses,Cargojet Airways Ltd
+catalogos_codigo_transporte_aereo12,CA012,Canadienses,Flair Airlines
+catalogos_codigo_transporte_aereo13,CA013,Canadienses,Jazz  Air  LP
+catalogos_codigo_transporte_aereo14,CA014,Canadienses,Sunwing (Sunwing Airlines)
+catalogos_codigo_transporte_aereo15,CA015,Canadienses,Swoop Airlines
+catalogos_codigo_transporte_aereo16,CA016,Canadienses,West Jet (Westjet Airlines Ltd)
+catalogos_codigo_transporte_aereo17,CA017,Centro y Sudamericanas,Aerolíneas Argentinas
+catalogos_codigo_transporte_aereo18,CA018,Centro y Sudamericanas,Aerorepública
+catalogos_codigo_transporte_aereo19,CA019,Centro y Sudamericanas,Avianca (Aerovías Del Continente Americano)
+catalogos_codigo_transporte_aereo20,CA020,Centro y Sudamericanas,Copa (Compañía Panameña De Aviación)
+catalogos_codigo_transporte_aereo21,CA021,Centro y Sudamericanas,Cubana (Cubana De Aviación)
+catalogos_codigo_transporte_aereo22,CA022,Centro y Sudamericanas,DHL De Guatemala (DHL De Guatemala)
+catalogos_codigo_transporte_aereo23,CA023,Centro y Sudamericanas,GOL Linhas Aéreas
+catalogos_codigo_transporte_aereo24,CA024,Centro y Sudamericanas,Lacsa (Líneas Aéreas Costarricences)
+catalogos_codigo_transporte_aereo25,CA025,Centro y Sudamericanas,LAN Cargo
+catalogos_codigo_transporte_aereo26,CA026,Centro y Sudamericanas,Lan Chile Airlines (Línea Aérea Nacional De Chile)
+catalogos_codigo_transporte_aereo27,CA027,Centro y Sudamericanas,Lan Colombia
+catalogos_codigo_transporte_aereo28,CA028,Centro y Sudamericanas,Lanperu
+catalogos_codigo_transporte_aereo29,CA029,Centro y Sudamericanas,Taca (Taca International Airlines)
+catalogos_codigo_transporte_aereo30,CA030,Centro y Sudamericanas,Taca Peru (Trans American Airlines)
+catalogos_codigo_transporte_aereo31,CA031,Centro y Sudamericanas,Tam Linhas Aereas
+catalogos_codigo_transporte_aereo32,CA032,Centro y Sudamericanas,Tampa (Tampa Cargo)
+catalogos_codigo_transporte_aereo33,CA033,Centro y Sudamericanas,Transcarga International Airways
+catalogos_codigo_transporte_aereo34,CA034,Centro y Sudamericanas,Tropic Air Limited
+catalogos_codigo_transporte_aereo35,CA035,Centro y Sudamericanas,Viva Air Colombia
+catalogos_codigo_transporte_aereo36,CA036,Centro y Sudamericanas,Volaris Costa Rica
+catalogos_codigo_transporte_aereo37,CA037,Centro y Sudamericanas,"VRG Linhas Aereas, S.A."
+catalogos_codigo_transporte_aereo38,CA038,El Caribe,BahamasAir Holdings LTD
+catalogos_codigo_transporte_aereo39,CA039,Estadounidenses,21 Air
+catalogos_codigo_transporte_aereo40,CA040,Estadounidenses,Abx (Abx Air)
+catalogos_codigo_transporte_aereo41,CA041,Estadounidenses,Alaska Airlines
+catalogos_codigo_transporte_aereo42,CA042,Estadounidenses,American Airlines
+catalogos_codigo_transporte_aereo43,CA043,Estadounidenses,Amerijet International
+catalogos_codigo_transporte_aereo44,CA044,Estadounidenses,Ameristar Air Cargo
+catalogos_codigo_transporte_aereo45,CA045,Estadounidenses,Atlas Air
+catalogos_codigo_transporte_aereo46,CA046,Estadounidenses,BOSTON MAINE
+catalogos_codigo_transporte_aereo47,CA047,Estadounidenses,C&M AIRWAYS
+catalogos_codigo_transporte_aereo48,CA048,Estadounidenses,Caribbean Sun Airlines
+catalogos_codigo_transporte_aereo49,CA049,Estadounidenses,CENTURION
+catalogos_codigo_transporte_aereo50,CA050,Estadounidenses,Compass Airlines
+catalogos_codigo_transporte_aereo51,CA051,Estadounidenses,Continental Express (Express Jet)
+catalogos_codigo_transporte_aereo52,CA052,Estadounidenses,Delta Airlines
+catalogos_codigo_transporte_aereo53,CA053,Estadounidenses,Delux Public Air Charter Inc
+catalogos_codigo_transporte_aereo54,CA054,Estadounidenses,"Envoy Air, Inc"
+catalogos_codigo_transporte_aereo55,CA055,Estadounidenses,FALCON AIR EXPRESS
+catalogos_codigo_transporte_aereo56,CA056,Estadounidenses,FEDEX (Federal Express)
+catalogos_codigo_transporte_aereo57,CA057,Estadounidenses,Florida West
+catalogos_codigo_transporte_aereo58,CA058,Estadounidenses,Frontier
+catalogos_codigo_transporte_aereo59,CA059,Estadounidenses,Gulf & Caribbean Cargo
+catalogos_codigo_transporte_aereo60,CA060,Estadounidenses,Horizont Air (Horizont Air Industries)
+catalogos_codigo_transporte_aereo61,CA061,Estadounidenses,Interjet West Inc
+catalogos_codigo_transporte_aereo62,CA062,Estadounidenses,Jet Blue Air (Jet Blue Airways Corporation)
+catalogos_codigo_transporte_aereo63,CA063,Estadounidenses,Kalitta (Kalitta Charters II)
+catalogos_codigo_transporte_aereo64,CA064,Estadounidenses,Kalitta Air
+catalogos_codigo_transporte_aereo65,CA065,Estadounidenses,Key Air Llc.
+catalogos_codigo_transporte_aereo66,CA066,Estadounidenses,"Mesa Airlines (Mesa Airlines, Inc.)"
+catalogos_codigo_transporte_aereo67,CA067,Estadounidenses,Miami Air  (Miami Air International Inc)
+catalogos_codigo_transporte_aereo68,CA068,Estadounidenses,MN Airlines
+catalogos_codigo_transporte_aereo69,CA069,Estadounidenses,National Air Cargo Group. Inc.(National Airlines)
+catalogos_codigo_transporte_aereo70,CA070,Estadounidenses,Northern Air Cargo Inc.
+catalogos_codigo_transporte_aereo71,CA071,Estadounidenses,ORANGE AIR LLC
+catalogos_codigo_transporte_aereo72,CA072,Estadounidenses,Republic Airlines
+catalogos_codigo_transporte_aereo73,CA073,Estadounidenses,"Sky Lease I, Inc"
+catalogos_codigo_transporte_aereo74,CA074,Estadounidenses,Skywest Airlines
+catalogos_codigo_transporte_aereo75,CA075,Estadounidenses,Southwest Airlines
+catalogos_codigo_transporte_aereo76,CA076,Estadounidenses,Spirit Airlines
+catalogos_codigo_transporte_aereo77,CA077,Estadounidenses,Sun Country
+catalogos_codigo_transporte_aereo78,CA078,Estadounidenses,Swift Air
+catalogos_codigo_transporte_aereo79,CA079,Estadounidenses,Tatonduk Outfitters Limited DBA Everts Air Cargo
+catalogos_codigo_transporte_aereo80,CA080,Estadounidenses,Tem Enterprises
+catalogos_codigo_transporte_aereo81,CA081,Estadounidenses,U.S.A. Jet Airlines
+catalogos_codigo_transporte_aereo82,CA082,Estadounidenses,Ultimate Jet Charter
+catalogos_codigo_transporte_aereo83,CA083,Estadounidenses,"United Airlines, Inc."
+catalogos_codigo_transporte_aereo84,CA084,Estadounidenses,Ups (United Parcel Service)
+catalogos_codigo_transporte_aereo85,CA085,Estadounidenses,US Air (U.S. Airways)
+catalogos_codigo_transporte_aereo86,CA086,Estadounidenses,"Virgin America, Inc"
+catalogos_codigo_transporte_aereo87,CA087,Europeas,Eurowings GMBH.
+catalogos_codigo_transporte_aereo88,CA088,Europeas,Air Atlanta Icelandic
+catalogos_codigo_transporte_aereo89,CA089,Europeas,Air Berlín
+catalogos_codigo_transporte_aereo90,CA090,Europeas,Air Europa (Air España)
+catalogos_codigo_transporte_aereo91,CA091,Europeas,Air France (Société Air France)
+catalogos_codigo_transporte_aereo92,CA092,Europeas,Alitalia
+catalogos_codigo_transporte_aereo93,CA093,Europeas,Antonov Company (Aerolíneas Antonov)
+catalogos_codigo_transporte_aereo94,CA094,Europeas,Azur Air
+catalogos_codigo_transporte_aereo95,CA095,Europeas,Blue Panorama
+catalogos_codigo_transporte_aereo96,CA096,Europeas,British Airways
+catalogos_codigo_transporte_aereo97,CA097,Europeas,C.A.L. Cargo Airlines
+catalogos_codigo_transporte_aereo98,CA098,Europeas,CargoLogicAir
+catalogos_codigo_transporte_aereo99,CA099,Europeas,Cargolux Airlines
+catalogos_codigo_transporte_aereo100,CA100,Europeas,Cargolux Italia S. P. A.
+catalogos_codigo_transporte_aereo101,CA101,Europeas,Corsair (Corse Air Int.)
+catalogos_codigo_transporte_aereo102,CA102,Europeas,Edelweiss (Edelweiss Air Ag) Air Ag
+catalogos_codigo_transporte_aereo103,CA103,Europeas,Evelop Airlines
+catalogos_codigo_transporte_aereo104,CA104,Europeas,Finn Air
+catalogos_codigo_transporte_aereo105,CA105,Europeas,Flugleidir Hf. D/B/A Icelandair
+catalogos_codigo_transporte_aereo106,CA106,Europeas,Hi-Fly Transportes Aereos
+catalogos_codigo_transporte_aereo107,CA107,Europeas,Iberia (Iberia Líneas Aéreas De España)
+catalogos_codigo_transporte_aereo108,CA108,Europeas,IKAR LLC.
+catalogos_codigo_transporte_aereo109,CA109,Europeas,K L M (Royal Dutch Airlines)
+catalogos_codigo_transporte_aereo110,CA110,Europeas,Lufthansa (Deutsche Lufthansa Ag)
+catalogos_codigo_transporte_aereo111,CA111,Europeas,Lufthansa Cargo Ag
+catalogos_codigo_transporte_aereo112,CA112,Europeas,Martin Air (Martin Air Holland N.V)
+catalogos_codigo_transporte_aereo113,CA113,Europeas,Neos Air (Neos S.P.A.)
+catalogos_codigo_transporte_aereo114,CA114,Europeas,Nordwind
+catalogos_codigo_transporte_aereo115,CA115,Europeas,Norwegian Air Shuttle 
+catalogos_codigo_transporte_aereo116,CA116,Europeas,NOVA AIRLINES
+catalogos_codigo_transporte_aereo117,CA117,Europeas,Orbest
+catalogos_codigo_transporte_aereo118,CA118,Europeas,Polskie Linie Lotnicze
+catalogos_codigo_transporte_aereo119,CA119,Europeas,Privilege Style
+catalogos_codigo_transporte_aereo120,CA120,Europeas,Pullmantur
+catalogos_codigo_transporte_aereo121,CA121,Europeas,Royal Flight
+catalogos_codigo_transporte_aereo122,CA122,Europeas,"SATA International  Servicios de Transportes Aereos, s.a."
+catalogos_codigo_transporte_aereo123,CA123,Europeas,Scandinavia (Thomas Cook Airlines Scandinavia )
+catalogos_codigo_transporte_aereo124,CA124,Europeas,Thomas Cook (Thomas Cook Ltd)
+catalogos_codigo_transporte_aereo125,CA125,Europeas,Thomson Airways (Thomson Airways Ltd) Ltd
+catalogos_codigo_transporte_aereo126,CA126,Europeas,Thomson Fly Limited
+catalogos_codigo_transporte_aereo127,CA127,Europeas,Titan Airways
+catalogos_codigo_transporte_aereo128,CA128,Europeas,Transaero Airlines
+catalogos_codigo_transporte_aereo129,CA129,Europeas,TRAVEL SERVICE
+catalogos_codigo_transporte_aereo130,CA130,Europeas,TUI Airways
+catalogos_codigo_transporte_aereo131,CA131,Europeas,Tui Belgium
+catalogos_codigo_transporte_aereo132,CA132,Europeas,Tui Nederland
+catalogos_codigo_transporte_aereo133,CA133,Europeas,TUIFLY GMBH
+catalogos_codigo_transporte_aereo134,CA134,Europeas,Tuifly Nordic
+catalogos_codigo_transporte_aereo135,CA135,Europeas,Turkish Airlines
+catalogos_codigo_transporte_aereo136,CA136,Europeas,"Virgin Atlantic Airways, Limited"
+catalogos_codigo_transporte_aereo137,CA137,Europeas,"Wamos Air, S.A."
+catalogos_codigo_transporte_aereo138,CA138,Europeas,White Airways
+catalogos_codigo_transporte_aereo139,CA139,Europeas,Xl Airways (Xl Airways France)
+catalogos_codigo_transporte_aereo140,CA140,Mexicanas,Aéreo Calafia
+catalogos_codigo_transporte_aereo141,CA141,Mexicanas,Aerolíneas Damojh (Global Air )
+catalogos_codigo_transporte_aereo142,CA142,Mexicanas,Aeromar
+catalogos_codigo_transporte_aereo143,CA143,Mexicanas,Aeroméxico (Aerovías De México)
+catalogos_codigo_transporte_aereo144,CA144,Mexicanas,Aeroméxico Connect (Aerolitoral)
+catalogos_codigo_transporte_aereo145,CA145,Mexicanas,Aeronaves TSM
+catalogos_codigo_transporte_aereo146,CA146,Mexicanas,Aeroservicios de La Costa
+catalogos_codigo_transporte_aereo147,CA147,Mexicanas,Aerounión (Aerotransportes De Carga Union)
+catalogos_codigo_transporte_aereo148,CA148,Mexicanas,Estafeta (Carga Aérea)
+catalogos_codigo_transporte_aereo149,CA149,Mexicanas,Interjet (Abc Aerolíneas)
+catalogos_codigo_transporte_aereo150,CA150,Mexicanas,Magnicharters (Grupo Aéreo Monterrey)
+catalogos_codigo_transporte_aereo151,CA151,Mexicanas,Mas Air (Más De Carga)
+catalogos_codigo_transporte_aereo152,CA152,Mexicanas,"MCS Aerocarga De México, S.A De C.V."
+catalogos_codigo_transporte_aereo153,CA153,Mexicanas,"Servicios Integrales De Aviacion, S.A. De C.V."
+catalogos_codigo_transporte_aereo154,CA154,Mexicanas,Transportes Aéreos Regionales (TAR)
+catalogos_codigo_transporte_aereo155,CA155,Mexicanas,Vivaaerobus (Aeroenlaces)
+catalogos_codigo_transporte_aereo156,CA156,Mexicanas,Volaris (Concesionaria Vuela Cia De Aviación)

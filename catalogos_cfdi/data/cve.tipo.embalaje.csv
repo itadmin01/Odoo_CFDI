@@ -1,0 +1,60 @@
+id,clave,descripcion
+catalogos_tipo_embalaje1,1A1,Bidones (Tambores) de Acero 1 de tapa no desmontable
+catalogos_tipo_embalaje2,1A2,Bidones (Tambores) de Acero 1 de tapa desmontable
+catalogos_tipo_embalaje3,1B1,Bidones (Tambores) de Aluminio de tapa no desmontable
+catalogos_tipo_embalaje4,1B2,Bidones (Tambores) de Aluminio de tapa desmontable
+catalogos_tipo_embalaje5,1D,Bidones (Tambores) de Madera contrachapada
+catalogos_tipo_embalaje6,1G,Bidones (Tambores) de Cartón
+catalogos_tipo_embalaje7,1H1,Bidones (Tambores) de Plástico de tapa no desmontable
+catalogos_tipo_embalaje8,1H2,Bidones (Tambores) de Plástico de tapa desmontable
+catalogos_tipo_embalaje9,1N1,Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable
+catalogos_tipo_embalaje10,1N2,Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable
+catalogos_tipo_embalaje11,3A1,Jerricanes (Porrones) de Acero de tapa no desmontable
+catalogos_tipo_embalaje12,3A2,Jerricanes (Porrones) de Acero de tapa desmontable
+catalogos_tipo_embalaje13,3B1,Jerricanes (Porrones) de Aluminio de tapa no desmontable
+catalogos_tipo_embalaje14,3B2,Jerricanes (Porrones) de Aluminio de tapa desmontable
+catalogos_tipo_embalaje15,3H1,Jerricanes (Porrones) de Plástico de tapa no desmontable
+catalogos_tipo_embalaje16,3H2,Jerricanes (Porrones) de Plástico de tapa desmontable
+catalogos_tipo_embalaje17,4A,Cajas de Acero
+catalogos_tipo_embalaje18,4B,Cajas de Aluminio
+catalogos_tipo_embalaje19,4C1,Cajas de Madera natural ordinaria
+catalogos_tipo_embalaje20,4C2,Cajas de Madera natural de paredes a prueba de polvos (estancas a los pulverulentos)
+catalogos_tipo_embalaje21,4D,Cajas de Madera contrachapada
+catalogos_tipo_embalaje22,4F,Cajas de Madera reconstituida
+catalogos_tipo_embalaje23,4G,Cajas de Cartón
+catalogos_tipo_embalaje24,4H1,Cajas de Plástico Expandido
+catalogos_tipo_embalaje25,4H2,Cajas de Plástico Rígido
+catalogos_tipo_embalaje26,5H1,Sacos (Bolsas) de Tejido de plástico sin forro ni revestimientos interiores
+catalogos_tipo_embalaje27,5H2,Sacos (Bolsas) de Tejido de plástico a prueba de polvos (estancos a los pulverulentos)
+catalogos_tipo_embalaje28,5H3,Sacos (Bolsas) de Tejido de plástico resistente al agua
+catalogos_tipo_embalaje29,5H4,Sacos (Bolsas) de Película de plástico
+catalogos_tipo_embalaje30,5L1,Sacos (Bolsas) de Tela sin forro ni revestimientos interiores
+catalogos_tipo_embalaje31,5L2,Sacos (Bolsas) de Tela a prueba de polvos (estancos a los pulverulentos)
+catalogos_tipo_embalaje32,5L3,Sacos (Bolsas) de Tela resistentes al agua
+catalogos_tipo_embalaje33,5M1,Sacos (Bolsas) de Papel de varias hojas
+catalogos_tipo_embalaje34,5M2,"Sacos (Bolsas) de Papel de varias hojas, resistentes al agua"
+catalogos_tipo_embalaje35,6HA1,"Envases y embalajes compuestos de Recipiente de plástico, con bidón (tambor) de acero"
+catalogos_tipo_embalaje36,6HA2,"Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de acero"
+catalogos_tipo_embalaje37,6HB1,"Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) exterior de aluminio"
+catalogos_tipo_embalaje38,6HB2,"Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de aluminio"
+catalogos_tipo_embalaje39,6HC,"Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera"
+catalogos_tipo_embalaje40,6HD1,"Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de madera contrachapada"
+catalogos_tipo_embalaje41,6HD2,"Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera contrachapada"
+catalogos_tipo_embalaje42,6HG1,"Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de cartón"
+catalogos_tipo_embalaje43,6HG2,"Envases y embalajes compuestos de Recipiente de plástico, con una caja de cartón"
+catalogos_tipo_embalaje44,6HH1,"Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de plástico"
+catalogos_tipo_embalaje45,6HH2,"Envases y embalajes compuestos de Recipiente de plástico, con caja de plástico rígido"
+catalogos_tipo_embalaje46,6PA1,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de acero"
+catalogos_tipo_embalaje47,6PA2,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de acero"
+catalogos_tipo_embalaje48,6PB1,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) exterior de aluminio"
+catalogos_tipo_embalaje49,6PB2,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de aluminio"
+catalogos_tipo_embalaje50,6PC,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de madera"
+catalogos_tipo_embalaje51,6PD 1,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con bidón (tambor) de madera contrachapada"
+catalogos_tipo_embalaje52,6PD2,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con canasta de mimbre"
+catalogos_tipo_embalaje53,6PG1,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de cartón"
+catalogos_tipo_embalaje54,6PG2,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de cartón"
+catalogos_tipo_embalaje55,6PH1,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico expandido"
+catalogos_tipo_embalaje56,6PH2,"Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico rígido"
+catalogos_tipo_embalaje57,7H1,Bultos de Plástico
+catalogos_tipo_embalaje58,7L1,Bultos de Tela
+catalogos_tipo_embalaje59,Z01,No aplica 

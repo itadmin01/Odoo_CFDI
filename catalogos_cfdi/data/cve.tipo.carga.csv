@@ -1,0 +1,7 @@
+id,clave,descripcion
+catalogos_tipo_carga1,CGS,Carga General Suelta
+catalogos_tipo_carga2,CGC,Carga General Contenerizada
+catalogos_tipo_carga3,GMN,Gran Mineral
+catalogos_tipo_carga4,GAG,Granel Agrícola
+catalogos_tipo_carga5,OFL,Otros Fluidos
+catalogos_tipo_carga6,PYD,Pretóleo y Derivados

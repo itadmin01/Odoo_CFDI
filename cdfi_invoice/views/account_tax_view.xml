@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="account.view_tax_form" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="info_cdfi" string="CFDI 3.3">
+                    <page name="info_cdfi" string="CFDI">
                             <group cols="4">
                                 <group string="Datos del impuesto">
                                     <field name="impuesto"/>

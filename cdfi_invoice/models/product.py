@@ -46,6 +46,7 @@ UM_CLAVO_MAP = {
                 'Saco': 'XSA',
                 'Miles': 'MIL',
                 'Valor monetario': 'M4',
+                'Cabeza': 'HEA',
                 }
     
 class ProductTemplate(models.Model):
@@ -95,11 +96,18 @@ class ProductTemplate(models.Model):
                    ('Saco', 'Saco'),
                    ('Miles', 'Miles'),
                    ('Valor monetario', 'Valor monetario'),
+                   ('Cabeza', 'Cabeza'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
     clave_unidad = fields.Char(string='Clave unidad', compute='_compute_clave_unidad')
-    
+    objetoimp = fields.Selection(
+        selection=[('01', 'No objeto de impuesto'), 
+                   ('02', 'Sí objeto de impuesto'), 
+                   ('03', 'Sí objeto del impuesto y no obligado al desglose'),],
+        string=_('Impuestos'), default = '02',
+    )
+
     @api.depends('unidad_medida')
     @api.one
     def _compute_clave_unidad(self):

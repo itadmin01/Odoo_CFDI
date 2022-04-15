@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 import pytz
-import datetime
+
 
 # put POSIX 'Etc/*' entries at the end to avoid confusing users - see bug 1086728
 _tzs = [(tz, tz) for tz in sorted(pytz.all_timezones, key=lambda tz: tz if not tz.startswith('Etc/') else '_')]
