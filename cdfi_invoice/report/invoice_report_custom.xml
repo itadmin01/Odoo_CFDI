@@ -64,8 +64,10 @@
 		            	<strong>Datos receptor:</strong><br/>
 					    <span t-field="o.partner_id.name"/><br/>
 					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
-					    <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/>
+					    <span t-field="o.partner_id.city"/><br/>
+		                <span t-field="o.partner_id.vat"/><br/>
+		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/> <br/>
+
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
 		            	<strong>Datos emisor:</strong><br/>
@@ -157,8 +159,8 @@
 	     <xpath expr="//p[@name='comment']" position="before">
 	     	<div class="col-xs-5 text-left">
 				<div style="color: black;">
-					<t t-foreach="docs" t-as="rec"> 
-						<strong><span t-esc="rec._get_amount_2_text(rec.amount_total)" /></strong>
+					<t t-foreach="docs" t-as="rec">
+					    <strong><span t-esc="rec._get_amount_2_text(rec.amount_total)" /></strong>
 					</t>
 				</div>
 			</div>
@@ -244,27 +246,24 @@
 
 		<xpath expr="//p[@name='note']" position="before">		
 				<div name="cadenas" class="row" style="display: table;">
+					<t t-foreach="docs" t-as="rec">
+					<div class="col-3 float-left" style="break-inside: avoid;">
+                        <img t-if="rec.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(rec.qrcode_image)" style="height: 190px;width: 190px;padding-left:10px;" />
+                    </div>
 
-					<t t-foreach="docs" t-as="rec"> 
+                    <div class="col-9 float-left" style="font-size:12px;break-inside: avoid;">
+	                <!--CADENA ORIGINAL>  -->
+	                    <strong>Cadena Original del Complemento digital del SAT</strong><br/>
+		                <span t-field="rec.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
 
-						<div class="col-3 float-left" style="break-inside: avoid;">
-	                        <img t-if="rec.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(rec.qrcode_image)" style="height: 190px;width: 190px;padding-left:10px;" />
-	                    </div>
+		                <strong>Sello digital del CFDI</strong><br/>
+		                <span t-field="rec.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" /><br/>
 
-	                    <div class="col-9 float-left" style="font-size:12px;break-inside: avoid;">
-		                <!--CADENA ORIGINAL>  -->
-		                    <strong>Cadena Original del Complemento digital del SAT</strong><br/>
-			                <span t-field="rec.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
+		                <strong>Sello del SAT</strong><br/>
+		                <span t-field="rec.selo_sat" style="word-break:break-word;font-size:8px;" /><br/>
 
-			                <strong>Sello digital del CFDI</strong><br/>
-			                <span t-field="rec.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" /><br/>
-
-			                <strong>Sello del SAT</strong><br/>
-			                <span t-field="rec.selo_sat" style="word-break:break-word;font-size:8px;" /><br/>
-
-	                    </div>
-	                </t>
-	                
+                    </div>
+                </t>
                 </div>
 
                 <!--DOCUMENTO LEGAL-->

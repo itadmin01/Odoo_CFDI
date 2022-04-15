@@ -108,7 +108,7 @@
 							</div>
 								<t t-if="o.factura_cfdi">
 								<div>
-									<span t-field="o.rfc_emisor" />
+									<span t-field="o.company_id.vat" />
 								</div>
 								<div>
 									<strong>Regimen fiscal</strong>: <span t-field="o.company_id.regimen_fiscal" />
@@ -175,6 +175,12 @@
 					<t t-set="amount_untaxed" t-value="0.0"/>
 
 					<table class="table" font-size="16px;">
+						
+						<t t-if="o.company_id.modo_prueba == True">
+							<div style="position:absolute;opacity:0.2;z-index:99;width:100%;">
+            					<center><span style="font-size:150px;color:red;">FACTURA DE <br/>PRUEBA</span></center>
+            				</div>
+        				</t>
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
@@ -342,7 +348,7 @@
 									<strong>Régimen fiscal</strong>
 								</td>
 								<td >
-									<span t-field="o.regimen_fiscal" />
+									<span t-field="o.company_id.regimen_fiscal" />
 								</td>
 							</tr>
 							<tr>
