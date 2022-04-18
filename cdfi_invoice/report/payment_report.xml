@@ -109,7 +109,7 @@
 						    	<span t-field="o.partner_id.rfc" />
 						     </div>
 							 <div>
-						    	Uso CFDI: P01
+						    	Uso CFDI: CP01
 						     </div>
 						</div>	
 					</div>
