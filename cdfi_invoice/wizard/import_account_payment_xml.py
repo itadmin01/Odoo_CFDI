@@ -83,7 +83,7 @@ class import_account_payment_from_xml(models.TransientModel):
                                                  )
         options = {'width': 275 * mm, 'height': 275 * mm}
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
-        qrcode_image = base64.encodestring(ret_val.asString('jpg'))
+        qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
 
         cargar_values = {
             'total_factura': xml_data.attrib['Total'],
