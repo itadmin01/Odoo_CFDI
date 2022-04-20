@@ -699,7 +699,8 @@ class AccountPayment(models.Model):
                      ('res_model', '=', p._name),
                      ('name', '=', p.name.replace('/', '_') + '.xml')]
                 xml_file = self.env['ir.attachment'].search(domain)[0]
-
+                if not xml_file:
+                    raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
                 values = {
                           'rfc': p.company_id.vat,
                           'api_key': p.company_id.proveedor_timbrado,
