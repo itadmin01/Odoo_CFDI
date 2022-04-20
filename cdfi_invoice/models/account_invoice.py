@@ -1063,16 +1063,28 @@ class MailTemplate(models.Model):
                     results[res_id]['attachments'] = attachments
         return results
 
+
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     pedimento = fields.Char('Pedimento')
     predial = fields.Char('No. Predial')
-    
-    
+
+
+class MyModuleMessageWizard(models.TransientModel):
+    _name = 'mymodule.message.wizard'
+    _description = "Show Message"
+
+    message = fields.Text('Message', required=True)
+
+    #    @api.multi
+    def action_close(self):
+        return {'type': 'ir.actions.act_window_close'}
+
+
 class AccountPartialReconcile(models.Model):
     _inherit = "account.partial.reconcile"
-    
+
     def unlink(self):
         full_to_unlink = self.env['account.full.reconcile']
         for rec in self:
@@ -1085,13 +1097,3 @@ class AccountPartialReconcile(models.Model):
         if full_to_unlink:
             full_to_unlink.unlink()
         return res
-
-class MyModuleMessageWizard(models.TransientModel):
-    _name = 'mymodule.message.wizard'
-    _description = "Show Message"
-
-    message = fields.Text('Message', required=True)
-
-#    @api.multi
-    def action_close(self):
-        return {'type': 'ir.actions.act_window_close'}

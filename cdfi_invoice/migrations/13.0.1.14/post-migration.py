@@ -14,7 +14,6 @@ def update_account_move_cdfi_invoice_fields(cr):
             methodo_pago = ai.methodo_pago,
             uso_cfdi = ai.uso_cfdi,
             estado_factura = ai.estado_factura,
-            qrcode_image = ai.qrcode_image,
             tipocambio = ai.tipocambio,
             moneda = ai.moneda,
             qr_value = ai.qr_value,
@@ -30,7 +29,7 @@ def update_res_partner_cdfi_fields(cr):
     openupgrade.logged_query(
         cr, """
             UPDATE res_partner rp
-            SET rp.vat = rp_old.rfc
+            SET vat = rp_old.rfc
             FROM res_partner rp_old
             """
     )
@@ -38,9 +37,9 @@ def update_product_clave_unidad_field(cr):
     openupgrade.logged_query(
         cr, """
             UPDATE product_template tmpl
-            SET tmpl.cat_unidad_medida = catalogo.id
+            SET cat_unidad_medida = catalogo.id
             FROM product_template t
-            left join catalogo_unidad_medida catalogo on catalogo.clave=t.clave_unidad
+            left join catalogo_unidad_medida catalogo on catalogo.descripcion=t.unidad_medida
             """
     )
     
