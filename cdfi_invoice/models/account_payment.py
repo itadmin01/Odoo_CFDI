@@ -581,7 +581,7 @@ class AccountPayment(models.Model):
                                             })
                 report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
                 report_data = report._render_qweb_pdf([p.id])[0]
-                pdf_file_name = p.name.replace('/', '_') + '.pdf'
+                pdf_file_name = p.name.replace('.','').replace('/', '_') + '.pdf'
                 self.env['ir.attachment'].sudo().create(
                                             {
                                                 'name': pdf_file_name,
@@ -697,7 +697,7 @@ class AccountPayment(models.Model):
                 domain = [
                      ('res_id', '=', p.id),
                      ('res_model', '=', p._name),
-                     ('name', '=', p.name.replace('/', '_') + '.xml')]
+                     ('name', '=', p.name.replace('.','').replace('/', '_') + '.xml')]
                 xml_file = self.env['ir.attachment'].search(domain)[0]
                 if not xml_file:
                     raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
@@ -738,7 +738,7 @@ class AccountPayment(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
-                    file_name = 'CANCEL_' + p.name.replace('/', '_') + '.xml'
+                    file_name = 'CANCEL_' + p.name.replace('.','').replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
