@@ -86,9 +86,7 @@
         <field name="state">code</field>
         <field name="model_id" ref="account.model_account_invoice"/>
         <field name="binding_model_id" ref="account.model_account_invoice"/>
-        <field name="code">
-				records.action_generate_cfdi()
-        </field>
+        <field name="code">records.action_cfdi_generate()</field>
     </record>
 
     <record id="model_action_liberar_cfdi" model="ir.actions.server">
