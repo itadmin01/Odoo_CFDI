@@ -129,9 +129,10 @@ class ResCompany(models.Model):
             raise UserError(_(json_response['problemas_message']))
         if json_response.get('saldo'):
             xml_saldo = base64.b64decode(json_response['saldo'])
+        fecha = parser.parse(json_response['vigencia']) if json_response['vigencia'] else ''
         values2 = {
                     'saldo_timbres': xml_saldo,
-                    'fecha_timbres': parser.parse(json_response['vigencia']) if json_response['vigencia'] else '',
+                    'fecha_timbres': fecha.date() if fecha else '',
                   }
         self.update(values2)
 
