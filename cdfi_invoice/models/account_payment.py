@@ -534,7 +534,7 @@ class AccountPayment(models.Model):
                 if "Name or service not known" in error or "Failed to establish a new connection" in error:
                      raise UserError(_('Servidor fuera de servicio, favor de intentar mas tarde'))
                 else:
-                     raise Warning(error)
+                     raise UserError(_(error))
 
             if "Whoops, looks like something went wrong." in response.text:
                 raise UserError(_('Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.'))

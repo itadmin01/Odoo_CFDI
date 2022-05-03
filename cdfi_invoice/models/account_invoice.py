@@ -690,15 +690,15 @@ class AccountMove(models.Model):
                 invoice.write({'proceso_timbrado': False})
                 self.env.cr.commit()
                 if "Name or service not known" in error or "Failed to establish a new connection" in error:
-                    raise Warning("No se pudo conectar con el servidor.")
+                    raise UserError(_("No se pudo conectar con el servidor."))
                 else:
-                    raise Warning(error)
+                    raise UserError(_(error))
 
             if "Whoops, looks like something went wrong." in response.text:
                 invoice.write({'proceso_timbrado': False})
                 self.env.cr.commit()
-                raise Warning(
-                    "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
+                raise UserError(_(
+                    "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas."))
             else:
                 json_response = response.json()
             estado_factura = json_response['estado_factura']
@@ -779,13 +779,13 @@ class AccountMove(models.Model):
                 except Exception as e:
                     error = str(e)
                     if "Name or service not known" in error or "Failed to establish a new connection" in error:
-                        raise Warning("No se pudo conectar con el servidor.")
+                        raise UserError(_("No se pudo conectar con el servidor."))
                     else:
-                        raise Warning(error)
+                        raise UserError(_(error))
 
                 if "Whoops, looks like something went wrong." in response.text:
-                    raise Warning(
-                        "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
+                    raise UserError(_(
+                        "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas."))
 
                 json_response = response.json()
 
@@ -793,9 +793,7 @@ class AccountMove(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response['estado_factura'] == 'solicitud_cancelar':
-                    # invoice.write({'estado_factura': json_response['estado_factura']})
                     log_msg = "Se solicitó cancelación de CFDI"
-                    # raise Warning(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
                     file_name = 'CANCEL_' + invoice.name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
@@ -922,8 +920,8 @@ class AccountMove(models.Model):
                                          headers={"Content-type": "application/json"})
 
                 if "Whoops, looks like something went wrong." in response.text:
-                    raise Warning(
-                        "Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
+                    raise UserError(_(
+                        "Error con el servidor de facturación, favor de reportar el error a su persona de soporte."))
 
                 json_response = response.json()
             except Exception as e:
