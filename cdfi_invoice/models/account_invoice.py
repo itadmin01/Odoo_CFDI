@@ -564,7 +564,7 @@ class AccountInvoice(models.Model):
                                                      'RetencionesLocales': tax_local_ret,}})
 
         if self.tipo_comprobante == 'T':
-            request_params['factura'].update({'subtotal': '0.00','total': '0.00'})
+            request_params['factura'].update({'descuento': '', 'subtotal': '0.00','total': '0.00'})
             self.total_factura = 0
         else:
             self.total_factura = round(self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot,2)
