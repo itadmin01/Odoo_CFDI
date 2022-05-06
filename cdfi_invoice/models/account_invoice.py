@@ -1006,7 +1006,7 @@ class AccountMove(models.Model):
 
             foreign_currency = self.currency_id if self.currency_id != self.company_id.currency_id else False
             if foreign_currency and partial.debit_currency_id == foreign_currency:
-                amount_mxn = partial.amount * self.currency_id.with_context(date=self.invoice_date).rate
+                amount_mxn = partial.amount * self.currency_id.with_context(date=counterpart_line.date).rate
             else:
                 amount_mxn = partial.amount
 
