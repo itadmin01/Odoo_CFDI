@@ -955,11 +955,11 @@ class AccountMove(models.Model):
 
             foreign_currency = self.currency_id if self.currency_id != self.company_id.currency_id else False
             if foreign_currency and partial.debit_currency_id == foreign_currency:
-                amount_mxn = partial.amount * self.currency_id.with_context(date=self.invoice_date).rate
-                _logger.info('entra a amount_mxn %s', amount_mxn)
+                amount_mxn = partial.amount * self.currency_id.with_context(date=counterpart_line.date).rate
+             #   _logger.info('entra a amount_mxn %s', amount_mxn)
             else:
                 amount_mxn = partial.amount
-                _logger.info('no entra a foraneo')
+             #   _logger.info('no entra a foraneo')
 
             reconciled_vals.append({
                 'name': counterpart_line.name,
