@@ -987,7 +987,7 @@ class AccountMove(models.Model):
 
             if foreign_currency and partial.currency_id == foreign_currency:
                 amount = partial.amount_currency
-                amount_mxn = partial.amount * self.currency_id.with_context(date=self.invoice_date).rate
+                amount_mxn = partial.amount * self.currency_id.with_context(date=counterpart_line.date).rate
                 #_logger.info('entra a amount_mxn %s', amount_mxn)
             else:
                 #_logger.info('no entra a foraneo')
