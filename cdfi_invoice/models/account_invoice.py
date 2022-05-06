@@ -1015,7 +1015,7 @@ class AccountInvoice(models.Model):
             # get the payment value in invoice currency
             if payment_currency_id and payment_currency_id == self.currency_id:
                 amount_to_show = amount_currency
-                amount_mxn = amount * self.currency_id.with_context(date=self.date_invoice).rate
+                amount_mxn = amount * self.currency_id.with_context(date=payment.date).rate
             else:
                 amount_to_show = payment.company_id.currency_id.with_context(date=payment.date).compute(amount, self.currency_id)
                 amount_mxn = payment.company_id.currency_id.with_context(date=payment.date).compute(amount, self.currency_id)
