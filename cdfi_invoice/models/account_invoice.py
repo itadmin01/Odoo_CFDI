@@ -250,10 +250,15 @@ class AccountMove(models.Model):
     
     @api.model
     def to_json(self):
-        if self.partner_id.vat == 'XAXX010101000' and self.factura_global:
-            nombre = 'PUBLICO EN GENERAL'
+        if self.partner_id.vat == 'XAXX010101000' or self.partner_id.vat == 'XEXX010101000':
+            zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
+            if self.factura_global:
+                nombre = 'PUBLICO EN GENERAL'
+            else:
+                nombre = self.partner_id.name.upper()
         else:
             nombre = self.partner_id.name.upper()
+            zipreceptor = self.partner_id.zip
 
         no_decimales = self.currency_id.no_decimales
         no_decimales_prod = self.currency_id.decimal_places
@@ -312,7 +317,7 @@ class AccountMove(models.Model):
                       'NumRegIdTrib': self.partner_id.registro_tributario,
                       'UsoCFDI': self.uso_cfdi,
                       'RegimenFiscalReceptor': self.partner_id.regimen_fiscal,
-                      'DomicilioFiscalReceptor': self.partner_id.zip,
+                      'DomicilioFiscalReceptor': zipreceptor,
                 },
                 'informacion': {
                       'cfdi': '4.0',
