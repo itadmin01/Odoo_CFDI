@@ -258,6 +258,8 @@ class AccountInvoice(models.Model):
     
     @api.model
     def to_json(self):
+        self.check_cfdi_values()
+
         if self.partner_id.rfc == 'XAXX010101000' or self.partner_id.rfc == 'XEXX010101000':
             zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
             if self.factura_global:
@@ -292,8 +294,6 @@ class AccountInvoice(models.Model):
            tipocambio = 1
         else:
            tipocambio = self.set_decimals(1 / self.currency_id.with_context(date=self.date_invoice).rate, no_decimales_tc)
-
-        self.check_cfdi_values()
 
         request_params = {
                 'factura': {
@@ -611,6 +611,10 @@ class AccountInvoice(models.Model):
             self.write({'proceso_timbrado': False})
             self.env.cr.commit()
             raise UserError(_('El receptor no tiene RFC configurado.'))
+        if not self.partner_id.name:
+            self.write({'proceso_timbrado': False})
+            self.env.cr.commit()
+            raise UserError(_('El receptor no tiene nombre configurado.'))
         if not self.uso_cfdi:
             self.write({'proceso_timbrado': False})
             self.env.cr.commit()
