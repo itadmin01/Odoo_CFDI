@@ -11,7 +11,7 @@ class ReasonCancelation(models.TransientModel):
                    ('03', ('No se llevó a cabo la operación')),
                    ('04', ('Operación nominativa relacionada en la factura global')),
                    ],
-        string=('Motivo de cancelación'), 
+        string=('Motivo de cancelación'), required=True,
     )
 
     foliosustitucion = fields.Char(string=_('Folio Sustitucion'))

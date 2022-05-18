@@ -8,7 +8,7 @@
             <form string="Motivo de cancelación">
                 <sheet>
                     <group> 
-                        <field name="motivo_cancelacion"/>
+                        <field name="motivo_cancelacion" required='1'/>
                         <field name="foliosustitucion"  attrs="{'invisible':[('motivo_cancelacion', '!=', '01')]}" />
                     </group>
                 </sheet>
