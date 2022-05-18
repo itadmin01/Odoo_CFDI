@@ -318,7 +318,7 @@
 								<td>
 									<strong>Forma de pago</strong>
 								</td>
-								<td >
+								<td>
 									<span t-field="o.forma_pago" />
 								</td>
 								<td>
@@ -353,14 +353,7 @@
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<t t-if="o.monedap!='MXN'">
-										<span t-esc="'{0:,.2f}'.format((1/float(o.currency_id.rate)))"/>
-									</t>
-									<t t-if="o.monedap=='MXN'">
-										<span t-field="o.tipocambiop"/>
-									</t>
-
-									<!--<span t-field="o.tipocambiop" /> -->
+									<span t-field="o.tipocambiop" />
 								</td>
 							</tr>
 						</table>
