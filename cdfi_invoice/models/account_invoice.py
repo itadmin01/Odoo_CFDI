@@ -149,11 +149,18 @@ class AccountMove(models.Model):
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = dict(default or {})
-        if self.estado_factura == 'factura_correcta' or self.estado_factura == 'factura_cancelada':
-            default['estado_factura'] = 'factura_no_generada'
-            default['folio_fiscal'] = ''
-            default['fecha_factura'] = None
-            default['factura_cfdi'] = False
+        default['estado_factura'] = 'factura_no_generada'
+        default['folio_fiscal'] = ''
+        default['fecha_factura'] = None
+        default['factura_cfdi'] = False
+        default['fecha_factura'] = None
+        default['qrcode_image'] = None
+        default['numero_cetificado'] = None
+        default['cetificaso_sat'] = None
+        default['selo_digital_cdfi'] = None
+        default['fecha_factura'] = None
+        default['folio_fiscal'] = None
+        default['invoice_datetime'] = None
             default['edi_document_ids'] = None
         return super(AccountMove, self).copy(default=default)
 
