@@ -161,7 +161,7 @@ class AccountMove(models.Model):
         default['fecha_factura'] = None
         default['folio_fiscal'] = None
         default['invoice_datetime'] = None
-            default['edi_document_ids'] = None
+        default['edi_document_ids'] = None
         return super(AccountMove, self).copy(default=default)
 
     @api.depends('name')
