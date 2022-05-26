@@ -175,8 +175,8 @@ class import_account_payment_from_xml(models.TransientModel):
                         tax_grouped_ret[key]['amount'] += float(importe)
               #_logger.info('retenciones %s', tax_grouped_ret)
 
+        impuestos = {}
         if tax_grouped_tras or tax_grouped_ret:
-                impuestos = {}
                 retenciones = []
                 traslados = []
                 if tax_grouped_tras:
@@ -207,7 +207,7 @@ class import_account_payment_from_xml(models.TransientModel):
                                          'tax_id': line['tax_id'],
                                          })
                    impuestos.update({'retenciones': retenciones,})
-                invoice_id.write({'tax_payment': json.dumps(impuestos)})
+        invoice_id.write({'tax_payment': json.dumps(impuestos)})
                 #_logger.info('total: %s', impuestos)
 
         #xml_file = open(xml_file_link, 'w')
