@@ -575,7 +575,7 @@ class AccountMove(models.Model):
             self.write({'proceso_timbrado': False})
             self.env.cr.commit()
             raise UserError(_('El receptor no tiene nombre configurado.'))
-        if not self.uso_cfdi:
+        if not self.uso_cfdi_id:
             self.write({'proceso_timbrado': False})
             self.env.cr.commit()
             raise UserError(_('La factura no tiene uso de cfdi configurado.'))
