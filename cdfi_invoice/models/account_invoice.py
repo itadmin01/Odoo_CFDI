@@ -957,6 +957,13 @@ class AccountInvoice(models.Model):
                     invoice.estado_factura = 'factura_correcta'
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
 
+    @api.multi
+    def action_invoice_cancel(self):
+        for invoice in self:
+           result = super(AccountInvoice, invoice).action_invoice_cancel()
+           invoice.write({'number': invoice.move_name})
+           return result
+
     def liberar_cfdi(self):
         for invoice in self:
            values = {
