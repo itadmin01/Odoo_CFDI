@@ -492,9 +492,9 @@ class AccountMove(models.Model):
                     traslados.append({'impuesto': tax.impuesto,
                                       'TipoFactor': tax.tipo_factor,
                                       'tasa': tasa_tr,
-                                      'importe': self.set_decimals(line['amount'],
+                                      'importe': self.roundTraditional(line['amount'],
                                                                    no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                      'base': self.set_decimals(line['base'], no_decimales),
+                                      'base': self.roundTraditional(line['base'], no_decimales),
                                       'tax_id': line['tax_id'],
                                       })
                 impuestos.update(
@@ -505,8 +505,8 @@ class AccountMove(models.Model):
                     retenciones.append({'impuesto': tax.impuesto,
                                         'TipoFactor': tax.tipo_factor,
                                         'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                        'importe': self.set_decimals(line['amount'] * -1, no_decimales),
-                                        'base': self.set_decimals(line['base'], no_decimales),
+                                        'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
+                                        'base': self.roundTraditional(line['base'], no_decimales),
                                         'tax_id': line['tax_id'],
                                         })
                 impuestos.update(
@@ -516,17 +516,17 @@ class AccountMove(models.Model):
 
         if tax_local_ret or tax_local_tras:
             if tax_local_tras and not tax_local_ret:
-                request_params.update({'implocal10': {'TotaldeTraslados': self.set_decimals(tax_local_tras_tot, 2),
-                                                      'TotaldeRetenciones': self.set_decimals(tax_local_ret_tot, 2),
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot, 2),
                                                       'TrasladosLocales': tax_local_tras, }})
             if tax_local_ret and not tax_local_tras:
-                request_params.update({'implocal10': {'TotaldeTraslados': self.set_decimals(tax_local_tras_tot, 2),
-                                                      'TotaldeRetenciones': self.set_decimals(tax_local_ret_tot * -1,
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,
                                                                                               2),
                                                       'RetencionesLocales': tax_local_ret, }})
             if tax_local_ret and tax_local_tras:
-                request_params.update({'implocal10': {'TotaldeTraslados': self.set_decimals(tax_local_tras_tot, 2),
-                                                      'TotaldeRetenciones': self.set_decimals(tax_local_ret_tot * -1,
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,
                                                                                               2),
                                                       'TrasladosLocales': tax_local_tras,
                                                       'RetencionesLocales': tax_local_ret, }})
@@ -537,9 +537,9 @@ class AccountMove(models.Model):
         else:
             self.total_factura = round(
                 self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot, 2)
-            request_params['factura'].update({'descuento': self.set_decimals(self.discount, no_decimales),
-                                              'subtotal': self.set_decimals(self.subtotal, no_decimales),
-                                              'total': self.set_decimals(self.total_factura, no_decimales)})
+            request_params['factura'].update({'descuento': self.roundTraditional(self.discount, no_decimales),
+                                              'subtotal': self.roundTraditional(self.subtotal, no_decimales),
+                                              'total': self.roundTraditional(self.total_factura, no_decimales)})
 
         request_params.update({'conceptos': invoice_lines})
 
