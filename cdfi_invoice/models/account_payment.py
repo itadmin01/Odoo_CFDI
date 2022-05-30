@@ -397,7 +397,7 @@ class AccountPayment(models.Model):
                   if line['ImpuestoP'] == '002':
                        totales.update({'TotalRetencionesIVA': self.set_decimals(line['ImporteP'],2),})
                   if line['ImpuestoP'] == '001':
-                       totales.update({'TotalRetencionesISR': self.set_decimals(line['ImporteP'],2),})
+                       totales.update({'TotalRetencionesISR': self.roundTraditional(line['ImporteP'],2),})
                   if line['ImpuestoP'] == '003':
                        totales.update({'TotalRetencionesIEPS': self.set_decimals(line['ImporteP'],2),})
                   self.total_pago -= round(line['ImporteP'] * float(self.tipocambiop),2)
