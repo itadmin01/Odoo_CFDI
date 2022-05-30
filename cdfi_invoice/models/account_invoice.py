@@ -541,9 +541,9 @@ class AccountMove(models.Model):
                     traslados.append({'impuesto': tax.impuesto,
                                       'TipoFactor': tax.tipo_factor,
                                       'tasa': tasa_tr,
-                                      'importe': self.set_decimals(line['amount'],
+                                      'importe': self.roundTraditional(line['amount'],
                                                                    no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                      'base': self.set_decimals(line['base'], no_decimales),
+                                      'base': self.roundTraditional(line['base'], no_decimales),
                                       'tax_id': line['tax_id'],
                                       })
                 impuestos.update(
@@ -554,8 +554,8 @@ class AccountMove(models.Model):
                     retenciones.append({'impuesto': tax.impuesto,
                                         'TipoFactor': tax.tipo_factor,
                                         'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                        'importe': self.set_decimals(line['amount'] * -1, no_decimales),
-                                        'base': self.set_decimals(line['base'], no_decimales),
+                                        'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
+                                        'base': self.roundTraditional(line['base'], no_decimales),
                                         'tax_id': line['tax_id'],
                                         })
                 impuestos.update(
