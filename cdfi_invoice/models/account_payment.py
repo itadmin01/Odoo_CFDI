@@ -33,7 +33,13 @@ class AccountRegisterPayment(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         res = super(AccountRegisterPayment, self)._create_payment_vals_from_wizard()
-        res.update({'fecha_pago': self.payment_date})
+
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+        local = pytz.timezone(timezone)
+        naive_from = self.payment_date
+        res.update({'fecha_pago': datetime(self.payment_date.year, self.payment_date.month, self.payment_date.day, 16,0, tzinfo=local).strftime ("%Y-%m-%d %H:%M:%S")})
         return res
 
 
