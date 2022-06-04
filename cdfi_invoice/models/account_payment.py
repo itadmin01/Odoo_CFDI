@@ -33,7 +33,13 @@ class AccountRegisterPayment(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         res = super(AccountRegisterPayment, self)._create_payment_vals_from_wizard()
-        res.update({'fecha_pago': self.payment_date})
+
+        timezone = self._context.get('tz')
+        if not timezone:
+            timezone = self.env.user.partner_id.tz or 'America/Mexico_City'
+        local = pytz.timezone(timezone)
+        naive_from = self.payment_date
+        res.update({'fecha_pago': datetime(self.payment_date.year, self.payment_date.month, self.payment_date.day, 16,0, tzinfo=local).strftime ("%Y-%m-%d %H:%M:%S")})
         return res
 
 
@@ -169,10 +175,10 @@ class AccountPayment(models.Model):
             return {'domain': {'payment_method_id': [('payment_type', '=', payment_type), ('id', 'in', payment_methods.ids)]}}
         return {}
     
-    @api.onchange('date')
-    def _onchange_payment_date(self):
-        if self.date:
-            self.fecha_pago = datetime.combine((self.date), datetime.max.time())
+   # @api.onchange('date')
+   # def _onchange_payment_date(self):
+   #     if self.date:
+   #         self.fecha_pago = datetime.combine((self.date), datetime.max.time())
 
     def add_resitual_amounts(self):
         for payment in self:
