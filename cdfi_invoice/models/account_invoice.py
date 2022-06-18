@@ -6,7 +6,7 @@ import requests
 import datetime
 from lxml import etree
 
-from odoo import fields, models, api,_ 
+from odoo import fields, models, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import UserError, Warning
 from odoo.tools import date_utils, float_is_zero
@@ -14,50 +14,52 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
 import pytz
-
+import re
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
     factura_cfdi = fields.Boolean('Factura CFDI')
     tipo_comprobante = fields.Selection(
-        selection=[('I', 'Ingreso'), 
+        selection=[('I', 'Ingreso'),
                    ('E', 'Egreso'),
                    ('T', 'Traslado'),
-                  ],
+                   ],
         string=_('Tipo de comprobante'),
     )
     forma_pago = fields.Selection(
-        selection=[('01', '01 - Efectivo'), 
-                   ('02', '02 - Cheque nominativo'), 
+        selection=[('01', '01 - Efectivo'),
+                   ('02', '02 - Cheque nominativo'),
                    ('03', '03 - Transferencia electrónica de fondos'),
-                   ('04', '04 - Tarjeta de Crédito'), 
+                   ('04', '04 - Tarjeta de Crédito'),
                    ('05', '05 - Monedero electrónico'),
-                   ('06', '06 - Dinero electrónico'), 
-                   ('08', '08 - Vales de despensa'), 
-                   ('12', '12 - Dación en pago'), 
-                   ('13', '13 - Pago por subrogación'), 
-                   ('14', '14 - Pago por consignación'), 
-                   ('15', '15 - Condonación'), 
-                   ('17', '17 - Compensación'), 
-                   ('23', '23 - Novación'), 
-                   ('24', '24 - Confusión'), 
-                   ('25', '25 - Remisión de deuda'), 
-                   ('26', '26 - Prescripción o caducidad'), 
-                   ('27', '27 - A satisfacción del acreedor'), 
-                   ('28', '28 - Tarjeta de débito'), 
-                   ('29', '29 - Tarjeta de servicios'), 
-                   ('30', '30 - Aplicación de anticipos'), 
+                   ('06', '06 - Dinero electrónico'),
+                   ('08', '08 - Vales de despensa'),
+                   ('12', '12 - Dación en pago'),
+                   ('13', '13 - Pago por subrogación'),
+                   ('14', '14 - Pago por consignación'),
+                   ('15', '15 - Condonación'),
+                   ('17', '17 - Compensación'),
+                   ('23', '23 - Novación'),
+                   ('24', '24 - Confusión'),
+                   ('25', '25 - Remisión de deuda'),
+                   ('26', '26 - Prescripción o caducidad'),
+                   ('27', '27 - A satisfacción del acreedor'),
+                   ('28', '28 - Tarjeta de débito'),
+                   ('29', '29 - Tarjeta de servicios'),
+                   ('30', '30 - Aplicación de anticipos'),
                    ('31', '31 - Intermediario pagos'),
-                   ('99', '99 - Por definir'),],
+                   ('99', '99 - Por definir'), ],
         string=_('Forma de pago'),
     )
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')),],
-                   string=_('Método de pago'), 
+                   ('PPD', _('Pago en parcialidades o diferido')), ],
+        string=_('Método de pago'),
     )
     uso_cfdi = fields.Selection(
         selection=[('G01', _('Adquisición de mercancías')),
@@ -82,12 +84,12 @@ class AccountMove(models.Model):
                    ('D09', _('Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones')),
                    ('D10', _('Pagos por servicios educativos (colegiaturas)')),
                    ('S01', _('Sin efectos fiscales')),
-                   ('P01', _('Por definir (obsoleto)')),],
+                   ('P01', _('Por definir (obsoleto)')), ],
         string=_('Uso CFDI (cliente)'),
     )
     estado_factura = fields.Selection(
-        selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
-                   ('solicitud_cancelar', 'Cancelación en proceso'),('factura_cancelada', 'Factura cancelada'),
+        selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'),
+                   ('solicitud_cancelar', 'Cancelación en proceso'), ('factura_cancelada', 'Factura cancelada'),
                    ('solicitud_rechazada', 'Cancelación rechazada')],
         string=_('Estado de factura'),
         default='factura_no_generada',
@@ -105,24 +107,24 @@ class AccountMove(models.Model):
     moneda = fields.Char(string=_('Moneda'))
     tipocambio = fields.Char(string=_('TipoCambio'))
     jurnal_type=fields.Selection('Journal Type', related='journal_id.type', store=True)
-    #folio = fields.Char(string=_('Folio'))
-    #version = fields.Char(string=_('Version'))
+    # folio = fields.Char(string=_('Folio'))
+    # version = fields.Char(string=_('Version'))
     number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
-                                 size=256, 
+                                 size=256,
                                  help='Amount of the invoice in letter')
     qr_value = fields.Char(string=_('QR Code Value'))
     invoice_datetime = fields.Char(string=_('11/12/17 12:34:12'))
     fecha_factura = fields.Datetime(string=_('Fecha Factura'))
-    #serie_emisor = fields.Char(string=_('A'))
+    # serie_emisor = fields.Char(string=_('A'))
     tipo_relacion = fields.Selection(
-        selection=[('01', 'Nota de crédito de los documentos relacionados'), 
-                   ('02', 'Nota de débito de los documentos relacionados'), 
+        selection=[('01', 'Nota de crédito de los documentos relacionados'),
+                   ('02', 'Nota de débito de los documentos relacionados'),
                    ('03', 'Devolución de mercancía sobre facturas o traslados previos'),
-                   ('04', 'Sustitución de los CFDI previos'), 
+                   ('04', 'Sustitución de los CFDI previos'),
                    ('05', 'Traslados de mercancías facturados previamente'),
-                   ('06', 'Factura generada por los traslados previos'), 
-                   ('07', 'CFDI por aplicación de anticipo'),],
+                   ('06', 'Factura generada por los traslados previos'),
+                   ('07', 'CFDI por aplicación de anticipo'), ],
         string=_('Tipo relación'),
     )
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
@@ -132,10 +134,10 @@ class AccountMove(models.Model):
     discount = fields.Float("Descuento factura")
     facatradquirente = fields.Char(string=_('Fac Atr Adquirente'))
     exportacion = fields.Selection(
-        selection=[('01', 'No aplica'), 
-                   ('02', 'Definitiva'), 
-                   ('03', 'Temporal'),],
-        string=_('Exportacion'), default = '01',
+        selection=[('01', 'No aplica'),
+                   ('02', 'Definitiva'),
+                   ('03', 'Temporal'), ],
+        string=_('Exportacion'), default='01',
     )
     proceso_timbrado = fields.Boolean(string=_('Proceso de timbrado'))
     tax_payment = fields.Text(string=_('Taxes'))
@@ -145,7 +147,7 @@ class AccountMove(models.Model):
                    ('02', '02 - Semanal'),
                    ('03', '03 - Quincenal'),
                    ('04', '04 - Mensual'),
-                   ('05', '05 - Bimestral'),],
+                   ('05', '05 - Bimestral'), ],
         string=_('Periodicidad'),
     )
     fg_meses = fields.Selection(
@@ -166,13 +168,13 @@ class AccountMove(models.Model):
                    ('15', '15 - Mayo - Junio'),
                    ('16', '16 - Julio - Agosto'),
                    ('17', '17 - Septiembre - Octubre'),
-                   ('18', '18 - Noviembre - Diciembre'),],
+                   ('18', '18 - Noviembre - Diciembre'), ],
         string=_('Mes'),
     )
-    fg_ano =  fields.Char(string=_('Año'))
+    fg_ano = fields.Char(string=_('Año'))
 
     @api.model
-    def _reverse_move_vals(self,default_values, cancel=True):
+    def _reverse_move_vals(self, default_values, cancel=True):
         values = super(AccountMove, self)._reverse_move_vals(default_values, cancel)
         if self.estado_factura == 'factura_correcta':
             values['uuid_relacionado'] = self.folio_fiscal
@@ -209,32 +211,30 @@ class AccountMove(models.Model):
         default['folio_fiscal'] = None
         default['invoice_datetime'] = None
         return super(AccountMove, self).copy(default=default)
-    
+
     @api.depends('name')
     def _get_number_folio(self):
         for record in self:
             if record.name:
                 record.number_folio = record.name.replace('INV','').replace('/','')
-            
+
     @api.depends('amount_total', 'currency_id')
     def _get_amount_to_text(self):
         for record in self:
             record.amount_to_text = amount_to_text_es_MX.get_amount_to_text(record, record.amount_total, 'es_cheque', record.currency_id.name)
-        
+
     @api.model
     def _get_amount_2_text(self, amount_total):
         return amount_to_text_es_MX.get_amount_to_text(self, amount_total, 'es_cheque', self.currency_id.name)
 
-    
     @api.onchange('partner_id')
     def _get_uso_cfdi(self):
         if self.partner_id:
             values = {
                 'uso_cfdi': self.partner_id.uso_cfdi
-                }
+            }
             self.update(values)
 
-    
     @api.onchange('invoice_payment_term_id')
     def _get_metodo_pago(self):
         if self.invoice_payment_term_id:
@@ -297,7 +297,7 @@ class AccountMove(models.Model):
         request_params = {
                 'factura': {
                       'serie': self.journal_id.serie_diario or self.company_id.serie_factura,
-                      'folio': self.name.replace('INV','').replace('/',''),
+                      'folio': str(re.sub('[^0-9]','', self.name)),
                       'fecha_expedicion': date_from,
                       'forma_pago': self.forma_pago,
                       'subtotal': self.amount_untaxed,
