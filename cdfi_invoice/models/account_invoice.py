@@ -14,7 +14,7 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
 import pytz
-
+import re
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -300,7 +300,7 @@ class AccountMove(models.Model):
         request_params = {
             'factura': {
                 'serie': self.journal_id.serie_diario or self.company_id.serie_factura,
-                'folio': self.name.replace('INV', '').replace('/', ''),
+                'folio': str(re.sub('[^0-9]','', self.name)),
                 'fecha_expedicion': date_from,
                 'forma_pago': self.forma_pago,
                 'subtotal': self.amount_untaxed,
