@@ -401,16 +401,16 @@ class AccountPayment(models.Model):
                                     'BaseP': self.set_decimals(line['BaseP'],6),
                                     })
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.160000':
-                       totales.update({'TotalTrasladosBaseIVA16': self.set_decimals(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA16': self.set_decimals(line['ImporteP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
+                                       'TotalTrasladosImpuestoIVA16': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.080000':
-                       totales.update({'TotalTrasladosBaseIVA8': self.set_decimals(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA8': self.set_decimals(line['ImporteP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVA8': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
+                                       'TotalTrasladosImpuestoIVA8': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.000000':
-                       totales.update({'TotalTrasladosBaseIVA0': self.set_decimals(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA0': self.set_decimals(line['ImporteP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVA0': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
+                                       'TotalTrasladosImpuestoIVA0': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '002' and line['TipoFactorP'] == 'Exento':
-                       totales.update({'TotalTrasladosBaseIVAExento': self.set_decimals(line['BaseP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVAExento': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),})
                   if line['TipoFactorP'] != 'Exento':
                      self.total_pago += round(line['BaseP'] * float(self.tipocambiop),2) + round(line['ImporteP'] * float(self.tipocambiop),2)
                   else:
