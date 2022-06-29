@@ -916,7 +916,7 @@ class AccountMove(models.Model):
             values = {
                 'command': 'liberar_cfdi',
                 'rfc': invoice.company_id.vat,
-                'folio': invoice.name.replace('INV', '').replace('/', ''),
+                'folio': str(re.sub('[^0-9]','', invoice.name)),
                 'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
                 'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
                 'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
