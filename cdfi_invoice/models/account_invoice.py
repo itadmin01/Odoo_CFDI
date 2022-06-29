@@ -306,7 +306,7 @@ class AccountInvoice(models.Model):
         request_params = {
                 'factura': {
                       'serie': self.journal_id.serie_diario or self.company_id.serie_factura,
-                      'folio': str(re.sub('[^0-9]','', self.name)),
+                      'folio': str(re.sub('[^0-9]','', self.number)),
                       'fecha_expedicion': date_from,
                       'forma_pago': self.forma_pago,
                       'subtotal': self.amount_untaxed,
@@ -970,7 +970,7 @@ class AccountInvoice(models.Model):
            values = {
                  'command': 'liberar_cfdi',
                  'rfc': invoice.company_id.rfc,
-                 'folio': invoice.number.replace('INV','').replace('/',''),
+                 'folio': str(re.sub('[^0-9]','', invoice.number)),
                  'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
                  'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
                  'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
