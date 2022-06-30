@@ -500,6 +500,9 @@ class AccountPayment(models.Model):
             return None
         return '%.*f' % (precision, amount)
 
+    def roundTraditional(self, val,digits):
+       return round(val+10**(-len(str(val))-1), digits)
+
     def clean_text(self, text):
         clean_text = text.replace('\n', ' ').replace('\\', ' ').replace('-', ' ').replace('/', ' ').replace('|', ' ')
         clean_text = clean_text.replace(',', ' ').replace(';', ' ').replace('>', ' ').replace('<', ' ')
