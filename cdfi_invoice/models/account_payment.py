@@ -394,11 +394,11 @@ class AccountPayment(models.Model):
                                     'ImporteP': self.set_decimals(line['ImporteP'],6),
                                     })
                   if line['ImpuestoP'] == '002':
-                       totales.update({'TotalRetencionesIVA': self.set_decimals(line['ImporteP'],2),})
+                       totales.update({'TotalRetencionesIVA': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '001':
-                       totales.update({'TotalRetencionesISR': self.roundTraditional(line['ImporteP'],2),})
+                       totales.update({'TotalRetencionesISR': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '003':
-                       totales.update({'TotalRetencionesIEPS': self.set_decimals(line['ImporteP'],2),})
+                       totales.update({'TotalRetencionesIEPS': self.roundTraditional(line['ImporteP']* float(self.tipocambiop),2),})
                   self.total_pago -= round(line['ImporteP'] * float(self.tipocambiop),2)
               impuestosp.update({'RetencionesP': retencionp})
         totales.update({'MontoTotalPagos': self.set_decimals(self.amount, 2) if self.monedap == 'MXN' else self.set_decimals(self.amount * float(self.tipocambiop), 2),})
