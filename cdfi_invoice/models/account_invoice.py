@@ -699,7 +699,7 @@ class AccountMove(models.Model):
     def print_cdfi_invoice(self):
         self.ensure_one()
         # return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon
-        filename = 'CDFI_' + self.name.replace('/', '_') + '.pdf'
+        filename = 'CFDI_' + self.name.replace('/', '_') + '.pdf'
         return {
             'type': 'ir.actions.act_url',
             'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s' % (
@@ -858,9 +858,7 @@ class AccountMove(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response['estado_factura'] == 'solicitud_cancelar':
-                    # invoice.write({'estado_factura': json_response['estado_factura']})
                     log_msg = "Se solicitó cancelación de CFDI"
-                    # raise Warning(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
                     file_name = 'CANCEL_' + invoice.name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
@@ -1069,7 +1067,7 @@ class MailTemplate(models.Model):
                         xml_file = self.env['ir.attachment'].search(domain, limit=1)
                         attachments = results[res_id]['attachments'] or []
                         if xml_file:
-                            attachments.append(('CDFI_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
+                            attachments.append(('CFDI_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     else:
                         domain = [
                             ('res_id', '=', invoice.id),
@@ -1079,7 +1077,7 @@ class MailTemplate(models.Model):
                         attachments = []
                         if xml_file:
                             attachments.append(
-                                ('CDFI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
+                                ('CFDI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     results[res_id]['attachments'] = attachments
         return results
 
