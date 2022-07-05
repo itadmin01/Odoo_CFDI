@@ -116,7 +116,6 @@ class AccountInvoice(models.Model):
                                  size=256,
                                  help='Amount of the invoice in letter')
     qr_value = fields.Char(string=_('QR Code Value'))
-    invoice_datetime = fields.Char(string=_('11/12/17 12:34:12'))
     fecha_factura = fields.Datetime(string=_('Fecha Factura'))
     # serie_emisor = fields.Char(string=_('A'))
     tipo_relacion = fields.Selection(
@@ -191,9 +190,7 @@ class AccountInvoice(models.Model):
             values['numero_cetificado'] = None
             values['cetificaso_sat'] = None
             values['selo_digital_cdfi'] = None
-            values['fecha_factura'] = None
             values['folio_fiscal'] = None
-            values['invoice_datetime'] = None
             values['estado_factura'] = 'factura_no_generada'
             values['factura_cfdi'] = False
         return values
@@ -205,18 +202,15 @@ class AccountInvoice(models.Model):
         default = dict(default or {})
         default['estado_factura'] = 'factura_no_generada'
         default['folio_fiscal'] = ''
-        default['fecha_factura'] = None
         default['factura_cfdi'] = False
         default['fecha_factura'] = None
         default['qrcode_image'] = None
         default['numero_cetificado'] = None
         default['cetificaso_sat'] = None
         default['selo_digital_cdfi'] = None
-        default['fecha_factura'] = None
         default['folio_fiscal'] = None
-        default['invoice_datetime'] = None
         return super(AccountInvoice, self).copy(default=default)
-    
+
     @api.depends('number')
     @api.one
     def _get_number_folio(self):
@@ -229,7 +223,7 @@ class AccountInvoice(models.Model):
     def _get_amount_to_text(self):
         for record in self:
             record.amount_to_text = amount_to_text_es_MX.get_amount_to_text(record, record.amount_total, 'es_cheque', record.currency_id.name)
-        
+
     @api.model
     def _get_amount_2_text(self, amount_total):
         return amount_to_text_es_MX.get_amount_to_text(self, amount_total, 'es_cheque', self.currency_id.name)
@@ -675,9 +669,6 @@ class AccountInvoice(models.Model):
         self.selo_digital_cdfi = TimbreFiscalDigital.attrib['SelloCFD']
         self.selo_sat = TimbreFiscalDigital.attrib['SelloSAT']
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
-        self.invoice_datetime = xml_data.attrib['Fecha']
-#        if not self.fecha_factura:
-#            self.fecha_factura = self.invoice_datetime.replace('T', ' ')
         version = TimbreFiscalDigital.attrib['Version']
         self.cadena_origenal = '||%s|%s|%s|%s|%s||' % (version, self.folio_fiscal, self.fecha_certificacion,
                                                        self.selo_digital_cdfi, self.cetificaso_sat)
