@@ -92,7 +92,7 @@ class import_account_payment_from_xml(models.TransientModel):
             'uso_cfdi_id': self.env['catalogo.uso.cfdi'].sudo().search([('code','=',Receptor.attrib['UsoCFDI'])]),
             'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
             'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
-            'fecha_factura': TimbreFiscalDigital.attrib['FechaTimbrado'] and parse(TimbreFiscalDigital.attrib['FechaTimbrado']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
+            'fecha_factura': xml_data.attrib['Fecha'] and parse(xml_data.attrib['Fecha']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
            # 'xml_invoice_link': xml_file_link,
             'factura_cfdi': True,
             'estado_factura': 'factura_correcta',
