@@ -314,6 +314,11 @@ class AccountPayment(models.Model):
             
     @api.model
     def to_json(self):
+        if self.partner_id.vat == 'XAXX010101000' or self.partner_id.vat == 'XEXX010101000':
+            zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
+        else:
+            zipreceptor = self.partner_id.zip
+
         no_decimales = self.currency_id.no_decimales
         no_decimales_tc = self.currency_id.no_decimales_tc
 
@@ -449,7 +454,7 @@ class AccountPayment(models.Model):
                       'NumRegIdTrib': self.partner_id.registro_tributario,
                       'UsoCFDI': 'CP01',
                       'RegimenFiscalReceptor': self.partner_id.regimen_fiscal,
-                      'DomicilioFiscalReceptor': self.partner_id.zip,
+                      'DomicilioFiscalReceptor': zipreceptor,
                 },
 
                 'informacion': {
