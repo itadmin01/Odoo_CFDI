@@ -160,8 +160,8 @@ class import_account_payment_from_xml(models.TransientModel):
                     if not tax_exist:
                        raise UserError(_("Un impuesto en el XML no está configurado en el sistema"))
 
-                    if 'Importe' in traslado.attrib:
-                       importe = traslado.attrib['Importe']
+                    if 'Importe' in retencion.attrib:
+                       importe = retencion.attrib['Importe']
                     else:
                        importe = 0
                     key = tax_exist.id
