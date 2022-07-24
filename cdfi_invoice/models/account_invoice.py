@@ -832,9 +832,7 @@ class AccountMove(models.Model):
                 if json_response['estado_factura'] == 'problemas_factura':
                     raise UserError(_(json_response['problemas_message']))
                 elif json_response['estado_factura'] == 'solicitud_cancelar':
-                    # invoice.write({'estado_factura': json_response['estado_factura']})
                     log_msg = "Se solicitó cancelación de CFDI"
-                    # raise Warning(_(json_response['problemas_message']))
                 elif json_response.get('factura_xml', False):
                     file_name = 'CANCEL_' + invoice.name.replace('/', '_') + '.xml'
                     self.env['ir.attachment'].sudo().create(
@@ -979,51 +977,6 @@ class AccountMove(models.Model):
                'res_id': message_id.id,
                'target': 'new'
            }
-
-    def _get_reconciled_info_JSON_values(self):
-        self.ensure_one()
-        foreign_currency = self.currency_id if self.currency_id != self.company_id.currency_id else False
-
-        reconciled_vals = []
-        pay_term_line_ids = self.line_ids.filtered(lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
-        partials = pay_term_line_ids.mapped('matched_debit_ids') + pay_term_line_ids.mapped('matched_credit_ids')
-        for partial in partials:
-            counterpart_lines = partial.debit_move_id + partial.credit_move_id
-            # In case we are in an onchange, line_ids is a NewId, not an integer. By using line_ids.ids we get the correct integer value.
-            counterpart_line = counterpart_lines.filtered(lambda line: line.id not in self.line_ids.ids)
-
-            if foreign_currency and partial.currency_id == foreign_currency:
-                amount = partial.amount_currency
-                amount_mxn = partial.amount * self.currency_id.with_context(date=counterpart_line.date).rate
-                #_logger.info('entra a amount_mxn %s', amount_mxn)
-            else:
-                #_logger.info('no entra a foraneo')
-                amount = partial.company_currency_id._convert(partial.amount, self.currency_id, self.company_id, self.date)
-                amount_mxn = partial.company_currency_id._convert(partial.amount, self.currency_id, self.company_id, self.date)
-
-            if float_is_zero(amount, precision_rounding=self.currency_id.rounding):
-                continue
-
-            ref = counterpart_line.move_id.name
-            if counterpart_line.move_id.ref:
-                ref += ' (' + counterpart_line.move_id.ref + ')'
-
-            reconciled_vals.append({
-                'name': counterpart_line.name,
-                'journal_name': counterpart_line.journal_id.name,
-                'amount': amount,
-                'amount_mxn': amount_mxn,
-                'currency': self.currency_id.symbol,
-                'digits': [69, self.currency_id.decimal_places],
-                'position': self.currency_id.position,
-                'date': counterpart_line.date,
-                'payment_id': counterpart_line.id,
-                'account_payment_id': counterpart_line.payment_id.id,
-                'payment_method_name': counterpart_line.payment_id.payment_method_id.name if counterpart_line.journal_id.type == 'bank' else None,
-                'move_id': counterpart_line.move_id.id,
-                'ref': ref,
-            })
-        return reconciled_vals
 
 class MailTemplate(models.Model):
     "Templates for sending email"
