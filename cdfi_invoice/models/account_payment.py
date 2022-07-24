@@ -166,40 +166,57 @@ class AccountPayment(models.Model):
           docto_relacionados = []
           tax_grouped_tras = {}
           tax_grouped_ret = {}
+          mxn_currency = self.env["res.currency"].search([('name', '=', 'MXN')], limit=1)
+
           if payment.reconciled_invoice_ids:
-            for invoice in payment.reconciled_invoice_ids:
-                if invoice.factura_cfdi:
-                    payment_dict = json.loads(invoice.invoice_payments_widget)
-                    payment_content = payment_dict['content']
-                    monto_pagado = 0
-                    for invoice_payments in payment_content:
-                        if invoice_payments['account_payment_id'] == payment.id:
-                            monto_pagado = invoice_payments['amount_mxn']
+            invoice_vals_list = []
+            pay_rec_lines = payment.move_id.line_ids.filtered(lambda line: line.account_internal_type in ('receivable', 'payable'))
 
-                    #revisa la cantidad que se va a pagar en el docuemnto
-                    if payment.currency_id.name != invoice.moneda:
-                        if payment.currency_id.name == 'MXN':
-                            equivalenciadr = round(invoice.currency_id.with_context(date=payment.date).rate,6)
-                        else:
-                            equivalenciadr = round(float(invoice.tipocambio)/float(payment.currency_id.with_context(date=payment.date).rate),6)
-                    else:
-                        equivalenciadr = 1
+            if payment.currency_id == mxn_currency:
+               rate_payment_curr_mxn = None
+               paid_amount_comp_curr = payment.amount
+            else:
+               rate_payment_curr_mxn = payment.currency_id._convert(1.0, mxn_currency, payment.company_id, payment.date, round=False)
+               paid_amount_comp_curr = payment.currency_id.round(payment.amount * rate_payment_curr_mxn)
 
-                    decimal_p = 6
+            for field1, field2 in (('debit', 'credit'), ('credit', 'debit')):
+               for partial in pay_rec_lines[f'matched_{field1}_ids']:
+                   payment_line = partial[f'{field2}_move_id']
+                   invoice_line = partial[f'{field1}_move_id']
+                   invoice_amount = partial[f'{field1}_amount_currency']
+                   invoice = invoice_line.move_id
+                   decimal_p = 6
 
-                    if not invoice.total_factura > 0:
-                       raise UserError(_('No hay información del monto de la factura. Carga el XML en la factura para agregar el monto total.'))
+                   if not invoice.factura_cfdi:
+                       continue
 
-                    paid_pct = payment.truncate(monto_pagado, decimal_p) / invoice.total_factura
-                    monto_pagado = payment.truncate(monto_pagado, 2)
+                   payment_dict = json.loads(invoice.invoice_payments_widget)
+                   payment_content = payment_dict['content']
 
-                    if not invoice.tax_payment:
-                       raise UserError(_('No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.'))
-                    taxes = json.loads(invoice.tax_payment)
-                    objetoimpdr = '01'
-                    trasladodr = []
-                    retenciondr = []
-                    if "translados" in taxes:
+                   if invoice.currency_id == payment_line.currency_id:
+                       amount_paid_invoice_curr = invoice_amount
+                       equivalenciadr = 1
+                   elif invoice.currency_id == mxn_currency and invoice.currency_id != payment_line.currency_id:
+                       amount_paid_invoice_curr = invoice_amount
+                       amount_paid_invoice_comp_curr = payment_line.company_currency_id.round(payment.amount  * (abs(payment_line.balance) / paid_amount_comp_curr))
+                       invoice_rate = partial.debit_amount_currency / partial.amount
+                       exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
+                       equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
+                   else:
+                       amount_paid_invoice_comp_curr = payment_line.company_currency_id.round(payment.amount  * (abs(payment_line.balance) / paid_amount_comp_curr))
+                       invoice_rate = partial.debit_amount_currency / partial.amount
+                       amount_paid_invoice_curr = invoice.currency_id.round(abs(payment_line.balance) * invoice_rate)
+                       exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
+                       equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
+                   paid_pct = payment.truncate(amount_paid_invoice_curr, decimal_p) / invoice.total_factura
+
+                   if not invoice.tax_payment:
+                       raise Warning("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
+                   taxes = json.loads(invoice.tax_payment)
+                   objetoimpdr = '01'
+                   trasladodr = []
+                   retenciondr = []
+                   if "translados" in taxes:
                        objetoimpdr = '02'
                        traslados = taxes['translados']
                        for traslado in traslados:
@@ -231,7 +248,7 @@ class AccountPayment(models.Model):
                            else:
                                tax_grouped_tras[key]['BaseP'] += basep
                                tax_grouped_tras[key]['ImporteP'] += importep
-                    if "retenciones" in taxes:
+                   if "retenciones" in taxes:
                        objetoimpdr = '02'
                        retenciones = taxes['retenciones']
                        for retencion in retenciones:
@@ -257,21 +274,22 @@ class AccountPayment(models.Model):
                            else:
                                tax_grouped_ret[key]['ImporteP'] += importep
 
-                    if objetoimpdr == '02' and not trasladodr and not retenciondr:
-                       raise UserError(_('No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.'))
+                   if objetoimpdr == '02' and not trasladodr and not retenciondr:
+                       raise Warning("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
 
-                    docto_relacionados.append({
+                   docto_relacionados.append({
                           'MonedaDR': invoice.moneda,
                           'EquivalenciaDR': equivalenciadr,
                           'IdDocumento': invoice.folio_fiscal,
                           'folio_facura': invoice.number_folio,
-                          'NumParcialidad': len(payment_content), 
-                          'ImpSaldoAnt': payment.set_decimals(invoice.amount_residual + monto_pagado, no_decimales),
-                          'ImpPagado': payment.set_decimals(monto_pagado, no_decimales),
-                          'ImpSaldoInsoluto': payment.set_decimals(invoice.amount_residual, no_decimales),
+                          'NumParcialidad': len(payment_content),
+                          'ImpSaldoAnt': payment.roundTraditional(min(invoice.amount_residual + amount_paid_invoice_curr, invoice.amount_total), no_decimales),
+                          'ImpPagado': payment.roundTraditional(amount_paid_invoice_curr, no_decimales),
+                          'ImpSaldoInsoluto': payment.roundTraditional(min(invoice.amount_residual + amount_paid_invoice_curr, invoice.amount_total), no_decimales) - \
+                                              payment.roundTraditional(amount_paid_invoice_curr, no_decimales),
                           'ObjetoImpDR': objetoimpdr,
                           'ImpuestosDR': {'traslados': trasladodr, 'retenciones': retenciondr,},
-                    })
+                   })
 
             payment.write({'docto_relacionados': json.dumps(docto_relacionados), 
                         'retencionesp': json.dumps(tax_grouped_ret), 
@@ -280,7 +298,7 @@ class AccountPayment(models.Model):
     def post(self):
         res = super(AccountPayment, self).post()
         for rec in self:
-            rec.add_resitual_amounts()
+    #        rec.add_resitual_amounts()
             rec._onchange_payment_date()
             rec._onchange_journal()
         return res
