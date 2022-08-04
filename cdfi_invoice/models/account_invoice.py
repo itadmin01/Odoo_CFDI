@@ -511,9 +511,9 @@ class AccountMove(models.Model):
         tax_local_tras_tot = round(tax_local_tras_tot, no_decimales)
         tax_local_ret_tot = round(tax_local_ret_tot, no_decimales)
         self.discount = round(self.discount, no_decimales)
-        self.subtotal = self.roundTraditional(self.subtotal,no_decimales)
+        self.subtotal = self.roundTraditional(self.subtotal, no_decimales)
+        impuestos = {}
         if tax_grouped_tras or tax_grouped_ret:
-                impuestos = {}
                 retenciones = []
                 traslados = []
                 if tax_grouped_tras:
@@ -545,7 +545,7 @@ class AccountMove(models.Model):
                                          })
                    impuestos.update({'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
                 request_params.update({'impuestos': impuestos})
-                self.tax_payment = json.dumps(impuestos)
+        self.tax_payment = json.dumps(impuestos)
 
         if tax_local_ret or tax_local_tras:
            if tax_local_tras and not tax_local_ret:
