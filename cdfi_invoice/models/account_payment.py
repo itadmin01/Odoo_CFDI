@@ -453,7 +453,7 @@ class AccountPayment(models.Model):
         if self.invoice_ids:
             request_params = {
                 'factura': {
-                      'serie': self.company_id.serie_complemento,
+                      'serie': self.journal_id.serie_diario or self.company_id.serie_complemento,
                       'folio': self.name.replace('CUST.IN','').replace('/',''),
                       'fecha_expedicion': date_payment,
                       'subtotal': '0',

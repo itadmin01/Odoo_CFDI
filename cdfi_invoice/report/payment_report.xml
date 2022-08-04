@@ -89,7 +89,12 @@
 							</div>
 							<div>
 								<strong>Lugar de expedición: </strong>
-								<span t-field="o.company_id.partner_id.zip"/>
+								<t t-if="o.journal_id.codigo_postal">
+								    <span t-field="o.journal_id.codigo_postal"/>
+								</t>
+								<t t-if="not o.journal_id.codigo_postal">
+								    <span t-field="o.company_id.partner_id.zip"/>
+								</t>
 							</div>
 							<div>
 								<strong>Tipo de comprobante: </strong>
