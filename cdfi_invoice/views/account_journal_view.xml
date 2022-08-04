@@ -6,23 +6,13 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','in',('sale', 'purchase'))]}">
+                    <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}">
                             <group cols="2">
                                 <group>
-                                      <field name="forma_pago" />
-                                </group>
-                            </group>
-                    </page>
-                </xpath>
-                <xpath expr="//notebook" position="inside">
-                    <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','not in',('sale'))]}">
-                            <group cols="2">
-                                <group>
-                                      <field name="codigo_postal" />
-                                      <field name="tz" readonly="0"/>
-                                      <field name="serie_diario" />
-                                </group>
-                                <group>
+                                      <field name="forma_pago" attrs="{'invisible':[('type','not in',('cash', 'bank'))]}" />
+                                      <field name="codigo_postal" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
+                                      <field name="tz" readonly="0" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
+                                      <field name="serie_diario" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
                                 </group>
                             </group>
                     </page>
