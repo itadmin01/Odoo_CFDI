@@ -189,7 +189,7 @@ class AccountPayment(models.Model):
                    payment_dict = json.loads(invoice.invoice_payments_widget)
                    payment_content = payment_dict['content']
 
-                   if invoice.currency_id == payment_line.currency_id:
+                   if invoice.currency_id == payment.currency_id:
                        amount_paid_invoice_curr = invoice_amount
                        equivalenciadr = 1
                    elif invoice.currency_id == mxn_currency and invoice.currency_id != payment_line.currency_id:
@@ -452,7 +452,7 @@ class AccountPayment(models.Model):
         if self.reconciled_invoice_ids:
             request_params = {
                 'factura': {
-                      'serie': self.company_id.serie_complemento,
+                      'serie': self.journal_id.serie_diario or self.company_id.serie_complemento,
                       'folio': self.name.replace('CUST.IN','').replace('/',''),
                       'fecha_expedicion': date_payment,
                       'subtotal': '0',
