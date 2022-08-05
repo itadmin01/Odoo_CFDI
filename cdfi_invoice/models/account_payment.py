@@ -193,6 +193,9 @@ class AccountPayment(models.Model):
                    payment_dict = json.loads(invoice.invoice_payments_widget)
                    payment_content = payment_dict['content']
 
+                   if invoice.total_factura <= 0:
+                       raise UserError("No hay monto total de la factura. Carga el XML en la factura para agregar el monto total.")
+
                    if invoice.currency_id == payment_line.currency_id:
                        amount_paid_invoice_curr = invoice_amount
                        equivalenciadr = 1
@@ -211,7 +214,7 @@ class AccountPayment(models.Model):
                    paid_pct = payment.truncate(amount_paid_invoice_curr, decimal_p) / invoice.total_factura
 
                    if not invoice.tax_payment:
-                       raise Warning("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
+                       raise UserError("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
                    taxes = json.loads(invoice.tax_payment)
                    objetoimpdr = '01'
                    trasladodr = []
@@ -273,9 +276,6 @@ class AccountPayment(models.Model):
                                tax_grouped_ret[key] = val
                            else:
                                tax_grouped_ret[key]['ImporteP'] += importep
-
-                   if objetoimpdr == '02' and not trasladodr and not retenciondr:
-                       raise Warning("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
 
                    docto_relacionados.append({
                           'MonedaDR': invoice.moneda,
