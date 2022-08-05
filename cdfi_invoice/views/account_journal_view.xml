@@ -9,7 +9,7 @@
                     <page name="forma_pago" string="CFDI" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}">
                             <group cols="2">
                                 <group>
-                                      <field name="forma_pago" attrs="{'invisible':[('type','not in',('cash', 'bank'))]}" />
+                                      <field name="forma_pago_id" attrs="{'invisible':[('type','not in',('cash', 'bank'))]}" />
                                       <field name="codigo_postal" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
                                       <field name="tz" readonly="0" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
                                       <field name="serie_diario" attrs="{'invisible':[('type','not in',('sale', 'cash', 'bank'))]}"/>
