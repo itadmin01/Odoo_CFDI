@@ -720,7 +720,7 @@ class AccountPayment(models.Model):
                                   'contrasena': p.company_id.contrasena,
                             },
                           'xml': archivo_xml.decode("utf-8"),
-                          'motivo': self.env.context.get('motivo_cancelacion',False),
+                          'motivo': self.env.context.get('motivo_cancelacion','02'),
                           'foliosustitucion': self.env.context.get('foliosustitucion',''),
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
