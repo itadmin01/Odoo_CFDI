@@ -580,8 +580,11 @@ class AccountMove(models.Model):
             return None
         return '%.*f' % (precision, amount)
 
-    def roundTraditional(self, val,digits):
-       return round(val+10**(-len(str(val))-1), digits)
+    def roundTraditional(self, val, digits):
+       if val != 0:
+          return round(val + 10 ** (-len(str(val)) - 1), digits)
+       else:
+          return 0
 
     def clean_text(self, text):
         clean_text = text.replace('\n', ' ').replace('\\', ' ').replace('-', ' ').replace('/', ' ').replace('|', ' ')
