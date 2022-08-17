@@ -180,6 +180,9 @@ class AccountPayment(models.Model):
                    invoice = invoice_line.move_id
                    decimal_p = 6
 
+                   if partial.amount == 0:
+                       raise Warning("Una factura adjunta en el pago no tiene un monto liquidado por el pago. \nRevisa que todas las facturas tengan un monto pagado, puede ser necesario desvincular las facturas y vinculalas en otro orden.")
+
                    if invoice.currency_id != mxn_currency:
                         invoice_amount = invoice_amount * partial.amount_currency / partial.amount
 
