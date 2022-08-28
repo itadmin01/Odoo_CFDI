@@ -3,7 +3,7 @@
         <template id="report_invoice_inherit_cdfi" inherit_id="account.report_invoice_document">
 	    
         <!--EMPTY HEADER SO THE NAME IS IN THE TOP-->
-		<xpath expr="//address" position="replace">
+		<xpath expr="//t[@t-set='address']" position="replace">
 
 		</xpath>
 
