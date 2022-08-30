@@ -284,8 +284,8 @@ class AccountPayment(models.Model):
                           'NumParcialidad': len(payment_content),
                           'ImpSaldoAnt': payment.roundTraditional(min(invoice.amount_residual + amount_paid_invoice_curr, invoice.amount_total), no_decimales),
                           'ImpPagado': payment.roundTraditional(amount_paid_invoice_curr, no_decimales),
-                          'ImpSaldoInsoluto': payment.roundTraditional(min(invoice.amount_residual + amount_paid_invoice_curr, invoice.amount_total), no_decimales) - \
-                                              payment.roundTraditional(amount_paid_invoice_curr, no_decimales),
+                          'ImpSaldoInsoluto': round(payment.roundTraditional(min(invoice.amount_residual + amount_paid_invoice_curr, invoice.amount_total), no_decimales) - \
+                                              payment.roundTraditional(amount_paid_invoice_curr, no_decimales),2),
                           'ObjetoImpDR': objetoimpdr,
                           'ImpuestosDR': {'traslados': trasladodr, 'retenciones': retenciondr,},
                    })
