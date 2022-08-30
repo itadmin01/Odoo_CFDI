@@ -444,6 +444,8 @@ class AccountMove(models.Model):
                             tax_grouped_ret[key]['base'] += val['base']
                             tax_grouped_ret[key]['amount'] += val['amount']
                 else:  # impuestos locales
+                    if tax.price_include or tax.amount_type == 'division':
+                        tax_included += taxes['amount']
                     if taxes['amount'] >= 0.0:
                         tax_local_tras_tot += taxes['amount']
                         tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
