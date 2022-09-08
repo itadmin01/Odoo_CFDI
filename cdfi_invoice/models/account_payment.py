@@ -403,7 +403,7 @@ class AccountPayment(models.Model):
                                     'BaseP': self.set_decimals(line['BaseP'],6),
                                     })
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.160000':
-                       totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
+                       totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(math.ceil(line['BaseP'] * float(self.tipocambiop)),2),
                                        'TotalTrasladosImpuestoIVA16': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.080000':
                        totales.update({'TotalTrasladosBaseIVA8': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
