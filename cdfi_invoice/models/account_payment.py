@@ -20,7 +20,7 @@ class AccountRegisterPayment(models.TransientModel):
     
     def validate_complete_payment(self):
         for rec in self:
-            rec.action_create_payments()
+            payments = rec._create_payments()
             return {
                'name': _('Payments'),
                'view_type': 'form',
@@ -28,7 +28,7 @@ class AccountRegisterPayment(models.TransientModel):
                'res_model': 'account.payment',
                'view_id': False,
                'type': 'ir.actions.act_window',
-               'res_id': rec.id,
+               'res_id': payments.id,
            }
 
     def _create_payment_vals_from_wizard(self):
