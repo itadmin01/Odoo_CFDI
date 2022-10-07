@@ -89,8 +89,10 @@
 								<th class="text-right">Precio Unitario</th>
 								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Impuesto</th>
-								<th class="text-right">Importe</th>
-
+                                <th class="text-right">
+                                    <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
+                                    <span groups="account.group_show_line_subtotals_tax_included">Total</span>
+                                </th>
 								<!--<th class="text-right">Tipo Factor</th>
 								<th class="text-right">Tasa Cuota</th>
 								<th class="text-right">Importe Impuesto</th>-->
@@ -145,8 +147,8 @@
 									</table>
 								</td>
 								<td class="text-right">
-									<span t-esc="l.price_unit*l.quantity"
-										t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}' />
+                                    <span t-field="l.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <span t-field="l.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 								</td>
 
 								</t>
