@@ -9,6 +9,7 @@ class ProductTemplate(models.Model):
     objetoimp = fields.Selection(
         selection=[('01', 'No objeto de impuesto'), 
                    ('02', 'Sí objeto de impuesto'), 
-                   ('03', 'Sí objeto del impuesto y no obligado al desglose'),],
+                   ('03', 'Sí objeto del impuesto y no obligado al desglose'),
+                   ('04', 'Si objeto del impuesto y no causa impuesto'),],
         string=_('Impuestos'), default = '02',
     )
