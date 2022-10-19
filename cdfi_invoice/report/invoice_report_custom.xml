@@ -1,0 +1,281 @@
+<odoo>
+        <!-- Inherit invoice report (from module accounting) -->
+        <template id="report_invoice_inherit_cdfi" inherit_id="account.report_invoice_document">
+	    
+        <!--EMPTY HEADER SO THE NAME IS IN THE TOP-->
+		<xpath expr="//t[@t-set='address']" position="replace">
+
+		</xpath>
+
+	<!--REPLACE THE INFORMATION DIV WITH THE NEW INFO-->
+
+    <xpath expr="//div[@id='informations']" position="replace">
+		<div id="informations" class="row mt32 mb32">
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                <strong>Fecha de factura:</strong>
+                        <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due" name="due_date">                          
+            	<strong>Fecha de vencimiento:</strong>
+                        <p class="m-0" t-field="o.invoice_date_due"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.uso_cfdi_id" name="origin">
+                    <strong>Uso:</strong>
+                        <p class="m-0" t-field="o.uso_cfdi_id.code"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.forma_pago_id" name="customer_code">
+                    <strong>Forma de pago:</strong>
+                        <p class="m-0" t-field="o.forma_pago_id.code"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.methodo_pago" name="reference">
+                    <strong>Método de pago:</strong>
+                        <p class="m-0" t-field="o.methodo_pago"/>
+            </div>
+        </div>
+    </xpath>
+
+		<!--PUT THE ADDRESS AFTER THE INFORMATION OF THE INVOICE-->
+		<xpath expr="//div[@id='informations']" position="after">
+			<t t-if="o.company_id.modo_prueba == True">
+				<div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+            		<center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
+            	</div>
+        	</t>
+
+        	<t t-if="o.estado_factura == 'factura_cancelada'">
+				<div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+            		<center><span style="font-size:100px;color:red;">CANCELADO</span></center>
+            	</div>
+        	</t>
+
+        	<div id="comprobante_emision" class="row">
+        		<div class="col-auto mw-100 mb-2" t-if="o.tipo_comprobante" name="tipo_comprobante">
+                    <strong>Tipo comprobante:</strong>
+                        <p class="m-0" t-field="o.tipo_comprobante"/>
+            	</div>
+	        	<div class="col-auto mw-100 mb-2" t-if="o.fecha_factura" name="fecha_factura">
+	                    <strong>Fecha de emisión:</strong>
+	                        <p class="m-0" t-field="o.fecha_factura"/>
+	        	</div>
+        	</div>
+        	
+				<div name="general_information" class="row">
+					<div class="col-6" style="font-size:14px;">
+		            	<strong>Datos receptor:</strong><br/>
+					    <span t-field="o.partner_id.name"/><br/>
+					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
+					    <span t-field="o.partner_id.city"/><br/>
+		                <span t-field="o.partner_id.vat"/><br/>
+		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> C.P <span t-field="o.partner_id.zip"/> <br/>
+
+		            </div>
+		            <div class="col-6" style="font-size:14px;">
+		            	<strong>Datos emisor:</strong><br/>
+		            	Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
+		            	Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
+		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal_id.code"/>
+		            </div>
+		        </div>
+		</xpath>
+
+	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
+                    <table class="table table table-sm o_main_table" font-size="16px;">
+						<thead>
+							<tr>
+								<th>Clave Producto</th>
+								<th class="text-right">Cantidad</th>
+								<th class="text-right">Unidad</th>
+								<th width="50%">Descripción</th>
+								<th class="text-right">Precio Unitario</th>
+								<th t-if="display_discount" class="text-right">Descuento</th>
+								<th class="text-right">Impuesto</th>
+								<th class="text-right">Importe</th>
+
+								<!--<th class="text-right">Tipo Factor</th>
+								<th class="text-right">Tasa Cuota</th>
+								<th class="text-right">Importe Impuesto</th>-->
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="docs.invoice_line_ids" t-as="l" style="page-break-inside: avoid">
+							<t t-if="l.quantity > 0">
+								<t t-set="price" t-value="l.price_unit * (1 - (l.discount or 0.0) / 100.0)"/>
+								<t t-set="amounts" t-value="l.tax_ids.compute_all(price, l.currency_id, l.quantity,
+														product=l.product_id, partner=l.move_id.partner_id)"/>
+								<t t-set="price_exclude_tax" t-value="amounts['total_excluded']"/>
+								<t t-set="price_include_tax" t-value="amounts['total_included']"/>
+								<t t-set="price_exclude_tax" t-value="l.move_id.currency_id.round(price_exclude_tax)"/>
+								<t t-set="price_include_tax" t-value="l.move_id.currency_id.round(price_include_tax)"/>
+								<!--<t t-set="amount_untaxed" t-value="amount_untaxed + price_exclude_tax"/>
+								<t t-set="amount_total" t-value="amount_total + price_include_tax"/>-->
+								<t t-set="taxes" t-value="amounts['taxes']"/>
+								<td>
+									<span t-field="l.product_id.clave_producto" />
+								</td>
+								<td class="text-right">
+									<span t-field="l.quantity" />
+								</td>
+								<td>
+									<span t-field="l.product_id.cat_unidad_medida.clave" /> - <span t-field="l.product_id.cat_unidad_medida.descripcion" />
+								</td>
+								<td>
+									<span t-field="l.name" t-options="{'widget': 'text'}"/>
+								</td>
+
+								<td class="text-right">
+									<span t-field="l.price_unit"
+									      t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}'/>
+								</td>
+								
+								<td t-if="display_discount" class="text-right" >
+									<span t-esc="l.price_unit * ((l.discount or 0.0) / 100.0) *l.quantity"
+									      t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}'/>
+								</td>
+								<td class="bordesless" style="padding-top:0px;">
+									<table width="100%">
+										<tr t-foreach="l.tax_ids" t-as="tax">
+										<t t-foreach="taxes" t-as="m">
+								 		<t t-if="m['id'] == tax.id">
+											<td class="text-right" width="25%" style="font-size:12px;">
+												<span t-field="tax.name" />
+											</td>
+										</t>
+										</t>
+										</tr>
+									</table>
+								</td>
+								<td class="text-right">
+									<span t-esc="l.price_unit*l.quantity"
+										t-options='{"widget": "monetary", "display_currency": l.move_id.currency_id}' />
+								</td>
+
+								</t>
+							</tr>
+						</tbody>
+						
+					</table>
+	    </xpath>
+
+	    <xpath expr="//div[@class='clearfix mb-4']" position="after">
+	     	<div class="col-xs-5 text-left">
+				<div style="color: black;">
+					<t t-foreach="docs" t-as="rec">
+					    <strong><span t-esc="rec._get_amount_2_text(rec.amount_total)" /></strong>
+					</t>
+				</div>
+			</div>
+	     </xpath>
+
+             <xpath expr="//div[@name='comment']" position="before">
+
+				<t t-if="o.tipo_relacion">
+					<div class="row">
+					    <div>
+					        <strong>CFDI Relacionado </strong>
+					    </div>
+						<div>
+					        Tipo de Relación: <span t-field="o.tipo_relacion" />
+					    </div>
+					    <div>
+					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
+					    </div>
+					</div>
+				</t>
+
+					<div class="col-12" style="font-size:12px;">
+						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 1px;">
+							<t t-foreach="docs" t-as="rec">
+							<tr>
+								<td>
+									<strong>Método de pago</strong>
+								</td>
+								<td >
+									<span t-field="rec.methodo_pago" />
+								</td>
+								<td>
+									<strong>Fecha y hora de certificación</strong>
+								</td>
+								<td >
+									<span t-field="rec.fecha_certificacion" />
+								</td>
+							</tr>
+							
+							<tr>
+							   <td>
+									<strong>Moneda</strong>
+								</td>
+								<td >
+									<span t-field="rec.moneda" />
+								</td>
+								<td>
+									<strong>Certificado SAT</strong>
+								</td>
+								<td >
+									<span t-field="rec.cetificaso_sat" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Tipo de cambio</strong>
+								</td>
+								<td >
+									<span t-field="rec.tipocambio" />
+								</td>
+								<td>
+									<strong>Folio fiscal</strong>
+								</td>
+								<td >
+									<span t-field="rec.folio_fiscal" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Número de certificado</strong>
+								</td>
+								<td >
+									<span t-field="rec.numero_cetificado" />
+								</td>
+							</tr>
+						</t>
+
+						</table>
+					</div>
+
+					<br/>
+		</xpath>
+
+		<xpath expr="//div[@name='comment']" position="before">
+				<div name="cadenas" class="row" style="display: table;">
+					<t t-foreach="docs" t-as="rec">
+					<div class="col-3 float-left" style="break-inside: avoid;">
+                        <img t-if="rec.qrcode_image" t-att-src="rec.qrcode_image" style="height: 190px;width: 190px;padding-left:10px;" />
+                    </div>
+
+                    <div class="col-9 float-left" style="font-size:12px;break-inside: avoid;">
+	                <!--CADENA ORIGINAL>  -->
+	                    <strong>Cadena Original del Complemento digital del SAT</strong><br/>
+		                <span t-field="rec.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
+
+		                <strong>Sello digital del CFDI</strong><br/>
+		                <span t-field="rec.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" /><br/>
+
+		                <strong>Sello del SAT</strong><br/>
+		                <span t-field="rec.selo_sat" style="word-break:break-word;font-size:8px;" /><br/>
+
+                    </div>
+                </t>
+                </div>
+
+                <!--DOCUMENTO LEGAL-->
+					<p>
+						<center>
+							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI
+							</strong>
+						</center>
+					</p>
+				
+	     </xpath>
+
+
+        </template>
+</odoo>

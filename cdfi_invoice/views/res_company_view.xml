@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
     <data>
         
         <!-- INHERIT view_company_form  --> 
@@ -8,17 +8,53 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <field name="website" position="after">
-                        <field name="rfc"/>
-                        <field name="api_key"/>
-                        <field name="serie_factura"/>
-                </field>
-                <field name="company_registry" position="after">
-                        <field name="http_factura"/>
-                        <field name="factura_dir"/>
-                        <field name="modo_prueba"/>
-                </field>
+                <xpath expr="//notebook" position="inside">
+                    <page name="info_cdfi" string="CFDI">
+                            <group cols="4"  string="Configuración">
+                                <group>
+                                    <field name="nombre_fiscal"/>
+                                    <field name="serie_factura"/>
+                                    <field name="serie_complemento"/>
+                                    <field name="regimen_fiscal_id"/>
+                                </group>
+                                <group>
+                                    <field name="proveedor_timbrado"/>
+                                    <field name="modo_prueba"/>
+                                </group>
+                            </group>
+                            <group cols="4"  string="Certificado Digital">
+                                <group>
+                                    <field name="archivo_cer"/>
+                                    <field name="archivo_key"/>
+                                    <field name="contrasena" password="1"/>
+                                    <button name="validar_csd"
+                                        string="Validar CSD" type="object" class="oe_edit_only oe_inline oe_highlight"/>
+                                    <button name="borrar_csd"
+                                        string="Borrar CSD" type="object" class="oe_edit_only oe_inline oe_highlight"/>
+                                </group>
+                                <group>
+                                    <field name="estado_csd" />
+                                    <field name="fecha_csd" />
+                                    <field name="aviso_csd" />
+                                    <button name="borrar_estado"
+                                        string="Borrar estado" type="object" class="oe_edit_only oe_inline oe_highlight"/>
+                                </group>
+                            </group>
+                            <group cols="4"  string="Timbres">
+                                <group>
+                                    <field name="saldo_timbres"/>
+                                    <field name="fecha_timbres"/>
+                                    <field name="saldo_alarma"/>
+                                    <field name="correo_alarma"/>
+                                    <button name="button_dummy"
+                                        string="Revisar saldo" type="object" class="oe_edit_only oe_inline oe_highlight" style="margin-left: 10px;"/>
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+                    </page>
+                </xpath>
             </field>
         </record>
     </data>
-</openerp>
+</odoo>
