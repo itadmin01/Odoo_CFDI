@@ -15,7 +15,7 @@
                 <strong>Fecha de factura:</strong>
                         <p class="m-0" t-field="o.invoice_date"/>
             </div>
-            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due" name="due_date">                          
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due" name="due_date">
             	<strong>Fecha de vencimiento:</strong>
                         <p class="m-0" t-field="o.invoice_date_due"/>
             </div>
