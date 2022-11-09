@@ -11,7 +11,6 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from datetime import datetime
 import pytz
-from .tzlocal import get_localzone
 import os
 import math
 
@@ -21,15 +20,18 @@ class AccountRegisterPayment(models.TransientModel):
     def validate_complete_payment(self):
         for rec in self:
             payments = rec._create_payments()
-            return {
-               'name': _('Payments'),
-               'view_type': 'form',
-               'view_mode': 'form',
-               'res_model': 'account.payment',
-               'view_id': False,
-               'type': 'ir.actions.act_window',
-               'res_id': payments.id,
-           }
+            if len(payments) > 1:
+               return
+            else:
+               return {
+                  'name': _('Payments'),
+                  'view_type': 'form',
+                  'view_mode': 'form',
+                  'res_model': 'account.payment',
+                  'view_id': False,
+                  'type': 'ir.actions.act_window',
+                  'res_id': payments.id,
+              }
 
     def _create_payment_vals_from_wizard(self, batch_result):
         res = super(AccountRegisterPayment, self)._create_payment_vals_from_wizard(batch_result)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, _, api
+from odoo.exceptions import ValidationError
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -17,9 +18,9 @@ class ResPartner(models.Model):
         if self.env.context.get('no_vat_validation'):
             return
 
-#        for partner in self:
-#            country = self.env['res.country'].search([('code', '=', 'MX')])
-#            if partner.vat and self._run_vat_test(partner.vat, country, partner.is_company) is False:
-#                partner_label = _("partner [%s]", partner.name)
-#                msg = partner._build_vat_error_message(country and country.code.lower() or None, partner.vat, partner_label)
-#                raise ValidationError(msg)
+        for partner in self:
+            country = self.env['res.country'].search([('code', '=', 'MX')])
+            if partner.vat and self._run_vat_test(partner.vat, country, partner.is_company) is False:
+                partner_label = _("partner [%s]", partner.name)
+                msg = partner._build_vat_error_message(country and country.code.lower() or None, partner.vat, partner_label)
+                raise ValidationError(msg)
