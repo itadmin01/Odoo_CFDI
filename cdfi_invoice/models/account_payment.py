@@ -337,7 +337,7 @@ class AccountPayment(models.Model):
             
     @api.model
     def to_json(self):
-        if self.partner_id.vat == 'XAXX010101000' or self.partner_id.vat == 'XEXX010101000':
+        if self.partner_id.rfc == 'XAXX010101000' or self.partner_id.rfc == 'XEXX010101000':
             zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
         else:
             zipreceptor = self.partner_id.zip

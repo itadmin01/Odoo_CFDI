@@ -39,8 +39,8 @@
 					<div style="border-bottom: 1px solid black;"></div>
 				</div>
 			</div>
-			<t t-if="o.estado_factura == 'factura_cancelada'">			 
-			   <h1 style="text-align:center;">FACTURA CANCELADA</h1>			 
+			<t t-if="o.estado_factura == 'factura_cancelada'">
+			   <h1 style="text-align:center;">FACTURA CANCELADA</h1>
 			</t>
         </div>
 
