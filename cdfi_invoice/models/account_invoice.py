@@ -613,7 +613,7 @@ class AccountMove(models.Model):
 
         for complementos in Complemento:
             TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
+            if not len(TimbreFiscalDigital) > 1:
                 break
 
         self.total_factura = xml_data.attrib['Total']
