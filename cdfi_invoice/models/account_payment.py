@@ -233,10 +233,8 @@ class AccountPayment(models.Model):
                        exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
                        equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
                    else:
-                       amount_paid_invoice_comp_curr = payment_line.company_currency_id.round(payment.amount  * (abs(payment_line.balance) / paid_amount_comp_curr))
-                       invoice_rate = partial.debit_amount_currency / partial.amount
-                       amount_paid_invoice_curr = invoice.currency_id.round(abs(payment_line.balance) * invoice_rate)
-                       exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
+                       amount_paid_invoice_curr = invoice_amount
+                       exchange_rate = partial.debit_amount_currency / partial.amount
                        equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
                    paid_pct = payment.truncate(amount_paid_invoice_curr, decimal_p) / invoice.total_factura
 
@@ -263,10 +261,6 @@ class AccountPayment(models.Model):
 
                            basep = basedr / equivalenciadr
                            importep = importedr / equivalenciadr
-                           if str(basep)[::-1].find('.') > 6:
-                              basep = payment.truncate(basep, decimal_p)
-                           if str(importep)[::-1].find('.') > 6:
-                              importep = payment.truncate(importep, decimal_p)
 
                            val = {'BaseP': basep,
                                   'ImpuestoP': traslado['impuesto'],
@@ -423,6 +417,10 @@ class AccountPayment(models.Model):
            trasladop = []
            if taxes_traslado:
               for line in taxes_traslado.values():
+                  if str(line['BaseP'])[::-1].find('.') > 6:
+                       line['BaseP'] = self.truncate(line['BaseP'], 6)
+                  if str(line['ImporteP'])[::-1].find('.') > 6:
+                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   trasladop.append({'ImpuestoP': line['ImpuestoP'],
                                     'TipoFactorP': line['TipoFactorP'],
                                     'TasaOCuotaP': line['TasaOCuotaP'],
@@ -447,6 +445,8 @@ class AccountPayment(models.Model):
               impuestosp.update({'TrasladosP': trasladop})
            if taxes_retenciones:
               for line in taxes_retenciones.values():
+                  if str(line['ImporteP'])[::-1].find('.') > 6:
+                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   retencionp.append({'ImpuestoP': line['ImpuestoP'],
                                     'ImporteP': self.set_decimals(line['ImporteP'],6),
                                     })
@@ -636,22 +636,7 @@ class AccountPayment(models.Model):
             p.write({'estado_pago': estado_pago,
                     'xml_payment_link': xml_file_link})
             p.message_post(body="CFDI emitido")
-            
-    
-#     def validate_complete_payment(self):
-#         for rec in self:
-#            rec.post()
-#            return {
-#                'name': _('Payments'),
-#                'view_type': 'form',
-#                'view_mode': 'form',
-#                'res_model': 'account.payment',
-#                'view_id': False,
-#                'type': 'ir.actions.act_window',
-#                'res_id': rec.id,
-#            }
 
-    
     def _set_data_from_xml(self, xml_payment):
         if not xml_payment:
             return None
@@ -662,12 +647,10 @@ class AccountPayment(models.Model):
                  'pago20': 'http://www.sat.gob.mx/Pagos20',
                  }
         xml_data = etree.fromstring(xml_payment)
-        Complemento = xml_data.findall('cfdi:Complemento', NSMAP)
-
-        for complementos in Complemento:
-            TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
-                break
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+        if not len(TimbreFiscalDigital) > 1:
+            break
 
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.fecha_emision = xml_data.attrib['Fecha']
