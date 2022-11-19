@@ -653,7 +653,6 @@ class AccountPayment(models.Model):
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         self.qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
-        #self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
 
     def send_payment(self):
         self.ensure_one()
