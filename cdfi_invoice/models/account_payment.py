@@ -192,12 +192,9 @@ class AccountPayment(models.Model):
                    if partial.amount == 0:
                        raise UserError("Una factura adjunta en el pago no tiene un monto liquidado por el pago. \nRevisa que todas las facturas tengan un monto pagado, puede ser necesario desvincular las facturas y vinculalas en otro orden.")
 
-
                    if not invoice.factura_cfdi:
                        continue
 
-                   #payment_dict = json.loads(invoice.invoice_payments_widget)
-                   #payment_content = payment_dict['content']
                    payment_content = invoice.invoice_payments_widget['content']
 
                    if invoice.total_factura <= 0:
@@ -213,10 +210,8 @@ class AccountPayment(models.Model):
                        exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
                        equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
                    else:
-                       amount_paid_invoice_comp_curr = payment_line.company_currency_id.round(payment.amount  * (abs(payment_line.balance) / paid_amount_comp_curr))
-                       invoice_rate = partial.debit_amount_currency / partial.amount
-                       amount_paid_invoice_curr = invoice.currency_id.round(abs(payment_line.balance) * invoice_rate)
-                       exchange_rate = amount_paid_invoice_curr / amount_paid_invoice_comp_curr
+                       amount_paid_invoice_curr = invoice_amount
+                       exchange_rate = partial.debit_amount_currency / partial.amount
                        equivalenciadr = payment.roundTraditional(exchange_rate, decimal_p) + 0.000001
                    paid_pct = payment.truncate(amount_paid_invoice_curr, decimal_p) / invoice.total_factura
 
@@ -243,10 +238,6 @@ class AccountPayment(models.Model):
 
                            basep = basedr / equivalenciadr
                            importep = importedr / equivalenciadr
-                           if str(basep)[::-1].find('.') > 6:
-                              basep = payment.truncate(basep, decimal_p)
-                           if str(importep)[::-1].find('.') > 6:
-                              importep = payment.truncate(importep, decimal_p)
 
                            val = {'BaseP': basep,
                                   'ImpuestoP': traslado['impuesto'],
@@ -403,6 +394,10 @@ class AccountPayment(models.Model):
            trasladop = []
            if taxes_traslado:
               for line in taxes_traslado.values():
+                  if str(line['BaseP'])[::-1].find('.') > 6:
+                       line['BaseP'] = self.truncate(line['BaseP'], 6)
+                  if str(line['ImporteP'])[::-1].find('.') > 6:
+                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   trasladop.append({'ImpuestoP': line['ImpuestoP'],
                                     'TipoFactorP': line['TipoFactorP'],
                                     'TasaOCuotaP': line['TasaOCuotaP'],
@@ -427,6 +422,8 @@ class AccountPayment(models.Model):
               impuestosp.update({'TrasladosP': trasladop})
            if taxes_retenciones:
               for line in taxes_retenciones.values():
+                  if str(line['ImporteP'])[::-1].find('.') > 6:
+                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   retencionp.append({'ImpuestoP': line['ImpuestoP'],
                                     'ImporteP': self.set_decimals(line['ImporteP'],6),
                                     })
@@ -451,11 +448,11 @@ class AccountPayment(models.Model):
                       #'Monto':  self.set_decimals(self.total_pago/float(self.tipocambiop), no_decimales),
                       'NumOperacion': self.numero_operacion,
 
-                      'RfcEmisorCtaOrd': self.rfc_banco_emisor if self.forma_pago_id in ['02', '03', '04', '05', '28', '29'] else '',
-                      'NomBancoOrdExt': self.banco_emisor if self.forma_pago_id in ['02', '03', '04', '05', '28', '29'] else '',
-                      'CtaOrdenante': self.cuenta_emisor.acc_number if self.cuenta_emisor and self.forma_pago_id in ['02', '03', '04', '05', '28', '29'] else '',
-                      'RfcEmisorCtaBen': self.rfc_banco_receptor if self.forma_pago_id in ['02', '03', '04', '05', '28', '29'] else '',
-                      'CtaBeneficiario': self.cuenta_beneficiario if self.forma_pago_id in ['02', '03', '04', '05', '28', '29'] else '',
+                      'RfcEmisorCtaOrd': self.rfc_banco_emisor if self.forma_pago_id.code in ['02', '03', '04', '05', '28', '29'] else '',
+                      'NomBancoOrdExt': self.banco_emisor if self.forma_pago_id.code in ['02', '03', '04', '05', '28', '29'] else '',
+                      'CtaOrdenante': self.cuenta_emisor.acc_number if self.cuenta_emisor and self.forma_pago_id.code in ['02', '03', '04', '05', '28', '29'] else '',
+                      'RfcEmisorCtaBen': self.rfc_banco_receptor if self.forma_pago_id.code in ['02', '03', '04', '05', '28', '29'] else '',
+                      'CtaBeneficiario': self.cuenta_beneficiario if self.forma_pago_id.code in ['02', '03', '04', '05', '28', '29'] else '',
                       'DoctoRelacionado': json.loads(self.docto_relacionados),
                       'ImpuestosP': impuestosp,
                     })
@@ -616,22 +613,7 @@ class AccountPayment(models.Model):
             p.write({'estado_pago': estado_pago,
                     'xml_payment_link': xml_file_link})
             p.message_post(body="CFDI emitido")
-            
-    
-#     def validate_complete_payment(self):
-#         for rec in self:
-#            rec.post()
-#            return {
-#                'name': _('Payments'),
-#                'view_type': 'form',
-#                'view_mode': 'form',
-#                'res_model': 'account.payment',
-#                'view_id': False,
-#                'type': 'ir.actions.act_window',
-#                'res_id': rec.id,
-#            }
 
-    
     def _set_data_from_xml(self, xml_payment):
         if not xml_payment:
             return None
@@ -646,7 +628,7 @@ class AccountPayment(models.Model):
 
         for complementos in Complemento:
             TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
+            if not len(TimbreFiscalDigital) > 1:
                 break
 
         self.numero_cetificado = xml_data.attrib['NoCertificado']

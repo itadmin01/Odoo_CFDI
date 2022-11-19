@@ -613,7 +613,7 @@ class AccountMove(models.Model):
 
         for complementos in Complemento:
             TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
+            if not len(TimbreFiscalDigital) > 1:
                 break
 
         self.total_factura = xml_data.attrib['Total']
@@ -642,17 +642,6 @@ class AccountMove(models.Model):
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         self.qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
-
-#    def print_cdfi_invoice(self):
-#        self.ensure_one()
-        # return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon
-#        filename = 'CFDI_' + self.name.replace('/', '_') + '.pdf'
-#        return {
-#            'type': 'ir.actions.act_url',
-#            'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s' % (
-#                self.id, filename),
-#            'target': 'self',
-#        }
 
     def action_cfdi_generate(self):
         # after validate, send invoice data to external system via http post
