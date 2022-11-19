@@ -626,12 +626,10 @@ class AccountPayment(models.Model):
                  'pago20': 'http://www.sat.gob.mx/Pagos20',
                  }
         xml_data = etree.fromstring(xml_payment)
-        Complemento = xml_data.findall('cfdi:Complemento', NSMAP)
-
-        for complementos in Complemento:
-            TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if not len(TimbreFiscalDigital) > 1:
-                break
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+        if not len(TimbreFiscalDigital) > 1:
+            break
 
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.fecha_emision = xml_data.attrib['Fecha']
