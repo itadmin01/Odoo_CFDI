@@ -647,8 +647,6 @@ class AccountMove(models.Model):
         xml_data = etree.fromstring(xml_invoice)
         Complemento = xml_data.findall('cfdi:Complemento', NSMAP)
         TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
-        if not len(TimbreFiscalDigital) > 1:
-             break
 
         self.total_factura = xml_data.attrib['Total']
         self.tipocambio = xml_data.attrib['TipoCambio']
