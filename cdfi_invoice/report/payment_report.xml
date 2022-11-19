@@ -398,30 +398,27 @@
 						</table>
 					</div>
 					</t>
-					<div class="row" style="page-break-inside: avoid">
-						<!--INICIA CODIGO QR-->
-						<div class="col-xs-5">
-                                                  <img t-if="o.qrcode_image" t-att-src="o.qrcode_image" style="height: 190px;width: 190px;padding-left:10px;" />
-						</div>
-						<!--TERMINA CODIGO QR-->
-
-						<div class="col-xs-7" style="font-size:13px;">
-							<div >
-								<strong>Cadena Original del Complemento digital del SAT</strong>
-								<span t-field="o.cadena_origenal" style="word-break:break-word;" />
-							</div>
-							<div>
-								<strong>Sello Digital del CFDI</strong>
-								<span t-field="o.selo_digital_cdfi" style="word-break:break-word;" />
-							</div>
-							<div>
-								<strong>Sello del SAT</strong>
-								<span t-field="o.selo_sat" style="word-break:break-word;" />
-							</div>
-						</div>
-					</div>
-
-					<br/>
+                    <div class="row" style="page-break-inside: avoid">
+                         <!--INICIA CODIGO QR-->
+                         <div class="barcode col-3">
+                            <img t-if="o.qr_value" t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (o.qr_value)"/>
+                         </div>
+                          <!--TERMINA CODIGO QR-->
+                         <div class="col-9" style="font-size:10px;">
+                            <div>
+                                <strong>Cadena Original del Complemento digital del SAT</strong>
+                                <span t-field="o.cadena_origenal" style="word-break:break-word;font-size:8px;" />
+                            </div>
+                            <div>
+                                <strong>Sello Digital del CFDI</strong>
+                                <span t-field="o.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" />
+                            </div>
+                            <div>
+                                <strong>Sello del SAT</strong>
+                                <span t-field="o.selo_sat" style="word-break:break-word;font-size:8px;" />
+                            </div>
+                         </div>
+                    </div>
 
 					<p>
 						<center>
