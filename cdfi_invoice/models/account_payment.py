@@ -167,7 +167,6 @@ class AccountPayment(models.Model):
           mxn_currency = self.env["res.currency"].search([('name', '=', 'MXN')], limit=1)
 
           if payment.reconciled_invoice_ids:
-            invoice_vals_list = []
             pay_rec_lines = payment.move_line_ids.filtered(lambda line: line.account_id.internal_type in ('receivable', 'payable'))
 
             if payment.currency_id == mxn_currency:
@@ -640,8 +639,6 @@ class AccountPayment(models.Model):
         xml_data = etree.fromstring(xml_payment)
         Complemento = xml_data.find('cfdi:Complemento', NSMAP)
         TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
-        if not len(TimbreFiscalDigital) > 1:
-            break
 
         self.numero_cetificado = xml_data.attrib['NoCertificado']
         self.fecha_emision = xml_data.attrib['Fecha']
