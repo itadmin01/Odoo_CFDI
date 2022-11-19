@@ -246,37 +246,35 @@
 					<br/>
 		</xpath>
 
-		<xpath expr="//div[@name='comment']" position="before">
-				<div name="cadenas" class="row" style="display: table;">
-					<t t-foreach="docs" t-as="rec">
-					<div class="col-3 float-left" style="break-inside: avoid;">
-                        <img t-if="rec.qrcode_image" t-att-src="rec.qrcode_image" style="height: 190px;width: 190px;padding-left:10px;" />
+        <xpath expr="//div[@name='comment']" position="before">
+           <div name="cadenas" class="row" style="page-break-inside: avoid">
+                <t t-foreach="docs" t-as="rec">
+                    <div class="barcode col-3">
+                         <img t-if="rec.qr_value" t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (rec.qr_value)"/>
                     </div>
 
-                    <div class="col-9 float-left" style="font-size:12px;break-inside: avoid;">
-	                <!--CADENA ORIGINAL>  -->
-	                    <strong>Cadena Original del Complemento digital del SAT</strong><br/>
-		                <span t-field="rec.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
+                    <div class="col-9" style="font-size:10px;">
+                         <!--CADENA ORIGINAL> -->
+                         <strong>Cadena Original del Complemento digital del SAT</strong><br/>
+                         <span t-field="rec.cadena_origenal" style="font-size:8px;"/><br/>
 
-		                <strong>Sello digital del CFDI</strong><br/>
-		                <span t-field="rec.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" /><br/>
+                         <strong>Sello digital del CFDI</strong><br/>
+                         <span t-field="rec.selo_digital_cdfi" style="font-size:8px;"/><br/>
 
-		                <strong>Sello del SAT</strong><br/>
-		                <span t-field="rec.selo_sat" style="word-break:break-word;font-size:8px;" /><br/>
-
+                         <strong>Sello del SAT</strong><br/>
+                         <span t-field="rec.selo_sat" style="font-size:8px;"/><br/>
                     </div>
                 </t>
-                </div>
+           </div>
 
-                <!--DOCUMENTO LEGAL-->
-					<p>
-						<center>
-							<strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI
-							</strong>
-						</center>
-					</p>
-				
-	     </xpath>
+           <!--DOCUMENTO LEGAL-->
+           <p>
+                <center>
+                    <strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI</strong>
+                </center>
+           </p>
+
+        </xpath>
 
 
         </template>
