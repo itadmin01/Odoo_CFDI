@@ -236,6 +236,10 @@ class AccountPayment(models.Model):
 
                            basep = basedr / equivalenciadr
                            importep = importedr / equivalenciadr
+                           if str(basep)[::-1].find('.') > 6:
+                              basep = payment.truncate(basep, decimal_p)
+                           if str(importep)[::-1].find('.') > 6:
+                              importep = payment.truncate(importep, decimal_p)
 
                            val = {'BaseP': basep,
                                   'ImpuestoP': traslado['impuesto'],
@@ -387,10 +391,6 @@ class AccountPayment(models.Model):
            trasladop = []
            if taxes_traslado:
               for line in taxes_traslado.values():
-                  if str(line['BaseP'])[::-1].find('.') > 6:
-                       line['BaseP'] = self.truncate(line['BaseP'], 6)
-                  if str(line['ImporteP'])[::-1].find('.') > 6:
-                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   trasladop.append({'ImpuestoP': line['ImpuestoP'],
                                     'TipoFactorP': line['TipoFactorP'],
                                     'TasaOCuotaP': line['TasaOCuotaP'],
@@ -415,8 +415,6 @@ class AccountPayment(models.Model):
               impuestosp.update({'TrasladosP': trasladop})
            if taxes_retenciones:
               for line in taxes_retenciones.values():
-                  if str(line['ImporteP'])[::-1].find('.') > 6:
-                       line['ImporteP'] = self.truncate(line['ImporteP'], 6)
                   retencionp.append({'ImpuestoP': line['ImpuestoP'],
                                     'ImporteP': self.set_decimals(line['ImporteP'],6),
                                     })
