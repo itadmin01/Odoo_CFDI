@@ -154,7 +154,7 @@ class import_account_payment_from_xml(models.TransientModel):
                        tasa = str(float(retencion.attrib['TasaOCuota'])*-100)
                     else:
                        tasa = str(0)
-                    tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','sale'), 
+                    tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','purchase'), 
                                                 ('tipo_factor','=',retencion.attrib['TipoFactor']), ('amount', '=', tasa), 
                                                 ('company_id','=',self.env.company.id)],limit=1)
                     if not tax_exist:
