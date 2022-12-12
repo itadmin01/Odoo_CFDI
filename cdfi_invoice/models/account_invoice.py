@@ -942,6 +942,7 @@ class AccountMove(models.Model):
                         invoice.estado_factura = 'solicitud_rechazada'
             else:
                 _logger.info('Error... %s', response.text)
+            self.env.cr.commit()
         return True
 
     def action_cfdi_rechazada(self):

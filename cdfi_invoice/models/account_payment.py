@@ -193,7 +193,6 @@ class AccountPayment(models.Model):
           mxn_currency = self.env["res.currency"].search([('name', '=', 'MXN')], limit=1)
 
           if payment.reconciled_invoice_ids:
-            invoice_vals_list = []
             pay_rec_lines = payment.move_id.line_ids.filtered(lambda line: line.account_internal_type in ('receivable', 'payable'))
 
             if payment.currency_id == mxn_currency:
@@ -428,7 +427,7 @@ class AccountPayment(models.Model):
                                     'BaseP': self.set_decimals(line['BaseP'],6),
                                     })
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.160000':
-                       totales.update({'TotalTrasladosBaseIVA16': round(line['BaseP'] * float(self.tipocambiop),2),
+                       totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
                                        'TotalTrasladosImpuestoIVA16': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.080000':
                        totales.update({'TotalTrasladosBaseIVA8': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
@@ -672,7 +671,6 @@ class AccountPayment(models.Model):
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         self.qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
-        #self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
 
     def send_payment(self):
         self.ensure_one()
