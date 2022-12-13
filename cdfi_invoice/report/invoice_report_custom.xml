@@ -78,8 +78,8 @@
 		        </div>
 		</xpath>
 
-	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
-                    <table class="table table table-sm o_main_table" font-size="16px;">
+	    <xpath expr="//table[@class='table table-sm o_main_table table-borderless']" position="replace">
+                    <table class="table table table-sm o_main_table table-borderless" font-size="16px;">
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
