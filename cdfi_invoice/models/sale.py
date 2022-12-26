@@ -4,13 +4,9 @@ from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from  . import amount_to_text_es_MX
 import pytz
-#from .tzlocal import get_localzone
-#from odoo import tools
 import logging
 _logger = logging.getLogger(__name__)
-#----------------------------------------------------------
-# Incoterms
-#----------------------------------------------------------
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
