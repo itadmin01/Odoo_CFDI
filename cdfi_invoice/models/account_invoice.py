@@ -210,12 +210,13 @@ class AccountMove(models.Model):
     def _get_number_folio(self):
         for record in self:
             if record.name:
-                record.number_folio = record.name.replace('INV','').replace('/','')
+                record.number_folio = record.name.replace('INV', '').replace('/', '')
 
     @api.depends('amount_total', 'currency_id')
     def _get_amount_to_text(self):
         for record in self:
-            record.amount_to_text = amount_to_text_es_MX.get_amount_to_text(record, record.amount_total, 'es_cheque', record.currency_id.name)
+            record.amount_to_text = amount_to_text_es_MX.get_amount_to_text(record, record.amount_total, 'es_cheque',
+                                                                            record.currency_id.name)
 
     @api.model
     def _get_amount_2_text(self, amount_total):
@@ -234,21 +235,21 @@ class AccountMove(models.Model):
         if self.invoice_payment_term_id:
             if self.invoice_payment_term_id.methodo_pago == 'PPD':
                 values = {
-                 'methodo_pago': self.invoice_payment_term_id.methodo_pago,
-                 'forma_pago': '99'
+                    'methodo_pago': self.invoice_payment_term_id.methodo_pago,
+                    'forma_pago': '99'
                 }
             else:
                 values = {
                     'methodo_pago': self.invoice_payment_term_id.methodo_pago,
                     'forma_pago': False
-                    }
+                }
         else:
             values = {
                 'methodo_pago': False,
                 'forma_pago': False
-                }
+            }
         self.update(values)
-    
+
     @api.model
     def to_json(self):
         self.check_cfdi_values()
@@ -267,85 +268,86 @@ class AccountMove(models.Model):
         no_decimales_prod = self.currency_id.decimal_places
         no_decimales_tc = self.currency_id.no_decimales_tc
 
-        #corregir hora
+        # corregir hora
         timezone = self._context.get('tz')
         if not timezone:
             timezone = self.journal_id.tz or self.env.user.partner_id.tz or 'America/Mexico_City'
-        #timezone = tools.ustr(timezone).encode('utf-8')
+        # timezone = tools.ustr(timezone).encode('utf-8')
 
         local = pytz.timezone(timezone)
         if not self.fecha_factura:
-           naive_from = datetime.datetime.now()
+            naive_from = datetime.datetime.now()
         else:
-           naive_from = self.fecha_factura
+            naive_from = self.fecha_factura
         local_dt_from = naive_from.replace(tzinfo=pytz.UTC).astimezone(local)
-        date_from = local_dt_from.strftime ("%Y-%m-%dT%H:%M:%S")
+        date_from = local_dt_from.strftime("%Y-%m-%dT%H:%M:%S")
         if not self.fecha_factura:
-           self.fecha_factura = datetime.datetime.now()
+            self.fecha_factura = datetime.datetime.now()
 
         if self.currency_id.name == 'MXN':
-           tipocambio = 1
+            tipocambio = 1
         else:
-           tipocambio = self.set_decimals(1 / self.currency_id.with_context(date=self.invoice_date).rate, no_decimales_tc)
+            tipocambio = self.set_decimals(1 / self.currency_id.with_context(date=self.invoice_date).rate,
+                                           no_decimales_tc)
 
         request_params = {
-                'factura': {
-                      'serie': self.journal_id.serie_diario or self.company_id.serie_factura,
-                      'folio': str(re.sub('[^0-9]','', self.name)),
-                      'fecha_expedicion': date_from,
-                      'forma_pago': self.forma_pago,
-                      'subtotal': self.amount_untaxed,
-                      'descuento': 0,
-                      'moneda': self.currency_id.name,
-                      'tipocambio': tipocambio,
-                      'total': self.amount_total,
-                      'tipocomprobante': self.tipo_comprobante,
-                      'metodo_pago': self.methodo_pago,
-                      'LugarExpedicion': self.journal_id.codigo_postal or self.company_id.zip,
-                      'Confirmacion': self.confirmacion,
-                      'Exportacion': self.exportacion,
-                },
-                'emisor': {
-                      'rfc': self.company_id.vat.upper(),
-                      'nombre': self.company_id.nombre_fiscal.upper(),
-                      'RegimenFiscal': self.company_id.regimen_fiscal,
-                      'FacAtrAdquirente': self.facatradquirente,
-                },
-                'receptor': {
-                      'nombre': nombre,
-                      'rfc': self.partner_id.vat.upper(),
-                      'ResidenciaFiscal': self.partner_id.residencia_fiscal,
-                      'NumRegIdTrib': self.partner_id.registro_tributario,
-                      'UsoCFDI': self.uso_cfdi,
-                      'RegimenFiscalReceptor': self.partner_id.regimen_fiscal,
-                      'DomicilioFiscalReceptor': zipreceptor,
-                },
-                'informacion': {
-                      'cfdi': '4.0',
-                      'sistema': 'odoo13',
-                      'version': '1',
-                      'api_key': self.company_id.proveedor_timbrado,
-                      'modo_prueba': self.company_id.modo_prueba,
-                },
+            'factura': {
+                'serie': self.journal_id.serie_diario or self.company_id.serie_factura,
+                'folio': str(re.sub('[^0-9]','', self.name)),
+                'fecha_expedicion': date_from,
+                'forma_pago': self.forma_pago,
+                'subtotal': self.amount_untaxed,
+                'descuento': 0,
+                'moneda': self.currency_id.name,
+                'tipocambio': tipocambio,
+                'total': self.amount_total,
+                'tipocomprobante': self.tipo_comprobante,
+                'metodo_pago': self.methodo_pago,
+                'LugarExpedicion': self.journal_id.codigo_postal or self.company_id.zip,
+                'Confirmacion': self.confirmacion,
+                'Exportacion': self.exportacion,
+            },
+            'emisor': {
+                'rfc': self.company_id.vat.upper(),
+                'nombre': self.company_id.nombre_fiscal.upper(),
+                'RegimenFiscal': self.company_id.regimen_fiscal,
+                'FacAtrAdquirente': self.facatradquirente,
+            },
+            'receptor': {
+                'nombre': nombre,
+                'rfc': self.partner_id.vat.upper(),
+                'ResidenciaFiscal': self.partner_id.residencia_fiscal,
+                'NumRegIdTrib': self.partner_id.registro_tributario,
+                'UsoCFDI': self.uso_cfdi,
+                'RegimenFiscalReceptor': self.partner_id.regimen_fiscal,
+                'DomicilioFiscalReceptor': zipreceptor,
+            },
+            'informacion': {
+                'cfdi': '4.0',
+                'sistema': 'odoo14',
+                'version': '1',
+                'api_key': self.company_id.proveedor_timbrado,
+                'modo_prueba': self.company_id.modo_prueba,
+            },
         }
 
         if self.factura_global:
-           request_params.update({
+            request_params.update({
                 'InformacionGlobal': {
-                      'Periodicidad': self.fg_periodicidad,
-                      'Meses': self.fg_meses,
-                      'Año': self.fg_ano,
+                    'Periodicidad': self.fg_periodicidad,
+                    'Meses': self.fg_meses,
+                    'Año': self.fg_ano,
                 },
-           })
+            })
 
         if self.uuid_relacionado:
-           cfdi_relacionado = []
-           uuids = self.uuid_relacionado.replace(' ','').split(',')
-           for uuid in uuids:
+            cfdi_relacionado = []
+            uuids = self.uuid_relacionado.replace(' ', '').split(',')
+            for uuid in uuids:
                 cfdi_relacionado.append({
-                      'uuid': uuid,
+                    'uuid': uuid,
                 })
-           request_params.update({'CfdisRelacionados': {'UUID': cfdi_relacionado, 'TipoRelacion':self.tipo_relacion }})
+            request_params.update({'CfdisRelacionados': {'UUID': cfdi_relacionado, 'TipoRelacion': self.tipo_relacion}})
 
         amount_total = 0.0
         amount_untaxed = 0.0
@@ -373,7 +375,8 @@ class AccountMove(models.Model):
             if not line.product_id.cat_unidad_medida.clave:
                 self.write({'proceso_timbrado': False})
                 self.env.cr.commit()
-                raise UserError(_('El producto %s no tiene unidad de medida del SAT configurado.') % (line.product_id.name))
+                raise UserError(
+                    _('El producto %s no tiene unidad de medida del SAT configurado.') % (line.product_id.name))
 
             price_wo_discount = line.price_unit * (1 - (line.discount / 100.0))
 
@@ -386,77 +389,78 @@ class AccountMove(models.Model):
             for taxes in taxes_prod['taxes']:
                 tax = self.env['account.tax'].browse(taxes['id'])
                 if not tax.impuesto:
-                   self.write({'proceso_timbrado': False})
-                   self.env.cr.commit()
-                   raise UserError(_('El impuesto %s no tiene clave del SAT configurado.') % (tax.name))
+                    self.write({'proceso_timbrado': False})
+                    self.env.cr.commit()
+                    raise UserError(_('El impuesto %s no tiene clave del SAT configurado.') % (tax.name))
                 if not tax.tipo_factor:
-                   self.write({'proceso_timbrado': False})
-                   self.env.cr.commit()
-                   raise UserError(_('El impuesto %s no tiene tipo de factor del SAT configurado.') % (tax.name))
+                    self.write({'proceso_timbrado': False})
+                    self.env.cr.commit()
+                    raise UserError(_('El impuesto %s no tiene tipo de factor del SAT configurado.') % (tax.name))
                 if tax.impuesto != '004':
-                   key = taxes['id']
-                   if tax.price_include or tax.amount_type == 'division':
-                       tax_included += taxes['amount']
+                    key = taxes['id']
+                    if tax.price_include or tax.amount_type == 'division':
+                        tax_included += taxes['amount']
 
-                   if taxes['amount'] >= 0.0:
-                      if tax.tipo_factor == 'Exento':
-                         tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
-                                           'Impuesto': tax.impuesto,
-                                           'TipoFactor': tax.tipo_factor,})
-                      elif tax.tipo_factor == 'Cuota':
-                         tax_tras.append({'Base': self.set_decimals(line.quantity, no_decimales_prod),
-                                           'Impuesto': tax.impuesto,
-                                           'TipoFactor': tax.tipo_factor,
-                                           'TasaOCuota': self.set_decimals(tax.amount,6),
-                                           'Importe': self.set_decimals(taxes['amount'], no_decimales_prod),})
-                      else:
-                         tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
-                                           'Impuesto': tax.impuesto,
-                                           'TipoFactor': tax.tipo_factor,
-                                           'TasaOCuota': self.set_decimals(tax.amount / 100.0,6),
-                                           'Importe': self.set_decimals(taxes['amount'], no_decimales_prod),})
-                      tras_tot += taxes['amount']
-                      val = {'tax_id': taxes['id'],
-                             'base': taxes['base'] if tax.tipo_factor != 'Cuota' else line.quantity,
-                             'amount': taxes['amount'],}
-                      if key not in tax_grouped_tras:
-                          tax_grouped_tras[key] = val
-                      else:
-                          tax_grouped_tras[key]['base'] += val['base'] if tax.tipo_factor != 'Cuota' else line.quantity
-                          tax_grouped_tras[key]['amount'] += val['amount']
-                   else:
-                      tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
-                                      'Impuesto': tax.impuesto,
-                                      'TipoFactor': tax.tipo_factor,
-                                      'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
-                                      'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod),})
-                      ret_tot += taxes['amount'] * -1
-                      val = {'tax_id': taxes['id'],
-                             'base': taxes['base'],
-                             'amount': taxes['amount'],}
-                      if key not in tax_grouped_ret:
-                          tax_grouped_ret[key] = val
-                      else:
-                          tax_grouped_ret[key]['base'] += val['base']
-                          tax_grouped_ret[key]['amount'] += val['amount']
-                else: #impuestos locales
-                   if tax.price_include or tax.amount_type == 'division':
-                      tax_included += taxes['amount']
-                   if taxes['amount'] >= 0.0:
-                      tax_local_tras_tot += taxes['amount']
-                      tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
-                                             'TasadeTraslado': self.set_decimals(tax.amount,2),
-                                             'Importe': self.set_decimals(taxes['amount'], 2),})
-                   else:
-                      tax_local_ret_tot += taxes['amount']
-                      tax_local_ret.append({'ImpLocRetenido': tax.impuesto_local,
-                                            'TasadeRetencion': self.set_decimals(tax.amount * -1,2),
-                                            'Importe': self.set_decimals(taxes['amount'] * -1, 2),})
+                    if taxes['amount'] >= 0.0:
+                        if tax.tipo_factor == 'Exento':
+                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                                             'Impuesto': tax.impuesto,
+                                             'TipoFactor': tax.tipo_factor, })
+                        elif tax.tipo_factor == 'Cuota':
+                            tax_tras.append({'Base': self.set_decimals(line.quantity, no_decimales_prod),
+                                             'Impuesto': tax.impuesto,
+                                             'TipoFactor': tax.tipo_factor,
+                                             'TasaOCuota': self.set_decimals(tax.amount, 6),
+                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
+                        else:
+                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                                             'Impuesto': tax.impuesto,
+                                             'TipoFactor': tax.tipo_factor,
+                                             'TasaOCuota': self.set_decimals(tax.amount / 100.0, 6),
+                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
+                        tras_tot += taxes['amount']
+                        val = {'tax_id': taxes['id'],
+                               'base': taxes['base'] if tax.tipo_factor != 'Cuota' else line.quantity,
+                               'amount': taxes['amount'], }
+                        if key not in tax_grouped_tras:
+                            tax_grouped_tras[key] = val
+                        else:
+                            tax_grouped_tras[key]['base'] += val[
+                                'base'] if tax.tipo_factor != 'Cuota' else line.quantity
+                            tax_grouped_tras[key]['amount'] += val['amount']
+                    else:
+                        tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                                        'Impuesto': tax.impuesto,
+                                        'TipoFactor': tax.tipo_factor,
+                                        'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
+                                        'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod), })
+                        ret_tot += taxes['amount'] * -1
+                        val = {'tax_id': taxes['id'],
+                               'base': taxes['base'],
+                               'amount': taxes['amount'], }
+                        if key not in tax_grouped_ret:
+                            tax_grouped_ret[key] = val
+                        else:
+                            tax_grouped_ret[key]['base'] += val['base']
+                            tax_grouped_ret[key]['amount'] += val['amount']
+                else:  # impuestos locales
+                    if tax.price_include or tax.amount_type == 'division':
+                        tax_included += taxes['amount']
+                    if taxes['amount'] >= 0.0:
+                        tax_local_tras_tot += taxes['amount']
+                        tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
+                                               'TasadeTraslado': self.set_decimals(tax.amount, 2),
+                                               'Importe': self.set_decimals(taxes['amount'], 2), })
+                    else:
+                        tax_local_ret_tot += taxes['amount']
+                        tax_local_ret.append({'ImpLocRetenido': tax.impuesto_local,
+                                              'TasadeRetencion': self.set_decimals(tax.amount * -1, 2),
+                                              'Importe': self.set_decimals(taxes['amount'] * -1, 2), })
 
             if tax_tras:
-               tax_items.update({'Traslados': tax_tras})
+                tax_items.update({'Traslados': tax_tras})
             if tax_ret:
-               tax_items.update({'Retenciones': tax_ret})
+                tax_items.update({'Retenciones': tax_ret})
 
             total_wo_discount = round(line.price_unit * line.quantity - tax_included, no_decimales_prod)
             discount_prod = round(total_wo_discount - line.price_subtotal, no_decimales_prod) if line.discount else 0
@@ -464,27 +468,27 @@ class AccountMove(models.Model):
             self.subtotal += total_wo_discount
             self.discount += discount_prod
 
-            #probar con varios pedimentos
+            # probar con varios pedimentos
             pedimentos = []
             if line.pedimento:
-                pedimento_list = line.pedimento.replace(' ','').split(',')
+                pedimento_list = line.pedimento.replace(' ', '').split(',')
                 for pedimento in pedimento_list:
-                   if len(pedimento) != 15:
-                      self.write({'proceso_timbrado': False})
-                      self.env.cr.commit()
-                      raise UserError(_('La longitud del pedimento debe ser de 15 dígitos.'))
-                   pedimentos.append({'NumeroPedimento': pedimento[0:2] + '  ' + pedimento[2:4] + '  ' + pedimento[4:8] + '  ' + pedimento[8:]})
+                    if len(pedimento) != 15:
+                        self.write({'proceso_timbrado': False})
+                        self.env.cr.commit()
+                        raise UserError(_('La longitud del pedimento debe ser de 15 dígitos.'))
+                    pedimentos.append({'NumeroPedimento': pedimento[0:2] + '  ' + pedimento[2:4] + '  ' + pedimento[4:8] + '  ' + pedimento[8:]})
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
-               if line.name.find(']') > 0:
-                  product_string = line.name[line.name.find('[')+len('['):line.name.find(']')] or ''
+                if line.name.find(']') > 0:
+                    product_string = line.name[line.name.find('[') + len('['):line.name.find(']')] or ''
             description = line.name
             if line.name.find(']') > 0:
-                 description = line.name[line.name.find(']') + 2:]
+                description = line.name[line.name.find(']') + 2:]
 
             if self.tipo_comprobante == 'T':
-                invoice_lines.append({'cantidad': self.set_decimals(line.quantity,6),
+                invoice_lines.append({'cantidad': self.set_decimals(line.quantity, 6),
                                       'unidad': line.product_id.cat_unidad_medida.descripcion,
                                       'NoIdentificacion': self.clean_text(product_string),
                                       'valorunitario': self.set_decimals(precio_unitario, no_decimales_prod),
@@ -494,7 +498,7 @@ class AccountMove(models.Model):
                                       'ObjetoImp': line.product_id.objetoimp,
                                       'ClaveUnidad': line.product_id.cat_unidad_medida.clave})
             else:
-                invoice_lines.append({'cantidad': self.set_decimals(line.quantity,6),
+                invoice_lines.append({'cantidad': self.set_decimals(line.quantity, 6),
                                       'unidad': line.product_id.cat_unidad_medida.descripcion,
                                       'NoIdentificacion': self.clean_text(product_string),
                                       'valorunitario': self.set_decimals(precio_unitario, no_decimales_prod),
@@ -506,7 +510,7 @@ class AccountMove(models.Model):
                                       'Descuento': self.set_decimals(discount_prod, no_decimales_prod),
                                       'ObjetoImp': line.product_id.objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
-                                      'predial': line.predial and line.predial or '',})
+                                      'predial': line.predial and line.predial or '', })
 
         tras_tot = round(tras_tot, no_decimales)
         ret_tot = round(ret_tot, no_decimales)
@@ -516,62 +520,63 @@ class AccountMove(models.Model):
         self.subtotal = self.roundTraditional(self.subtotal, no_decimales)
         impuestos = {}
         if tax_grouped_tras or tax_grouped_ret:
-                retenciones = []
-                traslados = []
-                if tax_grouped_tras:
-                   for line in tax_grouped_tras.values():
-                       tax = self.env['account.tax'].browse(line['tax_id'])
-                       if tax.tipo_factor == 'Exento':
-                          tasa_tr = ''
-                       elif tax.tipo_factor == 'Cuota':
-                          tasa_tr = self.set_decimals(tax.amount, 6)
-                       else:
-                          tasa_tr = self.set_decimals(tax.amount / 100.0, 6)
-                       traslados.append({'impuesto': tax.impuesto,
-                                         'TipoFactor': tax.tipo_factor,
-                                         'tasa': tasa_tr,
-                                         'importe': self.roundTraditional(line['amount'], no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                         'base': self.roundTraditional(line['base'], no_decimales),
-                                         'tax_id': line['tax_id'],
-                                         })
-                   impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
-                if tax_grouped_ret:
-                   for line in tax_grouped_ret.values():
-                       tax = self.env['account.tax'].browse(line['tax_id'])
-                       retenciones.append({'impuesto': tax.impuesto,
-                                         'TipoFactor': tax.tipo_factor,
-                                         'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                         'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
-                                         'base': self.roundTraditional(line['base'], no_decimales),
-                                         'tax_id': line['tax_id'],
-                                         })
-                   impuestos.update({'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
-                request_params.update({'impuestos': impuestos})
+            retenciones = []
+            traslados = []
+            if tax_grouped_tras:
+                for line in tax_grouped_tras.values():
+                    tax = self.env['account.tax'].browse(line['tax_id'])
+                    if tax.tipo_factor == 'Exento':
+                        tasa_tr = ''
+                    elif tax.tipo_factor == 'Cuota':
+                        tasa_tr = self.set_decimals(tax.amount, 6)
+                    else:
+                        tasa_tr = self.set_decimals(tax.amount / 100.0, 6)
+                    traslados.append({'impuesto': tax.impuesto,
+                                      'TipoFactor': tax.tipo_factor,
+                                      'tasa': tasa_tr,
+                                      'importe': self.roundTraditional(line['amount'],no_decimales) if tax.tipo_factor != 'Exento' else '',
+                                      'base': self.roundTraditional(line['base'], no_decimales),
+                                      'tax_id': line['tax_id'],
+                                      })
+                impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
+            if tax_grouped_ret:
+                for line in tax_grouped_ret.values():
+                    tax = self.env['account.tax'].browse(line['tax_id'])
+                    retenciones.append({'impuesto': tax.impuesto,
+                                        'TipoFactor': tax.tipo_factor,
+                                        'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
+                                        'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
+                                        'base': self.roundTraditional(line['base'], no_decimales),
+                                        'tax_id': line['tax_id'],
+                                        })
+                impuestos.update({'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
+            request_params.update({'impuestos': impuestos})
         self.tax_payment = json.dumps(impuestos)
 
         if tax_local_ret or tax_local_tras:
-           if tax_local_tras and not tax_local_ret:
-               request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
-                                                     'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot,2), 
-                                                     'TrasladosLocales': tax_local_tras,}})
-           if tax_local_ret and not tax_local_tras:
-               request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot,2), 
-                                                     'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,2), 
-                                                     'RetencionesLocales': tax_local_ret,}})
-           if tax_local_ret and tax_local_tras:
-               request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot,2),
-                                                     'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,2),
-                                                     'TrasladosLocales': tax_local_tras,
-                                                     'RetencionesLocales': tax_local_ret,}})
+            if tax_local_tras and not tax_local_ret:
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot, 2),
+                                                      'TrasladosLocales': tax_local_tras, }})
+            if tax_local_ret and not tax_local_tras:
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1, 2),
+                                                      'RetencionesLocales': tax_local_ret, }})
+            if tax_local_ret and tax_local_tras:
+                request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1, 2),
+                                                      'TrasladosLocales': tax_local_tras,
+                                                      'RetencionesLocales': tax_local_ret, }})
 
         if self.tipo_comprobante == 'T':
             request_params['factura'].update({'descuento': '', 'subtotal': '0.00','total': '0.00'})
             self.total_factura = 0
         else:
-            self.total_factura = round(self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot,2)
+            self.total_factura = round(
+                self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot, 2)
             request_params['factura'].update({'descuento': self.roundTraditional(self.discount, no_decimales),
                                               'subtotal': self.roundTraditional(self.subtotal, no_decimales),
-                                              'total':  self.roundTraditional(self.total_factura, no_decimales)})
+                                              'total': self.roundTraditional(self.total_factura, no_decimales)})
 
         request_params.update({'conceptos': invoice_lines})
 
@@ -677,23 +682,22 @@ class AccountMove(models.Model):
 
     def print_cdfi_invoice(self):
         self.ensure_one()
-        #return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon 
+        # return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report')
         filename = 'CFDI_' + self.name.replace('/', '_') + '.pdf'
         return {
-                 'type' : 'ir.actions.act_url',
-                 'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s'%(self.id, filename),
-                 'target': 'self',
-                 }
-        
-    
+            'type': 'ir.actions.act_url',
+            'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s' % (self.id, filename),
+            'target': 'self',
+        }
+
     def action_cfdi_generate(self):
         # after validate, send invoice data to external system via http post
         for invoice in self:
             if invoice.proceso_timbrado:
                 return True
             else:
-               invoice.write({'proceso_timbrado': True})
-               self.env.cr.commit()
+                invoice.write({'proceso_timbrado': True})
+                self.env.cr.commit()
             if invoice.estado_factura == 'factura_correcta':
                 if invoice.folio_fiscal:
                     invoice.write({'factura_cfdi': True})
@@ -722,7 +726,8 @@ class AccountMove(models.Model):
             else:
                 invoice.write({'proceso_timbrado': False})
                 self.env.cr.commit()
-                raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+                raise UserError(
+                    _('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
 
             try:
                 response = requests.post(url,
@@ -740,7 +745,8 @@ class AccountMove(models.Model):
             if "Whoops, looks like something went wrong." in response.text:
                 invoice.write({'proceso_timbrado': False})
                 self.env.cr.commit()
-                raise Warning("Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
+                raise Warning(
+                    "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
             else:
                 json_response = response.json()
             estado_factura = json_response['estado_factura']
@@ -775,29 +781,29 @@ class AccountMove(models.Model):
                     pass
                     # raise UserError(_('La factura ya fue cancelada, no puede volver a cancelarse.'))
                 if not invoice.company_id.contrasena:
-                  raise UserError(_('El campo de contraseña de los certificados está vacío.'))
+                    raise UserError(_('El campo de contraseña de los certificados está vacío.'))
                 domain = [
                     ('res_id', '=', invoice.id),
                     ('res_model', '=', invoice._name),
                     ('name', '=', invoice.name.replace('/', '_') + '.xml')]
                 xml_file = self.env['ir.attachment'].search(domain)
                 if not xml_file:
-                  raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
+                    raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
                 values = {
                     'rfc': invoice.company_id.vat,
                     'api_key': invoice.company_id.proveedor_timbrado,
                     'uuid': invoice.folio_fiscal,
-                    'folio': invoice.name.replace('INV','').replace('/',''),
+                    'folio': invoice.name.replace('INV', '').replace('/', ''),
                     'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
                     'modo_prueba': invoice.company_id.modo_prueba,
                     'certificados': {
-                    #    'archivo_cer': archivo_cer.decode("utf-8"),
-                    #    'archivo_key': archivo_key.decode("utf-8"),
+                        #    'archivo_cer': archivo_cer.decode("utf-8"),
+                        #    'archivo_key': archivo_key.decode("utf-8"),
                         'contrasena': invoice.company_id.contrasena,
                     },
                     'xml': xml_file[0].datas.decode("utf-8"),
-                    'motivo': self.env.context.get('motivo_cancelacion','02'),
-                    'foliosustitucion': self.env.context.get('foliosustitucion',''),
+                    'motivo': self.env.context.get('motivo_cancelacion', '02'),
+                    'foliosustitucion': self.env.context.get('foliosustitucion', ''),
                 }
                 if self.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
@@ -811,7 +817,8 @@ class AccountMove(models.Model):
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                 else:
-                    raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+                    raise UserError(
+                        _('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
 
                 try:
                     response = requests.post(url,
@@ -825,7 +832,8 @@ class AccountMove(models.Model):
                         raise Warning(error)
 
                 if "Whoops, looks like something went wrong." in response.text:
-                    raise Warning("Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
+                    raise Warning(
+                        "Error en el proceso de timbrado, espere un minuto y vuelva a intentar timbrar nuevamente. \nSi el error aparece varias veces reportarlo con la persona de sistemas.")
 
                 json_response = response.json()
 
@@ -860,25 +868,25 @@ class AccountMove(models.Model):
 
     @api.model
     def check_cancel_status_by_cron(self):
-        domain = [('type', '=', 'out_invoice'),('estado_factura', '=', 'solicitud_cancelar')]
-        invoices = self.search(domain, order = 'id')
+        domain = [('type', '=', 'out_invoice'), ('estado_factura', '=', 'solicitud_cancelar')]
+        invoices = self.search(domain, order='id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
             domain = [
-                 ('res_id', '=', invoice.id),
-                 ('res_model', '=', invoice._name),
-                 ('name', '=', invoice.name.replace('/', '_') + '.xml')]
+                ('res_id', '=', invoice.id),
+                ('res_model', '=', invoice._name),
+                ('name', '=', invoice.name.replace('/', '_') + '.xml')]
             xml_file = self.env['ir.attachment'].search(domain, limit=1)
             if not xml_file:
-               _logger.info('No se encontró XML de la factura %s', invoice.folio_fiscal)
-               continue
+                _logger.info('No se encontró XML de la factura %s', invoice.folio_fiscal)
+                continue
             values = {
-                 'rfc': invoice.company_id.vat,
-                 'api_key': invoice.company_id.proveedor_timbrado,
-                 'modo_prueba': invoice.company_id.modo_prueba,
-                 'uuid': invoice.folio_fiscal,
-                 'xml': xml_file.datas.decode("utf-8"),
-                 }
+                'rfc': invoice.company_id.vat,
+                'api_key': invoice.company_id.proveedor_timbrado,
+                'modo_prueba': invoice.company_id.modo_prueba,
+                'uuid': invoice.folio_fiscal,
+                'xml': xml_file.datas.decode("utf-8"),
+            }
 
             if invoice.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
@@ -889,24 +897,26 @@ class AccountMove(models.Model):
             elif invoice.company_id.proveedor_timbrado == 'gecoerp':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/consulta-cacelar')
             else:
-                raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+                raise UserError(
+                    _('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
 
             try:
-               response = requests.post(url, 
-                                         auth=None,verify=False, data=json.dumps(values), 
+                response = requests.post(url,
+                                         auth=None, verify=False, data=json.dumps(values),
                                          headers={"Content-type": "application/json"})
 
-               if "Whoops, looks like something went wrong." in response.text:
-                   _logger.info("Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
-                   return
+                if "Whoops, looks like something went wrong." in response.text:
+                    _logger.info(
+                        "Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
+                    return
 
-               json_response = response.json()
-             #  _logger.info('something ... %s', response.text)
+                json_response = response.json()
+                # _logger.info('something ... %s', response.text)
             except Exception as e:
-               _logger.info('log de la exception ... %s', response.text)
-               json_response = {}
+                _logger.info('log de la exception ... %s', response.text)
+                json_response = {}
             if not json_response:
-               return
+                return
             estado_factura = json_response['estado_consulta']
             if estado_factura == 'problemas_consulta':
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
@@ -924,6 +934,7 @@ class AccountMove(models.Model):
                         invoice.estado_factura = 'solicitud_rechazada'
             else:
                 _logger.info('Error... %s', response.text)
+            self.env.cr.commit()
         return True
 
     def action_cfdi_rechazada(self):
@@ -935,58 +946,59 @@ class AccountMove(models.Model):
 
     def liberar_cfdi(self):
         for invoice in self:
-           values = {
-                 'command': 'liberar_cfdi',
-                 'rfc': invoice.company_id.vat,
-                 'folio': str(re.sub('[^0-9]','', invoice.name)),
-                 'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
-                 'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
-                 'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
-                 'contrasena': invoice.company_id.contrasena,
-                 }
-           url=''
-           if invoice.company_id.proveedor_timbrado == 'multifactura':
-               url = '%s' % ('http://facturacion.itadmin.com.mx/api/command')
-           elif invoice.company_id.proveedor_timbrado == 'multifactura2':
-               url = '%s' % ('http://facturacion2.itadmin.com.mx/api/command')
-           elif invoice.company_id.proveedor_timbrado == 'multifactura3':
-               url = '%s' % ('http://facturacion3.itadmin.com.mx/api/command')
-           if not url:
-               return
-           try:
-               response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            values = {
+                'command': 'liberar_cfdi',
+                'rfc': invoice.company_id.vat,
+                'folio': str(re.sub('[^0-9]','', invoice.name)),
+                'serie_factura': invoice.journal_id.serie_diario or invoice.company_id.serie_factura,
+                'archivo_cer': invoice.company_id.archivo_cer.decode("utf-8"),
+                'archivo_key': invoice.company_id.archivo_key.decode("utf-8"),
+                'contrasena': invoice.company_id.contrasena,
+            }
+            url = ''
+            if invoice.company_id.proveedor_timbrado == 'multifactura':
+                url = '%s' % ('http://facturacion.itadmin.com.mx/api/command')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura2':
+                url = '%s' % ('http://facturacion2.itadmin.com.mx/api/command')
+            elif invoice.company_id.proveedor_timbrado == 'multifactura3':
+                url = '%s' % ('http://facturacion3.itadmin.com.mx/api/command')
+            if not url:
+                return
+            try:
+                response = requests.post(url, auth=None, verify=False, data=json.dumps(values),
+                                         headers={"Content-type": "application/json"})
 
-               if "Whoops, looks like something went wrong." in response.text:
-                   raise Warning("Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
+                if "Whoops, looks like something went wrong." in response.text:
+                    raise Warning(
+                        "Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
 
-               json_response = response.json()
-           except Exception as e:
-               print(e)
-               json_response = {}
+                json_response = response.json()
+            except Exception as e:
+                print(e)
+                json_response = {}
 
-           if not json_response:
-               return
-           #_logger.info('something ... %s', response.text)
+            if not json_response:
+                return
+            # _logger.info('something ... %s', response.text)
 
-           respuesta = json_response['respuesta']
-           message_id = self.env['mymodule.message.wizard'].create({'message': respuesta})
-           return {
-               'name': 'Respuesta',
-               'type': 'ir.actions.act_window',
-               'view_mode': 'form',
-               'res_model': 'mymodule.message.wizard',
-               'res_id': message_id.id,
-               'target': 'new'
-           }
+            respuesta = json_response['respuesta']
+            message_id = self.env['mymodule.message.wizard'].create({'message': respuesta})
+            return {
+                'name': 'Respuesta',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mymodule.message.wizard',
+                'res_id': message_id.id,
+                'target': 'new'
+            }
 
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
 
-    
     def generate_email(self, res_ids, fields=None):
         results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
-        
+
         if isinstance(res_ids, (int)):
             res_ids = [res_ids]
         res_ids_to_templates = super(MailTemplate, self).get_email_template(res_ids)
