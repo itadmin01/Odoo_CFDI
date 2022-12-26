@@ -425,8 +425,7 @@ class AccountMove(models.Model):
                         if key not in tax_grouped_tras:
                             tax_grouped_tras[key] = val
                         else:
-                            tax_grouped_tras[key]['base'] += val[
-                                'base'] if tax.tipo_factor != 'Cuota' else line.quantity
+                            tax_grouped_tras[key]['base'] += val['base'] if tax.tipo_factor != 'Cuota' else line.quantity
                             tax_grouped_tras[key]['amount'] += val['amount']
                     else:
                         tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
@@ -536,13 +535,11 @@ class AccountMove(models.Model):
                     traslados.append({'impuesto': tax.impuesto,
                                       'TipoFactor': tax.tipo_factor,
                                       'tasa': tasa_tr,
-                                      'importe': self.roundTraditional(line['amount'],
-                                                                   no_decimales) if tax.tipo_factor != 'Exento' else '',
+                                      'importe': self.roundTraditional(line['amount'],no_decimales) if tax.tipo_factor != 'Exento' else '',
                                       'base': self.roundTraditional(line['base'], no_decimales),
                                       'tax_id': line['tax_id'],
                                       })
-                impuestos.update(
-                    {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
+                impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
             if tax_grouped_ret:
                 for line in tax_grouped_ret.values():
                     tax = self.env['account.tax'].browse(line['tax_id'])
@@ -553,8 +550,7 @@ class AccountMove(models.Model):
                                         'base': self.roundTraditional(line['base'], no_decimales),
                                         'tax_id': line['tax_id'],
                                         })
-                impuestos.update(
-                    {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
+                impuestos.update({'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
             request_params.update({'impuestos': impuestos})
         self.tax_payment = json.dumps(impuestos)
 
@@ -565,13 +561,11 @@ class AccountMove(models.Model):
                                                       'TrasladosLocales': tax_local_tras, }})
             if tax_local_ret and not tax_local_tras:
                 request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
-                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,
-                                                                                              2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1, 2),
                                                       'RetencionesLocales': tax_local_ret, }})
             if tax_local_ret and tax_local_tras:
                 request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
-                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1,
-                                                                                              2),
+                                                      'TotaldeRetenciones': self.roundTraditional(tax_local_ret_tot * -1, 2),
                                                       'TrasladosLocales': tax_local_tras,
                                                       'RetencionesLocales': tax_local_ret, }})
 
@@ -689,12 +683,11 @@ class AccountMove(models.Model):
 
     def print_cdfi_invoice(self):
         self.ensure_one()
-        # return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report') #modulename.custom_report_coupon
+        # return self.env['report'].get_action(self, 'custom_invoice.cdfi_invoice_report')
         filename = 'CFDI_' + self.name.replace('/', '_') + '.pdf'
         return {
             'type': 'ir.actions.act_url',
-            'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s' % (
-                self.id, filename),
+            'url': '/web/binary/download_document?model=account.move&field=pdf_cdfi_invoice&id=%s&filename=%s' % (self.id, filename),
             'target': 'self',
         }
 
@@ -1033,8 +1026,7 @@ class MailTemplate(models.Model):
                         xml_file = self.env['ir.attachment'].search(domain, limit=1)
                         attachments = []
                         if xml_file:
-                            attachments.append(
-                                ('CFDI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
+                            attachments.append(('CFDI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     results[res_id]['attachments'] = attachments
         return results
 
