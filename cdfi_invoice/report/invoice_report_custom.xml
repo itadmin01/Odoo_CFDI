@@ -63,8 +63,8 @@
 					<div class="col-6" style="font-size:14px;">
 		            	<strong>Datos receptor:</strong><br/>
 					    <span t-field="o.partner_id.name"/><br/>
-					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> 
-					    <span t-field="o.partner_id.city"/><br/>
+					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/><br/>
+					    <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.city"/><br/>
 		                <span t-field="o.partner_id.vat"/><br/>
 		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/> <br/>
 
@@ -93,14 +93,11 @@
                                     <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
                                     <span groups="account.group_show_line_subtotals_tax_included">Total</span>
                                 </th>
-								<!--<th class="text-right">Tipo Factor</th>
-								<th class="text-right">Tasa Cuota</th>
-								<th class="text-right">Importe Impuesto</th>-->
 							</tr>
 						</thead>
 						<tbody class="invoice_tbody">
 							<tr t-foreach="o.invoice_line_ids" t-as="l" style="page-break-inside: avoid">
-							<t t-if="l.quantity > 0">
+							<t t-if="l.quantity > 0 and l.display_type != 'line_section' and l.display_type != 'line_note'">
 								<t t-set="price" t-value="l.price_unit * (1 - (l.discount or 0.0) / 100.0)"/>
 								<t t-set="amounts" t-value="l.tax_ids.compute_all(price, l.currency_id, l.quantity,
 														product=l.product_id, partner=l.move_id.partner_id)"/>
@@ -152,6 +149,18 @@
 								</td>
 
 								</t>
+                                    <t t-if="l.display_type == 'line_section'" class="bg-200 font-weight-bold o_line_section">
+                                        <td colspan="99">
+                                            <span t-field="l.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-if="l.display_type == 'line_note'">
+                                        <td colspan="99">
+                                            <span t-field="l.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                    </t>
 							</tr>
 						</tbody>
 						
