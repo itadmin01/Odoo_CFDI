@@ -70,10 +70,17 @@
 
 		            </div>
 		            <div class="col-6" style="font-size:14px;">
-		            	<strong>Datos emisor:</strong><br/>
-		            	Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
-		            	Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
-		            	Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/>
+                        <strong>Datos emisor:</strong><br/>
+                        Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
+                        Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
+                        Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/><br/>
+                        Lugar de expedición:
+                                <t t-if="o.journal_id.codigo_postal">
+                                    <span t-field="o.journal_id.codigo_postal"/>
+                                </t>
+                                <t t-if="not o.journal_id.codigo_postal">
+                                    <span t-field="o.company_id.partner_id.zip"/>
+                                </t>
 		            </div>
 		        </div>
 		</xpath>
