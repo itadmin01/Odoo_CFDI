@@ -945,10 +945,11 @@ class MailTemplate(models.Model):
     _inherit = 'mail.template'
 
     def generate_email(self, res_ids, fields=None):
-        results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
-
+        multi_mode = True
         if isinstance(res_ids, (int)):
             res_ids = [res_ids]
+            multi_mode = False
+        results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
 
         for lang, (template, template_res_ids) in self._classify_per_lang(res_ids).items():
             if template.report_template and template.report_template.report_name == 'account.report_invoice_with_payments' or template.report_template.report_name == 'account.report_invoice':
@@ -976,7 +977,7 @@ class MailTemplate(models.Model):
                             attachments.append(
                                 ('CFDI_CANCEL_' + invoice.name.replace('/', '_') + '.xml', xml_file.datas))
                     results[res_id]['attachments'] = attachments
-        return results
+        return multi_mode and results or results[res_ids[0]]
 
 
 class AccountMoveLine(models.Model):
