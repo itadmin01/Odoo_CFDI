@@ -677,7 +677,6 @@ class AccountPayment(models.Model):
             'context': ctx,
         }
 
-    
     def action_cfdi_cancel(self):
         for p in self:
             #if invoice.factura_cfdi:
@@ -772,11 +771,11 @@ class AccountPaymentMail(models.Model):
     xml_payment_link = fields.Char(related='payment_id.xml_payment_link')
     partner_id = fields.Many2one(related='payment_id.partner_id')
     company_id = fields.Many2one(related='payment_id.company_id')
-    
+
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
-    
+
     @api.model
     def _get_file(self, url):
         url = url.encode('utf8')
@@ -784,15 +783,13 @@ class MailTemplate(models.Model):
         fn, file_extension = os.path.splitext(filename)
         return  filename, file_extension.replace('.', '')
 
-    
     def generate_email(self, res_ids, fields=None):
-        results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
-        
+        multi_mode = True
         if isinstance(res_ids, (int)):
             res_ids = [res_ids]
+            multi_mode = False
+        results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
 
-        # templates: res_id -> template; template -> res_ids
-        
         template_id = self.env.ref('cdfi_invoice.email_template_payment')
         for lang, (template, template_res_ids) in self._classify_per_lang(res_ids).items():
             if template.id  == template_id.id:
@@ -808,7 +805,7 @@ class MailTemplate(models.Model):
                         if xml_file:
                            attachments.append((payment.name.replace('.','').replace('/', '_') + '.xml', xml_file.datas))
                         results[res_id]['attachments'] = attachments
-        return results
+        return multi_mode and results or results[res_ids[0]]
 
 class AccountPaymentTerm(models.Model):
     "Terminos de pago"
