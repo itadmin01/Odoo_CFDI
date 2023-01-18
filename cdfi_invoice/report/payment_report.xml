@@ -429,23 +429,25 @@
 			</t>
 		</template>
 
-		<template id="report_payment">
-			<t t-call="web.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-call="cdfi_invoice.report_payment_document" t-lang="o.partner_id.lang" />
-				</t>
-			</t>
-		</template>
+        <template id="report_payment">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="cdfi_invoice.report_payment_document" t-lang="o.partner_id.lang" />
+                </t>
+            </t>
+        </template>
 
+        <record id="report_payments" model="ir.actions.report">
+            <field name="name">Complemento de Pago</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cdfi_invoice.report_payment</field>
+            <field name="report_file">cdfi_invoice.report_payment</field>
+            <field name="paperformat_id" ref="cdfi_invoice.paperformat_a4_landscape"/>
+            <field name="binding_model_id" ref="model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
 
-		<report id="report_payments"
-				model="account.payment"
-				string="Complemento de Pago"
-        		        menu="True"
-				report_type="qweb-pdf"
-				name="cdfi_invoice.report_payment"
-				file="cdfi_invoice.report_payment"
-				paperformat="cdfi_invoice.paperformat_a4_landscape"/>
 
 	</data>
 </odoo>
