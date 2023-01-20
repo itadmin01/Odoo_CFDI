@@ -85,8 +85,8 @@
 		        </div>
 		</xpath>
 
-	    <xpath expr="//table[@class='table table-sm o_main_table table-borderless']" position="replace">
-                    <table class="table table table-sm o_main_table table-borderless" font-size="16px;">
+	    <xpath expr="//table[@name='invoice_line_table']" position="replace">
+                    <table class="table table-sm o_main_table table-borderless" font-size="16px;">
 						<thead>
 							<tr>
 								<th>Clave Producto</th>
@@ -112,8 +112,6 @@
 								<t t-set="price_include_tax" t-value="amounts['total_included']"/>
 								<t t-set="price_exclude_tax" t-value="l.move_id.currency_id.round(price_exclude_tax)"/>
 								<t t-set="price_include_tax" t-value="l.move_id.currency_id.round(price_include_tax)"/>
-								<!--<t t-set="amount_untaxed" t-value="amount_untaxed + price_exclude_tax"/>
-								<t t-set="amount_total" t-value="amount_total + price_include_tax"/>-->
 								<t t-set="taxes" t-value="amounts['taxes']"/>
 								<td>
 									<span t-field="l.product_id.clave_producto" />
