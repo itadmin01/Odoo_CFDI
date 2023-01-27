@@ -73,7 +73,7 @@
                         <strong>Datos emisor:</strong><br/>
                         Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
                         Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
-                        Regimen fiscal: <span t-field="o.company_id.regimen_fiscal"/><br/>
+                        Regimen fiscal: <span t-field="o.company_id.regimen_fiscal_id.code"/><br/>
                         Lugar de expedición:
                                 <t t-if="o.journal_id.codigo_postal">
                                     <span t-field="o.journal_id.codigo_postal"/>
