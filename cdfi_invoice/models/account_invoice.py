@@ -122,26 +122,26 @@ class AccountMove(models.Model):
     )
     fg_ano = fields.Char(string=_('Año'))
 
-    @api.model
-    def _reverse_moves(self, default_values, cancel=True):
-        values = super(AccountMove, self)._reverse_moves(default_values, cancel)
-        if self.estado_factura == 'factura_correcta':
-            values['uuid_relacionado'] = self.folio_fiscal
-            values['methodo_pago'] = 'PUE'
-            values['forma_pago_id'] = self.forma_pago_id.id
-            values['tipo_comprobante'] = 'E'
-            values['uso_cfdi_id'] = self.env['catalogo.uso.cfdi'].sudo().search([('code', '=', 'G02')]).id
-            values['tipo_relacion'] = '01'
-            values['fecha_factura'] = None
-            values['qrcode_image'] = None
-            values['numero_cetificado'] = None
-            values['cetificaso_sat'] = None
-            values['selo_digital_cdfi'] = None
-            values['folio_fiscal'] = None
-            values['estado_factura'] = 'factura_no_generada'
-            values['factura_cfdi'] = False
-            values['edi_document_ids'] = None
-        return values
+#    @api.model
+#    def _reverse_moves(self, default_values, cancel=True):
+#        values = super(AccountMove, self)._reverse_moves(default_values, cancel)
+#        if self.estado_factura == 'factura_correcta':
+#            values['uuid_relacionado'] = self.folio_fiscal
+#            values['methodo_pago'] = 'PUE'
+#            values['forma_pago_id'] = self.forma_pago_id.id
+#            values['tipo_comprobante'] = 'E'
+#            values['uso_cfdi_id'] = self.env['catalogo.uso.cfdi'].sudo().search([('code', '=', 'G02')]).id
+#            values['tipo_relacion'] = '01'
+#            values['fecha_factura'] = None
+#            values['qrcode_image'] = None
+#            values['numero_cetificado'] = None
+#            values['cetificaso_sat'] = None
+#            values['selo_digital_cdfi'] = None
+#            values['folio_fiscal'] = None
+#            values['estado_factura'] = 'factura_no_generada'
+#            values['factura_cfdi'] = False
+#            values['edi_document_ids'] = None
+#        return values
 
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
