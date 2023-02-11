@@ -6,3 +6,4 @@ access_regimen_fiscal,regimen_fiscal,cdfi_invoice.model_catalogo_regimen_fiscal,
 access_forma_pago,forma_pago,cdfi_invoice.model_catalogo_forma_pago,base.group_user,1,1,1,1
 access_mymodule_message_wizard,mymodule_message_wizard,cdfi_invoice.model_mymodule_message_wizard,base.group_user,1,1,1,1
 access_reason_cancelation_wizard,reason_cancelation_wizard,cdfi_invoice.model_reason_cancelation,base.group_user,1,1,1,1
+access_account_payment_mail,access_account_payment_mail,cdfi_invoice.model_account_payment_mail,base.group_user,1,1,1,1
