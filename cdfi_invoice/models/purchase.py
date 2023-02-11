@@ -58,22 +58,23 @@ class PurchaseOrder(models.Model):
                 res['context']={}
             if res['context']:    
                 context=ast.literal_eval(res['context'])
+            order = self[0] 
             context.update({
-                'default_factura_cfdi' : self.factura_cfdi,
-                'default_tipo_comprobante' : self.tipo_comprobante,
-                'default_forma_pago_id' : self.forma_pago_id.id,
-                'default_methodo_pago' : self.methodo_pago,
-                'default_uso_cfdi_id' : self.uso_cfdi_id.id,
-                'default_estado_factura' : self.estado_factura,
-                'default_numero_cetificado' : self.numero_cetificado,
-                'default_folio_fiscal' : self.folio_fiscal,
-                'default_fecha_certificacion' : self.fecha_certificacion,
-                'default_selo_digital_cdfi' : self.selo_digital_cdfi,
-                'default_selo_sat' : self.selo_sat,
-                'default_moneda' : self.moneda,
-                'default_tipocambio' : self.tipocambio,
-                'default_tipo_relacion' : self.tipo_relacion,
-                'default_uuid_relacionado' : self.uuid_relacionado 
+                'default_factura_cfdi' : order.factura_cfdi,
+                'default_tipo_comprobante' : order.tipo_comprobante,
+                'default_forma_pago_id' : order.forma_pago_id.id,
+                'default_methodo_pago' : order.methodo_pago,
+                'default_uso_cfdi_id' : order.uso_cfdi_id.id,
+                'default_estado_factura' : order.estado_factura,
+                'default_numero_cetificado' : order.numero_cetificado,
+                'default_folio_fiscal' : order.folio_fiscal,
+                'default_fecha_certificacion' : order.fecha_certificacion,
+                'default_selo_digital_cdfi' : order.selo_digital_cdfi,
+                'default_selo_sat' : order.selo_sat,
+                'default_moneda' : order.moneda,
+                'default_tipocambio' : order.tipocambio,
+                'default_tipo_relacion' : order.tipo_relacion,
+                'default_uuid_relacionado' : order.uuid_relacionado 
                 })
             res['context'] = context
         return res

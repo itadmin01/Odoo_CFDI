@@ -75,7 +75,7 @@
 					<div class="row"  >
 
 					<div class="col-4">
-                         <img t-if="o.company_id.logo" t-att-src="o.company_id.logo" style="height: 130px;width: 130px;padding-left:10px;" />
+                         <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="height: 130px;width: 130px;padding-left:10px;" />
 					</div>
 						<div class="col-4" >
 							<div >
