@@ -119,7 +119,7 @@ class AccountPayment(models.Model):
     @api.depends('name')
     def _get_number_folio(self):
         for record in self:
-            if record.number:
+            if record.name:
                 record.number_folio = record.name.replace('CUST.IN','').replace('/','')
 
     @api.model
