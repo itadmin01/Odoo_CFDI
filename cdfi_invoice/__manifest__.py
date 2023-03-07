@@ -13,7 +13,7 @@
     'author': 'IT Admin',
     'website': 'www.itadmin.com.mx',
     'depends': [
-        'sale','account','purchase'
+        'sale','account','purchase', 'base_vat'
     ],
     'data': [
         'data/catalogo.unidad.medida.csv',
