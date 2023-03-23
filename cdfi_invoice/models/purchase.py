@@ -113,9 +113,9 @@ class PurchaseOrder(models.Model):
             context.update({
                 'default_factura_cfdi' : order.factura_cfdi,
                 'default_tipo_comprobante' : order.tipo_comprobante,
-                'default_forma_pago_id' : order.forma_pago_id.id,
+                'default_forma_pago_id' : order.forma_pago,
                 'default_methodo_pago' : order.methodo_pago,
-                'default_uso_cfdi_id' : order.uso_cfdi_id.id,
+                'default_uso_cfdi_id' : order.uso_cfdi,
                 'default_estado_factura' : order.estado_factura,
                 'default_numero_cetificado' : order.numero_cetificado,
                 'default_folio_fiscal' : order.folio_fiscal,
