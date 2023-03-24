@@ -542,7 +542,7 @@ class AccountInvoice(models.Model):
                                          'base': self.roundTraditional(line['base'], no_decimales),
                                          'tax_id': line['tax_id'],
                                          })
-                   impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
+                   impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if tras_tot > 0 else ''})
                 if tax_grouped_ret:
                    for line in tax_grouped_ret.values():
                        tax = self.env['account.tax'].browse(line['tax_id'])
