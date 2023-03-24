@@ -140,7 +140,6 @@ class AccountMove(models.Model):
             values['folio_fiscal'] = None
             values['estado_factura'] = 'factura_no_generada'
             values['factura_cfdi'] = False
-            values['edi_document_ids'] = None
         return values
 
     @api.returns('self', lambda value: value.id)
@@ -155,7 +154,6 @@ class AccountMove(models.Model):
         default['cetificaso_sat'] = None
         default['selo_digital_cdfi'] = None
         default['folio_fiscal'] = None
-        default['edi_document_ids'] = None
         return super(AccountMove, self).copy(default=default)
 
     @api.depends('name')
@@ -494,7 +492,7 @@ class AccountMove(models.Model):
                                       'tax_id': line['tax_id'],
                                       })
                 impuestos.update(
-                    {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales)})
+                    {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if tras_tot > 0 else ''})
             if tax_grouped_ret:
                 for line in tax_grouped_ret.values():
                     tax = self.env['account.tax'].browse(line['tax_id'])
