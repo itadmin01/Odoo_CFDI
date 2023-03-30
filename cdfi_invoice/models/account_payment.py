@@ -161,7 +161,7 @@ class AccountPayment(models.Model):
           tax_grouped_ret = {}
           mxn_currency = self.env["res.currency"].search([('name', '=', 'MXN')], limit=1)
 
-          if payment.invoice_ids:
+          if payment.invoice_ids or payment.reconciled_invoices_count > 0:
             invoice_vals_list = []
             pay_rec_lines = payment.move_line_ids.filtered(lambda line: line.account_internal_type in ('receivable', 'payable'))
 
