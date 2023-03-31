@@ -362,6 +362,7 @@ class AccountMove(models.Model):
         tax_local_tras = []
         tax_local_ret_tot = 0
         tax_local_tras_tot = 0
+        only_exento = True
         items = {'numerodepartidas': len(self.invoice_line_ids)}
         invoice_lines = []
         for line in self.invoice_line_ids:
@@ -407,12 +408,14 @@ class AccountMove(models.Model):
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor, })
                         elif tax.tipo_factor == 'Cuota':
+                            only_exento = False
                             tax_tras.append({'Base': self.set_decimals(line.quantity, no_decimales_prod),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount, 6),
                                              'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
                         else:
+                            only_exento = False
                             tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
@@ -538,7 +541,7 @@ class AccountMove(models.Model):
                                       'base': self.roundTraditional(line['base'], no_decimales),
                                       'tax_id': line['tax_id'],
                                       })
-                impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if tras_tot > 0 else ''})
+                impuestos.update({'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if not only_exento else ''})
             if tax_grouped_ret:
                 for line in tax_grouped_ret.values():
                     tax = self.env['account.tax'].browse(line['tax_id'])
