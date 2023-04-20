@@ -121,6 +121,7 @@ class AccountMove(models.Model):
         string=_('Mes'),
     )
     fg_ano = fields.Char(string=_('Año'))
+    tercero_id = fields.Many2one('res.partner', string="A cuenta de terceros")
 
 #    @api.model
 #    def _reverse_moves(self, default_values, cancel=True):
@@ -436,6 +437,13 @@ class AccountMove(models.Model):
                                                                                                           4:8] + '  ' + pedimento[
                                                                                                                         8:]})
 
+            terceros = {}
+            if self.tercero_id:
+                terceros.update({'rfc': self.tercero_id.vat.upper(), 
+                                 'nombre': self.tercero_id.name.upper(), 
+                                 'regimen': self.tercero_id.regimen_fiscal,
+                                 'domicilio': self.tercero_id.zip })
+
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
                 if line.name.find(']') > 0:
@@ -467,7 +475,8 @@ class AccountMove(models.Model):
                                       'Descuento': self.set_decimals(discount_prod, no_decimales_prod),
                                       'ObjetoImp': line.product_id.objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
-                                      'predial': line.predial and line.predial or '', })
+                                      'predial': line.predial and line.predial or '',
+                                      'terceros': terceros and terceros or '',})
 
         tras_tot = round(tras_tot, no_decimales)
         ret_tot = round(ret_tot, no_decimales)
