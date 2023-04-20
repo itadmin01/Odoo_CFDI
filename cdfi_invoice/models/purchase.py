@@ -107,7 +107,7 @@ class PurchaseOrder(models.Model):
         if res:
             if res.get('context')==None:
                 res['context']={}
-            if res['context']:    
+            if res['context']:
                 context=ast.literal_eval(res['context'])
             order = self[0] 
             context.update({
