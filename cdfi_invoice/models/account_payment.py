@@ -544,14 +544,14 @@ class AccountPayment(models.Model):
                  return True
 
             values = p.to_json()
-            if self.company_id.proveedor_timbrado == 'multifactura':
+            if p.company_id.proveedor_timbrado == 'multifactura':
                 url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
-            elif self.company_id.proveedor_timbrado == 'multifactura2':
+            elif p.company_id.proveedor_timbrado == 'multifactura2':
                 url = '%s' % ('http://facturacion2.itadmin.com.mx/api/payment')
-            elif self.company_id.proveedor_timbrado == 'multifactura3':
+            elif p.company_id.proveedor_timbrado == 'multifactura3':
                 url = '%s' % ('http://facturacion3.itadmin.com.mx/api/payment')
-            elif self.company_id.proveedor_timbrado == 'gecoerp':
-                if self.company_id.modo_prueba:
+            elif p.company_id.proveedor_timbrado == 'gecoerp':
+                if p.company_id.modo_prueba:
                     #url = '%s' % ('https://ws.gecoerp.com/itadmin/pruebas/payment/?handler=OdooHandler33')
                     url = '%s' % ('https://itadmin.gecoerp.com/payment2/?handler=OdooHandler33')
                 else:
@@ -585,24 +585,24 @@ class AccountPayment(models.Model):
                 p._set_data_from_xml(xml_payment)
                     
                 xml_file_name = p.name.replace('/', '_') + '.xml'
-                self.env['ir.attachment'].sudo().create(
+                p.env['ir.attachment'].sudo().create(
                                             {
                                                 'name': xml_file_name,
                                                 'datas': json_response['pago_xml'],
                                                 'datas_fname': xml_file_name,
-                                                'res_model': self._name,
+                                                'res_model': p._name,
                                                 'res_id': p.id,
                                                 'type': 'binary'
                                             })
-                report = self.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
+                report = p.env['ir.actions.report']._get_report_from_name('cdfi_invoice.report_payment')
                 report_data = report.render_qweb_pdf([p.id])[0]
                 pdf_file_name = p.name.replace('/', '_') + '.pdf'
-                self.env['ir.attachment'].sudo().create(
+                p.env['ir.attachment'].sudo().create(
                                             {
                                                 'name': pdf_file_name,
                                                 'datas': base64.b64encode(report_data),
                                                 'datas_fname': pdf_file_name,
-                                                'res_model': self._name,
+                                                'res_model': p._name,
                                                 'res_id': p.id,
                                                 'type': 'binary'
                                             })
@@ -662,7 +662,6 @@ class AccountPayment(models.Model):
         self.qr_value = qr_value
         ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
         self.qrcode_image = base64.encodestring(ret_val.asString('jpg'))
-        #self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
 
     @api.multi
     def send_payment(self):
@@ -719,8 +718,8 @@ class AccountPayment(models.Model):
                                   'contrasena': p.company_id.contrasena,
                             },
                           'xml': archivo_xml.decode("utf-8"),
-                          'motivo': self.env.context.get('motivo_cancelacion','02'),
-                          'foliosustitucion': self.env.context.get('foliosustitucion',''),
+                          'motivo': p.env.context.get('motivo_cancelacion','02'),
+                          'foliosustitucion': p.env.context.get('foliosustitucion',''),
                           }
                 if p.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
@@ -755,12 +754,12 @@ class AccountPayment(models.Model):
                         file_name = p.name.replace('/', '_') + '.xml'
                     else:
                         file_name = p.folio + '.xml'
-                    self.env['ir.attachment'].sudo().create(
+                    p.env['ir.attachment'].sudo().create(
                                                 {
                                                     'name': file_name,
                                                     'datas': json_response['factura_xml'],
                                                     'datas_fname': file_name,
-                                                    'res_model': self._name,
+                                                    'res_model': p._name,
                                                     'res_id': p.id,
                                                     'type': 'binary'
                                                 })
@@ -791,11 +790,11 @@ class AccountPaymentMail(models.Model):
     xml_payment_link = fields.Char(related='payment_id.xml_payment_link')
     partner_id = fields.Many2one(related='payment_id.partner_id')
     company_id = fields.Many2one(related='payment_id.company_id')
-    
+
 class MailTemplate(models.Model):
     "Templates for sending email"
     _inherit = 'mail.template'
-    
+
     @api.model
     def _get_file(self, url):
         url = url.encode('utf8')
