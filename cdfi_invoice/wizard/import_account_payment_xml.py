@@ -19,8 +19,7 @@ class import_account_payment_from_xml(models.TransientModel):
     import_file = fields.Binary("Importar Archivo",required=False)
     file_name = fields.Char("Nombre del archivo")
     payment_id = fields.Many2one("account.payment",'Payment')
-    
-    
+
     @api.multi
     def import_xml_file_button(self):
         self.ensure_one()
@@ -114,75 +113,75 @@ class import_account_payment_from_xml(models.TransientModel):
             }
         invoice_id.write(cargar_values)
 
-        tax_grouped_tras = {}
-        tax_grouped_ret = {}
-        Conceptos = xml_data.find('cfdi:Conceptos', NSMAP)
-        for concepto in Conceptos:
-           imp_prod = concepto.find('cfdi:Impuestos', NSMAP)
-           if imp_prod:
-              traslados = imp_prod.find('cfdi:Traslados', NSMAP)
-              if traslados:
-                 for traslado in traslados:
-                    if 'TasaOCuota' in traslado.attrib:
-                       if traslado.attrib['TipoFactor'] == 'Cuota':
-                          tasa = str(float(traslado.attrib['TasaOCuota']))
+        if invoice_id.type == 'out_invoice':
+           tax_grouped_tras = {}
+           tax_grouped_ret = {}
+           Conceptos = xml_data.find('cfdi:Conceptos', NSMAP)
+           for concepto in Conceptos:
+              imp_prod = concepto.find('cfdi:Impuestos', NSMAP)
+              if imp_prod:
+                 traslados = imp_prod.find('cfdi:Traslados', NSMAP)
+                 if traslados:
+                    for traslado in traslados:
+                       if 'TasaOCuota' in traslado.attrib:
+                          if traslado.attrib['TipoFactor'] == 'Cuota':
+                             tasa = str(float(traslado.attrib['TasaOCuota']))
+                          else:
+                             tasa = str(float(traslado.attrib['TasaOCuota'])*100)
                        else:
-                          tasa = str(float(traslado.attrib['TasaOCuota'])*100)
-                    else:
-                       tasa = str(0)
-                    company_id = self._context.get('company_id', self.env.user.company_id.id)
-                    tax_exist = self.env['account.tax'].search([('impuesto','=',traslado.attrib['Impuesto']), ('type_tax_use','=','sale'), 
-                                                ('tipo_factor','=',traslado.attrib['TipoFactor']), ('amount', '=', tasa), 
-                                                ('company_id','=',company_id)],limit=1)
-                    if not tax_exist:
-                       raise Warning(_("Un impuesto en el XML no está configurado en el sistema"))
+                          tasa = str(0)
+                       company_id = self._context.get('company_id', self.env.user.company_id.id)
+                       tax_exist = self.env['account.tax'].search([('impuesto','=',traslado.attrib['Impuesto']), ('type_tax_use','=','sale'), 
+                                                   ('tipo_factor','=',traslado.attrib['TipoFactor']), ('amount', '=', tasa), 
+                                                   ('company_id','=',company_id)],limit=1)
+                       if not tax_exist:
+                          raise Warning(_("Un impuesto en el XML no está configurado en el sistema"))
 
-                    if 'Importe' in traslado.attrib:
-                       importe = traslado.attrib['Importe']
-                    else:
-                       importe = 0
-                    key = tax_exist.id
-                    val = {'tax_id': tax_exist.id,
-                           'base': float(traslado.attrib['Base']),
-                           'amount': float(importe),}
-                    if key not in tax_grouped_tras:
-                        tax_grouped_tras[key] = val
-                    else:
-                        tax_grouped_tras[key]['base'] += float(traslado.attrib['Base'])
-                        tax_grouped_tras[key]['amount'] += float(importe)
-              #_logger.info('traslado %s', tax_grouped_tras)
+                       if 'Importe' in traslado.attrib:
+                          importe = traslado.attrib['Importe']
+                       else:
+                          importe = 0
+                       key = tax_exist.id
+                       val = {'tax_id': tax_exist.id,
+                              'base': float(traslado.attrib['Base']),
+                              'amount': float(importe),}
+                       if key not in tax_grouped_tras:
+                           tax_grouped_tras[key] = val
+                       else:
+                           tax_grouped_tras[key]['base'] += float(traslado.attrib['Base'])
+                           tax_grouped_tras[key]['amount'] += float(importe)
 
-              retenciones = imp_prod.find('cfdi:Retenciones', NSMAP)
-              if retenciones:
-                 for retencion in retenciones:
-                    if 'TasaOCuota' in retencion.attrib:
-                       tasa = str(float(retencion.attrib['TasaOCuota'])*-100)
-                    else:
-                       tasa = str(0)
-                    company_id = self._context.get('company_id', self.env.user.company_id.id)
-                    tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','purchase'), 
-                                                ('tipo_factor','=',retencion.attrib['TipoFactor']), ('amount', '=', tasa), 
-                                                ('company_id','=',company_id)],limit=1)
-                    if not tax_exist:
-                       raise Warning(_("Un impuesto en el XML no está configurado en el sistema"))
 
-                    if 'Importe' in retencion.attrib:
-                       importe = retencion.attrib['Importe']
-                    else:
-                       importe = 0
-                    key = tax_exist.id
-                    val = {'tax_id': tax_exist.id,
-                           'base': float(retencion.attrib['Base']),
-                           'amount': float(importe),}
-                    if key not in tax_grouped_ret:
-                        tax_grouped_ret[key] = val
-                    else:
-                        tax_grouped_ret[key]['base'] += float(retencion.attrib['Base'])
-                        tax_grouped_ret[key]['amount'] += float(importe)
-              #_logger.info('retenciones %s', tax_grouped_ret)
+                 retenciones = imp_prod.find('cfdi:Retenciones', NSMAP)
+                 if retenciones:
+                    for retencion in retenciones:
+                       if 'TasaOCuota' in retencion.attrib:
+                          tasa = str(float(retencion.attrib['TasaOCuota'])*-100)
+                       else:
+                          tasa = str(0)
+                       company_id = self._context.get('company_id', self.env.user.company_id.id)
+                       tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','purchase'), 
+                                                   ('tipo_factor','=',retencion.attrib['TipoFactor']), ('amount', '=', tasa), 
+                                                   ('company_id','=',company_id)],limit=1)
+                       if not tax_exist:
+                          raise Warning(_("Un impuesto en el XML no está configurado en el sistema"))
+   
+                       if 'Importe' in retencion.attrib:
+                          importe = retencion.attrib['Importe']
+                       else:
+                          importe = 0
+                       key = tax_exist.id
+                       val = {'tax_id': tax_exist.id,
+                              'base': float(retencion.attrib['Base']),
+                              'amount': float(importe),}
+                       if key not in tax_grouped_ret:
+                           tax_grouped_ret[key] = val
+                       else:
+                           tax_grouped_ret[key]['base'] += float(retencion.attrib['Base'])
+                           tax_grouped_ret[key]['amount'] += float(importe)
 
-        impuestos = {}
-        if tax_grouped_tras or tax_grouped_ret:
+           impuestos = {}
+           if tax_grouped_tras or tax_grouped_ret:
                 retenciones = []
                 traslados = []
                 if tax_grouped_tras:
@@ -213,8 +212,7 @@ class import_account_payment_from_xml(models.TransientModel):
                                          'tax_id': line['tax_id'],
                                          })
                    impuestos.update({'retenciones': retenciones,})
-        invoice_id.write({'tax_payment': json.dumps(impuestos)})
-                #_logger.info('total: %s', impuestos)
+           invoice_id.write({'tax_payment': json.dumps(impuestos)})
 
         xml_file = open(xml_file_link, 'w')
         xml_invoice = base64.b64decode(self.import_file)
