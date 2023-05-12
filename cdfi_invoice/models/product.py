@@ -48,6 +48,7 @@ UM_CLAVO_MAP = {
                 'Valor monetario': 'M4',
                 'Cabeza': 'HEA',
                 'Kilometro': 'KMT',
+                'Elemento': 'EA',
                 }
     
 class ProductTemplate(models.Model):
@@ -99,6 +100,7 @@ class ProductTemplate(models.Model):
                    ('Valor monetario', 'Valor monetario'),
                    ('Cabeza', 'Cabeza'),
                    ('Kilometro', 'Kilometro'),
+                   ('Elemento', 'Elemento'),
                    ]
     unidad_medida = fields.Selection(selection=UNIDAD_MEDIDA_LIST, string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')

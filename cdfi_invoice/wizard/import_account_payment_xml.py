@@ -67,13 +67,9 @@ class import_account_payment_from_xml(models.TransientModel):
 
         Emisor = xml_data.find('cfdi:Emisor', NSMAP)
         Receptor = xml_data.find('cfdi:Receptor', NSMAP)
-        Complemento = xml_data.findall('cfdi:Complemento', NSMAP)
-
-        for complementos in Complemento:
-            TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
-                break
-
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+        
         xml_file_link = invoice_id.company_id.factura_dir + '/' + invoice_id.number.replace('/', '_') + '.xml'
 
         amount_str = str(xml_data.attrib['Total']).split('.')
@@ -160,12 +156,12 @@ class import_account_payment_from_xml(models.TransientModel):
                        else:
                           tasa = str(0)
                        company_id = self._context.get('company_id', self.env.user.company_id.id)
-                       tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','purchase'), 
+                       tax_exist = self.env['account.tax'].search([('impuesto','=',retencion.attrib['Impuesto']), ('type_tax_use','=','sale'), 
                                                    ('tipo_factor','=',retencion.attrib['TipoFactor']), ('amount', '=', tasa), 
                                                    ('company_id','=',company_id)],limit=1)
                        if not tax_exist:
                           raise Warning(_("Un impuesto en el XML no está configurado en el sistema"))
-   
+
                        if 'Importe' in retencion.attrib:
                           importe = retencion.attrib['Importe']
                        else:
