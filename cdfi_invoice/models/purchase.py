@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models,_
+from odoo import fields, api, models,_
 import ast
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -49,8 +49,7 @@ class PurchaseOrder(models.Model):
         string=_('Tipo relación'),
     )
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
-    
-    
+
     def action_view_invoice(self, invoices=False):
         res = super(PurchaseOrder,self).action_view_invoice(invoices=invoices)
         if res:
