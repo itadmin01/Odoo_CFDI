@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_unidad_medida,unidad_medida,cdfi_invoice.model_catalogo_unidad_medida,base.group_user,1,1,1,1
 access_mymodule_message_wizard,mymodule_message_wizard,cdfi_invoice.model_mymodule_message_wizard,base.group_user,1,1,1,1
 access_reason_cancelation_wizard,reason_cancelation_wizard,cdfi_invoice.model_reason_cancelation,base.group_user,1,1,1,1
+access_facturas_pago,facturas_pago,cdfi_invoice.model_facturas_pago,base.group_user,1,1,1,1

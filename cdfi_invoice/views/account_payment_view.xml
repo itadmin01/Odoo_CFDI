@@ -46,9 +46,27 @@
                                             <field name="uuid_relacionado" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                         <group  string="Detalles de Pago">
+                                            <field name="manual_partials"/>
+                                            <field name="reconciled_invoice_ids" invisible="1"/>
                                             <field name="folio_fiscal" />
                                             <field name="confirmacion" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="estado_pago" />
+                                        </group>
+                                    </group>
+                             </page>
+                            <page name="info_pagos" string="Montos de pago" attrs="{'invisible':[('manual_partials','=',False)]}">
+                                    <group>
+                                        <group string="Montos en moneda de la factura" colspan="4">
+                                           <field name="partials_ids" nolabel="1" colspan="4" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}">
+                                              <tree name ="montos_parciales" string="Montos de pago" editable="bottom">
+                                                 <field name="facturas_id" domain="[('id', 'in',parent.reconciled_invoice_ids)]"/>
+                                                 <field name="parcialidad"/>
+                                                 <field name="imp_saldo_ant"/>
+                                                 <field name="imp_pagado"/>
+                                                 <field name="imp_saldo_insoluto"/>
+                                                 <field name="equivalenciadr"/>
+                                              </tree>
+                                           </field>
                                         </group>
                                     </group>
                              </page>
