@@ -26,6 +26,10 @@
                                             <field name="fecha_pago" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="numero_operacion" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
+                                        <group string="Llenado">
+                                            <field name="manual_partials" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="reconciled_invoice_ids" invisible="1"/>
+                                        </group>
                                     </group>
                                     <separator  string="Datos bancarios" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>
                                     <group cols="4">
@@ -46,8 +50,7 @@
                                             <field name="uuid_relacionado" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                         <group  string="Detalles de Pago">
-                                            <field name="manual_partials"/>
-                                            <field name="reconciled_invoice_ids" invisible="1"/>
+                                            <field name="date_payment" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="folio_fiscal" />
                                             <field name="confirmacion" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="estado_pago" />
