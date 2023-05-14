@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models
+from odoo import fields, models, api, _
 
 class ResCurrency(models.Model):
     _inherit = 'res.currency'

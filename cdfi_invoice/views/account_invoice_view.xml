@@ -54,7 +54,7 @@
                     </page>
                 </xpath>
                 <field name="ref" position="after">
-                	<field name="factura_cfdi" invisible="1"/>
+                    <field name="factura_cfdi" invisible="1"/>
                 </field>
                 <button name="action_invoice_sent" position="before">
                 	<button name="action_invoice_sent" type="object" string="Enviar por correo-e" attrs="{'invisible':[('state', 'not in', ('cancel'))]}" groups="base.group_user"/>

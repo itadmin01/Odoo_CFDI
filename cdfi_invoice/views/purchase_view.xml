@@ -8,35 +8,17 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                     <page name="info_cdfi" string="CFDI">
-                            <group cols="4">
-                                <group string="Detalles de Pago">
-                                	<field name="forma_pago_id"/>
-                                	<field name="methodo_pago"/>
-                                	<field name="uso_cfdi_id"/>
-                                </group><!--
-                                <group  string="Detalles de Factura">
-                                	<field name="tipo_comprobante"/>
-                                	<field name="folio_fiscal"/>
-                                	<field name="estado_factura"/>
-               		                <field name="tipocambio"/>
-                                </group>
-					            <group  string="CFDI Relacionados">
-                                	<field name="tipo_relacion"/>
-                                	<field name="uuid_relacionado"/>
-                                </group>
-								<group  string="Sellos SAT">
-                                	<field name="numero_cetificado"/>
-                                	<field name="cetificaso_sat"/>
-									<field name="fecha_certificacion"/>
-									<field name="cadena_origenal"/>
-									<field name="selo_digital_cdfi"/>
-									<field name="selo_sat"/>
-                                </group> -->
+                        <group cols="4">
+                            <group string="Detalles de Pago">
+                                <field name="forma_pago_id"/>
+                               	<field name="methodo_pago"/>
+                               	<field name="uso_cfdi_id"/>
                             </group>
+                        </group>
                     </page>
                 </xpath>
                 <field name="currency_id" position="after">
-                	<field name="factura_cfdi" invisible="1"/>
+                    <field name="factura_cfdi" invisible="1"/>
                 </field>
         </field>
     </record>

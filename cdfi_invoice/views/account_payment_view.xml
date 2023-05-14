@@ -10,7 +10,7 @@
                     <button name="action_post" position="after">
                         <button name="complete_payment" class="oe_highlight" states="posted" attrs="{'invisible':['|',('estado_pago','in',('pago_correcto', 'factura_cancelada')),]}" string="Genera REP" type="object"/>
                         <button name="send_payment" class="oe_highlight" attrs="{'invisible':[('estado_pago','!=','pago_correcto')]}" string="Enviar por correo-e" type="object"/>
-                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_pago_id','!=','03'),
+                        <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_de_pago','!=','03'),
                                                          ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
                         <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d" 
                                                           type="action" string="Cancelar CFDI" attrs="{'invisible':[('estado_pago','in',('factura_cancelada','pago_no_enviado'))]}" 
@@ -22,21 +22,26 @@
                                     <group cols="4">
                                         <group string="Datos del comprobante">
                                             <field name="forma_pago_id" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="forma_de_pago" invisible="1"/>
                                             <field name="fecha_pago" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="numero_operacion" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
+                                        <group string="Llenado">
+                                            <field name="manual_partials" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="reconciled_invoice_ids" invisible="1"/>
+                                        </group>
                                     </group>
-                                    <separator  string="Datos bancarios" attrs="{'invisible':[('forma_pago_id','not in',('02','03'))]}"/>
+                                    <separator  string="Datos bancarios" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])]}"/>
                                     <group cols="4">
                                         <group>
-                                            <field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
-                                            <field name="banco_emisor"   attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
-                                            <field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="cuenta_emisor" domain="[('partner_id','=', partner_id)]" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="banco_emisor"   attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="rfc_banco_emisor"  attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                         <group>
-                                            <field name="banco_receptor" attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
-                                            <field name="cuenta_beneficiario" attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
-                                            <field name="rfc_banco_receptor" attrs="{'invisible':[('forma_pago_id','not in',('02','03'))], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="banco_receptor" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="cuenta_beneficiario" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="rfc_banco_receptor" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])], 'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                     </group>
                                     <group cols="4">
@@ -45,8 +50,7 @@
                                             <field name="uuid_relacionado" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                         <group  string="Detalles de Pago">
-                                            <field name="manual_partials"/>
-                                            <field name="reconciled_invoice_ids" invisible="1"/>
+                                            <field name="date_payment" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="folio_fiscal" />
                                             <field name="confirmacion" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="estado_pago" />

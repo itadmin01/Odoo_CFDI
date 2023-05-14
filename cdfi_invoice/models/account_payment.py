@@ -49,7 +49,8 @@ class AccountRegisterPayment(models.TransientModel):
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
+    forma_pago_id = fields.Many2one('catalogo.forma.pago', string='Forma de pago')
+    forma_de_pago = fields.Char(related="forma_pago_id.code", string="Forma pago")
 
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
@@ -61,6 +62,7 @@ class AccountPayment(models.Model):
     #monto_pagar = fields.Float("Monto a pagar", compute='_compute_monto_pagar')
     #saldo_restante = fields.Float("Saldo restante", readonly=True)
     fecha_pago = fields.Datetime("Fecha de pago")
+    date_payment = fields.Datetime("Fecha de CFDI")
     cuenta_emisor = fields.Many2one('res.partner.bank', string=_('Cuenta del emisor'))
     banco_emisor = fields.Char("Banco del emisor", related='cuenta_emisor.bank_name', readonly=True)
     rfc_banco_emisor = fields.Char(_("RFC banco emisor"), related='cuenta_emisor.bank_bic', readonly=True)
@@ -462,9 +464,14 @@ class AccountPayment(models.Model):
 
         #corregir hora
         local2 = pytz.timezone(timezone)
-        naive_from2 = datetime.now() 
+        if not self.date_payment:
+            naive_from2 = datetime.now() 
+        else:
+            naive_from2 = self.date_payment
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
-        date_payment = local_dt_from2.strftime ("%Y-%m-%dT%H:%M:%S")
+        date_cfdi = local_dt_from2.strftime("%Y-%m-%dT%H:%M:%S")
+        if not self.date_payment:
+            self.date_payment = datetime.now()
 
         self.check_cfdi_values()
 
@@ -551,7 +558,7 @@ class AccountPayment(models.Model):
                 'factura': {
                       'serie': self.journal_id.serie_diario or self.company_id.serie_complemento,
                       'folio': self.name.replace('CUST.IN','').replace('/',''),
-                      'fecha_expedicion': date_payment,
+                      'fecha_expedicion': date_cfdi,
                       'subtotal': '0',
                       'moneda': 'XXX',
                       'total': '0',
