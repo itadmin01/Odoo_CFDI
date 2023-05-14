@@ -1,0 +1,7 @@
+v15.10
+-Colocar manualmente montos de saldo anterior, pagado, insoluto y equivalenciadr para REP.
+
+v15.11
+-Agregar nodo de parte para conceptos.
+-Seleccionar fecha para REP.
+-Aparezcan cuentas bancarias en pago al usar traslado / cheque
