@@ -476,7 +476,6 @@ class AccountInvoice(models.Model):
             self.subtotal += total_wo_discount
             self.discount += discount_prod
 
-            #probar con varios pedimentos
             pedimentos = []
             if line.pedimento:
                 pedimento_list = line.pedimento.replace(' ','').split(',')
@@ -493,6 +492,14 @@ class AccountInvoice(models.Model):
                                  'nombre': self.tercero_id.name.upper(), 
                                  'regimen': self.tercero_id.regimen_fiscal,
                                  'domicilio': self.tercero_id.zip })
+
+            components = []
+            if line.product_id.product_parts_ids:
+                for component in line.product_id.product_parts_ids:
+                    components.append({'ClaveProdServ': component.product_id.clave_producto,
+                                      'Cantidad': component.cantidad,
+                                      'Descripcion': self.clean_text(component.product_id.name),
+                                      })
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
@@ -526,7 +533,8 @@ class AccountInvoice(models.Model):
                                       'ObjetoImp': line.product_id.objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
                                       'predial': line.predial and line.predial or '',
-                                      'terceros': terceros and terceros or '',})
+                                      'terceros': terceros and terceros or '',
+                                      'parte': components and components or '',})
 
         tras_tot = round(tras_tot, no_decimales)
         ret_tot = round(ret_tot, no_decimales)

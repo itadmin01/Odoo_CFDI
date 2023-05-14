@@ -112,11 +112,17 @@ class ProductTemplate(models.Model):
                    ('04', 'Si objeto del impuesto y no causa impuesto'),],
         string=_('Impuestos'), default = '02',
     )
+    product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
 
     @api.depends('unidad_medida')
     @api.one
     def _compute_clave_unidad(self):
         if self.unidad_medida:
             self.clave_unidad = UM_CLAVO_MAP[self.unidad_medida]
-            
-    
+
+class ProductComponents(models.Model):
+    _name = "product.parts"
+
+    parent_line_id = fields.Many2one('product.template',string="Productos padre ID")
+    product_id = fields.Many2one('product.product', string="Partes")
+    cantidad = fields.Float(string="Cantidad")
