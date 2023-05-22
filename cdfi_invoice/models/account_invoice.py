@@ -412,10 +412,14 @@ class AccountMove(models.Model):
                                               'TasadeRetencion': self.set_decimals(tax.amount * -1, 2),
                                               'Importe': self.set_decimals(taxes['amount'] * -1, 2), })
 
-            if tax_tras:
-                tax_items.update({'Traslados': tax_tras})
-            if tax_ret:
-                tax_items.update({'Retenciones': tax_ret})
+            if line.discount != 100:
+               if tax_tras:
+                   tax_items.update({'Traslados': tax_tras})
+               if tax_ret:
+                   tax_items.update({'Retenciones': tax_ret})
+            else:
+               tax_tras = []
+               tax_ret = []
 
             total_wo_discount = round(line.price_unit * line.quantity - tax_included, no_decimales_prod)
             discount_prod = round(total_wo_discount - line.price_subtotal, no_decimales_prod) if line.discount else 0
@@ -450,6 +454,18 @@ class AccountMove(models.Model):
                                       'Descripcion': self.clean_text(component.product_id.name),
                                       })
 
+            if line.product_id.objetoimp:
+                objetoimp = line.product_id.objetoimp
+            else:
+                _logger.info('taxes_prod %s', taxes_prod)
+                if taxes_prod['taxes']:
+                  if tax_tras or tax_ret:
+                     objetoimp = '02'
+                  else:
+                     objetoimp = '04'
+                else:
+                   objetoimp = '01'
+
             product_string = line.product_id.code and line.product_id.code[:100] or ''
             if product_string == '':
                 if line.name.find(']') > 0:
@@ -466,7 +482,7 @@ class AccountMove(models.Model):
                                       'importe': self.set_decimals(total_wo_discount, no_decimales_prod),
                                       'descripcion': self.clean_text(description),
                                       'ClaveProdServ': line.product_id.clave_producto,
-                                      'ObjetoImp': line.product_id.objetoimp,
+                                      'ObjetoImp': objetoimp,
                                       'ClaveUnidad': line.product_id.cat_unidad_medida.clave})
             else:
                 invoice_lines.append({'cantidad': self.set_decimals(line.quantity, 6),
@@ -479,56 +495,56 @@ class AccountMove(models.Model):
                                       'ClaveUnidad': line.product_id.cat_unidad_medida.clave,
                                       'Impuestos': tax_items and tax_items or '',
                                       'Descuento': self.set_decimals(discount_prod, no_decimales_prod),
-                                      'ObjetoImp': line.product_id.objetoimp,
+                                      'ObjetoImp': objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
                                       'predial': line.predial and line.predial or '',
                                       'terceros': terceros and terceros or '',
                                       'parte': components and components or '',})
 
-        tras_tot = round(tras_tot, no_decimales)
-        ret_tot = round(ret_tot, no_decimales)
-        tax_local_tras_tot = round(tax_local_tras_tot, no_decimales)
-        tax_local_ret_tot = round(tax_local_ret_tot, no_decimales)
         self.discount = round(self.discount, no_decimales)
         self.subtotal = self.roundTraditional(self.subtotal, no_decimales)
         impuestos = {}
-        if tax_grouped_tras or tax_grouped_ret:
-            retenciones = []
-            traslados = []
-            if tax_grouped_tras:
-                for line in tax_grouped_tras.values():
-                    tax = self.env['account.tax'].browse(line['tax_id'])
-                    if tax.tipo_factor == 'Exento':
-                        tasa_tr = ''
-                    elif tax.tipo_factor == 'Cuota':
-                        tasa_tr = self.set_decimals(tax.amount, 6)
-                    else:
-                        tasa_tr = self.set_decimals(tax.amount / 100.0, 6)
-                    traslados.append({'impuesto': tax.impuesto,
-                                      'TipoFactor': tax.tipo_factor,
-                                      'tasa': tasa_tr,
-                                      'importe': self.roundTraditional(line['amount'],
-                                                                   no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                      'base': self.roundTraditional(line['base'], no_decimales),
-                                      'tax_id': line['tax_id'],
-                                      })
-                impuestos.update(
-                    {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if not only_exento else ''})
-            if tax_grouped_ret:
-                for line in tax_grouped_ret.values():
-                    tax = self.env['account.tax'].browse(line['tax_id'])
-                    retenciones.append({'impuesto': tax.impuesto,
-                                        'TipoFactor': tax.tipo_factor,
-                                        'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                        'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
-                                        'base': self.roundTraditional(line['base'], no_decimales),
-                                        'tax_id': line['tax_id'],
-                                        })
-                impuestos.update(
-                    {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
-            request_params.update({'impuestos': impuestos})
+        if objetoimp != '04':
+           tras_tot = round(tras_tot, no_decimales)
+           ret_tot = round(ret_tot, no_decimales)
+           if tax_grouped_tras or tax_grouped_ret:
+               retenciones = []
+               traslados = []
+               if tax_grouped_tras:
+                   for line in tax_grouped_tras.values():
+                       tax = self.env['account.tax'].browse(line['tax_id'])
+                       if tax.tipo_factor == 'Exento':
+                           tasa_tr = ''
+                       elif tax.tipo_factor == 'Cuota':
+                           tasa_tr = self.set_decimals(tax.amount, 6)
+                       else:
+                           tasa_tr = self.set_decimals(tax.amount / 100.0, 6)
+                       traslados.append({'impuesto': tax.impuesto,
+                                         'TipoFactor': tax.tipo_factor,
+                                         'tasa': tasa_tr,
+                                         'importe': self.roundTraditional(line['amount'],no_decimales) if tax.tipo_factor != 'Exento' else '',
+                                         'base': self.roundTraditional(line['base'], no_decimales),
+                                         'tax_id': line['tax_id'],
+                                         })
+                   impuestos.update(
+                       {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if not only_exento else ''})
+               if tax_grouped_ret:
+                   for line in tax_grouped_ret.values():
+                       tax = self.env['account.tax'].browse(line['tax_id'])
+                       retenciones.append({'impuesto': tax.impuesto,
+                                           'TipoFactor': tax.tipo_factor,
+                                           'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
+                                           'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
+                                           'base': self.roundTraditional(line['base'], no_decimales),
+                                           'tax_id': line['tax_id'],
+                                           })
+                   impuestos.update(
+                       {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
+               request_params.update({'impuestos': impuestos})
         self.tax_payment = json.dumps(impuestos)
 
+        tax_local_tras_tot = round(tax_local_tras_tot, no_decimales)
+        tax_local_ret_tot = round(tax_local_ret_tot, no_decimales)
         if tax_local_ret or tax_local_tras:
             if tax_local_tras and not tax_local_ret:
                 request_params.update({'implocal10': {'TotaldeTraslados': self.roundTraditional(tax_local_tras_tot, 2),
