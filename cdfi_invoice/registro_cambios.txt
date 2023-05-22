@@ -4,3 +4,6 @@ v12.19
 v12.20
 -Agregar nodo de parte para conceptos.
 -Seleccionar fecha para REP.
+
+v12.21
+-Calculo de Objetoimp automático si se deja vacío en producto.
