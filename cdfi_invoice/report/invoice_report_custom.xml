@@ -35,7 +35,7 @@
     </xpath>
 
 		<!--PUT THE ADDRESS AFTER THE INFORMATION OF THE INVOICE-->
-		<xpath expr="//div[@id='informations']" position="after">
+    <xpath expr="//div[@id='informations']" position="after">
 			<t t-if="o.company_id.modo_prueba == True">
 				<div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
             		<center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
@@ -59,17 +59,19 @@
 	        	</div>
         	</div>
         	
-				<div name="general_information" class="row">
-					<div class="col-6" style="font-size:14px;">
-		            	<strong>Datos receptor:</strong><br/>
-					    <span t-field="o.partner_id.name"/><br/>
-					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/><br/>
-					    <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/><br/>
-		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> C.P <span t-field="o.partner_id.zip"/> <br/>
+            <div name="general_information" class="row">
+                <div class="col-6" style="font-size:14px;">
+                        <span t-if="o.move_type == 'out_invoice'"><strong>Datos receptor:</strong></span>
+                        <span t-if="o.move_type == 'in_invoice'"><strong>Datos emisor:</strong></span><br/>
+                        <span t-field="o.partner_id.name"/><br/>
+                        <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/><br/>
+                        <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.city"/><br/>
+                        <span t-field="o.partner_id.vat"/><br/>
+                        Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> C.P <span t-field="o.partner_id.zip"/> <br/>
 
-		            </div>
-		            <div class="col-6" style="font-size:14px;">
+                </div>
+                <div class="col-6" style="font-size:14px;">
+                    <t t-if="o.move_type == 'out_invoice'">
                         <strong>Datos emisor:</strong><br/>
                         Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
                         Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
@@ -81,11 +83,12 @@
                                 <t t-if="not o.journal_id.codigo_postal">
                                     <span t-field="o.company_id.partner_id.zip"/>
                                 </t>
-		            </div>
-		        </div>
-		</xpath>
+                    </t>
+                </div>
+            </div>
+    </xpath>
 
-	    <xpath expr="//table[@name='invoice_line_table']" position="replace">
+    <xpath expr="//table[@name='invoice_line_table']" position="replace">
                     <table class="table table-sm o_main_table table-borderless" font-size="16px;">
 						<thead>
 							<tr>
