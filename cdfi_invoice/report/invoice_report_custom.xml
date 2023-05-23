@@ -58,17 +58,19 @@
 	        	</div>
         	</div>
         	
-				<div name="general_information" class="row">
-					<div class="col-6" style="font-size:14px;">
-		            	<strong>Datos receptor:</strong><br/>
-					    <span t-field="o.partner_id.name"/><br/>
-					    <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/><br/>
-					    <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.city"/><br/>
-		                <span t-field="o.partner_id.vat"/><br/>
-		                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/> <br/>
+            <div name="general_information" class="row">
+                <div class="col-6" style="font-size:14px;">
+                        <span t-if="o.type == 'out_invoice'"><strong>Datos receptor:</strong></span>
+                        <span t-if="o.type == 'in_invoice'"><strong>Datos emisor:</strong></span><br/>
+                        <span t-field="o.partner_id.name"/><br/>
+                        <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/><br/>
+                        <span t-field="o.partner_id.state_id.name"/>, <span t-field="o.partner_id.city"/><br/>
+                        <span t-field="o.partner_id.vat"/><br/>
+                        Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal"/> C.P <span t-field="o.partner_id.zip"/> <br/>
 
-		            </div>
-		            <div class="col-6" style="font-size:14px;">
+                </div>
+                <div class="col-6" style="font-size:14px;">
+                    <t t-if="o.type == 'out_invoice'">
                         <strong>Datos emisor:</strong><br/>
                         Nombre emisor: <span t-field="o.company_id.nombre_fiscal"/><br/>
                         Rfc Emisor: <span t-field="o.company_id.vat"/><br/>
@@ -80,11 +82,12 @@
                                 <t t-if="not o.journal_id.codigo_postal">
                                     <span t-field="o.company_id.partner_id.zip"/>
                                 </t>
-		            </div>
-		        </div>
-		</xpath>
+                    </t>
+                </div>
+            </div>
+    </xpath>
 
-	    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
+    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
                     <table class="table table table-sm o_main_table" font-size="16px;">
 						<thead>
 							<tr>
