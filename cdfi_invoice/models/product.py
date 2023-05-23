@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
                    ('02', 'Sí objeto de impuesto'),
                    ('03', 'Sí objeto del impuesto y no obligado al desglose'),
                    ('04', 'Si objeto del impuesto y no causa impuesto'),],
-        string=_('Impuestos'), default = '02',
+        string=_('Impuestos'),
     )
     product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
 
