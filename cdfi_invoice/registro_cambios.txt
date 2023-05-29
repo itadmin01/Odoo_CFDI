@@ -1,3 +1,6 @@
+v16.09
+-Quitar formato de moneda en pagos relacionados.
+
 v16.08
 -Corrección en reporte de facturas de proveedor.
 
