@@ -1,3 +1,6 @@
+v14.19
+-Quitar formato de moneda en pagos relacionados.
+
 v14.18
 -Corrección en reporte de facturas de proveedor.
 
