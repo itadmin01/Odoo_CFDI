@@ -7,11 +7,11 @@ class ProductTemplate(models.Model):
     cat_unidad_medida  =  fields.Many2one('catalogo.unidad.medida', string='Unidad SAT')
     clave_producto = fields.Char(string='Clave producto')
     objetoimp = fields.Selection(
-        selection=[('01', 'No objeto de impuesto'), 
-                   ('02', 'Sí objeto de impuesto'), 
+        selection=[('01', 'No objeto de impuesto'),
+                   ('02', 'Sí objeto de impuesto'),
                    ('03', 'Sí objeto del impuesto y no obligado al desglose'),
                    ('04', 'Si objeto del impuesto y no causa impuesto'),],
-        string=_('Impuestos'), default = '02',
+        string=_('Impuestos'),
     )
     product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
 

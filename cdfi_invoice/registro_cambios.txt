@@ -1,3 +1,6 @@
+v13.23
+-Quitar formato de moneda en pagos relacionados.
+
 v13.22
 -Corrección en reporte de facturas de proveedor.
 
