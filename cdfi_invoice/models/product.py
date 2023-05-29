@@ -106,11 +106,11 @@ class ProductTemplate(models.Model):
     clave_producto = fields.Char(string='Clave producto')
     clave_unidad = fields.Char(string='Clave unidad', compute='_compute_clave_unidad')
     objetoimp = fields.Selection(
-        selection=[('01', 'No objeto de impuesto'), 
-                   ('02', 'Sí objeto de impuesto'), 
+        selection=[('01', 'No objeto de impuesto'),
+                   ('02', 'Sí objeto de impuesto'),
                    ('03', 'Sí objeto del impuesto y no obligado al desglose'),
                    ('04', 'Si objeto del impuesto y no causa impuesto'),],
-        string=_('Impuestos'), default = '02',
+        string=_('Impuestos'),
     )
     product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
 
