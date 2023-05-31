@@ -968,7 +968,7 @@ class FacturasFactoraje(models.Model):
     _description = 'Facturas ligadas a pago'
 
     doc_id = fields.Many2one('account.payment', 'Pago ligado')
-    facturas_id = fields.Many2one('account.move', string='Factura')
+    facturas_id = fields.Many2one('account.invoice', string='Factura')
     parcialidad = fields.Integer("Parcialidad")
     imp_saldo_ant = fields.Float("ImpSaldoAnt")
     imp_pagado = fields.Float("ImpPagado")
