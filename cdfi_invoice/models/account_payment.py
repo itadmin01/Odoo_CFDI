@@ -169,6 +169,8 @@ class AccountPayment(models.Model):
             if payment.manual_partials:
                for partial in payment.partials_ids:
                       equivalenciadr = partial.equivalenciadr
+                      if equivalenciadr == 0:
+                         raise Warning("La equivalencia debe ser diferente de cero.")
                       paid_pct = float_round(partial.imp_pagado, precision_digits=6, rounding_method='UP') / partial.facturas_id.total_factura
 
                       if not partial.facturas_id.tax_payment:
@@ -490,11 +492,13 @@ class AccountPayment(models.Model):
            trasladop = []
            if taxes_traslado:
               for line in taxes_traslado.values():
+                  line['BaseP'] = self.roundTraditional(line['BaseP'], 2)
+                  line['ImporteP'] = self.roundTraditional(line['ImporteP'], 2)
                   trasladop.append({'ImpuestoP': line['ImpuestoP'],
                                     'TipoFactorP': line['TipoFactorP'],
                                     'TasaOCuotaP': line['TasaOCuotaP'],
-                                    'ImporteP': self.roundTraditional(line['ImporteP'], 2) if line['TipoFactorP'] != 'Exento' else '',
-                                    'BaseP': self.roundTraditional(line['BaseP'], 2),
+                                    'ImporteP': line['ImporteP'] if line['TipoFactorP'] != 'Exento' else '',
+                                    'BaseP': line['BaseP'],
                                     })
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.160000':
                        totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
@@ -514,8 +518,9 @@ class AccountPayment(models.Model):
               impuestosp.update({'TrasladosP': trasladop})
            if taxes_retenciones:
               for line in taxes_retenciones.values():
+                  line['ImporteP'] = self.roundTraditional(line['ImporteP'], 2)
                   retencionp.append({'ImpuestoP': line['ImpuestoP'],
-                                    'ImporteP': self.set_decimals(line['ImporteP'],2),
+                                    'ImporteP': line['ImporteP'],
                                     })
                   if line['ImpuestoP'] == '002':
                        totales.update({'TotalRetencionesIVA': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop), 2),})
@@ -962,7 +967,7 @@ class FacturasFactoraje(models.Model):
     imp_saldo_ant = fields.Float("ImpSaldoAnt")
     imp_pagado = fields.Float("ImpPagado")
     imp_saldo_insoluto = fields.Float("ImpSaldoInsoluto", compute='_compute_insoluto')
-    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,6))
+    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,6), default = 1)
 
     @api.depends('imp_saldo_ant', 'imp_pagado')
     def _compute_insoluto(self):

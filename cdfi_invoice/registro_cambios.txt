@@ -1,3 +1,9 @@
+v13.24
+-Redondeo de basep e importep.
+
+v13.24
+-Alerta con equivalencia en cero.
+
 v13.23
 -Quitar formato de moneda en pagos relacionados.
 
