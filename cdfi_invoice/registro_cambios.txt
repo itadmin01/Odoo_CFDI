@@ -1,4 +1,7 @@
-v13.24
+v13.26
+-Nuevos CSD.
+
+v13.25
 -Redondeo de basep e importep.
 
 v13.24
