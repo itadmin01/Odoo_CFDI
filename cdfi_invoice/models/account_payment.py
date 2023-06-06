@@ -180,10 +180,12 @@ class AccountPayment(models.Model):
             if payment.manual_partials:
                for partial in payment.partials_ids:
                       equivalenciadr = partial.equivalenciadr
+                      if equivalenciadr == 0:
+                         raise UserError("La equivalencia debe ser diferente de cero.")
                       paid_pct = float_round(partial.imp_pagado, precision_digits=6, rounding_method='UP') / partial.facturas_id.total_factura
 
                       if not partial.facturas_id.tax_payment:
-                          raise Warning("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
+                          raise UserError("No hay información de impuestos en el documento. Carga el XML en la factura para agregar los impuestos.")
 
                       taxes = json.loads(partial.facturas_id.tax_payment)
                       objetoimpdr = '01'
@@ -926,7 +928,7 @@ class FacturasFactoraje(models.Model):
     imp_saldo_ant = fields.Float("ImpSaldoAnt")
     imp_pagado = fields.Float("ImpPagado")
     imp_saldo_insoluto = fields.Float("ImpSaldoInsoluto", compute='_compute_insoluto')
-    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,6))
+    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,6), default = 1)
 
     @api.depends('imp_saldo_ant', 'imp_pagado')
     def _compute_insoluto(self):

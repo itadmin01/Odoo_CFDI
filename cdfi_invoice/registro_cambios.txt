@@ -1,3 +1,7 @@
+v15.15
+-Alerta con equivalencia en cero.
+-Nuevos CSD.
+
 v15.14
 -Quitar formato de moneda en pagos relacionados.
 
