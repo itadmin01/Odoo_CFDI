@@ -1,3 +1,8 @@
+v12.24
+-Alerta con equivalencia en cero.
+-Nuevos CSD.
+-Emisor / receptor en reporte de factura.
+
 v12.23
 -Account invoice en los pagos
 

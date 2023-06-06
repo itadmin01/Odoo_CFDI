@@ -62,12 +62,8 @@
 	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
 
-                <div name="financial_infos">
-                    <span t-field="company.report_footer"/>
-                </div>
-
                 <div class="text-muted">
-                    Page: <span class="page"/> / <span class="topage"/>
+                    Hoja: <span class="page"/> / <span class="topage"/>
                 </div>
             </div>
         </div>
@@ -95,7 +91,8 @@
 						<!--EMPIEZA DATOS DEL EMISOR-->
 						<div class="col-4" >
 							<div>
-								<strong>Emisor</strong>
+                                <span t-if="o.type == 'out_invoice'"><strong>Emisor:</strong></span>
+                                <span t-if="o.type == 'in_invoice'"><strong>Receptor:</strong></span>
 							</div>
 							<div>
 								<t t-if="o.factura_cfdi">
@@ -162,14 +159,13 @@
 								</t>
 							</div>
 						</div>
-						<!--TERMINA INFORMACIÓN GENERAL DE FACTURA-->
 					</div>
-
 					<div class="row mt32 mb32" style="padding-top: 10px;">
 						<div class="col-xs-10" >
-							<strong>Receptor <br/> </strong>
-							<span t-field="o.partner_id.name" />
-						    <t t-if="o.factura_cfdi">
+                            <span t-if="o.type == 'out_invoice'"><strong>Receptor:</strong></span>
+                            <span t-if="o.type == 'in_invoice'"><strong>Emisor:</strong></span><br/>
+                            <span t-field="o.partner_id.name" />
+                            <t t-if="o.factura_cfdi">
 						    	 <div>
 								    <span t-field="o.partner_id.rfc" />
 								</div>
@@ -179,7 +175,7 @@
 							     <div>
 						    	    Uso CFDI: <span t-field="o.uso_cfdi" />
 						         </div>
-						    </t>
+                            </t>
 						</div>
 
 					</div>

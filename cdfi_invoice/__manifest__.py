@@ -6,8 +6,8 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '12.23',
-    'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 4.0)
+    'version': '12.24',
+    'description': ''' Factura Electronica módulo de ventas para Mexico
     ''',
     'category': 'Accounting',
     'author': 'IT Admin',
