@@ -1,3 +1,7 @@
+v16.10
+-Alerta con equivalencia en cero.
+-Nuevo CDS prueba.
+
 v16.09
 -Quitar formato de moneda en pagos relacionados.
 
