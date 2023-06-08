@@ -1,3 +1,6 @@
+v12.25
+-Alerta cuando no se tengan montos de impuestos en factura.
+
 v12.24
 -Alerta con equivalencia en cero.
 -Nuevos CSD.
