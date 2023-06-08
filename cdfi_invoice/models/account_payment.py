@@ -182,6 +182,10 @@ class AccountPayment(models.Model):
                       equivalenciadr = partial.equivalenciadr
                       if equivalenciadr == 0:
                          raise UserError("La equivalencia debe ser diferente de cero.")
+
+                      if partial.facturas_id.total_factura <= 0:
+                          raise UserError("No hay monto total de la factura. Carga el XML en la factura para agregar el monto total.")
+
                       paid_pct = float_round(partial.imp_pagado, precision_digits=6, rounding_method='UP') / partial.facturas_id.total_factura
 
                       if not partial.facturas_id.tax_payment:
