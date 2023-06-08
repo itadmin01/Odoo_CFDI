@@ -1,3 +1,6 @@
+v14.21
+-Alerta cuando no se tengan montos de impuestos en factura.
+
 v14.20
 -Alerta con equivalencia en cero.
 -Nuevos CSDs.
