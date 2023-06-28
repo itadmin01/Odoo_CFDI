@@ -1,3 +1,6 @@
+v12.26
+-Alerta cuando no se tengan habilitado el proceso de timbrado.
+
 v12.25
 -Alerta cuando no se tengan montos de impuestos en factura.
 
