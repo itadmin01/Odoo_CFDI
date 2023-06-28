@@ -1,3 +1,7 @@
+v15.17
+-Alerta cuando no se tengan habilitado el proceso de timbrado.
+-Cambiar act window por record
+
 v15.16
 -Alerta cuando no se tengan montos de impuestos en factura.
 

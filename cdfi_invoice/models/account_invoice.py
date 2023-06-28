@@ -688,7 +688,8 @@ class AccountMove(models.Model):
         # after validate, send invoice data to external system via http post
         for invoice in self:
             if invoice.proceso_timbrado:
-                return True
+                raise UserError(_('El intento de timbrado previo terminó con un error, revise que todo esté correcto o envíe el código de error para su revisión. \
+Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de timbrado" de la pestaña CFDI.'))
             else:
                 invoice.write({'proceso_timbrado': True})
                 self.env.cr.commit()
