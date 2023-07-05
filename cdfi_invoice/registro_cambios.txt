@@ -1,3 +1,6 @@
+v12.27
+-Impuesto ISR Resico a 4 decimales
+
 v12.26
 -Alerta cuando no se tengan habilitado el proceso de timbrado.
 
