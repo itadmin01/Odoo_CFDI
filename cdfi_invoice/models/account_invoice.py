@@ -386,7 +386,7 @@ class AccountMove(models.Model):
                         tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
                                         'Impuesto': tax.impuesto,
                                         'TipoFactor': tax.tipo_factor,
-                                        'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
+                                        'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6) if str(tax.amount) != '-1.25' else self.set_decimals(tax.amount / 100.0 * -1, 4),
                                         'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod), })
                         ret_tot += taxes['amount'] * -1
                         val = {'tax_id': taxes['id'],
