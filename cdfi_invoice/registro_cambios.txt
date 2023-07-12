@@ -1,3 +1,7 @@
+v16.14
+-Quitar impuesto ISR Resico a 4 decimales
+-Corregir generación de código QR en PDF
+
 v16.13
 -Impuesto ISR Resico a 4 decimales
 

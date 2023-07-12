@@ -401,7 +401,7 @@
                     <div class="row" style="page-break-inside: avoid">
                          <!--INICIA CODIGO QR-->
                          <div class="barcode col-3">
-                            <img t-if="o.qr_value" t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (o.qr_value)"/>
+                            <img t-if="o.qrcode_image" t-att-src="image_data_uri(o.qrcode_image)" style="height: 180px;width: 180px;" />
                          </div>
                           <!--TERMINA CODIGO QR-->
                          <div class="col-9" style="font-size:10px;">
