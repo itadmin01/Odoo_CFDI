@@ -1,3 +1,6 @@
+v13.30
+-Cambiar nombre de campo para evitar conflicto con factoraje.
+
 13.29
 -Impuesto ISR Resico a 4 decimales
 
