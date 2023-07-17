@@ -1,3 +1,6 @@
+v14.24
+-Cambiar nombre de campo para evitar conflicto con factoraje.
+
 v14.23
 -Impuesto ISR Resico a 4 decimales
 
