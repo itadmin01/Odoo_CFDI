@@ -118,7 +118,7 @@ class AccountPayment(models.Model):
     retencionesp = fields.Text("traslados P",default='[]')
     trasladosp = fields.Text("retenciones P",default='[]')
     total_pago = fields.Float("Total pagado")
-    partials_ids = fields.One2many('facturas.pago', 'doc_id', 'Montos')
+    partials_payment_ids = fields.One2many('facturas.pago', 'doc_id', 'Montos')
     manual_partials = fields.Boolean("Montos manuales")
 
     @api.depends('name')
@@ -178,7 +178,7 @@ class AccountPayment(models.Model):
 
           if payment.reconciled_invoice_ids:
             if payment.manual_partials:
-               for partial in payment.partials_ids:
+               for partial in payment.partials_payment_ids:
                       equivalenciadr = partial.equivalenciadr
                       if equivalenciadr == 0:
                          raise UserError("La equivalencia debe ser diferente de cero.")
@@ -922,7 +922,7 @@ class AccountPaymentTerm(models.Model):
     )
     forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
 
-class FacturasFactoraje(models.Model):
+class FacturasPago(models.Model):
     _name = "facturas.pago"
     _description = 'Facturas ligadas a pago'
 
