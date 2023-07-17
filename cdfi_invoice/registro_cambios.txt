@@ -1,3 +1,6 @@
+v16.15
+-Cambiar nombre de campo para evitar conflicto con factoraje.
+
 v16.14
 -Quitar impuesto ISR Resico a 4 decimales
 -Corregir generación de código QR en PDF
