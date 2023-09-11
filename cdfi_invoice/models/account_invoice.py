@@ -123,26 +123,26 @@ class AccountMove(models.Model):
     fg_ano = fields.Char(string=_('Año'))
     tercero_id = fields.Many2one('res.partner', string="A cuenta de terceros")
 
-#    @api.model
-#    def _reverse_moves(self, default_values, cancel=True):
-#        values = super(AccountMove, self)._reverse_moves(default_values, cancel)
-#        if self.estado_factura == 'factura_correcta':
-#            values['uuid_relacionado'] = self.folio_fiscal
-#            values['methodo_pago'] = 'PUE'
-#            values['forma_pago_id'] = self.forma_pago_id.id
-#            values['tipo_comprobante'] = 'E'
-#            values['uso_cfdi_id'] = self.env['catalogo.uso.cfdi'].sudo().search([('code', '=', 'G02')]).id
-#            values['tipo_relacion'] = '01'
-#            values['fecha_factura'] = None
-#            values['qrcode_image'] = None
-#            values['numero_cetificado'] = None
-#            values['cetificaso_sat'] = None
-#            values['selo_digital_cdfi'] = None
-#            values['folio_fiscal'] = None
-#            values['estado_factura'] = 'factura_no_generada'
-#            values['factura_cfdi'] = False
-#            values['edi_document_ids'] = None
-#        return values
+    @api.model
+    def _reverse_moves(self, default_values, cancel=True):
+        values = super(AccountMove, self)._reverse_moves(default_values, cancel)
+        for inv in self:
+           if inv.estado_factura == 'factura_correcta':
+               values['uuid_relacionado'] = inv.folio_fiscal
+               values['methodo_pago'] = 'PUE'
+               values['forma_pago_id'] = inv.forma_pago_id.id
+               values['tipo_comprobante'] = 'E'
+               values['uso_cfdi_id'] = inv.env['catalogo.uso.cfdi'].sudo().search([('code', '=', 'G02')]).id
+               values['tipo_relacion'] = '01'
+               values['fecha_factura'] = None
+               values['qrcode_image'] = None
+               values['numero_cetificado'] = None
+               values['cetificaso_sat'] = None
+               values['selo_digital_cdfi'] = None
+               values['folio_fiscal'] = None
+               values['estado_factura'] = 'factura_no_generada'
+               values['factura_cfdi'] = False
+        return values
 
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
@@ -853,7 +853,7 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
 
     @api.model
     def check_cancel_status_by_cron(self):
-        domain = [('move_type', '=', 'out_invoice'), ('estado_factura', '=', 'solicitud_cancelar')]
+        domain = [('move_type', 'in', ('out_invoice', 'out_refund')), ('estado_factura', '=', 'solicitud_cancelar')]
         invoices = self.search(domain, order='id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
@@ -907,14 +907,14 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
             elif estado_factura == 'consulta_correcta':
                 if json_response['factura_xml'] == 'Cancelado':
-                    _logger.info('Factura cancelada')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura cancelada')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     invoice.action_cfdi_cancel()
                 elif json_response['factura_xml'] == 'Vigente':
-                    _logger.info('Factura vigente')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura vigente')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     if json_response['estatuscancelacion'] == 'Solicitud rechazada':
                         invoice.estado_factura = 'solicitud_rechazada'
             else:
