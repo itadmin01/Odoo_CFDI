@@ -908,7 +908,7 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
 
     @api.model
     def check_cancel_status_by_cron(self):
-        domain = [('move_type', '=', 'out_invoice'), ('estado_factura', '=', 'solicitud_cancelar')]
+        domain = [('move_type', 'in', ('out_invoice', 'out_refund')), ('estado_factura', '=', 'solicitud_cancelar')]
         invoices = self.search(domain, order='id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
@@ -962,14 +962,14 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
             elif estado_factura == 'consulta_correcta':
                 if json_response['factura_xml'] == 'Cancelado':
-                    _logger.info('Factura cancelada')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura cancelada')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     invoice.action_cfdi_cancel()
                 elif json_response['factura_xml'] == 'Vigente':
-                    _logger.info('Factura vigente')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura vigente')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     if json_response['estatuscancelacion'] == 'Solicitud rechazada':
                         invoice.estado_factura = 'solicitud_rechazada'
             else:
