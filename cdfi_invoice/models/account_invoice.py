@@ -440,7 +440,7 @@ class AccountInvoice(models.Model):
                       tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
                                       'Impuesto': tax.impuesto,
                                       'TipoFactor': tax.tipo_factor,
-                                      'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6) if str(tax.amount) != '-1.25' else self.set_decimals(tax.amount / 100.0 * -1, 4),
+                                      'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
                                       'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod),})
                       ret_tot += taxes['amount'] * -1
                       val = {'tax_id': taxes['id'],
@@ -919,7 +919,7 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
 
     @api.model
     def check_cancel_status_by_cron(self):
-        domain = [('type', '=', 'out_invoice'),('estado_factura', '=', 'solicitud_cancelar')]
+        domain = [('type', 'in', ('out_invoice', 'out_refund')), ('estado_factura', '=', 'solicitud_cancelar')]
         invoices = self.search(domain, order = 'id')
         for invoice in invoices:
             _logger.info('Solicitando estado de factura %s', invoice.folio_fiscal)
@@ -966,14 +966,14 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                 _logger.info('Error en la consulta %s', json_response['problemas_message'])
             elif estado_factura == 'consulta_correcta':
                 if json_response['factura_xml'] == 'Cancelado':
-                    _logger.info('Factura cancelada')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura cancelada')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     invoice.action_cfdi_cancel()
                 elif json_response['factura_xml'] == 'Vigente':
-                    _logger.info('Factura vigente')
-                    _logger.info('EsCancelable: %s', json_response['escancelable'])
-                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+#                    _logger.info('Factura vigente')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
                     if json_response['estatuscancelacion'] == 'Solicitud rechazada':
                         invoice.estado_factura = 'solicitud_rechazada'
             else:
@@ -1048,7 +1048,7 @@ class MailTemplate(models.Model):
     @api.multi
     def generate_email(self, res_ids, fields=None):
         results = super(MailTemplate, self).generate_email(res_ids, fields=fields)
-        
+
         if isinstance(res_ids, (int)):
             res_ids = [res_ids]
         res_ids_to_templates = super(MailTemplate, self).get_email_template(res_ids)
