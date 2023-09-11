@@ -1,3 +1,6 @@
+v12.29
+-Verificar estado de CFDI de las notas de crédito.
+
 v12.28
 -Cambiar nombre de campo para evitar conflicto con factoraje.
 
