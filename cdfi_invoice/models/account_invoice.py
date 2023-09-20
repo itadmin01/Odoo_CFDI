@@ -442,7 +442,7 @@ class AccountMove(models.Model):
             if self.tercero_id:
                 terceros.update({'rfc': self.tercero_id.vat.upper(), 
                                  'nombre': self.tercero_id.name.upper(), 
-                                 'regimen': self.tercero_id.regimen_fiscal,
+                                 'regimen': self.tercero_id.regimen_fiscal_id.code,
                                  'domicilio': self.tercero_id.zip })
 
             components = []

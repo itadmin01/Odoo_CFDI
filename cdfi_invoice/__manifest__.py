@@ -6,7 +6,7 @@
 
 {
     'name': 'Ventas Factura Electronica Mexico CFDI',
-    'version': '15.20',
+    'version': '15.21',
     'description': ''' Factura Electronica módulo de ventas para Mexico
     ''',
     'category': 'Accounting',
