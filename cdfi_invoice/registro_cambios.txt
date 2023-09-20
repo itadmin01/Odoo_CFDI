@@ -1,3 +1,6 @@
+v16.17
+-Corregir variable de cuenta a tercero.
+
 v16.16
 -Verificar estado de CFDI de las notas de crédito.
 -Agregar información CFDI al crear notas de crédito.
