@@ -1,3 +1,6 @@
+v16.18
+-Se agregó la acción de cargar XML para pagos
+
 v16.17
 -Corregir variable de cuenta a tercero.
 
