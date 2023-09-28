@@ -1,3 +1,6 @@
+v12.30
+-Agregar acción cargar xml para pagos.
+
 v12.29
 -Verificar estado de CFDI de las notas de crédito.
 
