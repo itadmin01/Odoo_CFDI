@@ -845,14 +845,14 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                     'motivo': self.env.context.get('motivo_cancelacion', '02'),
                     'foliosustitucion': self.env.context.get('foliosustitucion', ''),
                 }
-                if self.company_id.proveedor_timbrado == 'multifactura':
+                if invoice.company_id.proveedor_timbrado == 'multifactura':
                     url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
                 elif invoice.company_id.proveedor_timbrado == 'multifactura2':
                     url = '%s' % ('http://facturacion2.itadmin.com.mx/api/refund')
                 elif invoice.company_id.proveedor_timbrado == 'multifactura3':
                     url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
-                elif self.company_id.proveedor_timbrado == 'gecoerp':
-                    if self.company_id.modo_prueba:
+                elif invoice.company_id.proveedor_timbrado == 'gecoerp':
+                    if invoice.company_id.modo_prueba:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
                     else:
                         url = '%s' % ('https://itadmin.gecoerp.com/refund/?handler=OdooHandler33')
@@ -889,7 +889,7 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                             'name': file_name,
                             'datas': json_response['factura_xml'],
                             # 'datas_fname': file_name,
-                            'res_model': self._name,
+                            'res_model': invoice._name,
                             'res_id': invoice.id,
                             'type': 'binary'
                         })
