@@ -1,3 +1,6 @@
+v14.26
+-Se agregó la acción de cargar XML para pagos
+
 v14.25
 -Verificar estado de CFDI de las notas de crédito.
 

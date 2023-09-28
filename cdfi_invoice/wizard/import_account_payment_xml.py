@@ -38,7 +38,7 @@ class import_account_payment_from_xml(models.TransientModel):
             }
         self.payment_id.write(payment_vals)
         return True
-    
+
     def import_xml_file_button_cargar(self):
         self.ensure_one()
         invoice_id = self.env['account.move'].browse(self._context.get('active_id'))
@@ -215,4 +215,94 @@ class import_account_payment_from_xml(models.TransientModel):
 
         return True
 
+    def import_xml_file_payment(self):
+        self.ensure_one()
+        payment_id = self.env['account.payment'].browse(self._context.get('active_id'))
+        if not self.import_file:
+            raise Warning("Seleccione primero el archivo.")
+        p, ext = os.path.splitext(self.file_name)
+        if ext[1:].lower() !='xml':
+            raise Warning(_("Formato no soportado \"{}\", importa solo archivos XML").format(self.file_name))
 
+        file_content = base64.b64decode(self.import_file)
+        xml_data = etree.fromstring(file_content)
+        if b'Version=\"4.0\"' in file_content:
+           NSMAP = {
+                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                 'cfdi':'http://www.sat.gob.mx/cfd/4', 
+                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                 'pago20': 'http://www.sat.gob.mx/Pagos20'
+                 }
+        else:
+           NSMAP = {
+                 'xsi':'http://www.w3.org/2001/XMLSchema-instance',
+                 'cfdi':'http://www.sat.gob.mx/cfd/3', 
+                 'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital',
+                 'pago10': 'http://www.sat.gob.mx/Pagos',
+                 }
+
+        Emisor = xml_data.find('cfdi:Emisor', NSMAP)
+        Receptor = xml_data.find('cfdi:Receptor', NSMAP)
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
+
+        cfdi_version = xml_data.attrib['Version']
+        monto_total = 0
+        if cfdi_version == '4.0':
+            pagos = Complemento.find('pago20:Pagos', NSMAP)
+            pago = pagos.find('pago20:Totales', NSMAP)
+            monto_total = pago.attrib['MontoTotalPagos']
+        else:
+            pagos = Complemento.find('pago10:Pagos', NSMAP)
+            try:
+                pago = pagos.find('pago10:Pago',NSMAP)
+                monto_total = pago.attrib['Monto']
+            except Exception as e:
+                for payment in pagos.find('pago10:Pago',NSMAP):
+                     monto_total += float(payment.attrib['Monto'])
+
+        amount_str = str(monto_total).split('.')
+        qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (TimbreFiscalDigital.attrib['UUID'],
+                                                 payment_id.company_id.vat, 
+                                                 payment_id.partner_id.vat,
+                                                 amount_str[0].zfill(10),
+                                                 len(amount_str) == 2 and amount_str[1].ljust(6, '0') or '000000',
+                                                 str(TimbreFiscalDigital.attrib['SelloCFD'])[-8:],
+                                                 )
+        options = {'width': 275 * mm, 'height': 275 * mm}
+        ret_val = createBarcodeDrawing('QR', value=qr_value, **options)
+        qrcode_image = base64.encodebytes(ret_val.asString('jpg'))
+
+        cargar_values = {
+            'total_pago': monto_total,
+            'methodo_pago': 'MetodoPago' in xml_data.attrib and xml_data.attrib['MetodoPago'] or '',
+            'forma_pago' : 'FormaPago' in xml_data.attrib and xml_data.attrib['FormaPago'] or '',
+#            'uso_cfdi': Receptor.attrib['UsoCFDI'],
+            'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
+            #'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
+            'fecha_pago': xml_data.attrib['Fecha'] and parse(xml_data.attrib['Fecha']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
+           # 'xml_invoice_link': xml_file_link,
+            #'factura_cfdi': True,
+            'estado_pago': 'pago_correcto',
+            'numero_cetificado' : xml_data.attrib['NoCertificado'],
+            'cetificaso_sat' : TimbreFiscalDigital.attrib['NoCertificadoSAT'],
+            'fecha_certificacion' : TimbreFiscalDigital.attrib['FechaTimbrado'],
+            'selo_digital_cdfi' : TimbreFiscalDigital.attrib['SelloCFD'],
+            'selo_sat' : TimbreFiscalDigital.attrib['SelloSAT'],
+            'tipocambiop' : xml_data.find('TipoCambio') and xml_data.attrib['TipoCambio'] or '1',
+            'monedap': xml_data.attrib['Moneda'],
+            'number_folio': xml_data.find('Folio') and xml_data.attrib['Folio'] or ' ',
+            'cadena_origenal' : '||%s|%s|%s|%s|%s||' % (TimbreFiscalDigital.attrib['Version'], TimbreFiscalDigital.attrib['UUID'], TimbreFiscalDigital.attrib['FechaTimbrado'],
+                                                         TimbreFiscalDigital.attrib['SelloCFD'], TimbreFiscalDigital.attrib['NoCertificadoSAT']),
+            'qrcode_image': qrcode_image
+            }
+        payment_id.add_resitual_amounts()
+        payment_id.write(cargar_values)
+
+        #xml_file = open(xml_file_link, 'w')
+        #xml_invoice = base64.b64decode(self.import_file)
+        #xml_file.write(xml_invoice.decode("utf-8"))
+        #xml_file.close()
+
+        return True
