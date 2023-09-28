@@ -1,3 +1,6 @@
+v15.22
+-Se agregó la acción de cargar XML para pagos
+
 v15.21
 -Corregir varible de a cuenta de tercero.
 
