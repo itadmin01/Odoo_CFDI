@@ -136,7 +136,7 @@
 							<div>
 							<t t-if="o.factura_cfdi">
 								<strong>Fecha: </strong>
-								<span t-esc="o.fecha_factura" t-field-options='{"widget": "datetime"}'/>
+								<span t-field="o.fecha_factura" t-field-options='{"widget": "datetime"}'/>
 							</t>
 							<t t-if="not o.factura_cfdi">
 								<strong>Fecha de venta: </strong>
