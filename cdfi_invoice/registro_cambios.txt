@@ -1,3 +1,6 @@
+v14.28
+-Cambio en el redondeo de total traslados impuestos IVA
+
 v14.27
 -Cambio en el redondeo de total traslados impuestos IVA
 
