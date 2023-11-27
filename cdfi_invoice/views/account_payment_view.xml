@@ -29,6 +29,7 @@
                                         <group string="Llenado">
                                             <field name="manual_partials" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="reconciled_invoice_ids" invisible="1"/>
+                                            <field name="metodo_pago" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                     </group>
                                     <separator  string="Datos bancarios" attrs="{'invisible':[('forma_pago','not in',('02','03'))]}"/>

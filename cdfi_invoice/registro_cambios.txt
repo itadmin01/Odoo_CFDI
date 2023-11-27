@@ -1,3 +1,6 @@
+v12.31
+-Agregar opción para seleccionar redondeo en totales de pagos.
+
 v12.30
 -Agregar acción cargar xml para pagos.
 
