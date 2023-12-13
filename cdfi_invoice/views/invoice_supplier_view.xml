@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!--
+    <record id="view_invoice_inherit_tree" model="ir.ui.view">
+        <field name="name">account.move.inherit.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+            	<field name="estado_factura" string="Estado CFDI"/>
+            </field>    
+        </field>
+    </record> -->
+
+    <record id="invoice_supplier_form" model="ir.ui.view">
+            <field name="name">account.move.supplier.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <field name="company_cfdi" invisible="1"/>
+                    <page name="info_cdfi" string="CFDI" attrs="{'invisible': [('company_cfdi', '=', False)]}">
+                            <group cols="4">
+                                <group string="Detalles de Pago">
+                                    <field name="forma_pago_id"/>
+                                    <field name="methodo_pago"/>
+                                    <field name="uso_cfdi_id"/>
+                                </group>
+                                <group  string="Detalles de Factura">
+                                    <field name="tipo_comprobante"/>
+                                    <field name="folio_fiscal"/>
+                                    <field name="confirmacion"/>
+                                    <field name="estado_factura"/>
+                                </group>
+                                <group  string="CFDI Relacionados">
+                                    <field name="tipo_relacion"/>
+                                    <field name="uuid_relacionado"/>
+                                </group>
+                            </group>
+                    </page>
+                </xpath>
+                <field name="ref" position="after">
+                        <field name="factura_cfdi" invisible="1"/>
+                </field>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_view_inherit_form_cfdi" model="ir.ui.view">
+        <field name="name">account.journal.inherit.form.view.cfdi</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <field name="company_cfdi" invisible="1"/>
+                    <page name="forma_pago" string="CFDI" invisible="type not in ['sale','cash', 'bank'] or company_cfdi == False">
+                            <group cols="2">
+                                <group>
+                                      <field name="forma_pago_id" invisible="type not in ['cash', 'bank']" />
+                                      <field name="codigo_postal" invisible="type not in ['sale','cash', 'bank']"/>
+                                      <field name="tz" readonly="0" invisible="type not in ['sale','cash', 'bank']"/>
+                                      <field name="serie_diario" invisible="type not in ['sale','cash', 'bank']"/>
+                                </group>
+                            </group>
+                    </page>
+                </xpath>
+        </field>
+    </record>
+</odoo>
