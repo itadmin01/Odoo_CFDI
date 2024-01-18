@@ -8,7 +8,7 @@ from lxml import etree
 
 from odoo import fields, models, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import UserError, Warning
+from odoo.exceptions import UserError
 
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
