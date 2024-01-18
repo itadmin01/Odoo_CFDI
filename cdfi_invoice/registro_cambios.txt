@@ -1,5 +1,5 @@
 v14.28
--Cambio en el redondeo de total traslados impuestos IVA
+-Se hicieron ajustes para el timbrado de pagos 2.0B
 
 v14.27
 -Cambio en el redondeo de total traslados impuestos IVA
