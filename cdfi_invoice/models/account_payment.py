@@ -109,6 +109,7 @@ class AccountPayment(models.Model):
     total_pago = fields.Float("Total pagado")
     partials_payment_ids = fields.One2many('facturas.pago', 'doc_id', 'Montos')
     manual_partials = fields.Boolean("Montos manuales")
+    different_currency = fields.Boolean(_("Diferente moneda"), compute='_compute_different_currency')
 
     @api.depends('name')
     def _get_number_folio(self):
@@ -123,8 +124,19 @@ class AccountPayment(models.Model):
         except Exception:
             data = []
         return data
-    
-    
+
+    def _compute_different_currency(self):
+        for payment in self:
+          if payment.invoice_ids:
+            for invoice in payment.invoice_ids:
+               if invoice.currency_id != payment.currency_id:
+                  payment.different_currency = True
+                  break
+               else:
+                  payment.different_currency = False
+          else:
+            payment.different_currency = False
+
     def importar_incluir_cep(self):
         ctx = {'default_payment_id':self.id}
         return {
@@ -243,6 +255,9 @@ class AccountPayment(models.Model):
                               else:
                                   tax_grouped_ret[key]['ImporteP'] += importep
 
+                      if len(payment.partials_payment_ids) > 1 and payment.different_currency:
+                          if equivalenciadr == 1:
+                             equivalenciadr = payment.set_decimals(equivalenciadr, 10)
                       docto_relacionados.append({
                              'MonedaDR': partial.facturas_id.moneda,
                              'EquivalenciaDR': equivalenciadr,
@@ -371,6 +386,10 @@ class AccountPayment(models.Model):
                                   tax_grouped_ret[key] = val
                               else:
                                   tax_grouped_ret[key]['ImporteP'] += importep
+
+                      if len(payment.reconciled_invoice_ids) > 1 and payment.different_currency:
+                          if equivalenciadr == 1:
+                             equivalenciadr = payment.set_decimals(equivalenciadr, 10)
 
                       docto_relacionados.append({
                              'MonedaDR': invoice.moneda,
@@ -971,7 +990,7 @@ class FacturasPago(models.Model):
     imp_saldo_ant = fields.Float("ImpSaldoAnt")
     imp_pagado = fields.Float("ImpPagado")
     imp_saldo_insoluto = fields.Float("ImpSaldoInsoluto", compute='_compute_insoluto')
-    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,6), default = 1)
+    equivalenciadr = fields.Float("EquivalenciaDR", digits = (12,10), default = 1)
 
     @api.depends('imp_saldo_ant', 'imp_pagado')
     def _compute_insoluto(self):
