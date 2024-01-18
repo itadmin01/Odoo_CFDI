@@ -17,6 +17,7 @@ class ProductTemplate(models.Model):
 
 class ProductComponents(models.Model):
     _name = "product.parts"
+    _description = 'product parts'
 
     parent_line_id = fields.Many2one('product.template',string="Productos padre ID")
     product_id = fields.Many2one('product.product', string="Partes")

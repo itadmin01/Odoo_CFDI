@@ -15,6 +15,7 @@ _logger = logging.getLogger(__name__)
 
 class import_account_payment_from_xml(models.TransientModel):
     _name ='import.account.payment.from.xml'
+    _description = 'import payment xml'
 
     import_file = fields.Binary("Importar Archivo",required=False)
     file_name = fields.Char("Nombre del archivo")

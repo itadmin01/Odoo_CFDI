@@ -1,3 +1,6 @@
+v15.23
+-Se hicieron ajustes para el timbrado de pagos 2.0B
+
 v15.22
 -Se agregó la acción de cargar XML para pagos
 
