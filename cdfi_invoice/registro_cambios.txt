@@ -1,3 +1,6 @@
+v17.02
+-Se hicieron ajustes para el timbrado de pagos 2.0B
+
 v17.01
 -Version no para producción.
 -No adjunta XML en correo de pagos.
