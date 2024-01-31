@@ -1,3 +1,6 @@
+v17.04
+-Corrección en PDF de factura para agregar importe
+
 v17.03
 -Corrección para adjuntar el XML en correo de pago
 

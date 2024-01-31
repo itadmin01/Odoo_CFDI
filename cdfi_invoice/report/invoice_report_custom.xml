@@ -99,9 +99,9 @@
 								<th class="text-right">Precio Unitario</th>
 								<th t-if="display_discount" class="text-right">Descuento</th>
 								<th class="text-right">Impuesto</th>
-                                <th class="text-right">
-                                    <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
-                                    <span groups="account.group_show_line_subtotals_tax_included">Total</span>
+                                <th class="text-right">Importe
+                                 <!--   <span groups="account.group_show_line_subtotals_tax_excluded">Importe</span>
+                                    <span groups="account.group_show_line_subtotals_tax_included">Total</span>-->
                                 </th>
 							</tr>
 						</thead>
@@ -152,8 +152,8 @@
 									</table>
 								</td>
 								<td class="text-right">
-                                    <span t-field="l.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-field="l.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                    <span t-field="l.price_subtotal"/> <!-- groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <span t-field="l.price_total" groups="account.group_show_line_subtotals_tax_included"/>-->
 								</td>
 
 								</t>
