@@ -1,3 +1,6 @@
+v13.33
+-Cancelación rechazada si está vacío el estado de cancelación.
+
 v13.32
 -Se hicieron ajustes para el timbrado de pagos 2.0B
 
