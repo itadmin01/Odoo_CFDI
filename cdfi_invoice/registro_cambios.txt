@@ -1,3 +1,6 @@
+v17.05
+-Cancelación rechazada si está vacío el estado de cancelación.
+
 v17.04
 -Corrección en PDF de factura para agregar importe
 
