@@ -1007,4 +1007,4 @@ class FacturasPago(models.Model):
     def _compute_saldo_ant(self):
         for rec in self:
            if rec.facturas_id:
-              rec.imp_saldo_ant = rec.facturas_id.amount_total_in_currency_signed
+              rec.imp_saldo_ant = rec.facturas_id.amount_total_signed

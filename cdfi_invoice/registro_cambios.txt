@@ -1,3 +1,6 @@
+v14.30
+-Corrección de error en montos manuales del pago.
+
 v14.29
 -Cancelación rechazada si está vacío el estado de cancelación.
 
