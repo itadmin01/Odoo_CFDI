@@ -65,12 +65,8 @@ class import_account_payment_from_xml(models.TransientModel):
 
         Emisor = xml_data.find('cfdi:Emisor', NSMAP)
         Receptor = xml_data.find('cfdi:Receptor', NSMAP)
-        Complemento = xml_data.findall('cfdi:Complemento', NSMAP)
-
-        for complementos in Complemento:
-            TimbreFiscalDigital = complementos.find('tfd:TimbreFiscalDigital', NSMAP)
-            if TimbreFiscalDigital:
-                break
+        Complemento = xml_data.find('cfdi:Complemento', NSMAP)
+        TimbreFiscalDigital = Complemento.find('tfd:TimbreFiscalDigital', NSMAP)
 
         amount_str = str(xml_data.attrib['Total']).split('.')
         qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (TimbreFiscalDigital.attrib['UUID'],
