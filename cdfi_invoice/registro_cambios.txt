@@ -1,3 +1,6 @@
+v15.25
+-Corregir error en QR de pagos
+
 v15.24
 -Cancelación rechazada si está vacío el estado de cancelación.
 

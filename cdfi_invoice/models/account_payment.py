@@ -763,12 +763,11 @@ class AccountPayment(models.Model):
                                                          self.selo_digital_cdfi, self.cetificaso_sat)
         
         options = {'width': 275 * mm, 'height': 275 * mm}
-        amount_str = str(self.amount).split('.')
         qr_value = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=%s&re=%s&rr=%s&tt=%s.%s&fe=%s' % (self.folio_fiscal,
                                                  self.company_id.vat, 
                                                  self.partner_id.vat,
-                                                 amount_str[0].zfill(10),
-                                                 amount_str[1].ljust(6, '0'),
+                                                 '0000000000',
+                                                 '000000',
                                                  self.selo_digital_cdfi[-8:],
                                                  )
         self.qr_value = qr_value
