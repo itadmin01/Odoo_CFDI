@@ -1,3 +1,6 @@
+v14.31
+-Corregir error en QR de pagos
+
 v14.30
 -Corrección de error en montos manuales del pago.
 
