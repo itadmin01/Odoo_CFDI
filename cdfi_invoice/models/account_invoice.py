@@ -367,7 +367,13 @@ class AccountMove(models.Model):
         items = {'numerodepartidas': len(self.invoice_line_ids)}
         invoice_lines = []
         for line in self.invoice_line_ids:
-            if not line.product_id or line.display_type in ('line_section', 'line_note'):
+            if line.display_type in ('line_section', 'line_note'):
+                continue
+            if not line.product_id:
+                self.write({'proceso_timbrado': False})
+                self.env.cr.commit()
+                raise UserError(_('Hay una línea sin producto.'))
+            if line.price_unit == 0:
                 continue
 
             if not line.product_id.clave_producto:
@@ -486,6 +492,12 @@ class AccountMove(models.Model):
                         raise UserError(_('La longitud del pedimento debe ser de 15 dígitos.'))
                     pedimentos.append({'NumeroPedimento': pedimento[0:2] + '  ' + pedimento[2:4] + '  ' + pedimento[4:8] + '  ' + pedimento[8:]})
 
+            no_predial = []
+            if line.predial:
+                predial_list = line.predial.replace(' ', '').split(',')
+                for predial in predial_list:
+                    no_predial.append({'NumeroPredial': predial})
+
             terceros = {}
             if self.tercero_id:
                 terceros.update({'rfc': self.tercero_id.vat.upper(), 
@@ -544,7 +556,7 @@ class AccountMove(models.Model):
                                       'Descuento': self.set_decimals(discount_prod, no_decimales_prod),
                                       'ObjetoImp': objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
-                                      'predial': line.predial and line.predial or '',
+                                      'no_predial': no_predial and no_predial or '',
                                       'terceros': terceros and terceros or '',
                                       'parte': components and components or '',})
 
