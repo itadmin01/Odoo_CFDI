@@ -1,3 +1,6 @@
+v15.29
+Redondeos en impuestos locales
+
 v15.28
 -Multiples predial, validar linea de factura sin producto.
 
