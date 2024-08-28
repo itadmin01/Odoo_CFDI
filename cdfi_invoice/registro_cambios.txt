@@ -1,3 +1,6 @@
+v13.38
+Redondeos en impuestos locales
+
 v13.37
 -Multiples prediales, evitar timbrar sin producto.
 
