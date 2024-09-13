@@ -85,7 +85,7 @@
             <field name="inherit_id" ref="account.view_account_payment_register_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//footer/button[@name='action_create_payments']" position="after">
-                    <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary"/>
+                    <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary" attrs="{'invisible': [('partner_type', '=', 'supplier')]}"/>
                 </xpath>
             </field>
         </record>

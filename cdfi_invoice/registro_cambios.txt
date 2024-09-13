@@ -1,3 +1,6 @@
+v15.30
+-Solo mostrar boton "Validar y Generar REP" en pagos de clientes
+
 v15.29
 Redondeos en impuestos locales
 
