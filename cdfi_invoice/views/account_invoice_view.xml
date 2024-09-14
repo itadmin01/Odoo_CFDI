@@ -38,7 +38,7 @@
                                     <field name="tipo_relacion" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                     <field name="uuid_relacionado" attrs="{'readonly': [('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
-                                <group  string="Complementos" name="complementos">
+                                <group  string="Complementos" name="complementos" attrs="{'invisible':[('move_type', '!=', 'out_invoice')]}">
                                     <field name="factura_global" attrs="{'readonly':[('estado_factura','!=','factura_no_generada')]}"/>
                                 </group>
                             </group>
