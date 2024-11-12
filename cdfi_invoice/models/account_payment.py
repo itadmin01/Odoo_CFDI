@@ -111,6 +111,30 @@ class AccountPayment(models.Model):
     manual_partials = fields.Boolean("Montos manuales")
     different_currency = fields.Boolean(_("Diferente moneda"), compute='_compute_different_currency')
     requiere_rep = fields.Boolean("Requiere REP", compute='_get_requiere_rep')
+    redondeo_t_base = fields.Selection(
+        selection=[('01', _('Tradicional')),
+                   ('02', _('Decimal')),
+                   ('03', _('Techo')),
+                   ('04', _('Truncar')),],
+        default='01',
+        string=_('Redondeo base'), 
+    )
+    redondeo_t_impuesto = fields.Selection(
+        selection=[('01', _('Tradicional')),
+                   ('02', _('Decimal')),
+                   ('03', _('Techo')),
+                   ('04', _('Truncar')),],
+        default='01',
+        string=_('Redondeo impuesto'), 
+    )
+    redondeo_t_total = fields.Selection(
+        selection=[('01', _('Tradicional')),
+                   ('02', _('Decimal')),
+                   ('03', _('Techo')),
+                   ('04', _('Truncar')),],
+        default='01',
+        string=_('Redondeo total'), 
+    )
 
     def _get_requiere_rep(self):
         for record in self:
@@ -158,7 +182,7 @@ class AccountPayment(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'new',
         }
-        
+
     @api.onchange('journal_id')
     def _onchange_journal(self):
         if self.journal_id:
@@ -455,11 +479,11 @@ class AccountPayment(models.Model):
     def _get_amount_to_text(self):
         for record in self:
             record.amount_to_text = amount_to_text_es_MX.get_amount_to_text(record, record.amount_total, 'es_cheque', record.currency_id.name)
-        
+
     @api.model
     def _get_amount_2_text(self, amount_total):
         return amount_to_text_es_MX.get_amount_to_text(self, amount_total, 'es_cheque', self.currency_id.name)
-            
+
     @api.model
     def to_json(self):
         if self.partner_id.vat == 'XAXX010101000' or self.partner_id.vat == 'XEXX010101000':
@@ -493,7 +517,7 @@ class AccountPayment(models.Model):
         #corregir hora
         local2 = pytz.timezone(timezone)
         if not self.date_payment:
-            naive_from2 = datetime.now() 
+            naive_from2 = datetime.now()
         else:
             naive_from2 = self.date_payment
         local_dt_from2 = naive_from2.replace(tzinfo=pytz.UTC).astimezone(local2)
@@ -505,14 +529,14 @@ class AccountPayment(models.Model):
 
         conceptos = []
         conceptos.append({
-                          'ClaveProdServ': '84111506',
-                          'ClaveUnidad': 'ACT',
-                          'cantidad': 1,
-                          'descripcion': 'Pago',
-                          'valorunitario': '0',
-                          'importe': '0',
-                          'ObjetoImp': '01',
-                    })
+            'ClaveProdServ': '84111506',
+            'ClaveUnidad': 'ACT',
+            'cantidad': 1,
+            'descripcion': 'Pago',
+            'valorunitario': '0',
+            'importe': '0',
+            'ObjetoImp': '01',
+        })
 
         taxes_traslado = json.loads(self.trasladosp)
         taxes_retenciones = json.loads(self.retencionesp)
@@ -533,18 +557,18 @@ class AccountPayment(models.Model):
                                     'BaseP': line['BaseP'],
                                     })
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.160000':
-                       totales.update({'TotalTrasladosBaseIVA16': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA16': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVA16': self.selectRoundseparate(line['BaseP'] * float(self.tipocambiop), 2, self.redondeo_t_base),
+                                       'TotalTrasladosImpuestoIVA16': self.selectRoundseparate(line['ImporteP'] * float(self.tipocambiop),2, self.redondeo_t_impuesto),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.080000':
-                       totales.update({'TotalTrasladosBaseIVA8': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA8': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVA8': self.roundTraditional(line['BaseP'] * float(self.tipocambiop), 2),
+                                       'TotalTrasladosImpuestoIVA8': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop), 2),})
                   if line['ImpuestoP'] == '002' and line['TasaOCuotaP'] == '0.000000':
                        totales.update({'TotalTrasladosBaseIVA0': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),
-                                       'TotalTrasladosImpuestoIVA0': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop),2),})
+                                       'TotalTrasladosImpuestoIVA0': self.roundTraditional(line['ImporteP'] * float(self.tipocambiop), 2),})
                   if line['ImpuestoP'] == '002' and line['TipoFactorP'] == 'Exento':
-                       totales.update({'TotalTrasladosBaseIVAExento': self.roundTraditional(line['BaseP'] * float(self.tipocambiop),2),})
+                       totales.update({'TotalTrasladosBaseIVAExento': self.roundTraditional(line['BaseP'] * float(self.tipocambiop), 2),})
                   if line['TipoFactorP'] != 'Exento':
-                     self.total_pago += round(line['BaseP'] * float(self.tipocambiop),2) + round(line['ImporteP'] * float(self.tipocambiop),2)
+                     self.total_pago += round(line['BaseP'] * float(self.tipocambiop),2) + round(line['ImporteP'] * float(self.tipocambiop), 2)
                   else:
                      self.total_pago += round(line['BaseP'] * float(self.tipocambiop), 2)
               impuestosp.update({'TrasladosP': trasladop})
@@ -562,7 +586,7 @@ class AccountPayment(models.Model):
                        totales.update({'TotalRetencionesIEPS': self.roundTraditional(line['ImporteP']* float(self.tipocambiop), 2),})
                   self.total_pago -= round(line['ImporteP'] * float(self.tipocambiop),2)
               impuestosp.update({'RetencionesP': retencionp})
-        totales.update({'MontoTotalPagos': self.roundTraditional(self.amount, 2) if self.monedap == 'MXN' else self.roundTraditional(self.amount * float(self.tipocambiop), 2),})
+        totales.update({'MontoTotalPagos': self.roundTraditional(self.amount, 2) if self.monedap == 'MXN' else self.selectRoundseparate(self.amount * float(self.tipocambiop), 2, self.redondeo_t_total),})
         #totales.update({'MontoTotalPagos': self.set_decimals(self.total_pago, 2),})
 
         pagos = []
@@ -666,6 +690,23 @@ class AccountPayment(models.Model):
           return round(val + 10 ** (-len(str(val)) - 1), digits)
        else:
           return 0
+
+    def trunc(self, val, digits):
+       if val != 0:
+          x = 10 ** digits
+          return int(val*x)/(x)
+       else:
+          return 0
+
+    def selectRoundseparate(self, val, digits, r_option):
+       if r_option == '01':
+           return self.roundTraditional(val, digits)
+       elif r_option == '02':
+           return self.set_decimals(val, digits)
+       elif r_option == '03':
+           return math.ceil(val*100)/100
+       else:
+           return self.trunc(val, digits)
 
     def clean_text(self, text):
         clean_text = text.replace('\n', ' ').replace('\\', ' ').replace('-', ' ').replace('/', ' ').replace('|', ' ')
@@ -899,7 +940,7 @@ class AccountPaymentMail(models.Model):
     _name = "account.payment.mail"
     _inherit = ['mail.thread']
     _description = "Payment Mail"
-    
+
     payment_id = fields.Many2one('account.payment', string='Payment')
     name = fields.Char(related='payment_id.name')
     xml_payment_link = fields.Char(related='payment_id.xml_payment_link')
@@ -953,7 +994,7 @@ class AccountPaymentTerm(models.Model):
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],
-        string=_('Método de pago'), 
+        string=_('Método de pago'),
     )
 
     forma_pago = fields.Selection(

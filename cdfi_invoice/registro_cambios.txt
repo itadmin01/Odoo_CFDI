@@ -1,3 +1,6 @@
+v13.39
+-Agregar tipos de redondeos en pagos
+
 v13.38
 Redondeos en impuestos locales
 
