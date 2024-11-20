@@ -139,8 +139,8 @@ class AccountPayment(models.Model):
     def _get_requiere_rep(self):
         for record in self:
             record.requiere_rep = False
-            if record.invoice_ids:
-                for invoice in record.invoice_ids:
+            if record.reconciled_invoice_ids:
+                for invoice in record.reconciled_invoice_ids:
                     if invoice.methodo_pago == 'PPD':
                        record.requiere_rep = True
 
