@@ -1,3 +1,9 @@
+v15.32
+-Agregar mensaje de error al revisar saldo.
+
+v15.31
+-Agregar mensaje de error con conceptos sin información.
+
 v15.30
 -Solo mostrar boton "Validar y Generar REP" en pagos de clientes
 

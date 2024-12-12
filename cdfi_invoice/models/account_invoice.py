@@ -460,6 +460,10 @@ class AccountMove(models.Model):
             components = []
             if line.product_id.product_parts_ids:
                 for component in line.product_id.product_parts_ids:
+                    if not component.product_id.clave_producto:
+                        raise UserError(_('El producto %s tiene un componente sin clave de producto.') % (line.product_id.name))
+                    if not component.product_id.name:
+                        raise UserError(_('El producto %s tiene un componente sin nombre.') % (line.product_id.name))
                     components.append({'ClaveProdServ': component.product_id.clave_producto,
                                       'Cantidad': component.cantidad,
                                       'Descripcion': self.clean_text(component.product_id.name),

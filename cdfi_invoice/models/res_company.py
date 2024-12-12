@@ -69,6 +69,10 @@ class ResCompany(models.Model):
         return True
 
     def get_saldo(self):
+        if not self.vat:
+           raise UserError(_('Falta colocar el RFC'))
+        if not self.proveedor_timbrado:
+           raise UserError(_('Falta seleccionar el proveedor de timbrado'))
         values = {
                  'rfc': self.vat,
                  'api_key': self.proveedor_timbrado,
@@ -86,10 +90,10 @@ class ResCompany(models.Model):
         except Exception as e:
             print(e)
             json_response = {}
-    
+
         if not json_response:
             return
-        
+
         estado_factura = json_response['estado_saldo']
         if estado_factura == 'problemas_saldo':
             raise UserError(_(json_response['problemas_message']))
