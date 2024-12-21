@@ -12,10 +12,9 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     proveedor_timbrado= fields.Selection(
-        selection=[('multifactura', _('Servidor 1')),
-                   ('multifactura2', _('Servidor 2')),
-                   ('multifactura3', _('Servidor 3')),],
-        string=_('Proveedor de timbrado'), 
+        selection=[('servidor', _('Principal')),
+                   ('servidor2', _('Respaldo')),],
+        string=_('Servidor de timbrado'), default='servidor'
     )
     api_key = fields.Char(string=_('API Key'))
     modo_prueba = fields.Boolean(string=_('Modo prueba'))
@@ -79,13 +78,13 @@ class ResCompany(models.Model):
                  'modo_prueba': self.modo_prueba,
                  }
         url=''
-        if self.proveedor_timbrado == 'multifactura':
-            url = '%s' % ('http://facturacion.itadmin.com.mx/api/saldo')
+        if self.proveedor_timbrado == 'servidor':
+            url = '%s' % ('https://facturacion.itadmin.com.mx/api/saldo')
 
         if not url:
             return
         try:
-            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            response = requests.post(url,auth=None,data=json.dumps(values),headers={"Content-type": "application/json"})
             json_response = response.json()
         except Exception as e:
             print(e)
@@ -113,16 +112,14 @@ class ResCompany(models.Model):
                  'contrasena': self.contrasena,
                  }
         url=''
-        if self.proveedor_timbrado == 'multifactura':
-            url = '%s' % ('http://facturacion.itadmin.com.mx/api/validarcsd')
-        elif self.proveedor_timbrado == 'multifactura2':
-            url = '%s' % ('http://facturacion2.itadmin.com.mx/api/validarcsd')
-        elif self.proveedor_timbrado == 'multifactura3':
-            url = '%s' % ('http://facturacion3.itadmin.com.mx/api/validarcsd')
+        if self.proveedor_timbrado == 'servidor':
+            url = '%s' % ('https://facturacion.itadmin.com.mx/api/validarcsd')
+        elif self.proveedor_timbrado == 'servidor2':
+            url = '%s' % ('https://facturacion2.itadmin.com.mx/api/validarcsd')
         if not url:
             return
         try:
-            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            response = requests.post(url,auth=None,data=json.dumps(values),headers={"Content-type": "application/json"})
             json_response = response.json()
         except Exception as e:
             print(e)
@@ -148,16 +145,14 @@ class ResCompany(models.Model):
                  'rfc': self.vat,
                  }
         url=''
-        if self.proveedor_timbrado == 'multifactura':
-            url = '%s' % ('http://facturacion.itadmin.com.mx/api/borrarcsd')
-        elif self.proveedor_timbrado == 'multifactura2':
-            url = '%s' % ('http://facturacion2.itadmin.com.mx/api/borrarcsd')
-        elif self.proveedor_timbrado == 'multifactura3':
-            url = '%s' % ('http://facturacion3.itadmin.com.mx/api/borrarcsd')
+        if self.proveedor_timbrado == 'servidor':
+            url = '%s' % ('https://facturacion.itadmin.com.mx/api/borrarcsd')
+        elif self.proveedor_timbrado == 'servidor2':
+            url = '%s' % ('https://facturacion2.itadmin.com.mx/api/borrarcsd')
         if not url:
             return
         try:
-            response = requests.post(url,auth=None,verify=False, data=json.dumps(values),headers={"Content-type": "application/json"})
+            response = requests.post(url,auth=None,data=json.dumps(values),headers={"Content-type": "application/json"})
             json_response = response.json()
         except Exception as e:
             print(e)

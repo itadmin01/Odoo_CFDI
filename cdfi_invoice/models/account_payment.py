@@ -675,18 +675,16 @@ class AccountPayment(models.Model):
                  return True
 
             values = p.to_json()
-            if p.company_id.proveedor_timbrado == 'multifactura':
-                url = '%s' % ('http://facturacion.itadmin.com.mx/api/payment')
-            elif p.company_id.proveedor_timbrado == 'multifactura2':
-                url = '%s' % ('http://facturacion2.itadmin.com.mx/api/payment')
-            elif p.company_id.proveedor_timbrado == 'multifactura3':
-                url = '%s' % ('http://facturacion3.itadmin.com.mx/api/payment')
+            if p.company_id.proveedor_timbrado == 'servidor':
+                url = '%s' % ('https://facturacion.itadmin.com.mx/api/payment')
+            elif p.company_id.proveedor_timbrado == 'servidor2':
+                url = '%s' % ('https://facturacion2.itadmin.com.mx/api/payment')
             else:
                 raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
 
             try:
-                response = requests.post(url , 
-                                     auth=None,verify=False, data=json.dumps(values), 
+                response = requests.post(url,
+                                     auth=None, data=json.dumps(values),
                                      headers={"Content-type": "application/json"})
             except Exception as e:
                 error = str(e)
@@ -754,7 +752,7 @@ class AccountPayment(models.Model):
         self.selo_digital_cdfi = TimbreFiscalDigital.attrib['SelloCFD']
         self.selo_sat = TimbreFiscalDigital.attrib['SelloSAT']
         self.folio_fiscal = TimbreFiscalDigital.attrib['UUID']
-        self.folio = xml_data.attrib['Folio']     
+        self.folio = xml_data.attrib['Folio']
         version = TimbreFiscalDigital.attrib['Version']
         self.cadena_origenal = '||%s|%s|%s|%s|%s||' % (version, self.folio_fiscal, self.fecha_certificacion, 
                                                          self.selo_digital_cdfi, self.cetificaso_sat)
@@ -832,17 +830,15 @@ class AccountPayment(models.Model):
                           'motivo': p.env.context.get('motivo_cancelacion','02'),
                           'foliosustitucion': p.env.context.get('foliosustitucion',''),
                           }
-                if p.company_id.proveedor_timbrado == 'multifactura':
-                    url = '%s' % ('http://facturacion.itadmin.com.mx/api/refund')
-                elif p.company_id.proveedor_timbrado == 'multifactura2':
-                    url = '%s' % ('http://facturacion2.itadmin.com.mx/api/refund')
-                elif p.company_id.proveedor_timbrado == 'multifactura3':
-                    url = '%s' % ('http://facturacion3.itadmin.com.mx/api/refund')
+                if p.company_id.proveedor_timbrado == 'servidor':
+                    url = '%s' % ('https://facturacion.itadmin.com.mx/api/refund')
+                elif p.company_id.proveedor_timbrado == 'servidor2':
+                    url = '%s' % ('https://facturacion2.itadmin.com.mx/api/refund')
                 else:
                     raise UserError(_('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
 
-                response = requests.post(url , 
-                                         auth=None,verify=False, data=json.dumps(values), 
+                response = requests.post(url,
+                                         auth=None, data=json.dumps(values),
                                          headers={"Content-type": "application/json"})
 
                 json_response = response.json()
