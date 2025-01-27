@@ -1,3 +1,6 @@
+v15.33
+-No copiar datos fiscales al duplicar pago, no poner decimales en equivalenciadr.
+
 v15.32
 -Agregar mensaje de error al revisar saldo.
 
