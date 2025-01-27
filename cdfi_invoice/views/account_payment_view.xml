@@ -21,7 +21,7 @@
                                 invisible="estado_pago in ['factura_cancelada','pago_no_enviado'] or company_cfdi == False or payment_type == 'outbound'" class="oe_highlight" groups="base.group_user"/>
                     </button>
                     <xpath expr="//sheet" position="inside">
-                        <notebook >
+                        <notebook>
                             <page name="info_cdfi" string="CFDI" invisible="state != 'posted' or company_cfdi == False">
                                     <group cols="4">
                                         <group string="Datos del comprobante">

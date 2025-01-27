@@ -71,7 +71,7 @@ class AccountPayment(models.Model):
     # monto_pagar = fields.Float("Monto a pagar", compute='_compute_monto_pagar')
     # saldo_restante = fields.Float("Saldo restante", readonly=True)
     fecha_pago = fields.Datetime("Fecha de pago")
-    date_payment = fields.Datetime("Fecha de CFDI")
+    date_payment = fields.Datetime("Fecha de CFDI", copy=False)
     cuenta_emisor = fields.Many2one('res.partner.bank', string=_('Cuenta del emisor'))
     banco_emisor = fields.Char("Banco del emisor", related='cuenta_emisor.bank_name', readonly=True)
     rfc_banco_emisor = fields.Char(_("RFC banco emisor"), related='cuenta_emisor.bank_bic', readonly=True)
@@ -85,7 +85,7 @@ class AccountPayment(models.Model):
                    ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'REP cancelado'), ],
         string=_('Estado CFDI'),
         default='pago_no_enviado',
-        readonly=True
+        readonly=True, copy=False
     )
     tipo_relacion = fields.Selection(
         selection=[('04', 'Sustitución de los CFDI previos'), ],
@@ -93,7 +93,7 @@ class AccountPayment(models.Model):
     )
     uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
     confirmacion = fields.Char(string=_('Confirmación'))
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True)
+    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True, copy=False)
     numero_cetificado = fields.Char(string=_('Numero de certificado'))
     cetificaso_sat = fields.Char(string=_('Cetificado SAT'))
     fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'))
@@ -310,9 +310,9 @@ class AccountPayment(models.Model):
                                 else:
                                     tax_grouped_ret[key]['ImporteP'] += importep
 
-                        if len(payment.partials_payment_ids) > 1 and payment.different_currency:
-                            if equivalenciadr == 1:
-                                equivalenciadr = payment.set_decimals(equivalenciadr, 10)
+                        #if len(payment.partials_payment_ids) > 1 and payment.different_currency:
+                        #    if equivalenciadr == 1:
+                        #        equivalenciadr = payment.set_decimals(equivalenciadr, 10)
                         docto_relacionados.append({
                             'MonedaDR': partial.facturas_id.moneda,
                             'EquivalenciaDR': equivalenciadr,
@@ -458,9 +458,9 @@ class AccountPayment(models.Model):
                                     else:
                                         tax_grouped_ret[key]['ImporteP'] += importep
 
-                            if len(payment.reconciled_invoice_ids) > 1 and payment.different_currency:
-                                if equivalenciadr == 1:
-                                    equivalenciadr = payment.set_decimals(equivalenciadr, 10)
+                            #if len(payment.reconciled_invoice_ids) > 1 and payment.different_currency:
+                            #    if equivalenciadr == 1:
+                            #        equivalenciadr = payment.set_decimals(equivalenciadr, 10)
 
                             docto_relacionados.append({
                                 'MonedaDR': invoice.moneda,

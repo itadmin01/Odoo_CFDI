@@ -9,7 +9,7 @@
                 <sheet>
                     <group> 
                         <field name="motivo_cancelacion" required='1'/>
-                        <field name="foliosustitucion"  invisible = "motivo_cancelacion != '01'" />
+                        <field name="foliosustitucion"  invisible = "motivo_cancelacion != '01'" required="motivo_cancelacion == '01'"/>
                     </group>
                 </sheet>
                 <footer>

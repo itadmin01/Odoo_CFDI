@@ -1,3 +1,6 @@
+v17.23
+-No copiar datos fiscales al duplicar pago, no poner decimales en equivalenciadr.
+
 v17.22
 -Corrección el número de parcialidad
 
