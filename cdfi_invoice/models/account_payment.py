@@ -348,11 +348,9 @@ class AccountPayment(models.Model):
                             invoice = invoice_line.move_id
                             decimal_p = 2
 
-                            exchange_number = 0
                             exchange_amount = 0
                             for exchange in partial.exchange_move_id:
                                  exchange_amount += exchange.amount_total
-                                 exchange_number += 1 
 
                             if partial.amount == 0:
                                 raise UserError(
@@ -361,7 +359,10 @@ class AccountPayment(models.Model):
                             if not invoice.factura_cfdi:
                                 continue
 
-                            payment_content = len(invoice.invoice_payments_widget['content']) - exchange_number
+                            payment_content = 0
+                            for widget_line in invoice.invoice_payments_widget['content']:
+                                if widget_line['is_exchange'] == False:
+                                   payment_content += 1 
 
                             if invoice.total_factura <= 0:
                                 raise UserError(
