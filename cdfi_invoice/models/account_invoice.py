@@ -23,7 +23,7 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    factura_cfdi = fields.Boolean('Factura CFDI')
+    factura_cfdi = fields.Boolean('Factura CFDI', copy=False)
     tipo_comprobante = fields.Selection(
         selection=[('I', 'Ingreso'),
                    ('E', 'Egreso'),
@@ -44,17 +44,17 @@ class AccountMove(models.Model):
                    ('solicitud_rechazada', 'Cancelación rechazada'), ],
         string=_('Estado de factura'),
         default='factura_no_generada',
-        readonly=True
+        readonly=True, copy=False
     )
     pdf_cdfi_invoice = fields.Binary("CDFI Invoice")
-    qrcode_image = fields.Binary("QRCode")
-    numero_cetificado = fields.Char(string=_('Numero de cetificado'))
-    cetificaso_sat = fields.Char(string=_('Cetificao SAT'))
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True)
-    fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'))
-    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'))
-    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'))
-    selo_sat = fields.Char(string=_('Selo del SAT'))
+    qrcode_image = fields.Binary("QRCode", copy=False)
+    numero_cetificado = fields.Char(string=_('Numero de cetificado'), copy=False)
+    cetificaso_sat = fields.Char(string=_('Cetificao SAT'), copy=False)
+    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True, copy=False)
+    fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'), copy=False)
+    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'), copy=False)
+    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'), copy=False)
+    selo_sat = fields.Char(string=_('Selo del SAT'), copy=False)
     moneda = fields.Char(string=_('Moneda'))
     tipocambio = fields.Char(string=_('TipoCambio'))
     # folio = fields.Char(string=_('Folio'))
@@ -63,8 +63,8 @@ class AccountMove(models.Model):
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
                                  size=256,
                                  help='Amount of the invoice in letter')
-    qr_value = fields.Char(string=_('QR Code Value'))
-    fecha_factura = fields.Datetime(string=_('Fecha Factura'))
+    qr_value = fields.Char(string=_('QR Code Value'), copy=False)
+    fecha_factura = fields.Datetime(string=_('Fecha Factura'), copy=False)
     # serie_emisor = fields.Char(string=_('A'))
     tipo_relacion = fields.Selection(
         selection=[('01', 'Nota de crédito de los documentos relacionados'),
@@ -135,29 +135,7 @@ class AccountMove(models.Model):
                values['tipo_comprobante'] = 'E'
                values['uso_cfdi_id'] = inv.env['catalogo.uso.cfdi'].sudo().search([('code', '=', 'G02')]).id
                values['tipo_relacion'] = '01'
-               values['fecha_factura'] = None
-               values['qrcode_image'] = None
-               values['numero_cetificado'] = None
-               values['cetificaso_sat'] = None
-               values['selo_digital_cdfi'] = None
-               values['folio_fiscal'] = None
-               values['estado_factura'] = 'factura_no_generada'
-               values['factura_cfdi'] = False
         return values
-
-    @api.returns('self', lambda value: value.id)
-    def copy(self, default=None):
-        default = dict(default or {})
-        default['estado_factura'] = 'factura_no_generada'
-        default['folio_fiscal'] = ''
-        default['factura_cfdi'] = False
-        default['fecha_factura'] = None
-        default['qrcode_image'] = None
-        default['numero_cetificado'] = None
-        default['cetificaso_sat'] = None
-        default['selo_digital_cdfi'] = None
-        default['folio_fiscal'] = None
-        return super(AccountMove, self).copy(default=default)
 
     @api.depends('name')
     def _get_number_folio(self):
