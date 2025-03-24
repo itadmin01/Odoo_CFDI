@@ -1,3 +1,6 @@
+v15.35
+-Corregir datos de emisor y receptor en facturas y notas de crédito.
+
 v15.34
 -Configurar campos para no copiar.
 
