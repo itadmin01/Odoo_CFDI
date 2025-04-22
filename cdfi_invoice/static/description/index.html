@@ -2,50 +2,148 @@
    <meta charset="utf-8"> 
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h2 class="oe_slogan">Módulo de ventas adaptado para factura electrónica en México (CFDI 4.0)</h2>
-            <h3 class="oe_slogan">Adapta el módulo de ventas para generars facturas electrónicas en México (CFDI 4.0)</h3>
+            <h2 class="oe_slogan">Módulo para factura electrónica en México (CFDI 4.0)</h2>
+            <h3 class="oe_slogan">Agrega campos adiiconales para generar facturas electrónicas en México (CFDI 4.0)</h3>
             <h4 class="oe_slogan">Se pueden emitir facturas:</h4>
             <div class="oe_screenshot" style="text-align: left;">
-			
-			 <li style="color:#30054D;">Factura timbrada.</li>
-               </ul>
-               <img style="max-width: 100%;" src="factura.png"/><br /><br />
-			   
-			   <ul>
-               <li style="color:#30054D;">Se anexa el archivo xml y pdf para enviar correo electrónico.</li>
-               </ul>
-               <img style="max-width: 100%;" src="mail.png"/><br /><br />
-			 
-               <ul>
-               <li style="color:#30054D;">Información para timbrar la factura.</li>
-               </ul>
-               <img style="max-width: 100%;" src="3304.png"/><br /><br />
-			   
-               <ul>
-               <li style="color:#30054D;">Datos del receptor.</li>
-               </ul>
-               <img style="max-width: 100%;" src="3308.png"/><br /><br />
-			   
-			   <ul>
-               <li style="color:#30054D;">Datos del emisor.</li>
-               </ul>
-               <img style="max-width: 100%;" src="3307.png"/><br /><br />
-			   
-			   <ul>
-              
-			   
-            </div>
-            <div class="oe_slogan text-center">
-            <!--
-			<span>
-            <h4 class="oe_slogan">To see the illustration click below link:</h4>
-            <a style="color: #a24689 !important;" href="https://youtu.be/RuQv-70O0Ys" target="_blank">Illustration Video</a>
-            <iframe width="420" height="315"
-                src="https://youtu.be/nze9pDjiidM">
-            </iframe>
-            </span> -->
+                <ul>
+	   		       <li style="color:#30054D;">Factura timbrada.</li>
+                </ul>
+                <img style="max-width: 100%;" src="factura.png"/><br /><br />
+			    <ul>
+                    <li style="color:#30054D;">Se anexa el archivo xml y pdf al enviar correo electrónico.</li>
+                </ul>
+                <img style="max-width: 100%;" src="mail.png"/><br /><br />
             </div>
         </div>
+
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Configuración del Módulo</h2>
+            <h4 class="oe_slogan">Configuraciones necesarias:</h4>
+            <div class="oe_screenshot" style="text-align: left;">
+                <ol type="A">
+                   <li style="color:#30054D;">Compañía</li>
+
+En la pestaña “Información general” se deben llenar los siguientes campos:
+<ol>
+    <li>Código postal (<b>Cualquier valor válido para pruebas</b>)</li>
+    <li>RFC (<b>Para pruebas XIA190128J61</b>)</li>
+    <li>Habilitar el check box "CFDI MX" (disponible en versiones 17 y mayores)</li>
+</ol>
+
+                <img style="max-width: 100%;" src="conf_01.png"/><br/><br/>
+<b>NOTA: En versiones Odoo 12 o inferiores el campo RFC se debe llenar en la pestaña CFDI</b><br/><br/>
+
+En la pestaña CFDI se debe configurar la información: <br/>
+<ol>
+    <li>Razon social: Nombre que aparece en la constancia de situación fiscal o <b>para pruebas Xenon Industrial Articles</b></li>
+    <li>Serie factura: Prefijo que se quiera utilizar para la serie de la factura (opcional disponible en versiones 17 y menores)</li>
+    <li>Serie complemento de pago: Prefijo que se quiera utilizar para la serie del complemento de pago(opcional disponible en versiones 17 y menores)</li>
+    <li>Régimen fiscal: Régimen que aparece en la constancia de situación fiscal o <b>para pruebas colocar “General de Ley Personas Morales”</b></li>
+    <li>Proveedor de timbrado: Principal</li>
+    <li>Modo prueba: Para modo producción no se debe habilitar para <b>modo de pruebas se debe habilitar (palomear</b>)</li>
+    <li>Certificado Digital: Cargar los certificados (CSD) de la compañía y su contraseña. <b>Para modo de pruebas seleccionar los archivos .cer y .key que están en la carpeta documentación. La contraseña para los certificados es 12345678a</b></li>
+</ol>
+                <img style="max-width: 100%;" src="conf_02.png"/><br/><br/>
+
+Si requiere validar si es correcto su certificado CSD, puede ingresar a la siguiente dirección y para validar:<br/>
+<a style="color: #a24689 !important;" href="https://solucionfactible.com/sfic/capitulos/timbrado/CSD.jsp">https://solucionfactible.com/sfic/capitulos/timbrado/CSD.jsp</a>
+<br/><br/>
+
+                   <li style="color:#30054D;">Zona horaria del usuario</li>
+
+Entrar al perfil del usuario.
+                <img style="max-width: 100%;" src="conf_03.png"/><br/><br/>
+
+Seleccionar la Zona horaria correspondiente al código postal ingresado.
+                <img style="max-width: 100%;" src="conf_04.png"/><br/><br/>
+
+                   <li style="color:#30054D;">Impuestos</li>
+
+Es necesario configurar todos los impuestos que se vaya a utilizar para timbrar las facturas electŕonicas.
+                <img style="max-width: 100%;" src="conf_05.png"/><br/><br/>
+
+En la pestaña “CFDI” seleccionar el tipo de impuesto y el factor correspondiente al impuesto a configurar.
+                <img style="max-width: 100%;" src="conf_06.png"/><br/><br/>
+
+                   <li style="color:#30054D;">Clientes</li>
+Es necesario configurar 5 campos correctamente en los clientes para el timbrado fiscal:
+<ol>
+    <li>Nombre: Colocar la razon social como aparece en la constancia de situación fiscal (<b>Para pruebas cualquier nombre</b>)</li>
+    <li>Código postal: Colocar el dato que aparece en la constancia de situación fiscal (<b>Para pruebas mismo código postal que en la compañía</b>)</li>
+    <li>RFC: Colocar el RFC como aparece en la constancia de situación fiscal (<b>Para pruebas usar XAXX010101000</b>)</li>
+    <li>Uso de CFDI: Colocar el uso solicitado por el cliente (<b>Para pruebas colocar “Sin efectos fiscales”</b>) </li>
+    <li>Régimen fiscal: Colocar el régimen fiscal como aparece en la constancia de situación fiscal (<b>Para pruebas "Sin obligaciones fiscales"</b>)
+</ol>
+                <img style="max-width: 100%;" src="conf_07.png"/><br/><br/>
+
+                   <li style="color:#30054D;">Productos</li>
+Es necesario configurar 2 campos correctamente en los clientes para el timbrado fiscal:
+<ol>
+    <li>Unidad SAT: Colocar una unidad válida de los catálogos de SAT (<b>Para pruebas puede utilizar por ejemplo Pieza</b>).</li>
+    <li>Clave producto: Colocar una clave válida de los catálogos de SAT (<b>Para pruebas puede utilizar por ejemplo 10101807</b>).</li>
+</ol>
+
+Campos opcionales fisales:
+<ol>
+    <li>Impuestos: Se puede dejar vacío y el sistema lo agrega automáticamente, si se coloca manualemnte, siempre pondrá dicho valor.</li>
+    <li>Partes: Nodo adicional del CFDI para agregar partes a un producto.</li>
+</ol>
+                <img style="max-width: 100%;" src="conf_08.png"/><br/><br/>
+
+                   <li style="color:#30054D;">Diarios</li>
+Opcionalemnte se pueden configurar los diarios de tipo "Facturas de clientes" para seleccionar un código postal y horario distinto al de la compañía, por ejemplo para sucursales.
+                <img style="max-width: 100%;" src="conf_09.png"/><br/><br/>
+
+En la pestaña "CFDI" se puede colocar un código postal y horario particular para cada diario de factura de cliente.
+                <img style="max-width: 100%;" src="conf_10.png"/><br/><br/>
+                </ol>                
+            </div>
+        </div>
+
+
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Timbrado de facturas</h2>
+            <div class="oe_screenshot" style="text-align: left;">
+
+Seleccionar en el documento de factura un cliente y producto configurados con su información fiscal. <br/>
+                <img style="max-width: 100%;" src="conf_11.png"/><br/><br/>
+
+Ingresar los valores fiscales en la pestaña "CFDI" como se requiera timbrar la factura.  <br/>
+Para timbrar el documento dar clic en el botón "Generar CFDI".<br/>
+                <img style="max-width: 100%;" src="conf_12.png"/><br/><br/>
+
+Una vez que se haya timbrado el documento, va a aparecer el fólio fiscal (UUID). <br/>
+                <img style="max-width: 100%;" src="conf_13.png"/><br/><br/>
+            </div>
+        </div>
+
+
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Timbrado de pagos</h2>
+            <div class="oe_screenshot" style="text-align: left;">
+
+En una factura confirmada y timbrada, se le da clic en el botón "Registrar pago". <br/>
+                <img style="max-width: 100%;" src="conf_14.png"/><br/><br/>
+
+En la ventana emergente se debe dar clic en la opción "Validar y generar REP"<br/>
+                <img style="max-width: 100%;" src="conf_15.png"/><br/><br/>
+
+En el documento de pago se debe llenar la "forma de pago". <br/>
+Cuando se requiera timbrar se le da clic en el botón "Generar REP". <br/>
+                <img style="max-width: 100%;" src="conf_16.png"/><br/><br/>
+
+Una vez que se haya timbrado el documento, va a aparecer el fólio fiscal (UUID). <br/>
+                <img style="max-width: 100%;" src="conf_17.png"/><br/><br/>
+
+Es posible incluir varias facturas en un mismo pago, una forma es seleccionando las facturas y dando clic en la acción "Registrar pago". <br/>
+                <img style="max-width: 100%;" src="conf_18.png"/><br/><br/>
+
+            </div>
+        </div>
+
+<b>Este manual es una guía básica de las funcionalidades estándar del módulo. Para recibir asesoría sobre sus dudas adicionales o una capacitación detallada, puede contratar consultoría en <a style="color: #a24689 !important;" href="mailto:soporte@itadmin.com.mx">soporte@itadmin.com.mx</a></b>
+
     </div>
 </section>
 <br/>

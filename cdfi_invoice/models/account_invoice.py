@@ -219,7 +219,7 @@ class AccountMove(models.Model):
         if not self.fecha_factura:
             self.fecha_factura = datetime.datetime.now()
 
-        if self.currency_id.name == 'MXN':
+        if self.currency_id.name.upper() == 'MXN':
             tipocambio = 1
         else:
             tipocambio = self.set_decimals(1 / self.currency_id.with_context(date=self.invoice_date).rate,
@@ -233,7 +233,7 @@ class AccountMove(models.Model):
                 'forma_pago': self.forma_pago_id.code,
                 'subtotal': self.amount_untaxed,
                 'descuento': 0,
-                'moneda': self.currency_id.name,
+                'moneda': self.currency_id.name.upper(),
                 'tipocambio': tipocambio,
                 'total': self.amount_total,
                 'tipocomprobante': self.tipo_comprobante,
