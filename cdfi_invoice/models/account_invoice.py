@@ -326,20 +326,20 @@ class AccountMove(models.Model):
             promocion = False
 
             if negative_lines:
-               pos = 0
-               for promo_disc in negative_lines:
-                  if promo_disc  <= line.price_subtotal:
-                      #price_wo_discount = round(line.price_unit * (1 - (line.discount / 100.0)), no_decimales_prod)
-                      price_wo_discount = round(line.price_unit - (promo_disc / line.quantity), no_decimales_prod)
-                      promo = promo_disc
-                      promocion = True
-                      negative_lines.pop(pos)
-                      break
-                  else:
-                      price_wo_discount = round(line.price_unit * (1 - (line.discount / 100.0)), no_decimales_prod)
-                  pos += 1
+                pos = 0
+                for promo_disc in negative_lines:
+                    if promo_disc  <= line.price_subtotal:
+                        #price_wo_discount = round(line.price_unit * (1 - (line.discount / 100.0)), no_decimales_prod)
+                        price_wo_discount = line.price_unit - (promo_disc / line.quantity)
+                        promo = promo_disc
+                        promocion = True
+                        negative_lines.pop(pos)
+                        break
+                    else:
+                        price_wo_discount = line.price_unit * (1 - (line.discount / 100.0))
+                    pos += 1
             else:
-               price_wo_discount = round(line.price_unit * (1 - (line.discount / 100.0)), no_decimales_prod)
+                price_wo_discount = line.price_unit * (1 - (line.discount / 100.0))
 
             taxes_prod = line.tax_ids.compute_all(price_wo_discount, line.currency_id, line.quantity,
                                                   product=line.product_id, partner=line.move_id.partner_id)
@@ -487,6 +487,11 @@ class AccountMove(models.Model):
                    objetoimp = '01'
 
             product_string = line.product_id.code and line.product_id.code[:100] or ''
+            if not line.name:
+                self.write({'proceso_timbrado': False})
+                self.env.cr.commit()
+                raise UserError(_('El producto %s tiene vacío el campo etiqueta.') % (line.product_id.name))
+
             if product_string == '':
                 if line.name.find(']') > 0:
                     product_string = line.name[line.name.find('[') + len('['):line.name.find(']')] or ''
