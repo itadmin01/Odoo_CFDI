@@ -1,5 +1,8 @@
+v17.27
+-Calculo de descuentos impuestos incluidos.
+
 v17.26
--Calculo de descuentos
+-Calculo de descuentos.
 
 v17.25
 -Configurar campos para no copiar.

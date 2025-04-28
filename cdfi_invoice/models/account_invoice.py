@@ -300,9 +300,19 @@ class AccountMove(models.Model):
         only_exento = True
         invoice_lines = []
         negative_lines = []
+        negative_lines_subtotal = []
+        tax_incl_neg = False
         for line in self.invoice_line_ids:
             if line.price_subtotal <= 0:
-              negative_lines.append(abs(line.price_subtotal))
+                for line_tax in line.tax_ids:
+                    if line_tax.price_include:
+                        tax_incl_neg = True
+                if tax_incl_neg:
+                    negative_lines.append(abs(line.price_total))
+                    negative_lines_subtotal.append(abs(line.price_subtotal))
+                else:
+                    negative_lines.append(abs(line.price_subtotal))
+                    negative_lines_subtotal.append(abs(line.price_subtotal))
 
         for line in self.invoice_line_ids:
             if line.display_type in ('line_section', 'line_note'):
@@ -329,11 +339,14 @@ class AccountMove(models.Model):
                 pos = 0
                 for promo_disc in negative_lines:
                     if promo_disc  <= line.price_subtotal:
-                        #price_wo_discount = round(line.price_unit * (1 - (line.discount / 100.0)), no_decimales_prod)
                         price_wo_discount = line.price_unit - (promo_disc / line.quantity)
-                        promo = promo_disc
+                        if tax_incl_neg:
+                            promo = negative_lines_subtotal[pos]
+                        else:
+                            promo = promo_disc
                         promocion = True
                         negative_lines.pop(pos)
+                        negative_lines_subtotal.pop(pos)
                         break
                     else:
                         price_wo_discount = line.price_unit * (1 - (line.discount / 100.0))
