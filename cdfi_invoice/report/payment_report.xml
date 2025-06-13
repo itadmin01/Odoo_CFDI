@@ -241,7 +241,7 @@
 								<th>Documento relacionado</th>
 								<th>Folio factura</th>
 								<th>Moneda</th>
-								<th>T/C</th>
+								<th>EquivalenciaDR</th>
 								<th>Saldo pendiente</th>
 								<th>Monto pagado</th>
 								<th>Saldo restante</th>
@@ -280,8 +280,8 @@
                                     <t t-if= "row.get('tipodecambio')">
                                        <span t-esc="row.get('tipodecambio')"/>
                                     </t>
-                                    <t t-if="row.get('TipoCambioDR')">
-                                       <span t-esc="row.get('TipoCambioDR')"/>
+                                    <t t-if="row.get('EquivalenciaDR')">
+                                       <span t-esc="row.get('EquivalenciaDR')"/>
                                     </t>
                                 </td>
                                 <td>
