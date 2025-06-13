@@ -94,9 +94,8 @@
 						</div>
 						<div class="col-4">
 							<div>
-								<strong>Folio:</strong>
-								<strong><span t-if="not o.company_id.serie_complemento=='false'" t-field="o.company_id.serie_complemento" /></strong>
-								<span t-field="o.folio" />
+								<strong>Serie y Folio:</strong>
+								<strong><span t-field="o.name" /></strong>
 							</div>
 							<div>
 								<strong>Fecha emisión: </strong>
@@ -240,7 +239,7 @@
 								<th>Documento relacionado</th>
 								<th>Folio factura</th>
 								<th>Moneda</th>
-								<th>T/C</th>
+								<th>EquivalenciaDR</th>
 								<th>Saldo pendiente</th>
 								<th>Monto pagado</th>
 								<th>Saldo restante</th>
@@ -279,8 +278,8 @@
                                     <t t-if= "row.get('tipodecambio')">
                                        <span t-esc="row.get('tipodecambio')"/>
                                     </t>
-                                    <t t-if="row.get('TipoCambioDR')">
-                                       <span t-esc="row.get('TipoCambioDR')"/>
+                                    <t t-if="row.get('EquivalenciaDR')">
+                                       <span t-esc="row.get('EquivalenciaDR')"/>
                                     </t>
                                 </td>
                                 <td>
