@@ -1,3 +1,6 @@
+v15.37
+-Permitir agregar conceptos en traslado de exportaciones
+
 v15.36
 -Corregir EquivalenciaDR en PDF
 
