@@ -321,7 +321,7 @@ class AccountMove(models.Model):
                 self.write({'proceso_timbrado': False})
                 self.env.cr.commit()
                 raise UserError(_('Hay una línea sin producto.'))
-            if line.price_unit <= 0:
+            if line.price_unit <= 0 and self.exportacion == '01':
                 continue
 
             if not line.product_id.clave_producto:

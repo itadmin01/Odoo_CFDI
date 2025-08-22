@@ -1,3 +1,6 @@
+v17.29
+-Permitir agregar conceptos en exportaciones
+
 v17.28
 -Corregir EquivalenciaDR en PDF
 
