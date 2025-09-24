@@ -303,6 +303,8 @@ class AccountMove(models.Model):
         negative_lines_subtotal = []
         tax_incl_neg = False
         for line in self.invoice_line_ids:
+            if line.display_type in ('line_section', 'line_note'):
+                continue
             if line.price_subtotal <= 0:
                 for line_tax in line.tax_ids:
                     if line_tax.price_include:

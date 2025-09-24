@@ -1,5 +1,8 @@
+v17.30
+-Corrección al utilziar descuentos y notas / seciones
+
 v17.29
--Permitir agregar conceptos en exportaciones
+-Permitir agregar conceptos en traslado de exportaciones
 
 v17.28
 -Corregir EquivalenciaDR en PDF
