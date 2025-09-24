@@ -1,3 +1,6 @@
+v16.44
+-Corrección al utilziar descuentos y notas / seciones
+
 v16.43
 -Permitir agregar conceptos en traslado de exportaciones
 
