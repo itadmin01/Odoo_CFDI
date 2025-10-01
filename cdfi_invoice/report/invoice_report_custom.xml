@@ -1,0 +1,168 @@
+<odoo>
+  <!-- Inherit invoice report (from module accounting) -->
+  <template id="report_invoice_inherit_cdfi" inherit_id="account.report_invoice_document">
+        <!--EMPTY HEADER SO THE NAME IS IN THE TOP-->
+
+        <xpath expr="//div[@id='informations']" position="after">
+            <t t-if="o.company_id.modo_prueba == True">
+                <div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+                    <center><span style="font-size:100px;color:red;">FACTURA DE PRUEBA</span></center>
+                </div>
+            </t>
+
+            <t t-if="o.estado_factura == 'factura_cancelada'">
+                <div style="position:absolute;opacity:0.25;z-index:1000;width:100%;">
+                    <center><span style="font-size:100px;color:red;">CANCELADO</span></center>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[hasclass('row')]//div[@name='address_not_same_as_shipping']//t[@t-set='address']" position="inside">
+            <p name="fiscal_regime">
+                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> - <span t-field="o.partner_id.regimen_fiscal_id.description"/>
+            </p>
+        </xpath>
+        <xpath expr="//div[hasclass('row')]//div[@name='address_same_as_shipping']//t[@t-set='address']" position="inside">
+            <p name="fiscal_regime">
+                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> - <span t-field="o.partner_id.regimen_fiscal_id.description"/>
+            </p>        </xpath>
+        <xpath expr="//div[hasclass('row')]//div[@name='no_shipping']//t[@t-set='address']" position="inside">
+            <p name="fiscal_regime">
+                Regimen fiscal: <span t-field="o.partner_id.regimen_fiscal_id.code"/> - <span t-field="o.partner_id.regimen_fiscal_id.description"/>
+            </p>
+        </xpath>
+
+        <xpath expr="//div[@id='informations']" position="after">
+            <div class="row mb-4" id="info_cfdi">
+                <t t-if="o.company_cfdi == True and o.factura_cfdi">
+                    <t t-set="original_o_grid_layout" t-value="o_grid_layout"/>
+                    <t t-set="o_grid_layout" t-value="'col-auto col-3 mw-100 mb-2'"/>
+
+                    <div t-att-class="o_grid_layout">
+                        <strong>Uso:</strong><br/>
+                        <span class="m-0" t-field="o.uso_cfdi_id.code"/> - <span t-field="o.uso_cfdi_id.description"/>
+                    </div>
+
+                    <div t-att-class="o_grid_layout" t-if="o.forma_pago_id">
+                        <strong>Forma de pago:</strong><br/>
+                        <span class="m-0" t-field="o.forma_pago_id.code"/> - <span t-field="o.forma_pago_id.description"/>
+                    </div>
+
+                    <div t-att-class="o_grid_layout" t-if="o.methodo_pago">
+                        <strong>Método de pago:</strong><br/>
+                        <span class="m-0" t-field="o.methodo_pago"/>
+                    </div>
+
+                    <t t-set="o_grid_layout" t-value="original_o_grid_layout"/>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1]" position="before">
+            <th t-if="o.company_cfdi == True and o.factura_cfdi">
+                <span>Clave Producto</span>
+            </th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/tbody//tr[1]//td[1]" position="before">
+            <td t-if="o.company_cfdi == True and o.factura_cfdi"><span t-field="line.product_id.clave_producto"/></td>
+        </xpath>
+
+        <!-- INFORMACION PRODUCTOS -->
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[4]" position="after">
+            <th t-if="o.company_cfdi == True and o.factura_cfdi" class="text-end">
+                <span>Unidad SAT</span>
+            </th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/tbody//tr[1]//td[4]" position="after">
+            <td t-if="o.company_cfdi == True and o.factura_cfdi" class="text-end"><span t-field="line.product_id.cat_unidad_medida.clave" /> - 
+                <span t-field="line.product_id.cat_unidad_medida.descripcion" /></td>
+        </xpath>
+
+    <xpath expr="//div[@name='comment']" position="after">
+        <t t-if="o.company_cfdi == True and o.factura_cfdi">
+				<t t-if="o.tipo_relacion">
+					<div class="row">
+					    <div>
+					        <strong>CFDI Relacionado </strong>
+					    </div>
+						<div>
+					        Tipo de Relación: <span t-field="o.tipo_relacion" />
+					    </div>
+					    <div>
+					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
+					    </div>
+					</div>
+				</t>
+
+                <div class="col-12" style="font-size:10px;">
+                    <div>
+                        <span><strong>Datos del Emisor</strong></span>
+                    </div>
+                    <div class="digital-stamp-content">
+                        <span>Nombre emisor:</span> <span t-field="o.company_id.nombre_fiscal"/>
+                        <span> | RFC Emisor:</span> <span t-field="o.company_id.vat"/>
+                        <span> | Regimen fiscal:</span> <span t-field="o.company_id.regimen_fiscal_id.code"/> - <span t-field="o.company_id.regimen_fiscal_id.description"/>
+                        <span> | Lugar de expedición::</span> 
+                                <t t-if="o.journal_id.codigo_postal">
+                                    <span t-field="o.journal_id.codigo_postal"/>
+                                </t>
+                                <t t-if="not o.journal_id.codigo_postal">
+                                    <span t-field="o.company_id.partner_id.zip"/>
+                                </t>
+                    </div>
+                    <div>
+                        <span><strong>Información Adicional</strong></span>
+                    </div>
+                    <div>
+                        <span>Fecha y hora de certificación:</span> <span t-field="o.fecha_certificacion" />
+                        <span> | Número de certificado:</span> <span t-field="o.numero_cetificado" />
+                        <span> | Moneda:</span> <span t-field="o.moneda" />
+                        <span> | Certificado SAT:</span><span t-field="o.cetificaso_sat" />
+                        <span> | Tipo de cambio:</span> <span t-field="o.tipocambio" />
+                        <span> | Folio fiscal:</span> <span t-field="o.folio_fiscal" />
+                    </div>
+
+                    <t t-if="o.factura_global">
+                       <div>
+                           <span><strong>Factura global</strong></span>
+                       </div>
+                       <div>
+                           <span>Periodicidad:</span> <span t-field="o.fg_periodicidad" />
+                           <span> | Mes:</span> <span t-field="o.fg_meses" />
+                           <span> | Año:</span> <span t-field="o.fg_ano" />
+                       </div>
+                    </t>
+
+                </div>
+
+           <br/>
+
+           <div name="cadenas" class="row" style="page-break-inside: avoid">
+                    <div class="barcode col-3">
+                         <img t-if="o.qrcode_image" t-att-src="image_data_uri(o.qrcode_image)" style="height: 180px;width: 180px;" />
+                    </div>
+
+                    <div class="col-9" style="font-size:10px;">
+                         <!--CADENA ORIGINAL> -->
+                         <strong>Cadena Original del Complemento digital del SAT</strong><br/>
+                         <span t-field="o.cadena_origenal" style="font-size:8px;"/><br/>
+
+                         <strong>Sello digital del CFDI</strong><br/>
+                         <span t-field="o.selo_digital_cdfi" style="font-size:8px;"/><br/>
+
+                         <strong>Sello del SAT</strong><br/>
+                         <span t-field="o.selo_sat" style="font-size:8px;"/><br/>
+                    </div>
+           </div>
+
+           <p>
+                <center>
+                    <strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI</strong>
+                </center>
+           </p>
+        </t>
+    </xpath>
+
+
+  </template>
+</odoo>
