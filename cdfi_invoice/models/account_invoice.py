@@ -384,55 +384,79 @@ class AccountMove(models.Model):
                                              'TipoFactor': tax.tipo_factor, })
                         elif tax.tipo_factor == 'Cuota':
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(line.quantity, no_decimales_prod),
+                            # CFDI40215: Redondear base e importe para Cuota
+                            rounded_base_line = self.roundTraditional(line.quantity, no_decimales_prod)
+                            rounded_importe_line = self.roundTraditional(taxes['amount'], no_decimales_prod)
+                            tax_tras.append({'Base': self.set_decimals(rounded_base_line, no_decimales_prod),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount, 6),
-                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
+                                             'Importe': self.set_decimals(rounded_importe_line, no_decimales_prod), })
                         else:
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                            # CFDI40215: Redondear base primero, luego calcular importe = base redondeada × tasa
+                            rounded_base_line = self.roundTraditional(taxes['base'], no_decimales_prod)
+                            calculated_importe_line = self.roundTraditional(rounded_base_line * (tax.amount / 100.0), no_decimales_prod)
+                            tax_tras.append({'Base': self.set_decimals(rounded_base_line, no_decimales_prod),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount / 100.0, 6),
-                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
-                        tras_tot += taxes['amount']
+                                             'Importe': self.set_decimals(calculated_importe_line, no_decimales_prod), })
+
+                        # CFDI40215: Acumular usando importe calculado (base × tasa)
+                        if tax.tipo_factor == 'Cuota':
+                            line_tax_amount = rounded_importe_line
+                        elif tax.tipo_factor != 'Exento':
+                            line_tax_amount = calculated_importe_line
+                        else:
+                            line_tax_amount = 0.0
+
+                        tras_tot += line_tax_amount
                         val = {'tax_id': taxes['id'],
-                               'base': self.roundTraditional(taxes['base'], no_decimales_prod) if tax.tipo_factor != 'Cuota' else line.quantity,
-                               'amount': self.roundTraditional(taxes['amount'], no_decimales_prod), }
+                               'base': rounded_base_line if tax.tipo_factor != 'Cuota' else line.quantity,
+                               'amount': line_tax_amount, }
                         if key not in tax_grouped_tras:
                             tax_grouped_tras[key] = val
                         else:
-                            tax_grouped_tras[key]['base'] += self.roundTraditional(val['base'], no_decimales_prod) if tax.tipo_factor != 'Cuota' else line.quantity
-                            tax_grouped_tras[key]['amount'] += self.roundTraditional(val['amount'], no_decimales_prod)
+                            tax_grouped_tras[key]['base'] += val['base']
+                            tax_grouped_tras[key]['amount'] += val['amount']
                     else:
-                        tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                        # CFDI40215: Redondear base primero, luego calcular importe = base redondeada × tasa (retenciones)
+                        rounded_base_ret_line = self.roundTraditional(taxes['base'], no_decimales_prod)
+                        calculated_importe_ret_line = self.roundTraditional(rounded_base_ret_line * (abs(tax.amount) / 100.0), no_decimales_prod)
+
+                        tax_ret.append({'Base': self.set_decimals(rounded_base_ret_line, no_decimales_prod),
                                         'Impuesto': tax.impuesto,
                                         'TipoFactor': tax.tipo_factor,
                                         'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
-                                        'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod), })
-                        ret_tot += taxes['amount'] * -1
+                                        'Importe': self.set_decimals(calculated_importe_ret_line, no_decimales_prod), })
+
+                        ret_tot += calculated_importe_ret_line * -1
                         val = {'tax_id': taxes['id'],
-                               'base': self.roundTraditional(taxes['base'], no_decimales_prod),
-                               'amount': self.roundTraditional(taxes['amount'], no_decimales_prod), }
+                               'base': rounded_base_ret_line,
+                               'amount': calculated_importe_ret_line, }
                         if key not in tax_grouped_ret:
                             tax_grouped_ret[key] = val
                         else:
-                            tax_grouped_ret[key]['base'] += self.roundTraditional(val['base'], no_decimales_prod)
-                            tax_grouped_ret[key]['amount'] += self.roundTraditional(val['amount'], no_decimales_prod)
+                            tax_grouped_ret[key]['base'] += val['base']
+                            tax_grouped_ret[key]['amount'] += val['amount']
                 else:  # impuestos locales
                     if tax.price_include or tax.amount_type == 'division':
                         tax_included += taxes['amount']
                     if taxes['amount'] >= 0.0:
-                        tax_local_tras_tot += taxes['amount']
+                        # CFDI40215: Redondear antes de acumular y usar en XML (impuestos locales)
+                        rounded_local_tras = self.roundTraditional(taxes['amount'], 2)
+                        tax_local_tras_tot += rounded_local_tras
                         tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
                                                'TasadeTraslado': self.set_decimals(tax.amount, 2),
-                                               'Importe': self.set_decimals(taxes['amount'], 2), })
+                                               'Importe': self.set_decimals(rounded_local_tras, 2), })
                     else:
-                        tax_local_ret_tot += taxes['amount']
+                        # CFDI40215: Redondear antes de acumular y usar en XML (impuestos locales retenciones)
+                        rounded_local_ret = self.roundTraditional(taxes['amount'], 2)
+                        tax_local_ret_tot += rounded_local_ret
                         tax_local_ret.append({'ImpLocRetenido': tax.impuesto_local,
                                               'TasadeRetencion': self.set_decimals(tax.amount * -1, 2),
-                                              'Importe': self.set_decimals(taxes['amount'] * -1, 2), })
+                                              'Importe': self.set_decimals(rounded_local_ret * -1, 2), })
 
             if line.discount != 100:
                if tax_tras:
@@ -558,25 +582,45 @@ class AccountMove(models.Model):
                            tasa_tr = self.set_decimals(tax.amount, 6)
                        else:
                            tasa_tr = self.set_decimals(tax.amount / 100.0, 6)
+
+                       # CFDI40215/40221: Usar importes ya calculados a nivel línea (evita discrepancias de redondeo)
+                       rounded_base = self.roundTraditional(line['base'], no_decimales)
+                       if tax.tipo_factor == 'Exento':
+                           calculated_importe = ''
+                       else:
+                           # Usar el amount ya calculado y acumulado a nivel línea
+                           calculated_importe = self.roundTraditional(line['amount'], no_decimales)
+
                        traslados.append({'impuesto': tax.impuesto,
                                          'TipoFactor': tax.tipo_factor,
                                          'tasa': tasa_tr,
-                                         'importe': self.roundTraditional(line['amount'],no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                         'base': self.roundTraditional(line['base'], no_decimales),
+                                         'importe': calculated_importe,
+                                         'base': rounded_base,
                                          'tax_id': line['tax_id'],
                                          })
+
+                   # CFDI40215/40221: tras_tot debe ser suma de importes en traslados
+                   tras_tot = sum([float(t['importe']) for t in traslados if t['importe'] != ''])
                    impuestos.update(
                        {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if not only_exento else ''})
                if tax_grouped_ret:
                    for line in tax_grouped_ret.values():
                        tax = self.env['account.tax'].browse(line['tax_id'])
+                       # CFDI40215/40221: Usar importes ya calculados a nivel línea (retenciones)
+                       rounded_base_ret = self.roundTraditional(line['base'], no_decimales)
+                       calculated_importe_ret = self.roundTraditional(line['amount'], no_decimales)
+
                        retenciones.append({'impuesto': tax.impuesto,
                                            'TipoFactor': tax.tipo_factor,
                                            'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                           'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
-                                           'base': self.roundTraditional(line['base'], no_decimales),
+                                           'importe': calculated_importe_ret,
+                                           'base': rounded_base_ret,
                                            'tax_id': line['tax_id'],
                                            })
+
+                   # CFDI40215/40221: ret_tot debe ser suma de importes en retenciones
+                   ret_tot = sum([float(ret['importe']) for ret in retenciones])
+
                    impuestos.update(
                        {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
                request_params.update({'impuestos': impuestos})
