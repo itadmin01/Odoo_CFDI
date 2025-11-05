@@ -1,3 +1,9 @@
+v18.17
+-Redondeo en bases de impuestos
+
+v18.16
+-Cambios en el reporte
+
 v18.15
 -Corrección al utilziar descuentos y notas / seciones
 

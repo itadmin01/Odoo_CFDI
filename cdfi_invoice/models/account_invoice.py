@@ -29,43 +29,43 @@ class AccountMove(models.Model):
                    ('E', 'Egreso'),
                    ('T', 'Traslado'),
                    ],
-        string=_('Tipo de comprobante'),
+        string='Tipo de comprobante',
     )
     forma_pago_id = fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')), ],
-        string=_('Método de pago'),
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'), ],
+        string='Método de pago',
     )
     uso_cfdi_id = fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'),
                    ('solicitud_cancelar', 'Cancelación en proceso'), ('factura_cancelada', 'Factura cancelada'),
                    ('solicitud_rechazada', 'Cancelación rechazada'), ],
-        string=_('Estado de factura'),
+        string='Estado de factura',
         default='factura_no_generada',
         readonly=True, copy=False
     )
     pdf_cdfi_invoice = fields.Binary("CDFI Invoice")
     qrcode_image = fields.Binary("QRCode", copy=False)
-    numero_cetificado = fields.Char(string=_('Numero de cetificado'), copy=False)
-    cetificaso_sat = fields.Char(string=_('Cetificao SAT'), copy=False)
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True, copy=False)
-    fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'), copy=False)
-    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'), copy=False)
-    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'), copy=False)
-    selo_sat = fields.Char(string=_('Selo del SAT'), copy=False)
-    moneda = fields.Char(string=_('Moneda'))
-    tipocambio = fields.Char(string=_('TipoCambio'))
-    # folio = fields.Char(string=_('Folio'))
-    # version = fields.Char(string=_('Version'))
-    number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
+    numero_cetificado = fields.Char(string='Numero de cetificado', copy=False)
+    cetificaso_sat = fields.Char(string='Cetificao SAT', copy=False)
+    folio_fiscal = fields.Char(string='Folio Fiscal', readonly=True, copy=False)
+    fecha_certificacion = fields.Char(string='Fecha y Hora Certificación', copy=False)
+    cadena_origenal = fields.Char(string='Cadena Origenal del Complemento digital de SAT', copy=False)
+    selo_digital_cdfi = fields.Char(string='Selo Digital del CDFI', copy=False)
+    selo_sat = fields.Char(string='Selo del SAT', copy=False)
+    moneda = fields.Char(string='Moneda')
+    tipocambio = fields.Char(string='TipoCambio')
+    # folio = fields.Char(string='Folio')
+    # version = fields.Char(string='Version')
+    number_folio = fields.Char(string='Folio', compute='_get_number_folio')
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
                                  size=256,
                                  help='Amount of the invoice in letter')
-    qr_value = fields.Char(string=_('QR Code Value'), copy=False)
-    fecha_factura = fields.Datetime(string=_('Fecha Factura'), copy=False)
-    # serie_emisor = fields.Char(string=_('A'))
+    qr_value = fields.Char(string='QR Code Value', copy=False)
+    fecha_factura = fields.Datetime(string='Fecha Factura', copy=False)
+    # serie_emisor = fields.Char(string='A')
     tipo_relacion = fields.Selection(
         selection=[('01', 'Nota de crédito de los documentos relacionados'),
                    ('02', 'Nota de débito de los documentos relacionados'),
@@ -74,22 +74,22 @@ class AccountMove(models.Model):
                    ('05', 'Traslados de mercancías facturados previamente'),
                    ('06', 'Factura generada por los traslados previos'),
                    ('07', 'CFDI por aplicación de anticipo'), ],
-        string=_('Tipo relación'),
+        string='Tipo relación',
     )
-    uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
-    confirmacion = fields.Char(string=_('Confirmación'))
+    uuid_relacionado = fields.Char(string='CFDI Relacionado')
+    confirmacion = fields.Char(string='Confirmación')
     total_factura = fields.Float("Total factura")
     subtotal = fields.Float("Subtotal factura")
     discount = fields.Float("Descuento factura")
-    facatradquirente = fields.Char(string=_('Fac Atr Adquirente'))
+    facatradquirente = fields.Char(string='Fac Atr Adquirente')
     exportacion = fields.Selection(
         selection=[('01', 'No aplica'),
                    ('02', 'Definitiva'),
                    ('03', 'Temporal'), ],
-        string=_('Exportacion'), default='01',
+        string='Exportacion', default='01',
     )
-    proceso_timbrado = fields.Boolean(string=_('Proceso de timbrado'))
-    tax_payment = fields.Text(string=_('Taxes'))
+    proceso_timbrado = fields.Boolean(string='Proceso de timbrado')
+    tax_payment = fields.Text(string='Taxes')
     factura_global = fields.Boolean('Factura global')
     fg_periodicidad = fields.Selection(
         selection=[('01', '01 - Diario'),
@@ -97,7 +97,7 @@ class AccountMove(models.Model):
                    ('03', '03 - Quincenal'),
                    ('04', '04 - Mensual'),
                    ('05', '05 - Bimestral'), ],
-        string=_('Periodicidad'),
+        string='Periodicidad',
     )
     fg_meses = fields.Selection(
         selection=[('01', '01 - Enero'),
@@ -118,9 +118,9 @@ class AccountMove(models.Model):
                    ('16', '16 - Julio - Agosto'),
                    ('17', '17 - Septiembre - Octubre'),
                    ('18', '18 - Noviembre - Diciembre'), ],
-        string=_('Mes'),
+        string='Mes',
     )
-    fg_ano = fields.Char(string=_('Año'))
+    fg_ano = fields.Char(string='Año')
     tercero_id = fields.Many2one('res.partner', string="A cuenta de terceros")
     company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
@@ -398,14 +398,13 @@ class AccountMove(models.Model):
                                              'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
                         tras_tot += taxes['amount']
                         val = {'tax_id': taxes['id'],
-                               'base': taxes['base'] if tax.tipo_factor != 'Cuota' else line.quantity,
-                               'amount': taxes['amount'], }
+                               'base': self.roundTraditional(taxes['base'], no_decimales_prod) if tax.tipo_factor != 'Cuota' else line.quantity,
+                               'amount': self.roundTraditional(taxes['amount'], no_decimales_prod), }
                         if key not in tax_grouped_tras:
                             tax_grouped_tras[key] = val
                         else:
-                            tax_grouped_tras[key]['base'] += val[
-                                'base'] if tax.tipo_factor != 'Cuota' else line.quantity
-                            tax_grouped_tras[key]['amount'] += val['amount']
+                            tax_grouped_tras[key]['base'] += self.roundTraditional(val['base'], no_decimales_prod) if tax.tipo_factor != 'Cuota' else line.quantity
+                            tax_grouped_tras[key]['amount'] += self.roundTraditional(val['amount'], no_decimales_prod)
                     else:
                         tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
                                         'Impuesto': tax.impuesto,
@@ -414,13 +413,13 @@ class AccountMove(models.Model):
                                         'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod), })
                         ret_tot += taxes['amount'] * -1
                         val = {'tax_id': taxes['id'],
-                               'base': taxes['base'],
-                               'amount': taxes['amount'], }
+                               'base': self.roundTraditional(taxes['base'], no_decimales_prod),
+                               'amount': self.roundTraditional(taxes['amount'], no_decimales_prod), }
                         if key not in tax_grouped_ret:
                             tax_grouped_ret[key] = val
                         else:
-                            tax_grouped_ret[key]['base'] += val['base']
-                            tax_grouped_ret[key]['amount'] += val['amount']
+                            tax_grouped_ret[key]['base'] += self.roundTraditional(val['base'], no_decimales_prod)
+                            tax_grouped_ret[key]['amount'] += self.roundTraditional(val['amount'], no_decimales_prod)
                 else:  # impuestos locales
                     if tax.price_include or tax.amount_type == 'division':
                         tax_included += taxes['amount']
