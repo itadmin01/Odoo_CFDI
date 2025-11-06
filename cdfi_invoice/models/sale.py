@@ -11,14 +11,14 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
-    #num_cta_pago = fields.Char(string=_('Núm. Cta. Pago'))
+    #num_cta_pago = fields.Char(string='Núm. Cta. Pago')
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')),],
-        string=_('Método de pago'), 
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'),],
+        string='Método de pago',
     )
     uso_cfdi_id  =  fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
-    fecha_corregida = fields.Datetime(string=_('Fecha Cotizacion'), compute='_get_fecha_corregida')
+    fecha_corregida = fields.Datetime(string='Fecha Cotizacion', compute='_get_fecha_corregida')
     company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
     @api.onchange('partner_id')

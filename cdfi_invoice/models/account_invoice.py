@@ -29,43 +29,43 @@ class AccountMove(models.Model):
                    ('E', 'Egreso'),
                    ('T', 'Traslado'),
                    ],
-        string=_('Tipo de comprobante'),
+        string='Tipo de comprobante',
     )
     forma_pago_id = fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')), ],
-        string=_('Método de pago'),
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'), ],
+        string='Método de pago',
     )
     uso_cfdi_id = fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'),
                    ('solicitud_cancelar', 'Cancelación en proceso'), ('factura_cancelada', 'Factura cancelada'),
                    ('solicitud_rechazada', 'Cancelación rechazada'), ],
-        string=_('Estado de factura'),
+        string='Estado de factura',
         default='factura_no_generada',
         readonly=True, copy=False
     )
     pdf_cdfi_invoice = fields.Binary("CDFI Invoice")
     qrcode_image = fields.Binary("QRCode", copy=False)
-    numero_cetificado = fields.Char(string=_('Numero de cetificado'), copy=False)
-    cetificaso_sat = fields.Char(string=_('Cetificao SAT'), copy=False)
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True, copy=False)
-    fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'), copy=False)
-    cadena_origenal = fields.Char(string=_('Cadena Origenal del Complemento digital de SAT'), copy=False)
-    selo_digital_cdfi = fields.Char(string=_('Selo Digital del CDFI'), copy=False)
-    selo_sat = fields.Char(string=_('Selo del SAT'), copy=False)
-    moneda = fields.Char(string=_('Moneda'))
-    tipocambio = fields.Char(string=_('TipoCambio'))
-    # folio = fields.Char(string=_('Folio'))
-    # version = fields.Char(string=_('Version'))
-    number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
+    numero_cetificado = fields.Char(string='Numero de cetificado', copy=False)
+    cetificaso_sat = fields.Char(string='Cetificao SAT', copy=False)
+    folio_fiscal = fields.Char(string='Folio Fiscal', readonly=True, copy=False)
+    fecha_certificacion = fields.Char(string='Fecha y Hora Certificación', copy=False)
+    cadena_origenal = fields.Char(string='Cadena Origenal del Complemento digital de SAT', copy=False)
+    selo_digital_cdfi = fields.Char(string='Selo Digital del CDFI', copy=False)
+    selo_sat = fields.Char(string='Selo del SAT', copy=False)
+    moneda = fields.Char(string='Moneda')
+    tipocambio = fields.Char(string='TipoCambio')
+    # folio = fields.Char(string='Folio')
+    # version = fields.Char(string='Version')
+    number_folio = fields.Char(string='Folio', compute='_get_number_folio')
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
                                  size=256,
                                  help='Amount of the invoice in letter')
-    qr_value = fields.Char(string=_('QR Code Value'), copy=False)
-    fecha_factura = fields.Datetime(string=_('Fecha Factura'), copy=False)
-    # serie_emisor = fields.Char(string=_('A'))
+    qr_value = fields.Char(string='QR Code Value', copy=False)
+    fecha_factura = fields.Datetime(string='Fecha Factura', copy=False)
+    # serie_emisor = fields.Char(string='A')
     tipo_relacion = fields.Selection(
         selection=[('01', 'Nota de crédito de los documentos relacionados'),
                    ('02', 'Nota de débito de los documentos relacionados'),
@@ -74,22 +74,22 @@ class AccountMove(models.Model):
                    ('05', 'Traslados de mercancías facturados previamente'),
                    ('06', 'Factura generada por los traslados previos'),
                    ('07', 'CFDI por aplicación de anticipo'), ],
-        string=_('Tipo relación'),
+        string='Tipo relación',
     )
-    uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
-    confirmacion = fields.Char(string=_('Confirmación'))
+    uuid_relacionado = fields.Char(string='CFDI Relacionado')
+    confirmacion = fields.Char(string='Confirmación')
     total_factura = fields.Float("Total factura")
     subtotal = fields.Float("Subtotal factura")
     discount = fields.Float("Descuento factura")
-    facatradquirente = fields.Char(string=_('Fac Atr Adquirente'))
+    facatradquirente = fields.Char(string='Fac Atr Adquirente')
     exportacion = fields.Selection(
         selection=[('01', 'No aplica'),
                    ('02', 'Definitiva'),
                    ('03', 'Temporal'), ],
-        string=_('Exportacion'), default='01',
+        string='Exportacion', default='01',
     )
-    proceso_timbrado = fields.Boolean(string=_('Proceso de timbrado'))
-    tax_payment = fields.Text(string=_('Taxes'))
+    proceso_timbrado = fields.Boolean(string='Proceso de timbrado')
+    tax_payment = fields.Text(string='Taxes')
     factura_global = fields.Boolean('Factura global')
     fg_periodicidad = fields.Selection(
         selection=[('01', '01 - Diario'),
@@ -97,7 +97,7 @@ class AccountMove(models.Model):
                    ('03', '03 - Quincenal'),
                    ('04', '04 - Mensual'),
                    ('05', '05 - Bimestral'), ],
-        string=_('Periodicidad'),
+        string='Periodicidad',
     )
     fg_meses = fields.Selection(
         selection=[('01', '01 - Enero'),
@@ -118,9 +118,9 @@ class AccountMove(models.Model):
                    ('16', '16 - Julio - Agosto'),
                    ('17', '17 - Septiembre - Octubre'),
                    ('18', '18 - Noviembre - Diciembre'), ],
-        string=_('Mes'),
+        string='Mes',
     )
-    fg_ano = fields.Char(string=_('Año'))
+    fg_ano = fields.Char(string='Año')
     tercero_id = fields.Many2one('res.partner', string="A cuenta de terceros")
     company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
@@ -199,7 +199,7 @@ class AccountMove(models.Model):
            if self.partner_id.country_id.code != 'MX':
               zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
 
-        no_decimales = self.currency_id.no_decimales
+        #no_decimales = self.currency_id.no_decimales
         no_decimales_prod = self.currency_id.decimal_places
         no_decimales_tc = self.currency_id.no_decimales_tc
 
@@ -259,7 +259,7 @@ class AccountMove(models.Model):
             },
             'informacion': {
                 'cfdi': '4.0',
-                'sistema': 'odoo18',
+                'sistema': 'odoo19',
                 'version': '1',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
@@ -358,12 +358,18 @@ class AccountMove(models.Model):
 
             taxes_prod = line.tax_ids.compute_all(price_wo_discount, line.currency_id, line.quantity,
                                                   product=line.product_id, partner=line.move_id.partner_id)
+
+            new_taxes_prod = [{**self._prepare_product_base_line_for_taxes_computation(line)}]
+            self.env['account.tax']._add_tax_details_in_base_lines(new_taxes_prod, self.company_id)
+            new_taxes_prod = new_taxes_prod[0]
+            tax_details = new_taxes_prod['tax_details']
+
             tax_ret = []
             tax_tras = []
             tax_items = {}
             tax_included = 0
-            for taxes in taxes_prod['taxes']:
-                tax = self.env['account.tax'].browse(taxes['id'])
+            for taxes in tax_details['taxes_data']:
+                tax = taxes['tax'] #self.env['account.tax'].browse(taxes['tax'])
                 if not tax.impuesto:
                     self.write({'proceso_timbrado': False})
                     self.env.cr.commit()
@@ -373,67 +379,66 @@ class AccountMove(models.Model):
                     self.env.cr.commit()
                     raise UserError(_('El impuesto %s no tiene tipo de factor del SAT configurado.') % (tax.name))
                 if tax.impuesto != '004':
-                    key = taxes['id']
+                    key = taxes['tax'].id
                     if tax.price_include or tax.amount_type == 'division':
-                        tax_included += taxes['amount']
+                        tax_included += taxes['tax_amount']
 
-                    if taxes['amount'] >= 0.0:
+                    if taxes['tax_amount'] >= 0.0:
                         if tax.tipo_factor == 'Exento':
-                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                            tax_tras.append({'Base': self.set_decimals(taxes['base_amount'], 6),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor, })
                         elif tax.tipo_factor == 'Cuota':
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(line.quantity, no_decimales_prod),
+                            tax_tras.append({'Base': self.set_decimals(line.quantity, 6),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount, 6),
-                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
+                                             'Importe': self.set_decimals(taxes['tax_amount'], 6), })
                         else:
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                            tax_tras.append({'Base': self.set_decimals(taxes['base_amount'], 6),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount / 100.0, 6),
-                                             'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
-                        tras_tot += taxes['amount']
-                        val = {'tax_id': taxes['id'],
-                               'base': taxes['base'] if tax.tipo_factor != 'Cuota' else line.quantity,
-                               'amount': taxes['amount'], }
+                                             'Importe': self.set_decimals(taxes['tax_amount'], 6), })
+                        #tras_tot += taxes['tax_amount']
+                        val = {'tax_id': taxes['tax'].id,
+                               'base': self.roundTraditional(taxes['base_amount'], 6) if tax.tipo_factor != 'Cuota' else line.quantity,
+                               'amount': self.roundTraditional(taxes['tax_amount'], 6), }
                         if key not in tax_grouped_tras:
                             tax_grouped_tras[key] = val
                         else:
-                            tax_grouped_tras[key]['base'] += val[
-                                'base'] if tax.tipo_factor != 'Cuota' else line.quantity
-                            tax_grouped_tras[key]['amount'] += val['amount']
+                            tax_grouped_tras[key]['base'] += self.roundTraditional(val['base'], 6) if tax.tipo_factor != 'Cuota' else line.quantity
+                            tax_grouped_tras[key]['amount'] += self.roundTraditional(val['amount'], 6)
                     else:
-                        tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                        tax_ret.append({'Base': self.set_decimals(taxes['base_amount'], 6),
                                         'Impuesto': tax.impuesto,
                                         'TipoFactor': tax.tipo_factor,
                                         'TasaOCuota': self.set_decimals(tax.amount / 100.0 * -1, 6),
-                                        'Importe': self.set_decimals(taxes['amount'] * -1, no_decimales_prod), })
-                        ret_tot += taxes['amount'] * -1
-                        val = {'tax_id': taxes['id'],
-                               'base': taxes['base'],
-                               'amount': taxes['amount'], }
+                                        'Importe': self.set_decimals(taxes['tax_amount'] * -1, 6), })
+                        #ret_tot += taxes['tax_amount'] * -1
+                        val = {'tax_id': taxes['tax'].id,
+                               'base': self.roundTraditional(taxes['base_amount'], 6),
+                               'amount': self.roundTraditional(taxes['tax_amount'], 6), }
                         if key not in tax_grouped_ret:
                             tax_grouped_ret[key] = val
                         else:
-                            tax_grouped_ret[key]['base'] += val['base']
-                            tax_grouped_ret[key]['amount'] += val['amount']
+                            tax_grouped_ret[key]['base'] += self.roundTraditional(val['base'], 6)
+                            tax_grouped_ret[key]['amount'] += self.roundTraditional(val['amount'], 6)
                 else:  # impuestos locales
                     if tax.price_include or tax.amount_type == 'division':
-                        tax_included += taxes['amount']
-                    if taxes['amount'] >= 0.0:
-                        tax_local_tras_tot += taxes['amount']
+                        tax_included += taxes['tax_amount']
+                    if taxes['tax_amount'] >= 0.0:
+                        tax_local_tras_tot += taxes['tax_amount']
                         tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
                                                'TasadeTraslado': self.set_decimals(tax.amount, 2),
-                                               'Importe': self.set_decimals(taxes['amount'], 2), })
+                                               'Importe': self.set_decimals(taxes['tax_amount'], 2), })
                     else:
-                        tax_local_ret_tot += taxes['amount']
+                        tax_local_ret_tot += taxes['tax_amount']
                         tax_local_ret.append({'ImpLocRetenido': tax.impuesto_local,
                                               'TasadeRetencion': self.set_decimals(tax.amount * -1, 2),
-                                              'Importe': self.set_decimals(taxes['amount'] * -1, 2), })
+                                              'Importe': self.set_decimals(taxes['tax_amount'] * -1, 2), })
 
             if line.discount != 100:
                if tax_tras:
@@ -444,12 +449,12 @@ class AccountMove(models.Model):
                tax_tras = []
                tax_ret = []
 
-            total_wo_discount = self.roundTraditional(line.price_unit * line.quantity - tax_included, no_decimales_prod)
+            total_wo_discount = self.roundTraditional(line.price_unit * line.quantity - tax_included, 6)
             if promocion:
-               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - (line.price_subtotal - promo), no_decimales_prod) if line.discount or promo > 0 else 0
+               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - (line.price_subtotal - promo), 6) if line.discount or promo > 0 else 0
             else:
-               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - line.price_subtotal, no_decimales_prod) if line.discount else 0
-            precio_unitario = self.roundTraditional((line.price_unit * line.quantity - tax_included) / line.quantity, no_decimales_prod)
+               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - line.price_subtotal, 6) if line.discount else 0
+            precio_unitario = self.roundTraditional((line.price_unit * line.quantity - tax_included) / line.quantity, 6)
             self.subtotal += total_wo_discount
             self.discount += discount_prod
 
@@ -518,8 +523,8 @@ class AccountMove(models.Model):
                 invoice_lines.append({'cantidad': self.set_decimals(line.quantity, 6),
                                       'unidad': line.product_id.cat_unidad_medida.descripcion,
                                       'NoIdentificacion': self.clean_text(product_string),
-                                      'valorunitario': self.set_decimals(precio_unitario, no_decimales_prod),
-                                      'importe': self.set_decimals(total_wo_discount, no_decimales_prod),
+                                      'valorunitario': self.set_decimals(precio_unitario, 6),
+                                      'importe': self.set_decimals(total_wo_discount, 6),
                                       'descripcion': self.clean_text(description),
                                       'ClaveProdServ': line.product_id.clave_producto,
                                       'ObjetoImp': objetoimp,
@@ -528,26 +533,26 @@ class AccountMove(models.Model):
                 invoice_lines.append({'cantidad': self.set_decimals(line.quantity, 6),
                                       'unidad': line.product_id.cat_unidad_medida.descripcion,
                                       'NoIdentificacion': self.clean_text(product_string),
-                                      'valorunitario': self.set_decimals(precio_unitario, no_decimales_prod),
-                                      'importe': self.set_decimals(total_wo_discount, no_decimales_prod),
+                                      'valorunitario': self.set_decimals(precio_unitario, 6),
+                                      'importe': self.set_decimals(total_wo_discount, 6),
                                       'descripcion': self.clean_text(description),
                                       'ClaveProdServ': line.product_id.clave_producto,
                                       'ClaveUnidad': line.product_id.cat_unidad_medida.clave,
                                       'Impuestos': tax_items and tax_items or '',
-                                      'Descuento': self.set_decimals(discount_prod, no_decimales_prod),
+                                      'Descuento': self.set_decimals(discount_prod, 6),
                                       'ObjetoImp': objetoimp,
                                       'InformacionAduanera': pedimentos and pedimentos or '',
                                       'no_predial': no_predial and no_predial or '',
                                       'terceros': terceros and terceros or '',
                                       'parte': components and components or '',})
 
-        self.discount = round(self.discount, no_decimales)
-        self.subtotal = self.roundTraditional(self.subtotal, no_decimales)
+        self.discount = round(self.discount, 2)
+        self.subtotal = self.roundTraditional(self.subtotal, 2)
         impuestos = {}
         #if objetoimp != '04':
         if tax_grouped_tras or tax_grouped_ret:
-               tras_tot = round(tras_tot, no_decimales)
-               ret_tot = round(ret_tot, no_decimales)
+               tras_tot = 0 #self.set_decimals(tras_tot, 2)
+               ret_tot = 0 #self.set_decimals(ret_tot, 2)
                retenciones = []
                traslados = []
                if tax_grouped_tras:
@@ -562,29 +567,31 @@ class AccountMove(models.Model):
                        traslados.append({'impuesto': tax.impuesto,
                                          'TipoFactor': tax.tipo_factor,
                                          'tasa': tasa_tr,
-                                         'importe': self.roundTraditional(line['amount'],no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                         'base': self.roundTraditional(line['base'], no_decimales),
+                                         'importe': self.roundTraditional(line['amount'], 2) if tax.tipo_factor != 'Exento' else '',
+                                         'base': self.roundTraditional(line['base'], 2),
                                          'tax_id': line['tax_id'],
                                          })
+                       tras_tot += self.roundTraditional(line['amount'], 2) if tax.tipo_factor != 'Exento' else 0
                    impuestos.update(
-                       {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, no_decimales) if not only_exento else ''})
+                       {'translados': traslados, 'TotalImpuestosTrasladados': self.set_decimals(tras_tot, 2) if not only_exento else ''})
                if tax_grouped_ret:
                    for line in tax_grouped_ret.values():
                        tax = self.env['account.tax'].browse(line['tax_id'])
                        retenciones.append({'impuesto': tax.impuesto,
                                            'TipoFactor': tax.tipo_factor,
                                            'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                           'importe': self.roundTraditional(line['amount'] * -1, no_decimales),
-                                           'base': self.roundTraditional(line['base'], no_decimales),
+                                           'importe': self.roundTraditional(line['amount'] * -1, 2),
+                                           'base': self.roundTraditional(line['base'], 2),
                                            'tax_id': line['tax_id'],
                                            })
+                       ret_tot += self.roundTraditional(line['amount'] * -1, 2)
                    impuestos.update(
-                       {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, no_decimales)})
+                       {'retenciones': retenciones, 'TotalImpuestosRetenidos': self.set_decimals(ret_tot, 2)})
                request_params.update({'impuestos': impuestos})
         self.tax_payment = json.dumps(impuestos)
 
-        tax_local_tras_tot = round(tax_local_tras_tot, no_decimales)
-        tax_local_ret_tot = round(tax_local_ret_tot, no_decimales)
+        tax_local_tras_tot = round(tax_local_tras_tot, 2)
+        tax_local_ret_tot = round(tax_local_ret_tot, 2)
         if tax_local_ret or tax_local_tras:
             if tax_local_tras and not tax_local_ret:
                 request_params.update({'implocal10': {'TotaldeTraslados': self.set_decimals(tax_local_tras_tot, 2),
@@ -606,9 +613,9 @@ class AccountMove(models.Model):
         else:
             self.total_factura = round(
                 self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot, 2)
-            request_params['factura'].update({'descuento': self.roundTraditional(self.discount, no_decimales),
-                                              'subtotal': self.roundTraditional(self.subtotal, no_decimales),
-                                              'total': self.roundTraditional(self.total_factura, no_decimales)})
+            request_params['factura'].update({'descuento': self.roundTraditional(self.discount, 2),
+                                              'subtotal': self.roundTraditional(self.subtotal, 2),
+                                              'total': self.roundTraditional(self.total_factura, 2)})
 
         request_params.update({'conceptos': invoice_lines})
 

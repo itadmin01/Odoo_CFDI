@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <field name="decimal_places" position="after">
                     <group cols="4" string="Factura CFDI">
-                       <field name="no_decimales" />
-                       <field name="no_decimales_tc" />
+                       <!--<field name="no_decimales"/>-->
+                       <field name="no_decimales_tc"/>
                     </group>
                 </field>
             </field>

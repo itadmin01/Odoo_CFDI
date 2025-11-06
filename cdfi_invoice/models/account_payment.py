@@ -62,9 +62,9 @@ class AccountPayment(models.Model):
     forma_de_pago = fields.Char(related="forma_pago_id.code", string="Forma pago")
 
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')), ],
-        string=_('Método de pago'),
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'), ],
+        string='Método de pago',
     )
     # no_de_pago = fields.Integer("No. de pago", readonly=True)
     # saldo_pendiente = fields.Float("Saldo pendiente", readonly=True)
@@ -72,87 +72,87 @@ class AccountPayment(models.Model):
     # saldo_restante = fields.Float("Saldo restante", readonly=True)
     fecha_pago = fields.Datetime("Fecha de pago")
     date_payment = fields.Datetime("Fecha de CFDI", copy=False)
-    cuenta_emisor = fields.Many2one('res.partner.bank', string=_('Cuenta del emisor'))
+    cuenta_emisor = fields.Many2one('res.partner.bank', string='Cuenta del emisor')
     banco_emisor = fields.Char("Banco del emisor", related='cuenta_emisor.bank_name', readonly=True)
-    rfc_banco_emisor = fields.Char(_("RFC banco emisor"), related='cuenta_emisor.bank_bic', readonly=True)
-    numero_operacion = fields.Char(_("Número de operación"))
-    banco_receptor = fields.Char(_("Banco receptor"), compute='_compute_banco_receptor')
-    cuenta_beneficiario = fields.Char(_("Cuenta beneficiario"), compute='_compute_banco_receptor')
-    rfc_banco_receptor = fields.Char(_("RFC banco receptor"), compute='_compute_banco_receptor')
+    rfc_banco_emisor = fields.Char("RFC banco emisor", related='cuenta_emisor.bank_bic', readonly=True)
+    numero_operacion = fields.Char("Número de operación")
+    banco_receptor = fields.Char("Banco receptor", compute='_compute_banco_receptor')
+    cuenta_beneficiario = fields.Char("Cuenta beneficiario", compute='_compute_banco_receptor')
+    rfc_banco_receptor = fields.Char("RFC banco receptor", compute='_compute_banco_receptor')
     estado_pago = fields.Selection(
         selection=[('pago_no_enviado', 'REP no generado'), ('pago_correcto', 'REP correcto'),
                    ('problemas_factura', 'Problemas con el pago'), ('solicitud_cancelar', 'Cancelación en proceso'),
                    ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'REP cancelado'), ],
-        string=_('Estado CFDI'),
+        string='Estado CFDI',
         default='pago_no_enviado',
         readonly=True, copy=False
     )
     tipo_relacion = fields.Selection(
         selection=[('04', 'Sustitución de los CFDI previos'), ],
-        string=_('Tipo relación'),
+        string='Tipo relación',
     )
-    uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
-    confirmacion = fields.Char(string=_('Confirmación'))
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'), readonly=True, copy=False)
-    numero_cetificado = fields.Char(string=_('Numero de certificado'))
-    cetificaso_sat = fields.Char(string=_('Cetificado SAT'))
-    fecha_certificacion = fields.Char(string=_('Fecha y Hora Certificación'))
-    cadena_origenal = fields.Char(string=_('Cadena Original del Complemento digital de SAT'))
-    selo_digital_cdfi = fields.Char(string=_('Sello Digital del CDFI'))
-    selo_sat = fields.Char(string=_('Sello del SAT'))
-    #   moneda = fields.Char(string=_('Moneda'))
-    monedap = fields.Char(string=_('Moneda'))
-    #    tipocambio = fields.Char(string=_('TipoCambio'))
-    tipocambiop = fields.Char(string=_('TipoCambio'))
-    #folio = fields.Char(string=_('Folio'))
-    #  version = fields.Char(string=_('Version'))
-    number_folio = fields.Char(string=_('Folio'), compute='_get_number_folio')
+    uuid_relacionado = fields.Char(string='CFDI Relacionado')
+    confirmacion = fields.Char(string='Confirmación')
+    folio_fiscal = fields.Char(string='Folio Fiscal', readonly=True, copy=False)
+    numero_cetificado = fields.Char(string='Numero de certificado')
+    cetificaso_sat = fields.Char(string='Cetificado SAT')
+    fecha_certificacion = fields.Char(string='Fecha y Hora Certificación')
+    cadena_origenal = fields.Char(string='Cadena Original del Complemento digital de SAT')
+    selo_digital_cdfi = fields.Char(string='Sello Digital del CDFI')
+    selo_sat = fields.Char(string='Sello del SAT')
+    #   moneda = fields.Char(string='Moneda')
+    monedap = fields.Char(string='Moneda')
+    #    tipocambio = fields.Char(string='TipoCambio')
+    tipocambiop = fields.Char(string='TipoCambio')
+    #folio = fields.Char(string='Folio')
+    #  version = fields.Char(string='Version')
+    number_folio = fields.Char(string='Folio', compute='_get_number_folio')
     amount_to_text = fields.Char('Amount to Text', compute='_get_amount_to_text',
                                  size=256,
                                  help='Amount of the invoice in letter')
-    qr_value = fields.Char(string=_('QR Code Value'))
+    qr_value = fields.Char(string='QR Code Value')
     qrcode_image = fields.Binary("QRCode")
-    #    rfc_emisor = fields.Char(string=_('RFC'))
-    #    name_emisor = fields.Char(string=_('Name'))
-    xml_payment_link = fields.Char(string=_('XML link'), readonly=True)
+    #    rfc_emisor = fields.Char(string='RFC')
+    #    name_emisor = fields.Char(string='Name')
+    xml_payment_link = fields.Char(string='XML link', readonly=True)
     payment_mail_ids = fields.One2many('account.payment.mail', 'payment_id', string='Payment Mails')
-    iddocumento = fields.Char(string=_('iddocumento'))
-    fecha_emision = fields.Char(string=_('Fecha y Hora Certificación'))
+    iddocumento = fields.Char(string='iddocumento')
+    fecha_emision = fields.Char(string='Fecha y Hora Certificación')
     docto_relacionados = fields.Text("Docto relacionados", default='[]')
-    cep_sello = fields.Char(string=_('cep_sello'))
-    cep_numeroCertificado = fields.Char(string=_('cep_numeroCertificado'))
-    cep_cadenaCDA = fields.Char(string=_('cep_cadenaCDA'))
-    cep_claveSPEI = fields.Char(string=_('cep_claveSPEI'))
+    cep_sello = fields.Char(string='cep_sello')
+    cep_numeroCertificado = fields.Char(string='cep_numeroCertificado')
+    cep_cadenaCDA = fields.Char(string='cep_cadenaCDA')
+    cep_claveSPEI = fields.Char(string='cep_claveSPEI')
     retencionesp = fields.Text("traslados P", default='[]')
     trasladosp = fields.Text("retenciones P", default='[]')
     total_pago = fields.Float("Total pagado")
     partials_payment_ids = fields.One2many('facturas.pago', 'doc_id', 'Montos')
     manual_partials = fields.Boolean("Montos manuales")
-    different_currency = fields.Boolean(_("Diferente moneda"), compute='_compute_different_currency')
+    different_currency = fields.Boolean("Diferente moneda", compute='_compute_different_currency')
     company_cfdi = fields.Boolean(related="company_id.company_cfdi", store=True)
     redondeo_t_base = fields.Selection(
-        selection=[('01', _('Tradicional')),
-                   ('02', _('Decimal')),
-                   ('03', _('Techo')),
-                   ('04', _('Truncar')),],
+        selection=[('01', 'Tradicional'),
+                   ('02', 'Decimal'),
+                   ('03', 'Techo'),
+                   ('04', 'Truncar'),],
         default='01',
-        string=_('Redondeo base'), 
+        string='Redondeo base',
     )
     redondeo_t_impuesto = fields.Selection(
-        selection=[('01', _('Tradicional')),
-                   ('02', _('Decimal')),
-                   ('03', _('Techo')),
-                   ('04', _('Truncar')),],
+        selection=[('01', 'Tradicional'),
+                   ('02', 'Decimal'),
+                   ('03', 'Techo'),
+                   ('04', 'Truncar'),],
         default='01',
-        string=_('Redondeo impuesto'), 
+        string='Redondeo impuesto',
     )
     redondeo_t_total = fields.Selection(
-        selection=[('01', _('Tradicional')),
-                   ('02', _('Decimal')),
-                   ('03', _('Techo')),
-                   ('04', _('Truncar')),],
+        selection=[('01', 'Tradicional'),
+                   ('02', 'Decimal'),
+                   ('03', 'Techo'),
+                   ('04', 'Truncar'),],
         default='01',
-        string=_('Redondeo total'), 
+        string='Redondeo total', 
     )
 
     @api.depends('name')
@@ -215,7 +215,7 @@ class AccountPayment(models.Model):
 
     def add_resitual_amounts(self):
         for payment in self:
-            no_decimales = payment.currency_id.no_decimales
+            #no_decimales = payment.currency_id.no_decimales
             no_decimales_tc = payment.currency_id.no_decimales_tc
             docto_relacionados = []
             tax_grouped_tras = {}
@@ -537,7 +537,7 @@ class AccountPayment(models.Model):
         else:
             zipreceptor = self.partner_id.zip
 
-        no_decimales = self.currency_id.no_decimales
+        #no_decimales = self.currency_id.no_decimales
         no_decimales_tc = self.currency_id.no_decimales_tc
 
         self.monedap = self.currency_id.name
@@ -652,8 +652,8 @@ class AccountPayment(models.Model):
             'FormaDePagoP': self.forma_pago_id.code,
             'MonedaP': self.monedap,
             'TipoCambioP': self.tipocambiop,  # if self.monedap != 'MXN' else '1',
-            'Monto': self.set_decimals(self.amount, no_decimales),
-            # 'Monto':  self.set_decimals(self.total_pago/float(self.tipocambiop), no_decimales),
+            'Monto': self.set_decimals(self.amount, 2),
+            # 'Monto':  self.set_decimals(self.total_pago/float(self.tipocambiop), 2),
             'NumOperacion': self.numero_operacion,
 
             'RfcEmisorCtaOrd': self.rfc_banco_emisor if self.forma_pago_id.code in ['02', '03', '04', '05', '28',
@@ -1050,9 +1050,9 @@ class AccountPaymentTerm(models.Model):
     _inherit = "account.payment.term"
 
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')), ],
-        string=_('Método de pago'),
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'), ],
+        string='Método de pago',
     )
     forma_pago_id = fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     company_cfdi = fields.Boolean(string='Compania CFDI', compute='_get_company')

@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
                    ('02', 'Sí objeto de impuesto'),
                    ('03', 'Sí objeto del impuesto y no obligado al desglose'),
                    ('04', 'Si objeto del impuesto y no causa impuesto'),],
-        string=_('Impuestos'),
+        string='Impuestos',
     )
     product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
     company_cfdi = fields.Boolean(string='Compania CFDI', compute='_get_company')

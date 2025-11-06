@@ -12,27 +12,25 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     proveedor_timbrado= fields.Selection(
-        selection=[('servidor', _('Principal')),
-                   ('servidor2', _('Respaldo')),],
-        string=_('Servidor de timbrado'), default='servidor'
+        selection=[('servidor', 'Principal'),
+                   ('servidor2', 'Respaldo'),],
+        string='Servidor de timbrado', default='servidor'
     )
-    api_key = fields.Char(string=_('API Key'))
-    modo_prueba = fields.Boolean(string=_('Modo prueba'))
-    serie_factura = fields.Char(string=_('Serie factura')) #quitar en proxima revisión
+    api_key = fields.Char(string='API Key')
+    modo_prueba = fields.Boolean(string='Modo prueba')
+    serie_factura = fields.Char(string='Serie factura') #quitar en proxima revisión
     regimen_fiscal_id  =  fields.Many2one('catalogo.regimen.fiscal', string='Régimen Fiscal')
-    archivo_cer = fields.Binary(string=_('Archivo .cer'))
-    archivo_key = fields.Binary(string=_('Archivo .key'))
-    contrasena = fields.Char(string=_('Contraseña'))
-    nombre_fiscal = fields.Char(string=_('Razón social'))
-    serie_complemento = fields.Char(string=_('Serie complemento de pago')) #quitar en proxima revisión
-    telefono_sms = fields.Char(string=_('Teléfono celular')) #quitar en proxima revisión
-    saldo_timbres =  fields.Float(string=_('Saldo de timbres'), readonly=True)
-    saldo_alarma =  fields.Float(string=_('Alarma timbres'), default=10)
-    correo_alarma =  fields.Char(string=_('Correo de alarma'))
-    fecha_csd = fields.Datetime(string=_('Vigencia CSD',readonly=True))
-    estado_csd =  fields.Char(string=_('Estado CSD'), readonly=True)
-    aviso_csd =  fields.Char(string=_('Aviso vencimiento (días antes)'), default=14)
-    fecha_timbres = fields.Date(string=_('Vigencia timbres'), readonly=True)
+    archivo_cer = fields.Binary(string='Archivo .cer')
+    archivo_key = fields.Binary(string='Archivo .key')
+    contrasena = fields.Char(string='Contraseña')
+    nombre_fiscal = fields.Char(string='Razón social')
+    saldo_timbres =  fields.Float(string='Saldo de timbres', readonly=True)
+    saldo_alarma =  fields.Float(string='Alarma timbres', default=10)
+    correo_alarma =  fields.Char(string='Correo de alarma')
+    fecha_csd = fields.Datetime(string='Vigencia CSD',readonly=True)
+    estado_csd =  fields.Char(string='Estado CSD', readonly=True)
+    aviso_csd =  fields.Char(string='Aviso vencimiento (días antes)', default=14)
+    fecha_timbres = fields.Date(string='Vigencia timbres', readonly=True)
     company_cfdi = fields.Boolean(string="CFDI MX")
 
     @api.onchange('country_id')

@@ -191,8 +191,8 @@ class import_account_payment_from_xml(models.TransientModel):
                        traslados.append({'impuesto': tax.impuesto,
                                          'TipoFactor': tax.tipo_factor,
                                          'tasa': tasa_tr,
-                                         'importe': invoice_id.set_decimals(line['amount'], invoice_id.currency_id.no_decimales) if tax.tipo_factor != 'Exento' else '',
-                                         'base': invoice_id.set_decimals(line['base'], invoice_id.currency_id.no_decimales),
+                                         'importe': invoice_id.set_decimals(line['amount'], 2) if tax.tipo_factor != 'Exento' else '',
+                                         'base': invoice_id.set_decimals(line['base'], 2),
                                          'tax_id': line['tax_id'],
                                          })
                    impuestos.update({'translados': traslados,})
@@ -202,8 +202,8 @@ class import_account_payment_from_xml(models.TransientModel):
                        retenciones.append({'impuesto': tax.impuesto,
                                          'TipoFactor': tax.tipo_factor,
                                          'tasa': invoice_id.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                         'importe': invoice_id.set_decimals(line['amount'], invoice_id.currency_id.no_decimales),
-                                         'base': invoice_id.set_decimals(line['base'], invoice_id.currency_id.no_decimales),
+                                         'importe': invoice_id.set_decimals(line['amount'], 2),
+                                         'base': invoice_id.set_decimals(line['base'], 2),
                                          'tax_id': line['tax_id'],
                                          })
                    impuestos.update({'retenciones': retenciones,})
