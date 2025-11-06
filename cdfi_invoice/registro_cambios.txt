@@ -1,3 +1,6 @@
+v18.19
+-Corrección al RFC y código postal para clientes extranjeros en el complemento de pago.
+
 v18.18
 -Aumento a 6 decimales a cifras de líneas de productos e impuestos, se elimina variable número decimales del modelo de moneda.
 
