@@ -215,7 +215,7 @@ class AccountPayment(models.Model):
 
     def add_resitual_amounts(self):
         for payment in self:
-            no_decimales = payment.currency_id.no_decimales
+            #no_decimales = payment.currency_id.no_decimales
             no_decimales_tc = payment.currency_id.no_decimales_tc
             docto_relacionados = []
             tax_grouped_tras = {}
@@ -537,7 +537,7 @@ class AccountPayment(models.Model):
         else:
             zipreceptor = self.partner_id.zip
 
-        no_decimales = self.currency_id.no_decimales
+        #no_decimales = self.currency_id.no_decimales
         no_decimales_tc = self.currency_id.no_decimales_tc
 
         self.monedap = self.currency_id.name
@@ -652,8 +652,8 @@ class AccountPayment(models.Model):
             'FormaDePagoP': self.forma_pago_id.code,
             'MonedaP': self.monedap,
             'TipoCambioP': self.tipocambiop,  # if self.monedap != 'MXN' else '1',
-            'Monto': self.set_decimals(self.amount, no_decimales),
-            # 'Monto':  self.set_decimals(self.total_pago/float(self.tipocambiop), no_decimales),
+            'Monto': self.set_decimals(self.amount, 2),
+            # 'Monto':  self.set_decimals(self.total_pago/float(self.tipocambiop), 2),
             'NumOperacion': self.numero_operacion,
 
             'RfcEmisorCtaOrd': self.rfc_banco_emisor if self.forma_pago_id.code in ['02', '03', '04', '05', '28',
