@@ -1,5 +1,5 @@
 v19.1.1
--Aumento a 6 decimales a cifras de líneas de productos e impuestos, se limina variable número decimales del modelo de moneda.
+-Aumento a 6 decimales a cifras de líneas de productos e impuestos, se elimina variable número decimales del modelo de moneda.
 
 v19.1.0
 -Versión de producción
