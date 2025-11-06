@@ -537,6 +537,12 @@ class AccountPayment(models.Model):
         else:
             zipreceptor = self.partner_id.zip
 
+        if self.partner_id.country_id:
+           if self.partner_id.country_id.code != 'MX':
+              zipreceptor = self.journal_id.codigo_postal or self.company_id.zip
+        else:
+           raise UserError(_('El receptor no tiene un país configurado.'))
+
         #no_decimales = self.currency_id.no_decimales
         no_decimales_tc = self.currency_id.no_decimales_tc
 
@@ -695,7 +701,7 @@ class AccountPayment(models.Model):
                 },
                 'receptor': {
                     'nombre': self.partner_id.name.upper(),
-                    'rfc': self.partner_id.vat.upper(),
+                    'rfc': self.partner_id.vat.upper() if self.partner_id.country_id.code == 'MX' else 'XEXX010101000',
                     'ResidenciaFiscal': self.partner_id.country_id.codigo_mx if self.partner_id.country_id.code != 'MX' else '',
                     'NumRegIdTrib': self.partner_id.vat.upper() if self.partner_id.country_id.code != 'MX' else '',
                     'UsoCFDI': 'CP01',
