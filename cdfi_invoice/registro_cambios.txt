@@ -1,3 +1,6 @@
+v17.31
+-Omitir impuestos cuando la base es cero con una tasa mayor a cero.
+
 v17.30
 -Corrección al utilziar descuentos y notas / seciones
 

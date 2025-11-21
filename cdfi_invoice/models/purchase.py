@@ -10,31 +10,31 @@ class PurchaseOrder(models.Model):
         selection=[('I', 'Ingreso'), 
                    ('E', 'Egreso'),
                     ('T', 'Traslado'),],
-        string=_('Tipo de comprobante'),
+        string='Tipo de comprobante',
     )
     forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
     methodo_pago = fields.Selection(
-        selection=[('PUE', _('Pago en una sola exhibición')),
-                   ('PPD', _('Pago en parcialidades o diferido')),],
-        string=_('Método de pago'), 
+        selection=[('PUE', 'Pago en una sola exhibición'),
+                   ('PPD', 'Pago en parcialidades o diferido'),],
+        string='Método de pago', 
     )
     uso_cfdi_id  =  fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
     estado_factura = fields.Selection(
         selection=[('factura_no_generada', 'Factura no generada'), ('factura_correcta', 'Factura correcta'), 
                    ('problemas_factura', 'Problemas con la factura'), ('factura_cancelada', 'Factura cancelada'), ],
-        string=_('Estado de factura'),
+        string='Estado de factura',
         default='factura_no_generada',
         readonly=True
     )	
-    numero_cetificado = fields.Char(string=_('Numero de certificado'))
+    numero_cetificado = fields.Char(string='Numero de certificado')
 #    cetificaso_sat = fields.Char(string=_('Certificado SAT'))
-    folio_fiscal = fields.Char(string=_('Folio Fiscal'))
-    fecha_certificacion = fields.Datetime(string=_('Fecha y Hora Certificación'))
+    folio_fiscal = fields.Char(string='Folio Fiscal')
+    fecha_certificacion = fields.Datetime(string='Fecha y Hora Certificación')
 #    cadena_origenal = fields.Char(string=_('Cadena Original del Complemento digital de SAT'))
-    selo_digital_cdfi = fields.Char(string=_('Sello Digital del CDFI'))
-    selo_sat = fields.Char(string=_('Sello del SAT'))
-    moneda = fields.Char(string=_('Moneda'))
-    tipocambio = fields.Char(string=_('Tipo de cambio'))
+    selo_digital_cdfi = fields.Char(string='Sello Digital del CDFI')
+    selo_sat = fields.Char(string='Sello del SAT')
+    moneda = fields.Char(string='Moneda')
+    tipocambio = fields.Char(string='Tipo de cambio')
 #    folio = fields.Char(string=_('Folio'))
 #    version = fields.Char(string=_('Version'))   
 #    invoice_datetime = fields.Char(string=_('11/12/17 12:34:12'))
@@ -46,9 +46,9 @@ class PurchaseOrder(models.Model):
                    ('05', 'Traslados de mercancías facturados previamente'),
                    ('06', 'Factura generada por los traslados previos'), 
                    ('07', 'CFDI por aplicación de anticipo'),],
-        string=_('Tipo relación'),
+        string='Tipo relación',
     )
-    uuid_relacionado = fields.Char(string=_('CFDI Relacionado'))
+    uuid_relacionado = fields.Char(string='CFDI Relacionado')
     company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
     def action_view_invoice(self, invoices=False):
