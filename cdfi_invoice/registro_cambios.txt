@@ -1,3 +1,6 @@
+v16.45
+-Corrección documento relacionado en reporte de factura.
+
 v16.44
 -Corrección al utilziar descuentos y notas / seciones
 
