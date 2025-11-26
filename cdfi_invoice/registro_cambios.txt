@@ -1,3 +1,6 @@
+v17.32
+-Corrección documento relacionado en reporte de factura.
+
 v17.31
 -Omitir impuestos cuando la base es cero con una tasa mayor a cero.
 
