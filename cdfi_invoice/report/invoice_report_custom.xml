@@ -191,19 +191,15 @@
 	     </xpath>
 
 	     <xpath expr="//p[@name='note']" position="before">
-				<t t-if="o.tipo_relacion">
-					<div class="row">
-					    <div>
-					        <strong>CFDI Relacionado </strong>
-					    </div>
-						<div>
-					        Tipo de Relación: <span t-field="o.tipo_relacion" />
-					    </div>
-					    <div>
-					        CFDI Relacionado: <span t-field="o.uuid_relacionado" />
-					    </div>
-					</div>
-				</t>
+                <t t-if="o.tipo_relacion">
+                    <div class="col-12" style="font-size:10px;">
+                        <div>
+                            <strong>CFDI Relacionado</strong> <br/>
+                            Tipo de Relación: <span t-field="o.tipo_relacion"/> | 
+                            CFDI Relacionado: <span t-field="o.uuid_relacionado"/>
+                        </div>
+                    </div>
+                </t>
 
 					<div class="col-12" style="font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 1px;">

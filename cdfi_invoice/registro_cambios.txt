@@ -1,3 +1,6 @@
+v15.38
+-Corrección documento relacionado en reporte de factura.
+
 v15.37
 -Permitir agregar conceptos en traslado de exportaciones
 
