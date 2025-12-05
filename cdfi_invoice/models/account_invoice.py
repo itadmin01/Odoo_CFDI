@@ -369,7 +369,7 @@ class AccountMove(models.Model):
             tax_items = {}
             tax_included = 0
             for taxes in tax_details['taxes_data']:
-                tax = taxes['tax'] #self.env['account.tax'].browse(taxes['tax'])
+                tax = taxes['tax']
                 if not tax.impuesto:
                     self.write({'proceso_timbrado': False})
                     self.env.cr.commit()
@@ -397,7 +397,8 @@ class AccountMove(models.Model):
                                              'Importe': self.set_decimals(taxes['tax_amount'], 6), })
                         else:
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(taxes['base_amount'], 6),
+                            if taxes['base_amount'] > 0:
+                                tax_tras.append({'Base': self.set_decimals(taxes['base_amount'], 6),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount / 100.0, 6),
@@ -449,12 +450,12 @@ class AccountMove(models.Model):
                tax_tras = []
                tax_ret = []
 
-            total_wo_discount = self.roundTraditional(line.price_unit * line.quantity - tax_included, 6)
+            total_wo_discount = line.price_unit * line.quantity - tax_included
             if promocion:
-               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - (line.price_subtotal - promo), 6) if line.discount or promo > 0 else 0
+               discount_prod = (line.price_unit * line.quantity - tax_included) - (line.price_subtotal - promo) if line.discount or promo > 0 else 0
             else:
-               discount_prod = self.roundTraditional((line.price_unit * line.quantity - tax_included) - line.price_subtotal, 6) if line.discount else 0
-            precio_unitario = self.roundTraditional((line.price_unit * line.quantity - tax_included) / line.quantity, 2)
+               discount_prod = (line.price_unit * line.quantity - tax_included) - line.price_subtotal if line.discount else 0
+            precio_unitario = (line.price_unit * line.quantity - tax_included) / line.quantity
             self.subtotal += total_wo_discount
             self.discount += discount_prod
 
