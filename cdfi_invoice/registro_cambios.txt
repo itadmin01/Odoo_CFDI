@@ -1,3 +1,6 @@
+v18.21
+-Corrección de redondeos.
+
 v18.20
 -Corrección documento relacionado en reporte de factura.
 
