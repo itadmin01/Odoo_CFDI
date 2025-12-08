@@ -20,7 +20,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <field name="company_cfdi" invisible="1"/> <!-- invisible -->
-                    <page name="info_cdfi" string="CFDI" invisible="company_cfdi == False">
+                    <page name="info_cdfi" string="CFDI" invisible="company_cfdi == False and move_type in ('entry', 'out_receipt', 'in_receipt')">
                             <group cols="4">
                                 <group string="Detalles de Pago">
                                     <field name="forma_pago_id" readonly="estado_factura != 'factura_no_generada'"/>
