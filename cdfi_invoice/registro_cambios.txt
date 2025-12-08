@@ -1,3 +1,6 @@
+v17.33
+-Cargar EDI document en account move.
+
 v17.32
 -Corrección documento relacionado en reporte de factura.
 
