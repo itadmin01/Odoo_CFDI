@@ -81,8 +81,8 @@ class AccountPayment(models.Model):
     rfc_banco_receptor = fields.Char("RFC banco receptor", compute='_compute_banco_receptor')
     estado_pago = fields.Selection(
         selection=[('pago_no_enviado', 'REP no generado'), ('pago_correcto', 'REP correcto'),
-                   ('problemas_factura', 'Problemas con el pago'), ('solicitud_cancelar', 'Cancelación en proceso'),
-                   ('cancelar_rechazo', 'Cancelación rechazada'), ('factura_cancelada', 'REP cancelado'), ],
+                   ('solicitud_cancelar', 'Cancelación en proceso'), ('factura_cancelada', 'REP cancelado'),
+                   ('solicitud_rechazada', 'Cancelación rechazada'),],
         string='Estado CFDI',
         default='pago_no_enviado',
         readonly=True, copy=False
@@ -711,7 +711,7 @@ class AccountPayment(models.Model):
 
                 'informacion': {
                     'cfdi': '4.0',
-                    'sistema': 'odoo18',
+                    'sistema': 'odoo19',
                     'version': '2',
                     'api_key': self.company_id.proveedor_timbrado,
                     'modo_prueba': self.company_id.modo_prueba,
@@ -979,8 +979,11 @@ class AccountPayment(models.Model):
 
             json_response = response.json()
 
+            log_msg = ''
             if json_response['estado_factura'] == 'problemas_factura':
                 raise UserError(_(json_response['problemas_message']))
+            elif json_response['estado_factura'] == 'solicitud_cancelar':
+                log_msg = "Se solicitó cancelación de CFDI"
             elif json_response.get('factura_xml', False):
                 file_name = 'CANCEL_' + p.name.replace('.', '').replace('/', '_') + '.xml'
                 p.env['ir.attachment'].sudo().create({
@@ -991,8 +994,9 @@ class AccountPayment(models.Model):
                     'res_id': p.id,
                     'type': 'binary'
                 })
+                log_msg = "CFDI Cancelado"
             p.write({'estado_pago': json_response['estado_factura']})
-            p.message_post(body="CFDI Cancelado")
+            p.message_post(body=log_msg)
 
     def truncate(self, number, decimals=0):
         """
@@ -1012,6 +1016,80 @@ class AccountPayment(models.Model):
         for payment in self:
             return payment.name.replace('.', '').replace('/', '_')
 
+    def action_cfdi_rechazada(self):
+        for payment in self:
+            if payment.factura_cfdi:
+                if payment.estado_pago == 'solicitud_rechazada' or payment.estado_pago == 'solicitud_cancelar':
+                    payment.estado_pago = 'pago_correcto'
+
+    @api.model
+    def check_cancel_status_by_cron(self):
+        domain = [('payment_type', '=', 'outbound'), ('estado_pago', '=', 'solicitud_cancelar')]
+        invoices = self.search(domain, order='id')
+        for invoice in invoices:
+            _logger.info('Solicitando estado de pago %s', invoice.folio_fiscal)
+            domain = [
+                ('res_id', '=', invoice.id),
+                ('res_model', '=', invoice._name),
+                ('name', '=', invoice.name.replace('.', '').replace('/', '_') + '.xml')]
+            xml_file = self.env['ir.attachment'].search(domain, limit=1)
+            if not xml_file:
+                _logger.info('No se encontró XML del pago %s', invoice.folio_fiscal)
+                continue
+            values = {
+                'rfc': invoice.company_id.vat,
+                'api_key': invoice.company_id.proveedor_timbrado,
+                'modo_prueba': invoice.company_id.modo_prueba,
+                'uuid': invoice.folio_fiscal,
+                'xml': xml_file.datas.decode("utf-8"),
+            }
+
+            if invoice.company_id.proveedor_timbrado == 'servidor':
+                url = '%s' % ('https://facturacion.itadmin.com.mx/api/consulta-cacelar')
+            elif invoice.company_id.proveedor_timbrado == 'servidor2':
+                url = '%s' % ('https://facturacion2.itadmin.com.mx/api/consulta-cacelar')
+            else:
+                raise UserError(
+                    _('Error, falta seleccionar el servidor de timbrado en la configuración de la compañía.'))
+
+            try:
+                response = requests.post(url,
+                                         auth=None, data=json.dumps(values),
+                                         headers={"Content-type": "application/json"})
+
+                if "Whoops, looks like something went wrong." in response.text:
+                    _logger.info(
+                        "Error con el servidor de facturación, favor de reportar el error a su persona de soporte.")
+                    return
+
+                json_response = response.json()
+                # _logger.info('something ... %s', response.text)
+            except Exception as e:
+                _logger.info('log de la exception ... %s', response.text)
+                json_response = {}
+            if not json_response:
+                return
+            estado_factura = json_response['estado_consulta']
+            if estado_factura == 'problemas_consulta':
+                _logger.info('Error en la consulta %s', json_response['problemas_message'])
+            elif estado_factura == 'consulta_correcta':
+                if json_response['factura_xml'] == 'Cancelado':
+#                    _logger.info('Factura cancelada')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+                    invoice.action_cfdi_cancel()
+                elif json_response['factura_xml'] == 'Vigente':
+#                    _logger.info('Factura vigente')
+#                    _logger.info('EsCancelable: %s', json_response['escancelable'])
+#                    _logger.info('EstatusCancelacion: %s', json_response['estatuscancelacion'])
+                    if json_response['estatuscancelacion'] == 'Solicitud rechazada':
+                        invoice.estado_pago = 'solicitud_rechazada'
+                    if not json_response['estatuscancelacion']:
+                        invoice.estado_pago = 'solicitud_rechazada'
+            else:
+                _logger.info('Error... %s', response.text)
+            self.env.cr.commit()
+        return True
 
 class MailComposeMessage(models.TransientModel):
     _inherit = 'mail.compose.message'

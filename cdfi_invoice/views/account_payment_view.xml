@@ -17,8 +17,18 @@
                                 string="Enviar por correo-e" type="object"/>
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" invisible="forma_de_pago != '03' or
                                 estado_pago in ['pago_correcto', 'factura_cancelada'] or company_cfdi == False"/>
-                        <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d" type="action" string="Cancelar CFDI"
-                                invisible="estado_pago in ['factura_cancelada','pago_no_enviado'] or company_cfdi == False or payment_type == 'outbound'" class="oe_highlight" groups="base.group_user"/>
+                        <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d"
+                                type="action"
+                                string="Cancelar CFDI"
+                                invisible="folio_fiscal == False or estado_pago in ['solicitud_cancelar', 'factura_cancelada', 'solicitud_rechazada'] or
+                                           company_cfdi == False or payment_type == 'outbound'" class="oe_highlight" groups="base.group_user"/>
+                        <button name="action_cfdi_rechazada"
+                                type="object" 
+                                string="Cambiar estado CFDI a pago correcto" 
+                                invisible="estado_pago not in ['solicitud_cancelar', 'solicitud_rechazada'] or
+                                           company_cfdi == False" class="oe_highlight" groups="base.group_user"
+                                confirm="La factura va pasar a estado correcto y puede intentar cancelar nuevamente."/>
+
                     </button>
                     <xpath expr="//sheet" position="inside">
                         <notebook>
