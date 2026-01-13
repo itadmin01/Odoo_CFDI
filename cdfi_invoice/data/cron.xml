@@ -24,5 +24,17 @@
             <field name="state">code</field>
             <field name="code">model.check_cancel_status_by_cron()</field>
         </record>
+
+        <record id="ir_cron_pagos_cancelar" model="ir.cron">
+            <field name="name">Revisar pagos por cancelar</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="interval_type">days</field>
+            <field name="model_id" ref="account.model_account_payment"/>
+            <field eval="False" name="doall"/>
+            <field name="state">code</field>
+            <field name="code">model.check_cancel_status_by_cron()</field>
+        </record>
    </data>
 </odoo>

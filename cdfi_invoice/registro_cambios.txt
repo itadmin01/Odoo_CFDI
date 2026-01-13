@@ -1,3 +1,6 @@
+v15.39
+-Agregar estados de cancelación para Pagos
+
 v15.38
 -Corrección documento relacionado en reporte de factura.
 
