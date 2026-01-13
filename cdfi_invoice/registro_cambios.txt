@@ -1,3 +1,6 @@
+v16.46
+-Agregar estados de cancelación para Pagos
+
 v16.45
 -Corrección documento relacionado en reporte de factura.
 

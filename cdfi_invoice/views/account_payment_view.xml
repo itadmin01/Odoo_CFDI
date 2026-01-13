@@ -13,8 +13,15 @@
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" attrs="{'invisible':['|',('forma_de_pago','!=','03'),
                                                          ('estado_pago','in',('pago_correcto', 'factura_cancelada'))]}"/>
                         <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d" 
-                                                          type="action" string="Cancelar CFDI" attrs="{'invisible':['|', ('estado_pago','in',('factura_cancelada','pago_no_enviado')), ('payment_type', '=', 'outbound')]}" 
-                                                          class="oe_highlight" groups="base.group_user"/>
+                                type="action"
+                                string="Cancelar CFDI"
+                                attrs="{'invisible':['|', '|', ('folio_fiscal', '=', False), ('estado_pago','in',('solicitud_cancelar', 'factura_cancelada', 'solicitud_rechazada')), 
+                                           ('payment_type', '=', 'outbound')]}" class="oe_highlight" groups="base.group_user"/>
+                        <button name="action_cfdi_rechazada"
+                                type="object" 
+                                string="Cambiar estado CFDI a pago correcto" 
+                                attrs="{'invisible': [('estado_pago', 'not in', ('solicitud_cancelar', 'solicitud_rechazada')),]}" class="oe_highlight" groups="base.group_user"
+                                confirm="La factura va pasar a estado correcto y puede intentar cancelar nuevamente."/>
                     </button>
                     <xpath expr="//sheet" position="inside">
                         <notebook >
