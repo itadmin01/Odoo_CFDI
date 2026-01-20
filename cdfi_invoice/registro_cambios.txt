@@ -1,3 +1,6 @@
+v18.25
+-Cambio en redondeo al subir el XML
+
 v18.24
 -Cambio de redondo a subtotal y total base de impuestos
 
