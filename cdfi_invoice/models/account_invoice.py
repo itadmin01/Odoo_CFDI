@@ -9,7 +9,7 @@ from lxml import etree
 from odoo import fields, models, api, _
 #import odoo.addons.decimal_precision as dp
 from odoo.exceptions import UserError
-
+from odoo.tools.float_utils import float_is_zero, float_round
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.lib.units import mm
 from . import amount_to_text_es_MX
@@ -548,7 +548,7 @@ class AccountMove(models.Model):
                                       'parte': components and components or '',})
 
         self.discount = round(self.discount, 2)
-        self.subtotal = self.roundTraditional(self.subtotal, 2)
+        self.subtotal = self.set_decimals(self.subtotal, 2)
         impuestos = {}
         #if objetoimp != '04':
         if tax_grouped_tras or tax_grouped_ret:
@@ -568,8 +568,8 @@ class AccountMove(models.Model):
                        traslados.append({'impuesto': tax.impuesto,
                                          'TipoFactor': tax.tipo_factor,
                                          'tasa': tasa_tr,
-                                         'importe': self.roundTraditional(line['amount'], 2) if tax.tipo_factor != 'Exento' else '',
-                                         'base': self.roundTraditional(line['base'], 2),
+                                         'importe': self.set_decimals(line['amount'], 2) if tax.tipo_factor != 'Exento' else '',
+                                         'base': self.set_decimals(line['base'], 2),
                                          'tax_id': line['tax_id'],
                                          })
                        tras_tot += self.roundTraditional(line['amount'], 2) if tax.tipo_factor != 'Exento' else 0
@@ -581,8 +581,8 @@ class AccountMove(models.Model):
                        retenciones.append({'impuesto': tax.impuesto,
                                            'TipoFactor': tax.tipo_factor,
                                            'tasa': self.set_decimals(float(tax.amount) / 100.0 * -1, 6),
-                                           'importe': self.roundTraditional(line['amount'] * -1, 2),
-                                           'base': self.roundTraditional(line['base'], 2),
+                                           'importe': self.set_decimals(line['amount'] * -1, 2),
+                                           'base': self.set_decimals(line['base'], 2),
                                            'tax_id': line['tax_id'],
                                            })
                        ret_tot += self.roundTraditional(line['amount'] * -1, 2)
@@ -614,9 +614,9 @@ class AccountMove(models.Model):
         else:
             self.total_factura = round(
                 self.subtotal + tras_tot - ret_tot - self.discount + tax_local_ret_tot + tax_local_tras_tot, 2)
-            request_params['factura'].update({'descuento': self.roundTraditional(self.discount, 2),
-                                              'subtotal': self.roundTraditional(self.subtotal, 2),
-                                              'total': self.roundTraditional(self.total_factura, 2)})
+            request_params['factura'].update({'descuento': self.set_decimals(self.discount, 2),
+                                              'subtotal': self.set_decimals(self.subtotal, 2),
+                                              'total': self.set_decimals(self.total_factura, 2)})
 
         request_params.update({'conceptos': invoice_lines})
 
@@ -625,7 +625,8 @@ class AccountMove(models.Model):
     def set_decimals(self, amount, precision):
         if amount is None or amount is False:
             return None
-        return '%.*f' % (precision, amount)
+        amount = float_round(amount, precision_digits=precision)
+        return '%.*f' % (precision, amount if not float_is_zero(amount, precision_digits=precision) else 0.0)
 
     def roundTraditional(self, val, digits):
        if val != 0:
