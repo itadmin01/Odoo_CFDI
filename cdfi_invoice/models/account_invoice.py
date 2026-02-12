@@ -547,7 +547,7 @@ class AccountMove(models.Model):
                                       'terceros': terceros and terceros or '',
                                       'parte': components and components or '',})
 
-        self.discount = round(self.discount, 2)
+        self.discount = self.set_decimals(self.discount, 2)
         self.subtotal = self.set_decimals(self.subtotal, 2)
         impuestos = {}
         #if objetoimp != '04':

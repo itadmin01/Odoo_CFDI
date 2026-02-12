@@ -1,11 +1,14 @@
+v19.1.10
+-Cambio en redondeo en descuento total.
+
 v19.1.9
--Cambio en redondeo al subir el XML
+-Cambio en redondeo al subir el XML.
 
 v19.1.8
--Cambio de redondo a subtotal y total base de impuestos
+-Cambio de redondo a subtotal y total base de impuestos.
 
 v19.1.7
--Agregar estados de cancelación para Pagos
+-Agregar estados de cancelación para Pagos.
 
 v19.1.6
 -Cargar EDI document en account move.
