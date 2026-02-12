@@ -1,11 +1,14 @@
+v18.26
+-Cambio en redondeo en descuento total.
+
 v18.25
--Cambio en redondeo al subir el XML
+-Cambio en redondeo al subir el XML.
 
 v18.24
--Cambio de redondo a subtotal y total base de impuestos
+-Cambio de redondo a subtotal y total base de impuestos.
 
 v18.23
--Agregar estados de cancelación para Pagos
+-Agregar estados de cancelación para Pagos.
 
 v18.22
 -Cargar EDI document en account move.
