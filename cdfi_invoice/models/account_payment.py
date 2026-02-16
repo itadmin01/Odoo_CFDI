@@ -1144,7 +1144,6 @@ class AccountPaymentTerm(models.Model):
             else:
                 record.company_cfdi = True
 
-
 class FacturasPago(models.Model):
     _name = "facturas.pago"
     _description = 'Facturas ligadas a pago'
