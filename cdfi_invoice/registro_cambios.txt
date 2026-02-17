@@ -1,3 +1,6 @@
+v17.36
+-Corrección folio al cancelar. 
+
 v17.35
 -Eliminar leer campo de folio del XML.
 

@@ -884,24 +884,17 @@ class AccountPayment(models.Model):
 
     def send_payment(self):
         self.ensure_one()
-        _logger.info('attach00')
         attachments = []
-        _logger.info('attach01')
         domain = [
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
             ('name', '=', self.name.replace('.', '').replace('/', '_') + '.xml')]
         xml_file = self.env['ir.attachment'].search(domain, limit=1)
         if xml_file:
-            _logger.info('attach02')
-            _logger.info('pay_mail08')
             attachments.append((self.name.replace('.', '').replace('/', '_') + '.xml', xml_file.datas))
 
-        _logger.info('send_mail01')
         template = self.env.ref('cdfi_invoice.email_template_payment', False)
-        _logger.info('send_mail02')
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
-        _logger.info('send_mail03')
         ctx = dict()
         ctx.update({
             'default_model': 'account.payment',
@@ -911,7 +904,6 @@ class AccountPayment(models.Model):
             'default_composition_mode': 'comment',
             #        'default_attachment_ids': attachments,
         })
-        _logger.info('send_mail04')
         return {
             'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
@@ -922,7 +914,6 @@ class AccountPayment(models.Model):
             'view_id': compose_form.id,
             'target': 'new',
             'context': ctx,
-
         }
 
     def action_cfdi_cancel(self):
@@ -949,8 +940,8 @@ class AccountPayment(models.Model):
                 'rfc': p.company_id.vat,
                 'api_key': p.company_id.proveedor_timbrado,
                 'uuid': p.folio_fiscal,
-                'folio': p.folio,
-                'serie_factura': p.company_id.serie_complemento,
+                'folio': self.name.replace('CUST.IN', '').replace('/', ''),
+                'serie_factura': self.journal_id.serie_diario or self.company_id.serie_complemento,
                 'modo_prueba': p.company_id.modo_prueba,
                 'certificados': {
                     'archivo_cer': archivo_cer,
