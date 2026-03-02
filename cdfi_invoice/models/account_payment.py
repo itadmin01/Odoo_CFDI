@@ -1005,7 +1005,7 @@ class AccountPaymentTerm(models.Model):
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],
-        string=_('Método de pago'), 
+        string=_('Método de pago'),
     )
     forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
 
