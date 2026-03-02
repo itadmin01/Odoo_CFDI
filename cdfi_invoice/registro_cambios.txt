@@ -1,3 +1,6 @@
+v16.47
+-No tomar en cuenta productos con cantidad en cero.
+
 v16.46
 -Agregar estados de cancelación para Pagos
 
