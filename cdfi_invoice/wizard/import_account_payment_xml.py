@@ -89,8 +89,8 @@ class import_account_payment_from_xml(models.TransientModel):
             cargar_values = {
                 'total_factura': xml_data.attrib['Total'],
                 'methodo_pago': 'MetodoPago' in xml_data.attrib and xml_data.attrib['MetodoPago'] or '',
-                'forma_pago_id' : 'FormaPago' in xml_data.attrib and  self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])]) or '',
-                'uso_cfdi_id': self.env['catalogo.uso.cfdi'].sudo().search([('code','=',Receptor.attrib['UsoCFDI'])]),
+                'forma_pago_id' : 'FormaPago' in xml_data.attrib and  self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])],limit=1) or '',
+                'uso_cfdi_id': self.env['catalogo.uso.cfdi'].sudo().search([('code','=',Receptor.attrib['UsoCFDI'])],limit=1),
                 'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
                 'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
                 'fecha_factura': xml_data.attrib['Fecha'] and parse(xml_data.attrib['Fecha']).strftime(DEFAULT_SERVER_DATETIME_FORMAT) or False,
@@ -294,7 +294,7 @@ class import_account_payment_from_xml(models.TransientModel):
         cargar_values = {
             'total_pago': monto_total,
             'methodo_pago': 'MetodoPago' in xml_data.attrib and xml_data.attrib['MetodoPago'] or '',
-            'forma_pago_id' : 'FormaPago' in xml_data.attrib and  self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])]) or '',
+            'forma_pago_id' : 'FormaPago' in xml_data.attrib and  self.env['catalogo.forma.pago'].sudo().search([('code','=',xml_data.attrib['FormaPago'])], limit=1) or '',
 #            'uso_cfdi': Receptor.attrib['UsoCFDI'],
             'folio_fiscal' : TimbreFiscalDigital.attrib['UUID'],
             #'tipo_comprobante': xml_data.attrib['TipoDeComprobante'],
