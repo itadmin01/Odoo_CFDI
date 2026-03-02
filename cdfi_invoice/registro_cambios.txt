@@ -1,3 +1,6 @@
+v19.1.11
+-No tomar en cuenta productos con cantidad en cero.
+
 v19.1.10
 -Cambio en redondeo en descuento total.
 
