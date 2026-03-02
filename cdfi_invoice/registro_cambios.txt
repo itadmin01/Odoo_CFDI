@@ -1,3 +1,6 @@
+v17.37
+-No tomar en cuenta productos con cantidad en cero.
+
 v17.36
 -Corrección folio al cancelar. 
 
