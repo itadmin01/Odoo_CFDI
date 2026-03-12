@@ -432,12 +432,12 @@ class AccountMove(models.Model):
                     if tax.price_include or tax.amount_type == 'division':
                         tax_included += taxes['tax_amount']
                     if taxes['tax_amount'] >= 0.0:
-                        tax_local_tras_tot += taxes['tax_amount']
+                        tax_local_tras_tot += self.roundTraditional(taxes['tax_amount'],2)
                         tax_local_tras.append({'ImpLocTrasladado': tax.impuesto_local,
                                                'TasadeTraslado': self.set_decimals(tax.amount, 2),
                                                'Importe': self.set_decimals(taxes['tax_amount'], 2), })
                     else:
-                        tax_local_ret_tot += taxes['tax_amount']
+                        tax_local_ret_tot += self.roundTraditional(taxes['tax_amount'],2)
                         tax_local_ret.append({'ImpLocRetenido': tax.impuesto_local,
                                               'TasadeRetencion': self.set_decimals(tax.amount * -1, 2),
                                               'Importe': self.set_decimals(taxes['tax_amount'] * -1, 2), })

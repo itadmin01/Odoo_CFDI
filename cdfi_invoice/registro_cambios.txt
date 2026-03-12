@@ -1,3 +1,6 @@
+v18.28
+-Redondeo descuentos locales
+
 v18.27
 -No tomar en cuenta productos con cantidad en cero.
 
