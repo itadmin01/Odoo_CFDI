@@ -1,3 +1,6 @@
+v19.1.12
+-Redondeo descuentos locales
+
 v19.1.11
 -No tomar en cuenta productos con cantidad en cero.
 
