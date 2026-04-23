@@ -1,3 +1,6 @@
+v18.29
+-En descuentos solo considerar montos menores a cero
+
 v18.28
 -Redondeo descuentos locales
 
