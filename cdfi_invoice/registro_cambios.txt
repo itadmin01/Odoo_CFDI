@@ -1,3 +1,6 @@
+v17.38
+-En descuentos solo considerar montos menores a cero
+
 v17.37
 -No tomar en cuenta productos con cantidad en cero.
 
