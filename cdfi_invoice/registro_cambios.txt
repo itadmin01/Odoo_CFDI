@@ -1,3 +1,6 @@
+v19.1.13
+-En descuentos solo considerar montos menores a cero
+
 v19.1.12
 -Redondeo descuentos locales
 
