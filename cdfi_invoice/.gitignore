@@ -1,0 +1,53 @@
+# Archivos de caché de Python
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
+
+# Configuración de editores de código
+.vscode/
+.idea/
+*.sublime-workspace
+*.swp
+
+# Archivos de logs
+logs/
+*.log
+
+# Archivos de pruebas y datos temporales
+tests/
+*.coverage
+*.pytest_cache/
+
+# Archivos de compilación
+*.egg-info/
+*.dist-info/
+*.tox/
+build/
+dist/
+
+# Base de datos SQLite (si se usa para pruebas)
+*.db
+
+# Carpetas generadas por Odoo
+*.pot
+*.po~
+*.mo
+*.zip
+*.tar.gz
+*.bak
+*.tmp
+
+# Archivos de configuración de Odoo que pueden cambiar en cada entorno
+config/
+odoo.conf
+
+# Archivos específicos de Docker y Virtual Environments
+.env
+venv/
+.envrc
+.dockerignore
+
+# Archivos de dependencias locales
+node_modules/
+bower_components/
