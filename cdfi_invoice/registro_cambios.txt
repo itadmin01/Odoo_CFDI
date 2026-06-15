@@ -1,3 +1,6 @@
+v16.48
+-Tamaño del logotipo en reporte de pago.
+
 v16.47
 -No tomar en cuenta productos con cantidad en cero.
 
