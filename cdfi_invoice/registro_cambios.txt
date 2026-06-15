@@ -1,3 +1,6 @@
+v17.39
+-Tamaño del logotipo en reporte de pago.
+
 v17.38
 -En descuentos solo considerar montos menores a cero
 
