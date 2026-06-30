@@ -1,3 +1,6 @@
+v19.1.15
+-Aumentar espacio para cadenas CFDI.
+
 v19.1.14
 -Tamaño del logotipo en reporte de pago.
 
