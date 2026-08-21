@@ -36,6 +36,9 @@
                                         <group string="Llenado">
                                             <field name="manual_partials" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                             <field name="reconciled_invoice_ids" invisible="1"/>
+                                            <field name="redondeo_t_base" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="redondeo_t_impuesto" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
+                                            <field name="redondeo_t_total" attrs="{'readonly': [('estado_pago','!=','pago_no_enviado')]}"/>
                                         </group>
                                     </group>
                                     <separator  string="Datos bancarios" attrs="{'invisible':[('forma_de_pago','not in',['02','03'])]}"/>
