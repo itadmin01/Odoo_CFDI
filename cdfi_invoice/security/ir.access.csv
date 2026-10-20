@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_import_account_payment_from_xml,access_import_account_payment_from_xml,import.account.payment.from.xml,base.group_user,crud,
+access_unidad_medida,unidad_medida,catalogo.unidad.medida,base.group_user,crud,
+access_uso_cfdi,uso_cfdi,catalogo.uso.cfdi,base.group_user,crud,
+access_regimen_fiscal,regimen_fiscal,catalogo.regimen.fiscal,base.group_user,crud,
+access_forma_pago,forma_pago,catalogo.forma.pago,base.group_user,crud,
+access_mymodule_message_wizard,mymodule_message_wizard,mymodule.message.wizard,base.group_user,crud,
+access_reason_cancelation_wizard,reason_cancelation_wizard,reason.cancelation,base.group_user,crud,
+access_account_payment_mail,access_account_payment_mail,account.payment.mail,base.group_user,crud,
+access_facturas_pago,facturas_pago,facturas.pago,base.group_user,crud,
+access_product_parts,access_product_parts,product.parts,base.group_user,crud,
