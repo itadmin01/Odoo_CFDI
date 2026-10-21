@@ -35,25 +35,18 @@
         <xpath expr="//div[@id='informations']" position="after">
             <div class="row mb-4" id="info_cfdi">
                 <t t-if="o.company_cfdi == True and o.factura_cfdi">
-                    <t t-set="original_o_grid_layout" t-value="o_grid_layout"/>
-                    <t t-set="o_grid_layout" t-value="'col-auto col-3 mw-100 mb-2'"/>
-
-                    <div t-att-class="o_grid_layout">
-                        <strong>Uso:</strong><br/>
-                        <span class="m-0" t-field="o.uso_cfdi_id.code"/> - <span t-field="o.uso_cfdi_id.description"/>
+                    <div class="col" t-if="o.uso_cfdi_id" name="uso_cfdi_id">
+                        <strong>Uso:</strong>
+                        <div class="m-0"><span t-field="o.uso_cfdi_id.code"/> - <span t-field="o.uso_cfdi_id.description"/></div>
                     </div>
-
-                    <div t-att-class="o_grid_layout" t-if="o.forma_pago_id">
-                        <strong>Forma de pago:</strong><br/>
-                        <span class="m-0" t-field="o.forma_pago_id.code"/> - <span t-field="o.forma_pago_id.description"/>
+                    <div class="col" t-if="o.forma_pago_id" name="forma_pago_id">
+                        <strong>Forma de pago:</strong>
+                        <div class="m-0"><span t-field="o.forma_pago_id.code"/> - <span t-field="o.forma_pago_id.description"/></div>
                     </div>
-
-                    <div t-att-class="o_grid_layout" t-if="o.methodo_pago">
-                        <strong>Método de pago:</strong><br/>
-                        <span class="m-0" t-field="o.methodo_pago"/>
+                    <div class="col" t-if="o.methodo_pago" name="methodo_pago">
+                        <strong>Método de pago:</strong>
+                        <div class="m-0" t-field="o.methodo_pago"/>
                     </div>
-
-                    <t t-set="o_grid_layout" t-value="original_o_grid_layout"/>
                 </t>
             </div>
         </xpath>

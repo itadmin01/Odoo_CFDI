@@ -56,13 +56,8 @@
 	                <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
 	                <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
                 </ul>
-
-                <div name="financial_infos">
-                    <span t-field="company.report_footer"/>
-                </div>
-
                 <div class="text-muted">
-                    Page: <span class="page"/> / <span class="topage"/>
+                    Página: <span class="page"/> / <span class="topage"/>
                 </div>
             </div>
         </div>
@@ -231,8 +226,8 @@
 					  </div>
 					</t>
 					<center><strong>Documentos Relacionados</strong></center>
-					<div class="row" style="border:solid 2px black;font-size:15px;">
-					<table class=	"borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
+					<div class="row" style="border:solid 2px black;font-size:12px;">
+					<table class="borderless" cellspacing="0" style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 						<thead>
 							<tr>
 								<th>No. pago</th>
@@ -315,20 +310,20 @@
 
 					<!--TABLA DETALLES DEL DOCUMENTO-->
 					<center><strong>Detalles del documento</strong></center>
-					<div class="row" style="border:solid 2px black;font-size:15px;">
+					<div class="row" style="border:solid 2px black;font-size:12px;">
 						<table class="borderless" cellspacing="0"  style="width:100%;border:none;border-collapse:separate;border-spacing: 2px;">
 							<tr>
 								<td>
 									<strong>Forma de pago</strong>
 								</td>
 								<td>
-									<span t-field="o.forma_pago_id.code" />
+									<span t-field="o.forma_pago_id.code"/>
 								</td>
 								<td>
 									<strong>Fecha de pago</strong>
 								</td>
 								<td >
-									<span t-field="o.fecha_pago" />
+									<span t-field="o.fecha_pago"/>
 								</td>
 							</tr>
 							<tr>
@@ -342,7 +337,7 @@
 									<strong>Número de operación</strong>
 								</td>
 								<td >
-									<span t-field="o.numero_operacion" />
+									<span t-field="o.numero_operacion"/>
 								</td>
 							</tr>
 							<tr>
@@ -350,13 +345,13 @@
 									<strong>Moneda</strong>
 								</td>
 								<td >
-									<span t-field="o.monedap" />
+									<span t-field="o.monedap"/>
 								</td>
 								<td>
 									<strong>Tipo de cambio</strong>
 								</td>
 								<td >
-									<span t-field="o.tipocambiop" />
+									<span t-field="o.tipocambiop"/>
 								</td>
 							</tr>
 						</table>
@@ -447,8 +442,6 @@
             <field name="binding_type">report</field>
             <field name="print_report_name">(object.get_name())</field>
         </record>
-
-
 
 	</data>
 </odoo>
