@@ -1,3 +1,6 @@
+v18.31
+-Corrección en cálculo de base cuando hay líneas negativas
+
 v18.30
 -Tamaño del logotipo en reporte de pago.
 
