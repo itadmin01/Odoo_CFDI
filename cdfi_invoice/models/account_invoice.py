@@ -260,7 +260,7 @@ class AccountMove(models.Model):
             },
             'informacion': {
                 'cfdi': '4.0',
-                'sistema': 'odoo19',
+                'sistema': 'odoo20',
                 'version': '1',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
@@ -362,6 +362,9 @@ class AccountMove(models.Model):
                                                   product=line.product_id, partner=line.move_id.partner_id)
 
             new_taxes_prod = [{**self._prepare_product_base_line_for_taxes_computation(line)}]
+            for array_taxes in new_taxes_prod:
+                if taxes_prod['total_excluded'] != array_taxes['price_unit']:
+                    array_taxes['price_unit'] = taxes_prod['total_excluded']
             self.env['account.tax']._add_tax_details_in_base_lines(new_taxes_prod, self.company_id)
             new_taxes_prod = new_taxes_prod[0]
             tax_details = new_taxes_prod['tax_details']

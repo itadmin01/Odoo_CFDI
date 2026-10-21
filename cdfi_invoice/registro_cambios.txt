@@ -1,2 +1,6 @@
+v20.1.1
+-Cambiar formato de impresión en datos fiscales.
+-Corrección en cálculo de base cuando hay líneas negativas
+
 v20.1.0
 -Versión de producción
