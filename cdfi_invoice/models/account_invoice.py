@@ -85,8 +85,10 @@ class AccountMove(models.Model):
     exportacion = fields.Selection(
         selection=[('01', 'No aplica'),
                    ('02', 'Definitiva'),
-                   ('03', 'Temporal'), ],
-        string=_('Exportacion'), default='01',
+                   ('03', 'Temporal'),
+                   ('04', 'Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF'),
+                  ],
+        string='Exportacion', default='01',
     )
     proceso_timbrado = fields.Boolean(string=_('Proceso de timbrado'))
     tax_payment = fields.Text(string=_('Taxes'))
@@ -255,7 +257,7 @@ class AccountMove(models.Model):
             'informacion': {
                 'cfdi': '4.0',
                 'sistema': 'odoo16',
-                'version': '1',
+                'version': '48',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
             },
@@ -387,7 +389,8 @@ class AccountMove(models.Model):
                                              'Importe': self.set_decimals(taxes['amount'], no_decimales_prod), })
                         else:
                             only_exento = False
-                            tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
+                            if taxes['base'] > 0:
+                                tax_tras.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
                                              'Impuesto': tax.impuesto,
                                              'TipoFactor': tax.tipo_factor,
                                              'TasaOCuota': self.set_decimals(tax.amount / 100.0, 6),
@@ -399,8 +402,7 @@ class AccountMove(models.Model):
                         if key not in tax_grouped_tras:
                             tax_grouped_tras[key] = val
                         else:
-                            tax_grouped_tras[key]['base'] += val[
-                                'base'] if tax.tipo_factor != 'Cuota' else line.quantity
+                            tax_grouped_tras[key]['base'] += val['base'] if tax.tipo_factor != 'Cuota' else line.quantity
                             tax_grouped_tras[key]['amount'] += val['amount']
                     else:
                         tax_ret.append({'Base': self.set_decimals(taxes['base'], no_decimales_prod),
