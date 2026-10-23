@@ -85,7 +85,9 @@ class AccountMove(models.Model):
     exportacion = fields.Selection(
         selection=[('01', 'No aplica'),
                    ('02', 'Definitiva'),
-                   ('03', 'Temporal'), ],
+                   ('03', 'Temporal'),
+                   ('04', 'Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF'),
+                  ],
         string='Exportacion', default='01',
     )
     proceso_timbrado = fields.Boolean(string='Proceso de timbrado')
@@ -260,7 +262,7 @@ class AccountMove(models.Model):
             'informacion': {
                 'cfdi': '4.0',
                 'sistema': 'odoo17',
-                'version': '1',
+                'version': '40',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
             },

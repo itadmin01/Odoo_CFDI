@@ -1,3 +1,6 @@
+v17.40
+-Agregar valor en opción de exportación
+
 v17.39
 -Tamaño del logotipo en reporte de pago.
 
