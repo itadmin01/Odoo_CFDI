@@ -86,7 +86,9 @@ class AccountMove(models.Model):
     exportacion = fields.Selection(
         selection=[('01', 'No aplica'),
                    ('02', 'Definitiva'),
-                   ('03', 'Temporal'), ],
+                   ('03', 'Temporal'),
+                   ('04', 'Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF'),
+                  ],
         string='Exportacion', default='01',
     )
     proceso_timbrado = fields.Boolean(string='Proceso de timbrado')
