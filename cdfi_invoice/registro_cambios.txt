@@ -1,3 +1,6 @@
+v18.32
+-Agregar valor en opción de exportación
+
 v18.31
 -Corrección en cálculo de base cuando hay líneas negativas
 
