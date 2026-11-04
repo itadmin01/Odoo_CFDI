@@ -61,7 +61,6 @@ class PurchaseOrder(models.Model):
         string="Tipo relación",
     )
     uuid_relacionado = fields.Char(string="CFDI Relacionado")
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi", store=True)
 
     def action_view_invoice(self, invoices=False):
         res = super(PurchaseOrder, self).action_view_invoice(invoices=invoices)

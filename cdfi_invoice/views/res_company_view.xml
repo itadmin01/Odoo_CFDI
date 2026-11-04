@@ -9,13 +9,10 @@
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <field name="company_cfdi" invisible="1"/> <!-- invisible -->
-                    <page name="info_cdfi" string="CFDI" invisible="company_cfdi == False">
+                    <page name="info_cdfi" string="CFDI" invisible="country_code != 'MX'">
                             <group cols="4"  string="Configuración">
                                 <group>
                                     <field name="nombre_fiscal"/>
-                                    <!--<field name="serie_factura"/>
-                                    <field name="serie_complemento"/>-->
                                     <field name="regimen_fiscal_id"/>
                                 </group>
                                 <group>
@@ -54,17 +51,6 @@
                                 </group>
                             </group>
                     </page>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="view_company_form_ext" model="ir.ui.view">
-            <field name="name">res company </field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='currency_id']" position="after">
-                    <field name="company_cfdi"/>
                 </xpath>
             </field>
         </record>

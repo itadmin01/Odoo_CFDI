@@ -15,4 +15,3 @@ class AccountTax(models.Model):
                                            ('Cuota', 'Cuota'),
                                            ('Exento', 'Exento')], string='Tipo factor')
     impuesto_local = fields.Char('Impuesto Local')
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)

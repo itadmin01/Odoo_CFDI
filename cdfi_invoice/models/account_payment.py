@@ -53,9 +53,6 @@ class AccountRegisterPayment(models.TransientModel):
                                            0, tzinfo=local).strftime("%Y-%m-%d %H:%M:%S")})
         return res
 
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi", store=True)
-
-
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
@@ -130,7 +127,6 @@ class AccountPayment(models.Model):
     partials_payment_ids = fields.One2many('facturas.pago', 'doc_id', 'Montos')
     manual_partials = fields.Boolean("Montos manuales")
     different_currency = fields.Boolean("Diferente moneda", compute='_compute_different_currency')
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi", store=True)
     redondeo_t_base = fields.Selection(
         selection=[('01', 'Tradicional'),
                    ('02', 'Decimal'),
@@ -169,18 +165,6 @@ class AccountPayment(models.Model):
         except Exception:
             data = []
         return data
-
-    def _compute_different_currency(self):
-        for payment in self:
-            if payment.reconciled_invoice_ids:
-                for invoice in payment.reconciled_invoice_ids:
-                    if invoice.currency_id != payment.currency_id:
-                        payment.different_currency = True
-                        break
-                    else:
-                        payment.different_currency = False
-            else:
-                payment.different_currency = False
 
     def importar_incluir_cep(self):
         ctx = {'default_payment_id': self.id}
@@ -1138,15 +1122,6 @@ class AccountPaymentTerm(models.Model):
         string='Método de pago',
     )
     forma_pago_id = fields.Many2one('catalogo.forma.pago', string='Forma de pago')
-    company_cfdi = fields.Boolean(string='Compania CFDI', compute='_get_company')
-
-    @api.depends('company_id')
-    def _get_company(self):
-        for record in self:
-            if record.company_id:
-                record.company_cfdi = record.company_id.company_cfdi
-            else:
-                record.company_cfdi = True
 
 
 class FacturasPago(models.Model):

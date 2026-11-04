@@ -16,4 +16,3 @@ class AccountJournal(models.Model):
     codigo_postal = fields.Char("Código Postal")
     tz = fields.Selection(_tz_get, string='Zona horaria', default=lambda self: self._context.get('tz'))
     serie_diario = fields.Char("Serie")  #quitar en proxima revisión
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)

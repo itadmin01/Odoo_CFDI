@@ -7,32 +7,29 @@
             <field name="inherit_id" ref="account.view_account_payment_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <field name="company_id" position="after">
-                        <field name="company_cfdi" invisible="1"/> <!-- invisible -->
-                    </field>
                     <button name="action_post" position="after">
                         <button name="complete_payment" class="oe_highlight" invisible="state not in ['paid', 'reconciled'] or estado_pago in ['pago_correcto', 'factura_cancelada'] 
-                                or company_cfdi == False or payment_type == 'outbound'" string="Genera REP" type="object"/>
-                        <button name="send_payment" class="oe_highlight" invisible="estado_pago != 'pago_correcto' or company_cfdi == False" 
+                                or country_code != 'MX' or payment_type == 'outbound'" string="Genera REP" type="object"/>
+                        <button name="send_payment" class="oe_highlight" invisible="estado_pago != 'pago_correcto' or country_code != 'MX'" 
                                 string="Enviar por correo-e" type="object"/>
                         <button name="importar_incluir_cep" string="Incluir CEP" type="object" invisible="forma_de_pago != '03' or
-                                estado_pago in ['pago_correcto', 'factura_cancelada'] or company_cfdi == False"/>
+                                estado_pago in ['pago_correcto', 'factura_cancelada'] or country_code != 'MX'"/>
                         <button name="%(cdfi_invoice.reason_cancelation_sat_wizard)d"
                                 type="action"
                                 string="Cancelar CFDI"
                                 invisible="folio_fiscal == False or estado_pago in ['solicitud_cancelar', 'factura_cancelada', 'solicitud_rechazada'] or
-                                           company_cfdi == False or payment_type == 'outbound'" class="oe_highlight" groups="base.group_user"/>
+                                           country_code != 'MX' or payment_type == 'outbound'" class="oe_highlight" groups="base.group_user"/>
                         <button name="action_cfdi_rechazada"
                                 type="object" 
                                 string="Cambiar estado CFDI a pago correcto" 
                                 invisible="estado_pago not in ['solicitud_cancelar', 'solicitud_rechazada'] or
-                                           company_cfdi == False" class="oe_highlight" groups="base.group_user"
+                                           country_code != 'MX'" class="oe_highlight" groups="base.group_user"
                                 confirm="La factura va pasar a estado correcto y puede intentar cancelar nuevamente."/>
 
                     </button>
                     <xpath expr="//sheet" position="inside">
                         <notebook>
-                            <page name="info_cdfi" string="CFDI" invisible="state not in ['paid', 'reconciled'] or company_cfdi == False">
+                            <page name="info_cdfi" string="CFDI" invisible="state not in ['paid', 'reconciled'] or country_code != 'MX'">
                                     <group cols="4">
                                         <group string="Datos del comprobante">
                                             <field name="forma_pago_id" readonly="estado_pago != 'pago_no_enviado'"/>
@@ -107,11 +104,8 @@
             <field name="model">account.payment.register</field>
             <field name="inherit_id" ref="account.view_account_payment_register_form"/>
             <field name="arch" type="xml">
-                <field name="communication" position="after">
-                    <field name="company_cfdi" invisible="1"/>  <!-- invisible -->
-                </field>
                 <xpath expr="//footer/button[@name='action_create_payments']" position="after">
-                    <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary" invisible="company_cfdi == False or partner_type == 'supplier'"/>
+                    <button string='Validar y Generar REP' name="validate_complete_payment" type="object" class="btn-primary" invisible="country_code != 'MX' or partner_type == 'supplier'"/>
                 </xpath>
             </field>
         </record>
@@ -122,8 +116,7 @@
            <field name="inherit_id" ref="account.view_account_payment_tree" />
            <field name="arch" type="xml">
               <field name="state" position="before">
-                  <field name="company_cfdi" invisible="1"/>  <!-- invisible -->
-                  <field name="estado_pago" invisible="company_cfdi == False"/>
+                  <field name="estado_pago" invisible="country_code != 'MX'"/>
               </field>
            </field>
         </record>

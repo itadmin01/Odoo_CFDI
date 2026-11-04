@@ -125,7 +125,6 @@ class AccountMove(models.Model):
     )
     fg_ano = fields.Char(string='Año')
     tercero_id = fields.Many2one('res.partner', string="A cuenta de terceros")
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
     @api.model
     def _reverse_moves(self, default_values_list=None, cancel=True):

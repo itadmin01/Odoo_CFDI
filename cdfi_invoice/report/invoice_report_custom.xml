@@ -37,7 +37,7 @@
 
         <xpath expr="//div[@id='informations']" position="after">
             <div class="row mb-4" id="info_cfdi">
-                <t t-if="o.company_cfdi == True and o.factura_cfdi">
+                <t t-if="o.country_code == 'MX' and o.factura_cfdi">
                     <div class="col" t-if="o.uso_cfdi_id" name="uso_cfdi_id">
                         <strong>Uso:</strong>
                         <div class="m-0"><span t-field="o.uso_cfdi_id.code"/> - <span t-field="o.uso_cfdi_id.description"/></div>
@@ -55,27 +55,27 @@
         </xpath>
 
         <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1]" position="before">
-            <th t-if="o.company_cfdi == True and o.factura_cfdi">
+            <th t-if="o.country_code == 'MX' and o.factura_cfdi">
                 <span>Clave Producto</span>
             </th>
         </xpath>
         <xpath expr="//table[@name='invoice_line_table']/tbody//tr[1]//td[1]" position="before">
-            <td t-if="o.company_cfdi == True and o.factura_cfdi"><span t-field="line.product_id.clave_producto"/></td>
+            <td t-if="o.country_code == 'MX' and o.factura_cfdi"><span t-field="line.product_id.clave_producto"/></td>
         </xpath>
 
         <!-- INFORMACION PRODUCTOS -->
         <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[4]" position="after">
-            <th t-if="o.company_cfdi == True and o.factura_cfdi" class="text-end">
+            <th t-if="o.country_code == 'MX' and o.factura_cfdi" class="text-end">
                 <span>Unidad SAT</span>
             </th>
         </xpath>
         <xpath expr="//table[@name='invoice_line_table']/tbody//tr[1]//td[4]" position="after">
-            <td t-if="o.company_cfdi == True and o.factura_cfdi" class="text-end"><span t-field="line.product_id.cat_unidad_medida.clave" /> - 
+            <td t-if="o.country_code == 'MX' and o.factura_cfdi" class="text-end"><span t-field="line.product_id.cat_unidad_medida.clave" /> - 
                 <span t-field="line.product_id.cat_unidad_medida.descripcion" /></td>
         </xpath>
 
     <xpath expr="//div[@name='comment']" position="after">
-        <t t-if="o.company_cfdi == True and o.factura_cfdi">
+        <t t-if="o.country_code == 'MX' and o.factura_cfdi">
                 <t t-if="o.tipo_relacion">
                     <div class="row" style="font-size:10px;">
                         <div>

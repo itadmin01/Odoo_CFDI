@@ -6,8 +6,7 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <field name="company_cfdi" invisible="1"/> <!-- invisible -->
-                    <page name="forma_pago" string="CFDI" invisible="type not in ['sale','cash', 'bank'] or company_cfdi == False">
+                    <page name="forma_pago" string="CFDI" invisible="type not in ['sale','cash', 'bank'] or country_code != 'MX'">
                             <group cols="2">
                                 <group>
                                       <field name="forma_pago_id" invisible="type not in ['cash', 'bank']" />

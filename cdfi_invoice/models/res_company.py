@@ -34,17 +34,6 @@ class ResCompany(models.Model):
     fecha_timbres = fields.Date(string='Vigencia timbres', readonly=True)
     company_cfdi = fields.Boolean(string="CFDI MX")
 
-    @api.onchange('country_id')
-    def _get_company_cfdi(self):
-        if self.country_id:
-            if self.country_id.code == 'MX':
-               values = {'company_cfdi': True}
-            else:
-               values = {'company_cfdi': False}
-        else:
-            values = {'company_cfdi': False}
-        self.update(values)
-
     @api.model
     def get_saldo_by_cron(self):
         companies = self.search([('proveedor_timbrado','!=',False)])

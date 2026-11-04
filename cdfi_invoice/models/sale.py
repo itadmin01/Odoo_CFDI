@@ -19,7 +19,6 @@ class SaleOrder(models.Model):
     )
     uso_cfdi_id  =  fields.Many2one('catalogo.uso.cfdi', string='Uso CFDI (cliente)')
     fecha_corregida = fields.Datetime(string='Fecha Cotizacion', compute='_get_fecha_corregida')
-    company_cfdi = fields.Boolean(related="company_id.company_cfdi",store=True)
 
     @api.onchange('partner_id')
     def _get_uso_cfdi(self):

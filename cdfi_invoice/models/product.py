@@ -14,15 +14,6 @@ class ProductTemplate(models.Model):
         string='Impuestos',
     )
     product_parts_ids = fields.One2many('product.parts','parent_line_id',string='Partes')
-    company_cfdi = fields.Boolean(string='Compania CFDI', compute='_get_company')
-
-    @api.depends('company_id')
-    def _get_company(self):
-        for record in self:
-            if record.company_id:
-               record.company_cfdi = record.company_id.company_cfdi
-            else:
-               record.company_cfdi = True
 
 class ProductComponents(models.Model):
     _name = "product.parts"
