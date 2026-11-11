@@ -362,13 +362,17 @@ class AccountMove(models.Model):
             taxes_prod = line.tax_ids.compute_all(price_wo_discount, line.currency_id, line.quantity,
                                                   product=line.product_id, partner=line.move_id.partner_id)
 
+            aux_price_unit = 0
+            # Cambiar la base cuando hay una línea negativa
+            if promocion:
+                aux_price_unit = line.price_unit
+                line.price_unit = price_wo_discount
             new_taxes_prod = [{**self._prepare_product_base_line_for_taxes_computation(line)}]
-            #for array_taxes in new_taxes_prod:
-            #    if taxes_prod['total_excluded'] != array_taxes['price_unit']:
-            #        array_taxes['price_unit'] = taxes_prod['total_excluded']
             self.env['account.tax']._add_tax_details_in_base_lines(new_taxes_prod, self.company_id)
             new_taxes_prod = new_taxes_prod[0]
             tax_details = new_taxes_prod['tax_details']
+            if promocion:
+                line.price_unit = aux_price_unit
 
             tax_ret = []
             tax_tras = []
