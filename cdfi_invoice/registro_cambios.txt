@@ -1,3 +1,6 @@
+v18.33
+-Corregir cálculo de base
+
 v18.32
 -Agregar valor en opción de exportación
 
