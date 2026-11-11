@@ -262,7 +262,7 @@ class AccountMove(models.Model):
             'informacion': {
                 'cfdi': '4.0',
                 'sistema': 'odoo18',
-                'version': '32',
+                'version': '33',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
             },
