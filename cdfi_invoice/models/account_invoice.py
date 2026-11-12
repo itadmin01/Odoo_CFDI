@@ -262,7 +262,7 @@ class AccountMove(models.Model):
             'informacion': {
                 'cfdi': '4.0',
                 'sistema': 'odoo20',
-                'version': '4',
+                'version': '5',
                 'api_key': self.company_id.proveedor_timbrado,
                 'modo_prueba': self.company_id.modo_prueba,
             },
@@ -837,7 +837,7 @@ Si requiere timbrar la factura nuevamente deshabilite el checkbox de "Proceso de
                     ('res_id', '=', invoice.id),
                     ('res_model', '=', invoice._name),
                     ('name', '=', invoice.name.replace('/', '_') + '.xml')]
-                xml_file = self.env['ir.attachment'].search(domain)
+                xml_file = self.env['ir.attachment'].search(domain, limit=1)
                 if not xml_file:
                     raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
                 values = {
