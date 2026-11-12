@@ -889,24 +889,17 @@ class AccountPayment(models.Model):
 
     def send_payment(self):
         self.ensure_one()
-        _logger.info('attach00')
         attachments = []
-        _logger.info('attach01')
         domain = [
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
             ('name', '=', self.name.replace('.', '').replace('/', '_') + '.xml')]
         xml_file = self.env['ir.attachment'].search(domain, limit=1)
         if xml_file:
-            _logger.info('attach02')
-            _logger.info('pay_mail08')
             attachments.append((self.name.replace('.', '').replace('/', '_') + '.xml', xml_file.datas))
 
-        _logger.info('send_mail01')
         template = self.env.ref('cdfi_invoice.email_template_payment', False)
-        _logger.info('send_mail02')
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
-        _logger.info('send_mail03')
         ctx = dict()
         ctx.update({
             'default_model': 'account.payment',
@@ -916,7 +909,6 @@ class AccountPayment(models.Model):
             'default_composition_mode': 'comment',
             #        'default_attachment_ids': attachments,
         })
-        _logger.info('send_mail04')
         return {
             'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
@@ -927,7 +919,6 @@ class AccountPayment(models.Model):
             'view_id': compose_form.id,
             'target': 'new',
             'context': ctx,
-
         }
 
     def action_cfdi_cancel(self):
@@ -947,7 +938,7 @@ class AccountPayment(models.Model):
                 ('res_id', '=', p.id),
                 ('res_model', '=', p._name),
                 ('name', '=', p.name.replace('.', '').replace('/', '_') + '.xml')]
-            xml_file = p.env['ir.attachment'].search(domain)[0]
+            xml_file = p.env['ir.attachment'].search(domain, limit=1)
             if not xml_file:
                 raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
             values = {
@@ -1148,7 +1139,6 @@ class AccountPaymentTerm(models.Model):
                 record.company_cfdi = record.company_id.company_cfdi
             else:
                 record.company_cfdi = True
-
 
 class FacturasPago(models.Model):
     _name = "facturas.pago"
