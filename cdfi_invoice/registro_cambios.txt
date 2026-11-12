@@ -1,3 +1,6 @@
+v18.34
+-Limitar busqueda de los XML de pagos a un solo documento
+
 v18.33
 -Corregir cálculo de base
 

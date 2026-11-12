@@ -712,7 +712,7 @@ class AccountPayment(models.Model):
                 'informacion': {
                     'cfdi': '4.0',
                     'sistema': 'odoo18',
-                    'version': '2',
+                    'version': '34',
                     'api_key': self.company_id.proveedor_timbrado,
                     'modo_prueba': self.company_id.modo_prueba,
                 },
