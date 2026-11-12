@@ -1,3 +1,6 @@
+v19.1.20
+-Limitar busqueda de los XML de pagos a un solo documento
+
 v19.1.19
 -Corregir cálculo de base
 

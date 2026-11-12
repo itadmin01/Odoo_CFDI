@@ -712,7 +712,7 @@ class AccountPayment(models.Model):
                 'informacion': {
                     'cfdi': '4.0',
                     'sistema': 'odoo19',
-                    'version': '2',
+                    'version': '20',
                     'api_key': self.company_id.proveedor_timbrado,
                     'modo_prueba': self.company_id.modo_prueba,
                 },
@@ -889,9 +889,7 @@ class AccountPayment(models.Model):
 
     def send_payment(self):
         self.ensure_one()
-        _logger.info('attach00')
         attachments = []
-        _logger.info('attach01')
         domain = [
             ('res_id', '=', self.id),
             ('res_model', '=', self._name),
@@ -947,7 +945,7 @@ class AccountPayment(models.Model):
                 ('res_id', '=', p.id),
                 ('res_model', '=', p._name),
                 ('name', '=', p.name.replace('.', '').replace('/', '_') + '.xml')]
-            xml_file = p.env['ir.attachment'].search(domain)[0]
+            xml_file = p.env['ir.attachment'].search(domain, limit=1)
             if not xml_file:
                 raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
             values = {
