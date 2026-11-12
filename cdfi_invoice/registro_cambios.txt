@@ -1,3 +1,6 @@
+v16.50
+-Limitar busqueda de los XML de pagos a un solo documento
+
 v16.49
 -Agregar valor en opción de exportación
 

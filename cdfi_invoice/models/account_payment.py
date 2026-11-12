@@ -638,7 +638,7 @@ class AccountPayment(models.Model):
                 'informacion': {
                       'cfdi': '4.0',
                       'sistema': 'odoo16',
-                      'version': '6',
+                      'version': '50',
                       'api_key': self.company_id.proveedor_timbrado,
                       'modo_prueba': self.company_id.modo_prueba,
                 },
@@ -854,7 +854,7 @@ class AccountPayment(models.Model):
                      ('res_id', '=', p.id),
                      ('res_model', '=', p._name),
                      ('name', '=', p.name.replace('.','').replace('/', '_') + '.xml')]
-                xml_file = p.env['ir.attachment'].search(domain)[0]
+                xml_file = p.env['ir.attachment'].search(domain, limit=1)
                 if not xml_file:
                     raise UserError(_('No se encontró el archivo XML para enviar a cancelar.'))
                 values = {
@@ -1048,7 +1048,7 @@ class AccountPaymentTerm(models.Model):
     methodo_pago = fields.Selection(
         selection=[('PUE', _('Pago en una sola exhibición')),
                    ('PPD', _('Pago en parcialidades o diferido')),],
-        string=_('Método de pago'), 
+        string=_('Método de pago'),
     )
     forma_pago_id  =  fields.Many2one('catalogo.forma.pago', string='Forma de pago')
 
